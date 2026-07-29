@@ -1,167 +1,205 @@
 /* ============================================================
-   Analisador de Gastos — estilos específicos desta página
-   Assume que css/style.css já define: --primary, cores de
-   section_light / section_dark, fontes, spacing base, etc.
-   Os fallbacks abaixo garantem que funcione mesmo se alguma
-   variável ainda não existir no seu style.css.
+   analisador.css – Analisador de Gastos
+   Estilo Liquid Glass (Apple)
    ============================================================ */
 
-.analisador_box {
-    max-width: 620px;
-    margin: 48px auto 0;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 40px 36px;
-    box-shadow: 0 20px 45px -20px rgba(0, 0, 0, 0.35);
+:root {
+  --primary: #0A2540;
+  --accent: #16E28A;
+  --accent-dark: #0db873;
+  --white: #ffffff;
+  --gray-400: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: 30px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-full: 9999px;
+  --shadow-accent-hover: 0 20px 45px rgba(22, 226, 138, 0.45);
+  --font-family: 'Inter', sans-serif;
+  --transition-base: 0.3s ease;
 }
 
-/* ---------- Slot de upload ---------- */
+.analisador_box {
+  max-width: 620px;
+  margin: 48px auto 0;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 40px 36px;
+  box-shadow: var(--glass-shadow);
+  transition: var(--transition-base);
+}
 
+.analisador_box:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* UPLOAD SLOT */
 .upload_slot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-align: center;
-    padding: 44px 20px;
-    border: 2px dashed #cfd8d3;
-    border-radius: 12px;
-    cursor: pointer;
-    color: var(--primary, #2E7D5B);
-    transition: border-color 0.18s ease, background-color 0.18s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 44px 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--accent-dark);
+  transition: border-color 0.18s, background 0.18s;
 }
 
 .upload_slot:hover,
 .upload_slot:focus-within {
-    border-color: var(--primary, #2E7D5B);
-    background: rgba(46, 125, 91, 0.05);
+  border-color: var(--accent-dark);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .upload_slot--drag {
-    border-color: var(--primary, #2E7D5B);
-    background: rgba(46, 125, 91, 0.09);
+  border-color: var(--accent-dark);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .upload_slot_icon {
-    opacity: 0.85;
+  opacity: 0.85;
 }
 
 .upload_slot_label {
-    font-weight: 600;
-    font-size: 15px;
-    color: #16241c;
+  font-weight: 600;
+  font-size: 15px;
+  color: #16241c;
 }
 
 .upload_slot_hint {
-    font-size: 12.5px;
-    color: #6b7a71;
+  font-size: 12.5px;
+  color: #6b7a71;
 }
 
-/* ---------- Chip do arquivo selecionado ---------- */
-
+/* FILE CHIP */
 .file_chip {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 16px;
-    padding: 10px 14px;
-    background: #f3f6f4;
-    border: 1px solid #dfe6e2;
-    border-radius: 8px;
-    font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 13.5px;
+  backdrop-filter: blur(10px);
 }
 
 .file_chip_name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #16241c;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #16241c;
 }
 
 .file_chip_remove {
-    background: none;
-    border: none;
-    color: #6b7a71;
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-    padding: 0 2px;
+  background: none;
+  border: none;
+  color: #6b7a71;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
 }
 
 .file_chip_remove:hover {
-    color: #16241c;
+  color: #16241c;
 }
 
-/* ---------- Botão largura total ---------- */
-
+/* BOTÃO */
 .btn_full {
-    width: 100%;
-    margin-top: 24px;
-    display: block;
-    text-align: center;
+  width: 100%;
+  margin-top: 24px;
+  display: block;
+  text-align: center;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 14px 28px;
+  background: var(--accent);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition-base);
+  box-shadow: 0 8px 20px rgba(22, 226, 138, 0.3);
+}
+
+.btn_full:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-accent-hover);
 }
 
 .btn_full:disabled {
-    background: #cfd8d3;
-    color: #6b7a71;
-    cursor: not-allowed;
+  background: #cfd8d3;
+  color: #6b7a71;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-/* ---------- Status de envio ---------- */
-
+/* STATUS */
 .upload_status {
-    min-height: 20px;
-    margin: 14px 0 0;
-    font-size: 13.5px;
-    text-align: center;
+  min-height: 20px;
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  text-align: center;
 }
 
 .upload_status--pending { color: #6b7a71; }
-.upload_status--ok      { color: var(--primary, #2E7D5B); }
+.upload_status--ok      { color: var(--accent-dark); }
 .upload_status--error   { color: #b3483a; }
 
-/* ---------- Caixa de resultado ---------- */
-
+/* RESULTADO */
 .resultado_box {
-    margin-top: 28px;
-    padding: 22px 24px;
-    background: #f3f6f4;
-    border-left: 4px solid var(--primary, #2E7D5B);
-    border-radius: 8px;
-    animation: analisador_fade 0.25s ease;
+  margin-top: 28px;
+  padding: 22px 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 4px solid var(--accent-dark);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  animation: analisador_fade 0.25s ease;
 }
 
 .resultado_box h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
-    color: #16241c;
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #16241c;
 }
 
 .resultado_box p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.7;
-    color: #3b4a41;
-    white-space: pre-line;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #3b4a41;
+  white-space: pre-line;
 }
 
 @keyframes analisador_fade {
-    from { opacity: 0; transform: translateY(4px); }
-    to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------- Responsivo ---------- */
-
+/* RESPONSIVO */
 @media (max-width: 640px) {
-    .analisador_box {
-        margin-top: 32px;
-        padding: 28px 22px;
-        border-radius: 12px;
-    }
+  .analisador_box {
+    margin-top: 32px;
+    padding: 28px 22px;
+    border-radius: var(--radius-sm);
+  }
 
-    .upload_slot {
-        padding: 32px 14px;
-    }
+  .upload_slot {
+    padding: 32px 14px;
+  }
 }
