@@ -55,8 +55,19 @@ if (!$usuario) {
 <main class="perfil_container">
 
     <section class="perfil_header">
-
         
+    </section>
+
+        <a href="">
+    <section class="perfil_card">
+        <div class="containerCard">
+            <span class="material-icons">account_circle</span>
+            <h2>Minha conta</h2>
+        </div>
+        <p class="arrow"><span class="material-icons" style="color: #16E28A">arrow_forward_ios</span></p>
+        <label>Atualize suas informações pessoais como: e-mail, nome de usuário e senha</label>
+    </a>
+
     </section>
 
     <a href="">
@@ -65,15 +76,33 @@ if (!$usuario) {
             <span class="material-icons">accessibility</span>
             <h2>Preferências</h2>
         </div>
-        <p class="arrow"><span class="material-icons">arrow_forward_ios</span></p>
+        <p class="arrow"><span class="material-icons" style="color: #16E28A">arrow_forward_ios</span></p>
         <label>Personalize sua experiência: moeda, tema, idioma e outras preferências</label>
     </a>
 
     </section>
 
+    <a href="">
     <section class="perfil_card">
+        <div class="containerCard">
+            <span class="material-icons">privacy_tip</span>
+            <h2>Privacidades</h2>
+        </div>
+        <p class="arrow"><span class="material-icons" style="color: #16E28A">arrow_forward_ios</span></p>
+        <label>Gerencie seus dados, privacidade e permissões da sua conta</label>
+    </a>
 
-        
+    </section>
+
+    <a href="">
+    <section class="perfil_card">
+        <div class="containerCard">
+            <span class="material-icons">integration_instructions</span>
+            <h2>Integrações</h2>
+        </div>
+        <p class="arrow"><span class="material-icons" style="color: #16E28A">arrow_forward_ios</span></p>
+        <label>Conecte sua Agenda Financeira com outras plataformas e serviços</label>
+    </a>
 
     </section>
 
