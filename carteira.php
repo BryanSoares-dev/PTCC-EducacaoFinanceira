@@ -82,6 +82,8 @@
                     <button class="btn-movimentacao" onclick="abrirModal()">
                         ➕ Nova Movimentação
                     </button>
+
+                    <button id="pluggyConnectButton" class="btn-pluggy">Conectar Conta Bancária</button>
                 </div>
             </section>
             
@@ -210,6 +212,11 @@
         console.error("Erro na inicialização:", error.message);
     }
     }
+
+    const pluggyConnectButton = document.getElementById("pluggyConnectButton");
+    pluggyConnectButton.addEventListener("click", () => {
+        initPluggy();
+    });
 
     initPluggy();
     </script>
