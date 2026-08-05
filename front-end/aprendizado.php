@@ -1,5 +1,5 @@
 <?php
-// Inclui a conexão com o caminho correto (subindo um nível e entrando em back-end)
+// Inclui a conexão com o caminho correto
 session_start();
 require_once("../back-end/conexao.php");
 
@@ -119,6 +119,7 @@ if (!isset($_SESSION['id'])) {
             cursor: pointer;
             transition: 0.3s ease;
             box-shadow: 0 8px 20px rgba(22, 226, 138, 0.25);
+            text-decoration: none;
         }
 
         .btn_teste_pequeno:hover {
@@ -303,6 +304,10 @@ if (!isset($_SESSION['id'])) {
             cursor: pointer;
             transition: 0.3s;
             box-shadow: 0 8px 24px rgba(22, 226, 138, 0.30);
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
         }
 
         .btn_modal_primary:hover {
@@ -318,6 +323,8 @@ if (!isset($_SESSION['id'])) {
             cursor: pointer;
             padding: 10px;
             transition: 0.3s;
+            width: 100%;
+            text-align: center;
         }
 
         .btn_modal_secondary:hover {
@@ -366,10 +373,10 @@ if (!isset($_SESSION['id'])) {
                 </span>
                 <h1>Realize o <span class="destaque">Teste Diagnóstico</span></h1>
                 <p>Descubra seu perfil de investidor e desbloqueie videoaulas, exercícios diários e nossa loja exclusiva.</p>
-                <!-- Botão menor para teste diagnóstico -->
-                <button class="btn_teste_pequeno" onclick="abrirModal()">
+                <!-- Botão menor para teste diagnóstico (link direto para o arquivo na mesma pasta) -->
+                <a href="teste_diagnostico.php" class="btn_teste_pequeno">
                     <i class="fas fa-arrow-right"></i> Começar teste diagnóstico
-                </button>
+                </a>
             </div>
         </div>
     </section>
@@ -381,7 +388,7 @@ if (!isset($_SESSION['id'])) {
             <span class="card_icon"><i class="fas fa-video"></i></span>
             <h3>Videoaulas</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero id justo tincidunt, sed venenatis lorem interdum.</p>
-            <button class="btn_bloqueado" onclick="abrirModal()">
+            <button class="btn_bloqueado" onclick="abrirModal('videoaulas')">
                 <i class="fas fa-lock"></i> Acessar (bloqueado)
             </button>
         </div>
@@ -391,7 +398,7 @@ if (!isset($_SESSION['id'])) {
             <span class="card_icon"><i class="fas fa-dumbbell"></i></span>
             <h3>Exercícios Diários</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero id justo tincidunt, sed venenatis lorem interdum.</p>
-            <button class="btn_bloqueado" onclick="abrirModal()">
+            <button class="btn_bloqueado" onclick="abrirModal('exercicios')">
                 <i class="fas fa-lock"></i> Acessar (bloqueado)
             </button>
         </div>
@@ -401,7 +408,7 @@ if (!isset($_SESSION['id'])) {
             <span class="card_icon"><i class="fas fa-store"></i></span>
             <h3>Loja</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero id justo tincidunt, sed venenatis lorem interdum.</p>
-            <button class="btn_bloqueado" onclick="abrirModal()">
+            <button class="btn_bloqueado" onclick="abrirModal('loja')">
                 <i class="fas fa-lock"></i> Acessar (bloqueado)
             </button>
         </div>
@@ -415,11 +422,11 @@ if (!isset($_SESSION['id'])) {
             </div>
             <h2>Teste Diagnóstico</h2>
             <span class="highlight">⏱️ 10 minutos</span>
-            <p>Para desbloquear este recurso, você precisa realizar um teste diagnóstico rápido. Ele vai nos ajudar a personalizar sua experiência.</p>
+            <p id="modalMensagem">Para desbloquear este recurso, você precisa realizar um teste diagnóstico rápido. Ele vai nos ajudar a personalizar sua experiência.</p>
             <div class="modal_buttons">
-                <button class="btn_modal_primary" onclick="realizarTeste()">
+                <a href="teste_diagnostico.php" class="btn_modal_primary">
                     <i class="fas fa-arrow-right"></i> Realizar Teste
-                </button>
+                </a>
                 <button class="btn_modal_secondary" onclick="fecharModal()">
                     Agora não
                 </button>
@@ -430,22 +437,34 @@ if (!isset($_SESSION['id'])) {
 </main>
 
 <script>
+    // Variável para armazenar o recurso que está sendo acessado
+    var recursoAtual = '';
+
     // Abre o modal
-    function abrirModal() {
+    function abrirModal(recurso) {
+        recursoAtual = recurso || 'recurso';
+        var mensagem = document.getElementById('modalMensagem');
+        
+        // Personaliza a mensagem com base no recurso
+        var nomes = {
+            'videoaulas': 'videoaulas',
+            'exercicios': 'exercícios diários',
+            'loja': 'loja'
+        };
+        
+        var nomeRecurso = nomes[recurso] || 'este recurso';
+        mensagem.innerHTML = 'Para desbloquear <strong>' + nomeRecurso + '</strong>, você precisa realizar um teste diagnóstico rápido. Ele vai nos ajudar a personalizar sua experiência.';
+        
         document.getElementById('modalTeste').classList.add('active');
+        // Previne scroll da página
+        document.body.style.overflow = 'hidden';
     }
 
     // Fecha o modal
     function fecharModal() {
         document.getElementById('modalTeste').classList.remove('active');
-    }
-
-    // Função para "Realizar Teste" (simulação)
-    function realizarTeste() {
-        alert('Redirecionando para o teste diagnóstico...');
-        // Aqui você pode redirecionar para uma página de teste real
-        // window.location.href = 'teste_diagnostico.php';
-        fecharModal();
+        // Restaura scroll da página
+        document.body.style.overflow = 'auto';
     }
 
     // Fecha o modal ao clicar fora do conteúdo
