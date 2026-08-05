@@ -79,12 +79,12 @@ $saldo = $resultado['saldo'] ?? 0;
                     <p>Cadastre receitas e despesas para acompanhar suas finanças.</p>
                 </div>
 
-                <button class="btn-movimentacao" onclick="abrirModal()">
+                <button type="button" class="btn-movimentacao" onclick="abrirModal()">
                     ➕ Nova Movimentação
                 </button>
             </div>
         </section>
-        
+
     </main>
 </div>
 
@@ -114,7 +114,7 @@ $saldo = $resultado['saldo'] ?? 0;
             <div class="form-group">
                 <label>Tipo</label>
 
-                <select name="tipo" required>
+                <select name="tipo" id="tipoSelect" required>
                     <option value="" selected disabled>Selecione</option>
                     <option value="entrada">Entrada</option>
                     <option value="saida">Saída</option>
@@ -124,20 +124,8 @@ $saldo = $resultado['saldo'] ?? 0;
             <div class="form-group">
                 <label>Categoria</label>
 
-                <select name="categoria" required>
-                    <option value="" selected disabled>Selecione uma categoria</option>
-
-                    <option value="Alimentação">🍔 Alimentação</option>
-                    <option value="Transporte">🚗 Transporte</option>
-                    <option value="Moradia">🏠 Moradia</option>
-                    <option value="Saúde">🏥 Saúde</option>
-                    <option value="Educação">📚 Educação</option>
-                    <option value="Lazer">🎮 Lazer</option>
-                    <option value="Investimentos">📈 Investimentos</option>
-                    <option value="Salário">💰 Salário</option>
-                    <option value="Freelance">💻 Freelance</option>
-                    <option value="Presente">🎁 Presente</option>
-                    <option value="Outros">📦 Outros</option>
+                <select name="categoria" id="categoriaSelect" required disabled>
+                    <option value="" selected disabled>Selecione o tipo primeiro</option>
                 </select>
             </div>
 
@@ -162,7 +150,94 @@ $saldo = $resultado['saldo'] ?? 0;
 
 </div>
 
-<script src="js/carteira.js"></script>
+<script>
+/* ============================================================
+   Modal de Movimentação + Categorias Dinâmicas
+   (inline para descartar problema de caminho do arquivo js/)
+   ============================================================ */
+
+const CATEGORIAS_POR_TIPO = {
+    entrada: [
+        { valor: "Salário",       label: " Salário" },
+        { valor: "Freelance",     label: " Freelance" },
+        { valor: "Investimentos", label: " Investimentos" },
+        { valor: "Presente",      label: " Presente" },
+        { valor: "Outros",        label: " Outros" }
+    ],
+    saida: [
+        { valor: "Alimentação", label: " Alimentação" },
+        { valor: "Transporte",  label: " Transporte" },
+        { valor: "Moradia",     label: " Moradia" },
+        { valor: "Saúde",       label: " Saúde" },
+        { valor: "Educação",    label: " Educação" },
+        { valor: "Lazer",       label: " Lazer" },
+        { valor: "Outros",      label: " Outros" }
+    ]
+};
+
+const modal = document.getElementById("modalMovimentacao");
+const selectTipo = document.getElementById("tipoSelect");
+const selectCategoria = document.getElementById("categoriaSelect");
+
+if (!modal) {
+    console.error("ERRO: elemento #modalMovimentacao não encontrado no HTML.");
+}
+
+function abrirModal() {
+    console.log("abrirModal() chamado"); // debug temporário
+    if (!modal) return;
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function fecharModal() {
+    if (!modal) return;
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+
+    const form = modal.querySelector("form");
+    if (form) form.reset();
+    if (selectCategoria) {
+        selectCategoria.innerHTML = '<option value="" selected disabled>Selecione o tipo primeiro</option>';
+        selectCategoria.disabled = true;
+    }
+}
+
+function atualizarCategorias() {
+    const tipo = selectTipo.value;
+    selectCategoria.innerHTML = '<option value="" selected disabled>Selecione uma categoria</option>';
+
+    if (!tipo || !CATEGORIAS_POR_TIPO[tipo]) {
+        selectCategoria.disabled = true;
+        return;
+    }
+
+    selectCategoria.disabled = false;
+
+    CATEGORIAS_POR_TIPO[tipo].forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat.valor;
+        option.textContent = cat.label;
+        selectCategoria.appendChild(option);
+    });
+}
+
+if (selectTipo) {
+    selectTipo.addEventListener("change", atualizarCategorias);
+}
+
+if (modal) {
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) fecharModal();
+    });
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && modal.classList.contains("active")) {
+        fecharModal();
+    }
+});
+</script>
 
 </body>
 </html>

@@ -208,7 +208,7 @@
 }
 
 .modal-header h2 {
-  color: var(--white);
+  color: #fff;
 }
 
 .close-modal {
@@ -233,7 +233,7 @@
 .form-group label {
   margin-bottom: 8px;
   font-weight: 600;
-  color: var(--white);
+  color: #fff;
 }
 
 .form-group input,
@@ -245,8 +245,17 @@
   outline: none;
   font-size: 15px;
   transition: var(--transition-base);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--white);
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--primary);
+}
+
+.form-group select option {
+  color: var(--primary);
+  background: var(--white);
+}
+
+.form-group input::placeholder {
+  color: rgba(10, 37, 64, 0.4);
 }
 
 .form-group input:focus,

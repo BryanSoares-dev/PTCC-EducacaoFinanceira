@@ -19,108 +19,83 @@
         </ul>
     </nav>
 
-<div class="home_bot">
-    <?php
-        $fotoUsuario = (!empty($_SESSION['foto']))
-        ? $_SESSION['foto']
-        : '../img/avatar-default.png';
-    ?>
+    <div class="home_bot">
 
-    <?php if (isset($_SESSION['id'])): ?>
+        <?php if (isset($_SESSION['id'])): ?>
 
             <?php
-            $usuario = $_SESSION['usuario'] ?? [];
-            $nomeCompleto = trim($usuario['nome'] ?? '');
-            $partes = $nomeCompleto !== '' ? explode(" ", $nomeCompleto) : ['Usuário'];
-            $primeiroNome = $partes[0];
-            $ultimoNome = $partes[count($partes) - 1];
-            $inicial = mb_strtoupper(mb_substr($primeiroNome, 0, 1));
-            $temFoto = !empty($usuario['foto']);
+                $usuario = $_SESSION['usuario'] ?? [];
+                $nomeCompleto = trim($usuario['nome'] ?? '');
+                $partes = $nomeCompleto !== '' ? explode(" ", $nomeCompleto) : ['Usuário'];
+                $primeiroNome = $partes[0];
+                $ultimoNome = $partes[count($partes) - 1];
+                $inicial = mb_strtoupper(mb_substr($primeiroNome, 0, 1));
+                $temFoto = !empty($usuario['foto']);
+                $fotoUsuario = $temFoto ? $usuario['foto'] : null;
             ?>
 
             <div class="user_area">
+
                 <span class="user_name">
                     Olá, <?= htmlspecialchars($primeiroNome . " " . $ultimoNome) ?>
                 </span>
-        <div class="user_area">
 
-            <div class="user_dropdown">
+                <div class="user_dropdown">
 
                     <a href="#" id="avatarBtn">
                         <?php if ($temFoto): ?>
-                            <img src="<?= htmlspecialchars($usuario['foto']) ?>" class="avatar_img">
+                            <img src="<?= htmlspecialchars($fotoUsuario) ?>" class="avatar_img" alt="Avatar">
                         <?php else: ?>
                             <div class="avatar_placeholder">
                                 <?= htmlspecialchars($inicial) ?>
                             </div>
                         <?php endif; ?>
                     </a>
-                <a href="#" id="avatarBtn" class="avatar_btn">
-                    <img src="<?= $_SESSION['foto']; ?>" alt="Avatar">
-                </a>
 
-                <div class="dropdown_menu" id="dropdownMenu">
+                    <div class="dropdown_menu" id="dropdownMenu">
 
-                    <div class="dropdown_header">
+                        <div class="dropdown_header">
+                            <?php if ($temFoto): ?>
+                                <img src="<?= htmlspecialchars($fotoUsuario) ?>" alt="Avatar" class="avatar_img">
+                            <?php else: ?>
+                                <div class="avatar_placeholder"><?= htmlspecialchars($inicial) ?></div>
+                            <?php endif; ?>
 
-                        <img src="<?= $_SESSION['foto']; ?>" alt="Avatar">
-
-                        <div>
-                            <strong>
-                                <?= htmlspecialchars($primeiroNome . " " . $ultimoNome) ?>
-                                <?php
-                                $partes = explode(" ", trim($_SESSION['nome']));
-                                echo $partes[0] . " " . $partes[count($partes) - 1];
-                                ?>
-                            </strong>
-
-                            <small>Usuário</small>
-
+                            <div>
+                                <strong><?= htmlspecialchars($primeiroNome . " " . $ultimoNome) ?></strong>
+                                <small>Usuário</small>
+                            </div>
                         </div>
 
+                        <a href="perfil.php" class="dropdown_item">Ver Perfil</a>
+                        <a href="configuracoes.php" class="dropdown_item">Configurações</a>
+
+                        <hr>
+
+                        <a href="../back-end/logout.php" class="dropdown_item logout">Sair</a>
+
                     </div>
-
-                    <a href="perfil.php" class="dropdown_item">
-                        Ver Perfil
-                    </a>
-
-                    <a href="configuracoes.php" class="dropdown_item">
-                        Configurações
-                    </a>
-
-                    <hr>
-
-                    <a href="../back-end/logout.php" class="dropdown_item logout">
-                        Sair
-                    </a>
 
                 </div>
 
             </div>
 
-        </div>
+        <?php else: ?>
 
-    <?php else: ?>
+            <a href="cadastro.php">
+                <button class="button_log">Registrar</button>
+            </a>
 
-        <a href="cadastro.php">
-            <button class="button_log">
-                Registrar
-            </button>
-        </a>
+            <a href="login.php">
+                <button class="button_log conectar">Entrar</button>
+            </a>
 
-        <a href="login.php">
-            <button class="button_log conectar">
-                Entrar
-            </button>
-        </a>
+        <?php endif; ?>
 
-    <?php endif; ?>
-
-</div>
+    </div>
 </header>
 
 <script>
-
 (function () {
     if (window.__navbarInitialized) return;
     window.__navbarInitialized = true;
@@ -130,34 +105,16 @@
 
     if (avatarBtn && dropdownMenu) {
         avatarBtn.addEventListener("click", (e) => {
+            e.preventDefault();
             e.stopPropagation();
             dropdownMenu.classList.toggle("active");
         });
 
-        document.addEventListener("click", () => {
-            dropdownMenu.classList.remove("active");
+        document.addEventListener("click", (e) => {
+            if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove("active");
+            }
         });
     }
 })();
-if (avatarBtn && dropdownMenu) {
-
-    avatarBtn.addEventListener("click", function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        dropdownMenu.classList.toggle("active");
-    });
-
-    document.addEventListener("click", function(e) {
-
-        if (
-            !avatarBtn.contains(e.target) &&
-            !dropdownMenu.contains(e.target)
-        ) {
-            dropdownMenu.classList.remove("active");
-        }
-
-    });
-
-}
-
 </script>
