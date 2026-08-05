@@ -34,6 +34,7 @@ $saldo = $resultado['saldo'] ?? 0;
     <title>Dashboard Financeiro</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/carteira.css">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
 

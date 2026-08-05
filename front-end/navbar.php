@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/style-perfil.css">
 
+
 <header>
 
     <a href="../front-end/home.php">

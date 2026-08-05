@@ -14,6 +14,7 @@ if (!isset($_SESSION['id'])) {
     <title>Dashboard Financeiro</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/investimentos.css">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
 

@@ -32,10 +32,11 @@ if (!$usuario) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil | FinControl</title>
 
-    <link rel="stylesheet" href="css/style-perfil.css">
+    <link rel="stylesheet" href="../css/style-perfil.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
     
     
 </head>

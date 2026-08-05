@@ -16,6 +16,7 @@ if (!isset($_SESSION['id'])) {
     <title>Área de Aprendizado</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
     <style>
         /* =========================
            ESTILOS ESPECÍFICOS DA PÁGINA DE APRENDIZADO
