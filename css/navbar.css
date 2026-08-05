@@ -300,5 +300,25 @@ nav a:hover::after{
 }
 #avatarBtn {
     text-decoration: none;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dropdown_header{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 10px 12px;
+    color: #0A2540;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    margin-bottom: 6px;
+}
+
+.dropdown_header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }

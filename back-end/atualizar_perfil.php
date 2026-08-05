@@ -70,7 +70,7 @@ try {
     echo "
     <script>
         alert('Perfil atualizado com sucesso!');
-        window.location='perfil.php';
+        window.location='../front-end/perfil.php';
     </script>
     ";
 

@@ -1,0 +1,434 @@
+/* ============================================================
+   style-perfil.css – Página de Configurações
+   Estilo Liquid Glass (Apple) — mesma base do style.css
+   ============================================================ */
+
+/* =========================
+   VARIÁVEIS (idênticas ao style.css para manter consistência)
+========================= */
+
+:root {
+  /* Cores base */
+  --primary: #0A2540;
+  --primary-light: #24314C;
+  --primary-dark: #081b30;
+  --accent: #16E28A;
+  --accent-dark: #0db873;
+  --accent-light: #29f0a0;
+  --danger: #FF4757;
+  --danger-light: #ff6b81;
+  --white: #ffffff;
+  --gray-100: #f8fafc;
+  --gray-200: #eef4f8;
+  --gray-300: #dbe3eb;
+  --gray-400: #64748b;
+  --gray-500: #444;
+  --gray-600: #666;
+  --gray-700: #888;
+  --dark: #0B0F19;
+
+  /* Tipografia */
+  --font-family: 'Inter', sans-serif;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Sombras e vidro (Liquid Glass) */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-blur: 30px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --glass-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  --glass-border-hover: rgba(255, 255, 255, 0.25);
+
+  /* Sombras comuns */
+  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 15px 40px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.15);
+  --shadow-accent: 0 15px 30px rgba(22, 226, 138, 0.35);
+  --shadow-accent-hover: 0 20px 45px rgba(22, 226, 138, 0.45);
+
+  /* Transições */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* =========================
+   RESET E BASE
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--gray-100);
+  color: var(--primary);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* =========================
+   FUNDO ANIMADO (blobs suaves)
+========================= */
+
+.background_shapes {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+}
+
+.shape1 {
+  width: 550px;
+  height: 550px;
+  background: rgba(22, 226, 138, 0.16);
+  top: -180px;
+  right: -160px;
+}
+
+.shape2 {
+  width: 480px;
+  height: 480px;
+  background: rgba(10, 37, 64, 0.10);
+  bottom: -200px;
+  left: -160px;
+}
+
+.shape3 {
+  width: 320px;
+  height: 320px;
+  background: rgba(22, 226, 138, 0.10);
+  top: 45%;
+  left: 60%;
+}
+
+/* =========================
+   CLASSES UTILITÁRIAS LIQUID GLASS
+   (reaproveitadas do style.css)
+========================= */
+
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-base);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  transition: var(--transition-base);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(22, 226, 138, 0.4);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================
+   BOTÃO VOLTAR
+========================= */
+
+.btn_voltar {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--glass-bg);
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-base);
+  z-index: 999;
+}
+
+.btn_voltar .material-icons {
+  font-size: 18px;
+}
+
+.btn_voltar:hover {
+  transform: translateY(-2px);
+  color: var(--accent-dark);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================
+   CONTAINER PRINCIPAL
+========================= */
+
+.perfil_container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 120px 30px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* =========================
+   CABEÇALHO DO PERFIL
+========================= */
+
+.perfil_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 35px;
+  border-radius: var(--radius-xl);
+  margin-bottom: 10px;
+}
+
+.perfil_header_info {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.perfil_avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.perfil_avatar_placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: var(--white);
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+.perfil_dados h1 {
+  font-size: 1.6rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.perfil_dados p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gray-600);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.perfil_dados .material-icons {
+  font-size: 16px;
+  color: var(--gray-400);
+}
+
+.btn_editar_perfil {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 13px 24px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  background: var(--accent);
+  color: var(--primary-dark);
+  box-shadow: var(--shadow-accent);
+  transition: var(--transition-base);
+  white-space: nowrap;
+}
+
+.btn_editar_perfil:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-accent-hover);
+}
+
+.btn_editar_perfil .material-icons {
+  font-size: 18px;
+}
+
+/* =========================
+   TÍTULOS DE SEÇÃO
+========================= */
+
+.settings_section_title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray-400);
+  margin: 18px 4px 2px;
+}
+
+/* =========================
+   GRID / CARDS DE CONFIGURAÇÃO
+========================= */
+
+.settings_grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings_card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 26px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.settings_card_icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(22, 226, 138, 0.12);
+  color: var(--accent-dark);
+  transition: var(--transition-base);
+}
+
+.settings_card:hover .settings_card_icon {
+  background: var(--accent);
+  color: var(--primary-dark);
+}
+
+.settings_card_text {
+  flex: 1;
+}
+
+.settings_card_text h3 {
+  font-size: 1rem;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.settings_card_text p {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+
+.settings_card_arrow {
+  font-size: 16px !important;
+  color: var(--gray-400);
+  transition: var(--transition-base);
+}
+
+.settings_card:hover .settings_card_arrow {
+  color: var(--accent-dark);
+  transform: translateX(4px);
+}
+
+/* Card de ação destrutiva (Sair da conta) */
+
+.settings_card_danger .settings_card_icon {
+  background: rgba(255, 71, 87, 0.12);
+  color: var(--danger);
+}
+
+.settings_card_danger .settings_card_text h3 {
+  color: var(--danger);
+}
+
+.settings_card_danger:hover {
+  border-color: rgba(255, 71, 87, 0.4);
+}
+
+.settings_card_danger:hover .settings_card_icon {
+  background: var(--danger);
+  color: var(--white);
+}
+
+.settings_card_danger:hover .settings_card_arrow {
+  color: var(--danger);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 600px) {
+  .perfil_container {
+    padding: 110px 18px 60px;
+  }
+
+  .btn_voltar {
+    top: 18px;
+    left: 18px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .perfil_header {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px 22px;
+  }
+
+  .perfil_header_info {
+    flex-direction: column;
+  }
+
+  .perfil_dados p {
+    justify-content: center;
+  }
+
+  .btn_editar_perfil {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .settings_card {
+    padding: 18px 20px;
+  }
+
+  .settings_card_icon {
+    width: 42px;
+    height: 42px;
+  }
+}
