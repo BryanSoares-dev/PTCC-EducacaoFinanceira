@@ -97,7 +97,7 @@ if (!$usuario) {
 
         <h2>Informações Pessoais</h2>
 
-        <form action="atualizar_perfil.php" method="POST">
+        <form action="../back-end/atualizar_perfil.php" method="POST">
 
             <div class="form_group">
                 <label>Nome Completo</label>

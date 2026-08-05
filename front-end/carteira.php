@@ -238,6 +238,80 @@ document.addEventListener("keydown", (e) => {
         fecharModal();
     }
 });
+
+// Item data
+
+    async function initPluggy() {
+    try {
+        // busca o connect-token no open-finance
+        const response = await fetch("./open-finance/connect-token.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        //   envia uma requisição para o connect-token levando o valor de clienteUserId
+        body: JSON.stringify({
+            clientUserId: "bryan-001"
+        })
+        });
+
+        const data = await response.json();
+
+        // Valida se o token realmente veio na resposta
+        const connectToken = data.accessToken || data.accessToken; 
+        
+        if (!response.ok || !connectToken) {
+        throw new Error(data.error || "Falha ao obter o connectToken do servidor.");
+        }
+
+        if (typeof window.PluggyConnect !== 'function') {
+        throw new Error("A biblioteca PluggyConnect não foi carregada no HTML.");
+        }
+
+        const pluggyConnect = new window.PluggyConnect({
+        connectToken: connectToken,
+        includeSandbox: true,
+        onSuccess: (itemData) => {
+            console.log(itemData);
+
+        },
+
+        onSuccess: async (itemData) => {
+
+        const itemId = itemData.item.id;
+
+        const resposta = await fetch("./open-finance/item.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                itemId: itemId
+            })
+        });
+
+        const resultado = await resposta.json();
+
+        console.log(resultado);
+        },
+        onError: (error) => {
+            console.error('Erro na conexão do Pluggy Connect:', error);
+        }
+        });
+
+        pluggyConnect.init();
+
+    } catch (error) {
+        console.error("Erro na inicialização:", error.message);
+    }
+    }
+
+    const pluggyConnectButton = document.getElementById("pluggyConnectButton");
+    pluggyConnectButton.addEventListener("click", () => {
+        initPluggy();
+    });
+
+    initPluggy();
 </script>
 
 </body>
