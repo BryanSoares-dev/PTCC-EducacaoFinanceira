@@ -83,6 +83,9 @@ $saldo = $resultado['saldo'] ?? 0;
                 <button type="button" class="btn-movimentacao" onclick="abrirModal()">
                     ➕ Nova Movimentação
                 </button>
+                <button type="button" class="btn-movimentacao" id="pluggyConnectButton">
+                    Conectar Conta Bancária
+                </button>
             </div>
         </section>
 
@@ -244,7 +247,7 @@ document.addEventListener("keydown", (e) => {
     async function initPluggy() {
     try {
         // busca o connect-token no open-finance
-        const response = await fetch("./open-finance/connect-token.php", {
+        const response = await fetch("../open-finance/connect-token.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -258,7 +261,7 @@ document.addEventListener("keydown", (e) => {
         const data = await response.json();
 
         // Valida se o token realmente veio na resposta
-        const connectToken = data.accessToken || data.accessToken; 
+        const connectToken = data.accessToken || data.accessToken;
         
         if (!response.ok || !connectToken) {
         throw new Error(data.error || "Falha ao obter o connectToken do servidor.");
@@ -280,7 +283,7 @@ document.addEventListener("keydown", (e) => {
 
         const itemId = itemData.item.id;
 
-        const resposta = await fetch("./open-finance/item.php", {
+        const resposta = await fetch("../open-finance/item.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -313,6 +316,7 @@ document.addEventListener("keydown", (e) => {
 
     initPluggy();
 </script>
+<script src="https://cdn.pluggy.ai/pluggy-connect/latest/pluggy-connect.js"></script>
 
 </body>
 </html>

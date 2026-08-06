@@ -15,19 +15,19 @@ if ($_POST) {
     }
 
     // Verifica se o e-mail já existe (com prepared statement, seguro contra SQL Injection)
-    $sql = "SELECT id, senha,  FROM usuarios WHERE email = ?";
+    $sql = "SELECT id, senha, provedor FROM usuarios WHERE email = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$email]);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($usuario) {
         // Conta existe. Verifica se veio do Google e ainda não tem senha definida.
-        if ($usuario[''] === 'google' && empty($usuario['senha'])) {
+        if ($usuario['provedor'] === 'google' && empty($usuario['senha'])) {
 
             // Em vez de bloquear, aproveita e define a senha nessa conta já existente
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-            $sqlUpdate = "UPDATE usuarios SET senha = ?,  = 'ambos' WHERE email = ?";
+            $sqlUpdate = "UPDATE usuarios SET senha = ?, provedor = 'ambos' WHERE email = ?";
             $stmtUpdate = $pdo->prepare($sqlUpdate);
 
             if ($stmtUpdate->execute([$senhaHash, $email])) {
@@ -49,7 +49,7 @@ if ($_POST) {
     // E-mail não existe ainda → cria conta nova normalmente
     $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-    $sqlInsert = "INSERT INTO usuarios (nome, email, senha, telefone, ) 
+    $sqlInsert = "INSERT INTO usuarios (nome, email, senha, telefone, provedor) 
                   VALUES (?, ?, ?, ?, 'local')";
     $stmtInsert = $pdo->prepare($sqlInsert);
 
