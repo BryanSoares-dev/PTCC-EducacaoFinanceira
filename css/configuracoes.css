@@ -432,3 +432,325 @@ body {
     height: 42px;
   }
 }
+
+/* ============================================================
+   ADICIONAR ao configuracoes.css
+   Estilos dos MODAIS + reset do settings_card quando é <button>
+   ============================================================ */
+
+/* =========================
+   RESET: settings_card como <button>
+   (Preferências, Notificações, Sair da conta agora abrem modal)
+========================= */
+
+.settings_card_btn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+/* =========================
+   OVERLAY DO MODAL
+========================= */
+
+.modal_overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(10, 37, 64, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-base), visibility var(--transition-base);
+  z-index: 1000;
+}
+
+.modal_overlay.modal_open {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.modal_no_scroll {
+  overflow: hidden;
+}
+
+/* =========================
+   CAIXA DO MODAL
+========================= */
+
+.modal_box {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 40px 32px 32px;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateY(20px) scale(0.97);
+  opacity: 0;
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.modal_overlay.modal_open .modal_box {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.modal_close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(10, 37, 64, 0.06);
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.modal_close:hover {
+  background: rgba(10, 37, 64, 0.1);
+  color: var(--primary);
+}
+
+.modal_close .material-icons {
+  font-size: 20px;
+}
+
+/* =========================
+   CONTEÚDO DO MODAL
+========================= */
+
+.modal_icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: rgba(22, 226, 138, 0.12);
+  color: var(--accent-dark);
+  margin-bottom: 18px;
+}
+
+.modal_icon .material-icons {
+  font-size: 28px;
+}
+
+.modal_icon_danger {
+  background: rgba(255, 71, 87, 0.12);
+  color: var(--danger);
+}
+
+.modal_title {
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.modal_text {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* =========================
+   FORMULÁRIO DENTRO DO MODAL
+========================= */
+
+.modal_form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modal_field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal_field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.modal_field select {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-300);
+  background: var(--white);
+  color: var(--primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.modal_field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* =========================
+   TOGGLES (NOTIFICAÇÕES)
+========================= */
+
+.modal_toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.modal_toggle_text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modal_toggle_text span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.modal_toggle_text small {
+  font-size: 0.78rem;
+  color: var(--gray-600);
+  line-height: 1.4;
+}
+
+.modal_toggle input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.modal_toggle_slider {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  background: var(--gray-300);
+  transition: var(--transition-fast);
+}
+
+.modal_toggle_slider::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+}
+
+.modal_toggle input:checked + .modal_toggle_slider {
+  background: var(--accent);
+}
+
+.modal_toggle input:checked + .modal_toggle_slider::before {
+  transform: translateX(18px);
+}
+
+/* =========================
+   AÇÕES DO MODAL (BOTÕES)
+========================= */
+
+.modal_actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn_modal_primario,
+.btn_modal_secundario,
+.btn_modal_perigo {
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 12px 22px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: var(--transition-base);
+  white-space: nowrap;
+}
+
+.btn_modal_primario {
+  background: var(--accent);
+  color: var(--primary-dark);
+  box-shadow: var(--shadow-accent);
+}
+
+.btn_modal_primario:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent-hover);
+}
+
+.btn_modal_secundario {
+  background: rgba(10, 37, 64, 0.06);
+  color: var(--primary);
+}
+
+.btn_modal_secundario:hover {
+  background: rgba(10, 37, 64, 0.1);
+}
+
+.btn_modal_perigo {
+  background: var(--danger);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn_modal_perigo:hover {
+  transform: translateY(-2px);
+  background: var(--danger-light);
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 600px) {
+  .modal_box {
+    padding: 32px 22px 24px;
+  }
+
+  .modal_actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn_modal_primario,
+  .btn_modal_secundario,
+  .btn_modal_perigo {
+    width: 100%;
+    text-align: center;
+  }
+}

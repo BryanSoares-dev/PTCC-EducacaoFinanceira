@@ -89,47 +89,6 @@ $saldo = $resultado['saldo'] ?? 0;
             </div>
         </section>
 
-        <!-- ================= OPEN FINANCE ================= -->
-
-        <section class="controle-financeiro">
-            <div class="section-header">
-                <div>
-                    <h2>📈 Investimentos</h2>
-                    <p>Dados vindos da sua conta conectada via Open Finance.</p>
-                </div>
-            </div>
-
-            <div id="investimentosContainer" class="of-lista">
-                <p class="of-status">Carregando investimentos...</p>
-            </div>
-        </section>
-
-        <section class="controle-financeiro">
-            <div class="section-header">
-                <div>
-                    <h2>🔁 Transações</h2>
-                    <p>Últimas transações da sua conta conectada.</p>
-                </div>
-            </div>
-
-            <div id="transacoesContainer" class="of-lista">
-                <p class="of-status">Carregando transações...</p>
-            </div>
-        </section>
-
-        <section class="controle-financeiro">
-            <div class="section-header">
-                <div>
-                    <h2>🏦 Empréstimos</h2>
-                    <p>Empréstimos identificados na sua conta conectada.</p>
-                </div>
-            </div>
-
-            <div id="emprestimosContainer" class="of-lista">
-                <p class="of-status">Carregando empréstimos...</p>
-            </div>
-        </section>
-
     </main>
 </div>
 
@@ -145,7 +104,7 @@ $saldo = $resultado['saldo'] ?? 0;
             </button>
         </div>
 
-        <form action="../back-end/processa_movimentacao.php" method="POST">
+        <form action="processa_movimentacao.php" method="POST">
             <div class="form-group">
                 <label>Valor</label>
                 <input
@@ -283,218 +242,64 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-/* ============================================================
-   Open Finance (Pluggy) - Conexão + exibição dos dados
-   ============================================================ */
+// Item data
 
-// -------- Helpers de formatação --------
-function formatarMoeda(valor) {
-    const numero = Number(valor) || 0;
-    return numero.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-}
-
-function formatarData(dataStr) {
-    if (!dataStr) return '-';
-    const data = new Date(dataStr);
-    if (isNaN(data.getTime())) return dataStr;
-    return data.toLocaleDateString('pt-br');
-}
-
-// -------- Carrega Investimentos --------
-async function carregarInvestimentos() {
-    const container = document.getElementById("investimentosContainer");
-
-    try {
-        const resposta = await fetch("../open-finance/investimentos.php");
-        const dados = await resposta.json();
-
-        if (dados.error) {
-            container.innerHTML = `<p class="of-status">${dados.error}</p>`;
-            return;
-        }
-
-        const investimentos = dados.investimentos || [];
-
-        if (investimentos.length === 0) {
-            container.innerHTML = `<p class="of-status">Nenhum investimento encontrado.</p>`;
-            return;
-        }
-
-        container.innerHTML = investimentos.map(inv => `
-            <div class="of-item">
-                <div class="of-item-topo">
-                    <strong>${inv.name ?? 'Investimento'}</strong>
-                    <span class="of-tag">${inv.type ?? ''}</span>
-                </div>
-                <div class="of-item-linha">
-                    <span>Saldo</span>
-                    <span>${formatarMoeda(inv.balance)}</span>
-                </div>
-                <div class="of-item-linha">
-                    <span>Valor investido</span>
-                    <span>${formatarMoeda(inv.amount)}</span>
-                </div>
-            </div>
-        `).join("");
-
-    } catch (erro) {
-        console.error("Erro ao carregar investimentos:", erro);
-        container.innerHTML = `<p class="of-status">Erro ao carregar investimentos.</p>`;
-    }
-}
-
-// -------- Carrega Transações --------
-async function carregarTransacoes() {
-    const container = document.getElementById("transacoesContainer");
-
-    try {
-        const resposta = await fetch("../open-finance/transacoes.php");
-        const dados = await resposta.json();
-
-        if (dados.error) {
-            container.innerHTML = `<p class="of-status">${dados.error}</p>`;
-            return;
-        }
-
-        const transacoes = dados.transacoes || [];
-
-        if (transacoes.length === 0) {
-            container.innerHTML = `<p class="of-status">Nenhuma transação encontrada.</p>`;
-            return;
-        }
-
-        container.innerHTML = transacoes.map(t => {
-            const positivo = Number(t.amount) >= 0;
-            return `
-                <div class="of-item">
-                    <div class="of-item-topo">
-                        <strong>${t.description ?? 'Transação'}</strong>
-                        <span class="of-tag">${t.contaNome ?? ''}</span>
-                    </div>
-                    <div class="of-item-linha">
-                        <span>${formatarData(t.date)}</span>
-                        <span class="${positivo ? 'green' : 'red'}">
-                            ${positivo ? '+' : ''}${formatarMoeda(t.amount)}
-                        </span>
-                    </div>
-                </div>
-            `;
-        }).join("");
-
-    } catch (erro) {
-        console.error("Erro ao carregar transações:", erro);
-        container.innerHTML = `<p class="of-status">Erro ao carregar transações.</p>`;
-    }
-}
-
-// -------- Carrega Empréstimos --------
-async function carregarEmprestimos() {
-    const container = document.getElementById("emprestimosContainer");
-
-    try {
-        const resposta = await fetch("../open-finance/emprestimos.php");
-        const dados = await resposta.json();
-
-        if (dados.error) {
-            container.innerHTML = `<p class="of-status">${dados.error}</p>`;
-            return;
-        }
-
-        const emprestimos = dados.emprestimos || [];
-
-        if (emprestimos.length === 0) {
-            container.innerHTML = `<p class="of-status">Nenhum empréstimo encontrado.</p>`;
-            return;
-        }
-
-        container.innerHTML = emprestimos.map(e => `
-            <div class="of-item">
-                <div class="of-item-topo">
-                    <strong>${e.contractNumber ?? 'Empréstimo'}</strong>
-                    <span class="of-tag">${e.type ?? ''}</span>
-                </div>
-                <div class="of-item-linha">
-                    <span>Valor total</span>
-                    <span>${formatarMoeda(e.contractAmount)}</span>
-                </div>
-                <div class="of-item-linha">
-                    <span>Parcelas restantes</span>
-                    <span>${e.numberOfInstallments ?? '-'}</span>
-                </div>
-            </div>
-        `).join("");
-
-    } catch (erro) {
-        console.error("Erro ao carregar empréstimos:", erro);
-        container.innerHTML = `<p class="of-status">Erro ao carregar empréstimos.</p>`;
-    }
-}
-
-function carregarDadosOpenFinance() {
-    carregarInvestimentos();
-    carregarTransacoes();
-    carregarEmprestimos();
-}
-
-// -------- Conexão com o Pluggy Connect --------
-async function initPluggy() {
+    async function initPluggy() {
     try {
         // busca o connect-token no open-finance
         const response = await fetch("../open-finance/connect-token.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            // envia uma requisição para o connect-token levando o valor de clientUserId
-            body: JSON.stringify({
-                clientUserId: "bryan-001"
-            })
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        //   envia uma requisição para o connect-token levando o valor de clienteUserId
+        body: JSON.stringify({
+            clientUserId: "bryan-001"
+        })
         });
 
         const data = await response.json();
 
         // Valida se o token realmente veio na resposta
-        const connectToken = data.accessToken;
-
+        const connectToken = data.accessToken || data.accessToken;
+        
         if (!response.ok || !connectToken) {
-            throw new Error(data.error || "Falha ao obter o connectToken do servidor.");
+        throw new Error(data.error || "Falha ao obter o connectToken do servidor.");
         }
 
         if (typeof window.PluggyConnect !== 'function') {
-            throw new Error("A biblioteca PluggyConnect não foi carregada no HTML.");
+        throw new Error("A biblioteca PluggyConnect não foi carregada no HTML.");
         }
 
         const pluggyConnect = new window.PluggyConnect({
-            connectToken: connectToken,
-            includeSandbox: true,
+        connectToken: connectToken,
+        includeSandbox: true,
+        onSuccess: (itemData) => {
+            console.log(itemData);
 
-            onSuccess: async (itemData) => {
-                console.log(itemData);
+        },
 
-                const itemId = itemData.item.id;
+        onSuccess: async (itemData) => {
 
-                const resposta = await fetch("../open-finance/item.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        itemId: itemId
-                    })
-                });
+        const itemId = itemData.item.id;
 
-                const resultado = await resposta.json();
-                console.log(resultado);
-
-                // Assim que o item é salvo, recarrega os dados na tela
-                if (resultado.success) {
-                    carregarDadosOpenFinance();
-                }
+        const resposta = await fetch("../open-finance/item.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
             },
+            body: JSON.stringify({
+                itemId: itemId
+            })
+        });
 
-            onError: (error) => {
-                console.error('Erro na conexão do Pluggy Connect:', error);
-            }
+        const resultado = await resposta.json();
+
+        console.log(resultado);
+        },
+        onError: (error) => {
+            console.error('Erro na conexão do Pluggy Connect:', error);
+        }
         });
 
         pluggyConnect.init();
@@ -502,15 +307,14 @@ async function initPluggy() {
     } catch (error) {
         console.error("Erro na inicialização:", error.message);
     }
-}
+    }
 
-const pluggyConnectButton = document.getElementById("pluggyConnectButton");
-pluggyConnectButton.addEventListener("click", () => {
+    const pluggyConnectButton = document.getElementById("pluggyConnectButton");
+    pluggyConnectButton.addEventListener("click", () => {
+        initPluggy();
+    });
+
     initPluggy();
-});
-
-// Ao carregar a página, já tenta exibir os dados de quem já conectou antes
-document.addEventListener("DOMContentLoaded", carregarDadosOpenFinance);
 </script>
 <script src="https://cdn.pluggy.ai/pluggy-connect/latest/pluggy-connect.js"></script>
 
