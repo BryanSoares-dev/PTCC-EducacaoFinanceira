@@ -44,5 +44,5 @@ $stmt->execute([
     $valor
 ]);
 
-header("Location: carteira.php");
+header("Location: ../front-end/carteira.php");
 exit();
