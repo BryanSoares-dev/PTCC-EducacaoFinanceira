@@ -1,29 +1,43 @@
 <?php
+
 session_start();
+
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>FinControl</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Fonte -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="../img/favicon.png">
+
 </head>
 
 <body>
 
-    <?php
-    include 'navbar.php';
-    ?>
+    <?php include 'navbar.php'; ?>
+
 
     <main>
 
-        <!-- HERO -->
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
 
         <section id="inicio" class="hero">
 
@@ -36,37 +50,32 @@ session_start();
                     </span>
 
                     <h1>
-                        Assuma o controle das suas finanças de forma simples e inteligente
+                        Assuma o controle das suas finanças
+                        de forma simples e inteligente
                     </h1>
 
                     <p>
                         Aprenda educação financeira, organize seus gastos,
-                        acompanhe suas metas e descubra como fazer seu dinheiro
-                        trabalhar a seu favor.
+                        acompanhe suas metas e descubra como fazer seu
+                        dinheiro trabalhar a seu favor.
                     </p>
 
                     <div class="hero_buttons">
 
                         <?php if (isset($_SESSION['id'])): ?>
 
-                            <a href="#educacao">
-                                <button class="btn_primary">
-                                    Começar Agora
-                                </button>
+                            <a href="#educacao" class="btn_primary">
+                                Começar Agora
                             </a>
 
                         <?php else: ?>
 
-                            <a href="cadastro.php">
-                                <button class="btn_primary">
-                                    Criar Conta
-                                </button>
+                            <a href="cadastro.php" class="btn_primary">
+                                Criar Conta
                             </a>
 
-                            <a href="login.php">
-                                <button class="btn_secondary">
-                                    Entrar
-                                </button>
+                            <a href="login.php" class="btn_secondary">
+                                Entrar
                             </a>
 
                         <?php endif; ?>
@@ -75,25 +84,51 @@ session_start();
 
                 </div>
 
+
                 <div class="hero_card">
 
                     <div class="card_dashboard">
 
                         <div class="saldo">
-                            <span>Saldo Atual</span>
-                            <h2>R$ 12.580</h2>
+
+                            <span>
+                                Saldo Atual
+                            </span>
+
+                            <h2>
+                                R$ 12.580
+                            </h2>
+
                         </div>
 
+
                         <div class="dashboard_info">
-                            <div>
-                                <span>Receitas</span>
-                                <h3>+ R$ 4.300</h3>
-                            </div>
 
                             <div>
-                                <span>Despesas</span>
-                                <h3>- R$ 1.240</h3>
+
+                                <span>
+                                    Receitas
+                                </span>
+
+                                <h3>
+                                    + R$ 4.300
+                                </h3>
+
                             </div>
+
+
+                            <div>
+
+                                <span>
+                                    Despesas
+                                </span>
+
+                                <h3>
+                                    - R$ 1.240
+                                </h3>
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -104,198 +139,334 @@ session_start();
 
         </section>
 
-        <!-- BENEFÍCIOS -->
+
+        <!-- =====================================================
+             BENEFÍCIOS
+        ====================================================== -->
 
         <section class="beneficios">
 
-
             <div class="section_title">
-                <h2>Por que utilizar nossa plataforma?</h2>
+
+                <h2>
+                    Por que utilizar nossa plataforma?
+                </h2>
+
                 <p>
-                    Tudo que você precisa para desenvolver uma vida financeira mais saudável.
+                    Tudo que você precisa para desenvolver
+                    uma vida financeira mais saudável.
                 </p>
+
             </div>
+
 
             <div class="beneficios_grid">
 
                 <div class="beneficio_card">
-                    <h3>Educação Financeira</h3>
+
+                    <h3>
+                        Educação Financeira
+                    </h3>
+
                     <p>
-                        Conteúdos simples para aprender a cuidar melhor do seu dinheiro.
+                        Conteúdos simples para aprender
+                        a cuidar melhor do seu dinheiro.
                     </p>
+
                 </div>
 
-                <div class="beneficio_card">
-                    <h3>Controle de Gastos</h3>
-                    <p>
-                        Entenda para onde seu dinheiro está indo e tome melhores decisões.
-                    </p>
-                </div>
 
                 <div class="beneficio_card">
-                    <h3>Planejamento</h3>
+
+                    <h3>
+                        Controle de Gastos
+                    </h3>
+
                     <p>
-                        Crie metas financeiras e acompanhe sua evolução.
+                        Entenda para onde seu dinheiro está indo
+                        e tome melhores decisões.
                     </p>
+
                 </div>
 
+
                 <div class="beneficio_card">
-                    <h3>Investimentos</h3>
+
+                    <h3>
+                        Planejamento
+                    </h3>
+
                     <p>
-                        Conheça alternativas para construir patrimônio ao longo do tempo.
+                        Crie metas financeiras e acompanhe
+                        sua evolução.
                     </p>
+
+                </div>
+
+
+                <div class="beneficio_card">
+
+                    <h3>
+                        Investimentos
+                    </h3>
+
+                    <p>
+                        Conheça alternativas para construir
+                        patrimônio ao longo do tempo.
+                    </p>
+
                 </div>
 
             </div>
 
         </section>
 
-        <!-- COMO FUNCIONA -->
 
-        <section class="como_funciona">
+        <!-- =====================================================
+             COMO FUNCIONA
+        ====================================================== -->
+
+        <section class="section_dark como_funciona">
 
             <div class="section_title">
 
-                <h2 id="titulo-especial">Como funciona</h2>
-             
-                <style>
-                    #titulo-especial {
-                        color: white;
-                    }
-                </style>
+                <h2>
+                    Como funciona
+                </h2>
 
                 <p>
-                    Três etapas simples para melhorar sua vida financeira.
+                    Três etapas simples para melhorar
+                    sua vida financeira.
                 </p>
+
             </div>
+
 
             <div class="steps">
 
                 <div class="step_card">
-                    <div class="step_number">01</div>
-                    <h3>Aprenda</h3>
+
+                    <div class="step_number">
+                        01
+                    </div>
+
+                    <h3>
+                        Aprenda
+                    </h3>
+
                     <p>
                         Entenda conceitos financeiros essenciais.
                     </p>
+
                 </div>
 
+
                 <div class="step_card">
-                    <div class="step_number">02</div>
-                    <h3>Controle</h3>
+
+                    <div class="step_number">
+                        02
+                    </div>
+
+                    <h3>
+                        Controle
+                    </h3>
+
                     <p>
                         Organize gastos e acompanhe sua evolução.
                     </p>
+
                 </div>
 
+
                 <div class="step_card">
-                    <div class="step_number">03</div>
-                    <h3>Cresça</h3>
+
+                    <div class="step_number">
+                        03
+                    </div>
+
+                    <h3>
+                        Cresça
+                    </h3>
+
                     <p>
                         Planeje metas e desenvolva patrimônio.
                     </p>
+
                 </div>
 
             </div>
 
         </section>
 
-        <!-- ESTATÍSTICAS -->
+
+        <!-- =====================================================
+             ESTATÍSTICAS
+        ====================================================== -->
 
         <section class="estatisticas">
 
             <div class="estatistica">
-                <h2>100%</h2>
-                <p>Gratuito para começar</p>
+
+                <h2>
+                    100%
+                </h2>
+
+                <p>
+                    Gratuito para começar
+                </p>
+
             </div>
 
-            <div class="estatistica">
-                <h2>24h</h2>
-                <p>Acesso aos conteúdos financeiros</p>
-            </div>
 
             <div class="estatistica">
-                <h2>Simples</h2>
-                <p>Interface fácil para iniciantes</p>
+
+                <h2>
+                    24h
+                </h2>
+
+                <p>
+                    Acesso aos conteúdos financeiros
+                </p>
+
             </div>
 
+
             <div class="estatistica">
-                <h2>Seguro</h2>
-                <p>Área exclusiva para usuários cadastrados</p>
+
+                <h2>
+                    Simples
+                </h2>
+
+                <p>
+                    Interface fácil para iniciantes
+                </p>
+
+            </div>
+
+
+            <div class="estatistica">
+
+                <h2>
+                    Seguro
+                </h2>
+
+                <p>
+                    Área exclusiva para usuários cadastrados
+                </p>
+
             </div>
 
         </section>
 
-        <!-- EDUCAÇÃO -->
+
+        <!-- =====================================================
+             EDUCAÇÃO FINANCEIRA
+        ====================================================== -->
 
         <section id="educacao" class="section_light">
 
             <div class="section_title">
-                <h2>Educação Financeira</h2>
+
+                <h2>
+                    Educação Financeira
+                </h2>
+
                 <p>
                     Aprenda a administrar seu dinheiro de forma prática.
                 </p>
+
             </div>
+
 
             <div class="cards_grid">
 
                 <div class="info_card">
-                    <h3>Orçamento</h3>
+
+                    <h3>
+                        Orçamento
+                    </h3>
+
                     <p>
-                        Organize receitas e despesas de maneira eficiente.
+                        Organize receitas e despesas
+                        de maneira eficiente.
                     </p>
+
                 </div>
 
-                <div class="info_card">
-                    <h3>Economia</h3>
-                    <p>
-                        Descubra formas de economizar sem perder qualidade.
-                    </p>
-                </div>
 
                 <div class="info_card">
-                    <h3>Planejamento</h3>
+
+                    <h3>
+                        Economia
+                    </h3>
+
                     <p>
-                        Crie metas realistas para alcançar seus objetivos.
+                        Descubra formas de economizar
+                        sem perder qualidade.
                     </p>
+
+                </div>
+
+
+                <div class="info_card">
+
+                    <h3>
+                        Planejamento
+                    </h3>
+
+                    <p>
+                        Crie metas realistas para alcançar
+                        seus objetivos.
+                    </p>
+
                 </div>
 
             </div>
 
         </section>
 
-        <!-- CALCULADORA -->
+
+        <!-- =====================================================
+             CALCULADORA
+        ====================================================== -->
 
         <section id="calculadora" class="section_dark">
 
             <div class="section_title">
-                <h2>Calculadora Financeira</h2>
+
+                <h2>
+                    Calculadora Financeira
+                </h2>
+
                 <p>
-                    Simule cenários e tome decisões mais inteligentes.
+                    Simule cenários e tome decisões
+                    mais inteligentes.
                 </p>
+
             </div>
+
 
             <div class="calc_box">
 
-                <h3>Ferramenta Financeira</h3>
+                <h3>
+                    Ferramenta Financeira
+                </h3>
 
                 <p>
                     Analise gastos, metas e projeções financeiras.
                 </p>
 
+
                 <?php if (isset($_SESSION['id'])): ?>
 
-                    <a href="calculadora.php">
-                        <button class="btn_primary">
-                            Acessar Calculadora
-                        </button>
+                    <a href="calculadora.php" class="btn_primary">
+                        Acessar Calculadora
                     </a>
 
                 <?php else: ?>
 
-                    <a href="login.php">
-                        <button class="btn_primary">
-                            Acessar Calculadora
-                        </button>
+                    <a href="login.php" class="btn_primary">
+                        Acessar Calculadora
                     </a>
 
                 <?php endif; ?>
@@ -304,117 +475,170 @@ session_start();
 
         </section>
 
-        <!-- INVESTIMENTOS -->
+
+        <!-- =====================================================
+             INVESTIMENTOS
+        ====================================================== -->
 
         <section id="investimentos" class="section_light">
 
             <div class="section_title">
-                <h2>Investimentos</h2>
+
+                <h2>
+                    Investimentos
+                </h2>
 
                 <p>
-                    Conheça as principais alternativas para multiplicar seu patrimônio.
+                    Conheça as principais alternativas
+                    para multiplicar seu patrimônio.
                 </p>
 
             </div>
 
+
             <div class="cards_grid">
 
+                <!-- RENDA FIXA -->
+
                 <div class="info_card">
-                    <h3>Renda Fixa</h3>
+
+                    <h3>
+                        Renda Fixa
+                    </h3>
+
                     <p>
-                        Segurança e previsibilidade para seu dinheiro.
+                        Segurança e previsibilidade
+                        para seu dinheiro.
                     </p>
+
+
                     <?php if (isset($_SESSION['id'])): ?>
 
-                        <a href="investimentos_RendaFixa.php">
-                            <button class="btn_primary">
-                                Acessar Renda Fixa
-                            </button>
+                        <a
+                            href="investimentos_RendaFixa.php"
+                            class="btn_primary"
+                        >
+                            Acessar Renda Fixa
                         </a>
 
                     <?php else: ?>
 
-                        <a href="login.php">
-                            <button class="btn_primary">
-                                Acessar Renda Fixa
-                            </button>
+                        <a
+                            href="login.php"
+                            class="btn_primary"
+                        >
+                            Acessar Renda Fixa
                         </a>
 
                     <?php endif; ?>
+
                 </div>
 
+
+                <!-- RENDA VARIÁVEL -->
+
                 <div class="info_card">
-                    <h3>Renda Variável</h3>
+
+                    <h3>
+                        Renda Variável
+                    </h3>
+
                     <p>
-                        Potencial de retorno superior no longo prazo.
+                        Potencial de retorno superior
+                        no longo prazo.
                     </p>
+
+
                     <?php if (isset($_SESSION['id'])): ?>
 
-                        <a href="investimentos_RendaVariavel.php">
-                            <button class="btn_primary">
-                                Acessar Renda Variável
-                            </button>
+                        <a
+                            href="investimentos_RendaVariavel.php"
+                            class="btn_primary"
+                        >
+                            Acessar Renda Variável
                         </a>
 
                     <?php else: ?>
 
-                        <a href="login.php">
-                            <button class="btn_primary">
-                                Acessar Renda Variável
-                            </button>
+                        <a
+                            href="login.php"
+                            class="btn_primary"
+                        >
+                            Acessar Renda Variável
                         </a>
 
                     <?php endif; ?>
+
                 </div>
 
+
+                <!-- DIVERSIFICAÇÃO -->
+
                 <div class="info_card">
-                    <h3>Diversificação</h3>
+
+                    <h3>
+                        Diversificação
+                    </h3>
+
                     <p>
-                        Distribua riscos e fortaleça sua carteira.
+                        Distribua riscos e fortaleça
+                        sua carteira.
                     </p>
+
+
                     <?php if (isset($_SESSION['id'])): ?>
 
-                        <a href="investimentos_Diversificacao.php">
-                            <button class="btn_primary">
-                                Acessar Diversificação
-                            </button>
+                        <a
+                            href="investimentos_Diversificacao.php"
+                            class="btn_primary"
+                        >
+                            Acessar Diversificação
                         </a>
 
                     <?php else: ?>
 
-                        <a href="login.php">
-                            <button class="btn_primary">
-                                Acessar Diversificação
-                            </button>
+                        <a
+                            href="login.php"
+                            class="btn_primary"
+                        >
+                            Acessar Diversificação
                         </a>
 
                     <?php endif; ?>
+
                 </div>
 
             </div>
 
         </section>
 
-        <!-- CTA FINAL -->
+
+        <!-- =====================================================
+             CTA FINAL
+        ====================================================== -->
 
         <section class="cta">
 
             <div class="cta_content">
 
                 <h2>
-                    Comece hoje a transformar sua vida financeira
+                    Comece hoje a transformar
+                    sua vida financeira
                 </h2>
 
                 <p>
-                    Crie sua conta gratuitamente e tenha acesso às ferramentas da plataforma.
+                    Crie sua conta gratuitamente e tenha acesso
+                    às ferramentas da plataforma.
                 </p>
+
 
                 <?php if (!isset($_SESSION['id'])): ?>
 
-                    <a href="cadastro.php">
-                        <button class="btn_primary">
-                            Criar Conta Gratuitamente
-                        </button>
+                    <a
+                        href="cadastro.php"
+                        class="btn_primary"
+                    >
+                        Criar Conta Gratuitamente
                     </a>
 
                 <?php endif; ?>
@@ -425,11 +649,20 @@ session_start();
 
     </main>
 
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
     <footer>
 
         <div class="footer_container">
 
-            <img class="footer_logo" src="../img/logo.png" alt="Logo">
+            <img
+                class="footer_logo"
+                src="../img/logo.png"
+                alt="Logo FinControl"
+            >
 
             <p>
                 © 2026 FinControl. Todos os direitos reservados.

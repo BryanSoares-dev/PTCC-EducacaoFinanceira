@@ -17,7 +17,6 @@
             <li><a href="carteira.php">Carteira</a></li>
             <li><a href="investimentos_Diversificacao.php">Investimentos</a></li>
             <li><a href="analisador.php">Analisador</a></li>
-            <li><a href="../open-finance/dados_financeiros.php">Analisador</a></li>
         </ul>
     </nav>
 

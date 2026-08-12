@@ -54,7 +54,7 @@ if (count($partesNome) > 1) {
     <div class="shape shape3"></div>
 </div>
 
-<a href="../home.php" class="btn_voltar">
+<a href="home.php" class="btn_voltar">
     <span class="material-icons">arrow_back</span>
     Voltar
 </a>

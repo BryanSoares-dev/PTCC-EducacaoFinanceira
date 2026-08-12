@@ -1,137 +1,486 @@
 <?php
+
 session_start();
+
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
     header("Location: ../front-end/login.php");
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de ajuda | FinControl</title>
 
-    <link rel="stylesheet" href="../css/paginas-suporte.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <title>Sobre o FinControl</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/sobre.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../img/favicon.png"
+    >
+
 </head>
 
 <body>
 
-<div class="background_shapes">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-    <div class="shape shape3"></div>
-</div>
 
-<a href="configuracoes.php" class="btn_voltar">
-    <span class="material-icons">arrow_back</span>
-    Voltar
-</a>
+    <!-- =========================
+         BACKGROUND
+    ========================== -->
 
-<main class="pagina_container">
+    <div class="background_shapes">
 
-    <!-- ===================== CABEÇALHO ===================== -->
-    <section class="pagina_header">
-        <div class="pagina_header_icon">
-            <span class="material-icons">help_outline</span>
-        </div>
-        <div>
-            <h1>Central de ajuda</h1>
-            <p>Tire dúvidas frequentes ou fale com o nosso suporte</p>
-        </div>
-    </section>
-
-    <!-- ===================== BUSCA ===================== -->
-    <div class="pagina_search glass-card">
-        <span class="material-icons">search</span>
-        <input type="text" id="busca-ajuda" placeholder="Busque por um assunto (ex: transações, senha, exportar dados...)">
-    </div>
-
-    <!-- ===================== FAQ ===================== -->
-    <h2 class="pagina_section_title">Perguntas frequentes</h2>
-
-    <div class="faq_list" id="faq-list">
-
-        <div class="faq_item glass-card">
-            <button type="button" class="faq_question" data-faq-toggle>
-                <span>Como eu adiciono uma nova transação?</span>
-                <span class="material-icons faq_arrow">expand_more</span>
-            </button>
-            <div class="faq_answer">
-                <p>Na tela inicial, toque no botão "+" para adicionar uma nova receita ou despesa. Preencha o valor, a categoria e a data, depois toque em salvar.</p>
-            </div>
-        </div>
-
-        <div class="faq_item glass-card">
-            <button type="button" class="faq_question" data-faq-toggle>
-                <span>Como altero minha senha?</span>
-                <span class="material-icons faq_arrow">expand_more</span>
-            </button>
-            <div class="faq_answer">
-                <p>Vá em Configurações &gt; Senha e login, dentro da sua página de perfil. Lá você pode definir uma nova senha a qualquer momento.</p>
-            </div>
-        </div>
-
-        <div class="faq_item glass-card">
-            <button type="button" class="faq_question" data-faq-toggle>
-                <span>Consigo exportar meus dados financeiros?</span>
-                <span class="material-icons faq_arrow">expand_more</span>
-            </button>
-            <div class="faq_answer">
-                <p>Sim! Em Configurações &gt; Privacidade e dados, você encontra a opção "Exportar meus dados", que gera um arquivo CSV com todo o seu histórico.</p>
-            </div>
-        </div>
-
-        <div class="faq_item glass-card">
-            <button type="button" class="faq_question" data-faq-toggle>
-                <span>O FinControl é gratuito?</span>
-                <span class="material-icons faq_arrow">expand_more</span>
-            </button>
-            <div class="faq_answer">
-                <p>Sim, todas as funcionalidades principais do FinControl são gratuitas para uso pessoal.</p>
-            </div>
-        </div>
-
-        <div class="faq_item glass-card">
-            <button type="button" class="faq_question" data-faq-toggle>
-                <span>Como excluo minha conta permanentemente?</span>
-                <span class="material-icons faq_arrow">expand_more</span>
-            </button>
-            <div class="faq_answer">
-                <p>Acesse Configurações &gt; Privacidade e dados e, na seção "Zona de risco", toque em "Excluir conta". Essa ação é irreversível.</p>
-            </div>
-        </div>
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
 
     </div>
 
-    <!-- ===================== CONTATO ===================== -->
-    <h2 class="pagina_section_title">Ainda precisa de ajuda?</h2>
 
-    <div class="pagina_card glass-card">
-        <div class="pagina_card_icon">
-            <span class="material-icons">mail_outline</span>
-        </div>
-        <div class="pagina_card_text">
-            <h3>Fale com o suporte</h3>
-            <p>Nossa equipe responde em até 24h úteis pelo e-mail suporte@fincontrol.com</p>
-        </div>
-        <a href="mailto:suporte@fincontrol.com" class="btn_pagina_secundario">
-            <span class="material-icons">send</span>
-            Enviar e-mail
-        </a>
-    </div>
+    <!-- =========================
+         BOTÃO VOLTAR
+    ========================== -->
 
-</main>
+    <a
+        href="configuracoes.php"
+        class="btn_voltar"
+    >
 
-<script src="../js/faq.js"></script>
+        <span class="material-icons">
+            arrow_back
+        </span>
+
+        Voltar
+
+    </a>
+
+
+    <!-- =========================
+         CONTEÚDO
+    ========================== -->
+
+    <main class="sobre_container">
+
+
+        <!-- =========================
+             HERO
+        ========================== -->
+
+        <section class="sobre_hero">
+
+            <div class="sobre_logo">
+
+                <span class="material-icons">
+                    account_balance_wallet
+                </span>
+
+            </div>
+
+
+            <div class="sobre_hero_text">
+
+                <span class="sobre_tag">
+                    SOBRE O FINCONTROL
+                </span>
+
+                <h1>
+                    Controle suas finanças
+                    <span>de forma simples.</span>
+                </h1>
+
+                <p>
+                    O FinControl foi criado para ajudar você a
+                    organizar sua vida financeira, acompanhar seus
+                    gastos e tomar decisões melhores sobre seu dinheiro.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SOBRE O PROJETO
+        ========================== -->
+
+        <section class="sobre_card glass-card">
+
+            <div class="sobre_card_icon">
+
+                <span class="material-icons">
+                    info_outline
+                </span>
+
+            </div>
+
+
+            <div class="sobre_card_content">
+
+                <h2>
+                    Sobre o FinControl
+                </h2>
+
+                <p>
+                    O FinControl é uma plataforma de gerenciamento
+                    financeiro desenvolvida para tornar o controle
+                    das finanças pessoais mais fácil, organizado e
+                    acessível.
+                </p>
+
+                <p>
+                    Com ele, você pode registrar receitas e despesas,
+                    acompanhar suas movimentações financeiras e
+                    visualizar melhor para onde seu dinheiro está indo.
+                </p>
+
+                <p>
+                    Nossa proposta é oferecer uma experiência simples
+                    e intuitiva, evitando complicações desnecessárias
+                    para que você possa se concentrar no que realmente
+                    importa: cuidar da sua vida financeira.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RECURSOS
+        ========================== -->
+
+        <h2 class="section_title">
+            O que você pode fazer
+        </h2>
+
+
+        <section class="recursos_grid">
+
+
+            <!-- CARD 1 -->
+
+            <div class="recurso_card glass-card">
+
+                <div class="recurso_icon">
+
+                    <span class="material-icons">
+                        swap_vert
+                    </span>
+
+                </div>
+
+                <h3>
+                    Controle de transações
+                </h3>
+
+                <p>
+                    Registre suas receitas e despesas para manter
+                    seu histórico financeiro sempre organizado.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 2 -->
+
+            <div class="recurso_card glass-card">
+
+                <div class="recurso_icon">
+
+                    <span class="material-icons">
+                        analytics
+                    </span>
+
+                </div>
+
+                <h3>
+                    Acompanhe suas finanças
+                </h3>
+
+                <p>
+                    Tenha uma visão mais clara da sua movimentação
+                    financeira e acompanhe seus resultados.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 3 -->
+
+            <div class="recurso_card glass-card">
+
+                <div class="recurso_icon">
+
+                    <span class="material-icons">
+                        category
+                    </span>
+
+                </div>
+
+                <h3>
+                    Organização por categorias
+                </h3>
+
+                <p>
+                    Organize seus lançamentos por categorias para
+                    entender melhor seus hábitos financeiros.
+                </p>
+
+            </div>
+
+
+            <!-- CARD 4 -->
+
+            <div class="recurso_card glass-card">
+
+                <div class="recurso_icon">
+
+                    <span class="material-icons">
+                        download
+                    </span>
+
+                </div>
+
+                <h3>
+                    Exportação de dados
+                </h3>
+
+                <p>
+                    Tenha acesso aos seus dados financeiros e,
+                    quando disponível, exporte suas informações.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================
+             MISSÃO
+        ========================== -->
+
+        <section class="missao_card glass-card">
+
+            <div class="missao_visual">
+
+                <div class="missao_circle">
+
+                    <span class="material-icons">
+                        flag
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="missao_content">
+
+                <span class="sobre_tag">
+                    NOSSA MISSÃO
+                </span>
+
+                <h2>
+                    Tornar o controle financeiro mais simples.
+                </h2>
+
+                <p>
+                    Acreditamos que organizar o dinheiro não precisa
+                    ser complicado. O FinControl busca oferecer
+                    ferramentas simples para que qualquer pessoa
+                    consiga acompanhar suas finanças com mais clareza.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PRINCÍPIOS
+        ========================== -->
+
+        <h2 class="section_title">
+            Nossos princípios
+        </h2>
+
+
+        <section class="principios_list">
+
+
+            <div class="principio_item glass-card">
+
+                <div class="principio_icon">
+
+                    <span class="material-icons">
+                        touch_app
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Simplicidade
+                    </h3>
+
+                    <p>
+                        Recursos fáceis de entender e utilizar no
+                        dia a dia.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="principio_item glass-card">
+
+                <div class="principio_icon">
+
+                    <span class="material-icons">
+                        security
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Segurança
+                    </h3>
+
+                    <p>
+                        Priorizamos a proteção das informações e
+                        o acesso seguro à sua conta.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="principio_item glass-card">
+
+                <div class="principio_icon">
+
+                    <span class="material-icons">
+                        visibility
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h3>
+                        Transparência
+                    </h3>
+
+                    <p>
+                        Queremos que você tenha clareza sobre seus
+                        dados e sobre o funcionamento da plataforma.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================
+             VERSÃO
+        ========================== -->
+
+        <section class="versao_card glass-card">
+
+            <div class="versao_icon">
+
+                <span class="material-icons">
+                    verified
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    FinControl
+                </h3>
+
+                <p>
+                    Sua ferramenta para uma vida financeira
+                    mais organizada.
+                </p>
+
+                <span class="versao_texto">
+                    Versão 1.0
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             RODAPÉ
+        ========================== -->
+
+        <footer class="sobre_footer">
+
+            <div class="footer_logo">
+
+                <span class="material-icons">
+                    account_balance_wallet
+                </span>
+
+                FinControl
+
+            </div>
+
+            <p>
+                Feito para ajudar você a cuidar melhor das suas finanças.
+            </p>
+
+            <span class="copyright">
+                © <?php echo date("Y"); ?> FinControl. Todos os direitos reservados.
+            </span>
+
+        </footer>
+
+
+    </main>
 
 </body>
+
 </html>

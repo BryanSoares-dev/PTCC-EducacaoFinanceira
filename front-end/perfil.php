@@ -46,7 +46,7 @@ if (!$usuario) {
     <div class="shape shape3"></div>
 </div>
 
-<a href="../front-end/home.php" class="btn_voltar">
+<a href="#" onclick="history.back(); return false;" class="btn_voltar">
     ← Voltar
 </a>
 

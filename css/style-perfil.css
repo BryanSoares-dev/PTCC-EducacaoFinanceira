@@ -1,284 +1,980 @@
-/* ============================================================
-   style-perfil.css – Página de Perfil
-   Estilo Liquid Glass (Apple)
-   ============================================================ */
+ /* ============================================================
+    style-perfil.css – Página de Perfil
+    Estilo Liquid Glass (Apple) — mesma base do paginas-suporte.css
+ ============================================================ */
+
+
+/* =========================
+   VARIÁVEIS
+   ========================= */
 
 :root {
-  --primary: #0A2540;
-  --accent: #16E28A;
-  --white: #ffffff;
-  --dark: #0B0F19;
-  --glass-bg: rgba(255, 255, 255, 0.06);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  --glass-blur: 30px;
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --glass-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  --radius-sm: 12px;
-  --radius-lg: 24px;
-  --radius-full: 9999px;
-  --shadow-accent: 0 15px 30px rgba(22, 226, 138, 0.35);
-  --shadow-accent-hover: 0 20px 45px rgba(22, 226, 138, 0.45);
-  --font-family: 'Inter', sans-serif;
-  --transition-base: 0.3s ease;
+
+    /* Cores base */
+    --primary: #0A2540;
+    --primary-light: #24314C;
+    --primary-dark: #081b30;
+
+    --accent: #16E28A;
+    --accent-dark: #0db873;
+    --accent-light: #29f0a0;
+
+    --danger: #FF4757;
+    --danger-light: #ff6b81;
+
+    --white: #ffffff;
+
+    --gray-100: #f8fafc;
+    --gray-200: #eef4f8;
+    --gray-300: #dbe3eb;
+    --gray-400: #64748b;
+    --gray-500: #444;
+    --gray-600: #666;
+    --gray-700: #888;
+
+    --dark: #0B0F19;
+
+
+    /* Tipografia */
+    --font-family: 'Inter', sans-serif;
+
+
+    /* Bordas */
+    --radius-sm: 12px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 28px;
+    --radius-full: 9999px;
+
+
+    /* Liquid Glass */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+
+    --glass-blur: 30px;
+
+    --glass-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    --glass-shadow-hover:
+        0 16px 48px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+    --glass-border-hover:
+        rgba(255, 255, 255, 0.25);
+
+
+    /* Sombras */
+    --shadow-sm:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    --shadow-md:
+        0 15px 40px rgba(0, 0, 0, 0.12);
+
+    --shadow-lg:
+        0 20px 50px rgba(0, 0, 0, 0.15);
+
+    --shadow-accent:
+        0 15px 30px rgba(22, 226, 138, 0.35);
+
+    --shadow-accent-hover:
+        0 20px 45px rgba(22, 226, 138, 0.45);
+
+
+    /* Transições */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
 }
+
+
+/* =========================
+   RESET E BASE
+   ========================= */
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+    scroll-behavior: smooth;
 }
+
 
 body {
-  min-height: 100vh;
-  background: var(--dark);
-  overflow-x: hidden;
-  position: relative;
+
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary) 0%,
+            var(--primary-light) 55%,
+            var(--primary) 100%
+        );
+
+    color: var(--primary);
+
+    overflow-x: hidden;
+
+    position: relative;
 }
 
-/* FUNDO */
-.background_shapes {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: -1;
+
+/* =========================
+   LIQUID GLASS
+   ========================= */
+
+.glass {
+    background: var(--glass-bg);
+
+    backdrop-filter:
+        blur(var(--glass-blur));
+
+    -webkit-backdrop-filter:
+        blur(var(--glass-blur));
+
+    border:
+        1px solid var(--glass-border);
+
+    box-shadow:
+        var(--glass-shadow);
+
+    transition:
+        var(--transition-base);
 }
+
+
+.glass:hover {
+
+    box-shadow:
+        var(--glass-shadow-hover);
+
+    border-color:
+        var(--glass-border-hover);
+}
+
+
+.glass-card {
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    backdrop-filter:
+        blur(var(--glass-blur));
+
+    -webkit-backdrop-filter:
+        blur(var(--glass-blur));
+
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        var(--glass-shadow);
+
+    border-radius:
+        var(--radius-lg);
+
+    transition:
+        var(--transition-base);
+}
+
+
+.glass-card:hover {
+
+    box-shadow:
+        var(--glass-shadow-hover);
+
+    border-color:
+        rgba(255, 255, 255, 0.25);
+}
+
+
+/* =========================
+   BACKGROUND SHAPES
+   ========================= */
+
+.background_shapes {
+
+    position: fixed;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    z-index: -1;
+
+    pointer-events: none;
+}
+
 
 .shape {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.15;
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter:
+        blur(100px);
 }
+
 
 .shape1 {
-  width: 350px;
-  height: 350px;
-  background: var(--accent);
-  top: -120px;
-  left: -100px;
+
+    width: 600px;
+    height: 600px;
+
+    background:
+        rgba(22, 226, 138, 0.10);
+
+    top: -200px;
+    right: -150px;
 }
+
 
 .shape2 {
-  width: 300px;
-  height: 300px;
-  background: var(--accent);
-  bottom: -100px;
-  right: -80px;
+
+    width: 500px;
+    height: 500px;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+
+    bottom: -180px;
+    left: -120px;
 }
+
 
 .shape3 {
-  width: 250px;
-  height: 250px;
-  background: var(--accent);
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+    width: 350px;
+    height: 350px;
+
+    background:
+        rgba(22, 226, 138, 0.06);
+
+    top: 45%;
+    left: 55%;
 }
 
-/* BOTÃO VOLTAR */
+
+/* =========================
+   BOTÃO VOLTAR
+   ========================= */
+
 .btn_voltar {
-  position: fixed;
-  top: 25px;
-  left: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 20px;
-  background: rgba(19, 23, 34, 0.8);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  color: var(--white);
-  text-decoration: none;
-  font-weight: 600;
-  transition: var(--transition-base);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  z-index: 999;
-  box-shadow: var(--glass-shadow);
+
+    position: fixed;
+
+    top: 30px;
+    left: 30px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        12px 20px;
+
+    background:
+        var(--glass-bg);
+
+    backdrop-filter:
+        blur(var(--glass-blur));
+
+    -webkit-backdrop-filter:
+        blur(var(--glass-blur));
+
+    border:
+        1px solid var(--glass-border);
+
+    border-radius:
+        var(--radius-full);
+
+    color:
+        var(--white);
+
+    text-decoration:
+        none;
+
+    font-weight:
+        600;
+
+    font-size:
+        14px;
+
+    box-shadow:
+        var(--glass-shadow);
+
+    transition:
+        var(--transition-base);
+
+    z-index:
+        100;
 }
+
 
 .btn_voltar:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: var(--glass-shadow-hover);
+
+    transform:
+        translateY(-3px);
+
+    background:
+        rgba(255, 255, 255, 0.15);
+
+    border-color:
+        rgba(255, 255, 255, 0.3);
+
+    box-shadow:
+        var(--glass-shadow-hover);
 }
 
-/* CONTAINER */
+
+.btn_voltar .material-icons {
+
+    font-size:
+        18px;
+}
+
+
+/* =========================
+   CONTAINER DO PERFIL
+   ========================= */
+
 .perfil_container {
-  max-width: 1100px;
-  margin: 120px auto 60px;
-  padding: 0 20px;
+
+    max-width:
+        1000px;
+
+    margin:
+        0 auto;
+
+    padding:
+        120px 30px 80px;
+
+    position:
+        relative;
 }
 
-/* HEADER */
+
+/* =========================
+   CABEÇALHO DO PERFIL
+   ========================= */
+
 .perfil_header {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  padding: 35px;
-  background: rgba(19, 23, 34, 0.8);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-radius: var(--radius-lg);
-  margin-bottom: 30px;
-  box-shadow: var(--glass-shadow);
-  transition: var(--transition-base);
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        30px;
+
+    padding:
+        30px;
+
+    margin-bottom:
+        25px;
+
+    border-radius:
+        var(--radius-lg);
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    backdrop-filter:
+        blur(var(--glass-blur));
+
+    -webkit-backdrop-filter:
+        blur(var(--glass-blur));
+
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        var(--glass-shadow);
+
+    transition:
+        var(--transition-base);
 }
+
 
 .perfil_header:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: var(--glass-shadow-hover);
+
+    border-color:
+        rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+        var(--glass-shadow-hover);
 }
+
+
+/* =========================
+   AVATAR
+   ========================= */
 
 .perfil_avatar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    flex-shrink:
+        0;
 }
+
 
 .perfil_avatar img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid var(--accent);
-  transition: var(--transition-base);
+
+    width:
+        130px;
+
+    height:
+        130px;
+
+    object-fit:
+        cover;
+
+    border-radius:
+        50%;
+
+    border:
+        3px solid var(--accent);
+
+    box-shadow:
+        0 10px 30px rgba(22, 226, 138, 0.15);
+
+    transition:
+        var(--transition-base);
 }
+
 
 .perfil_avatar img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 30px rgba(22, 226, 138, 0.25);
+
+    transform:
+        scale(1.04);
+
+    box-shadow:
+        0 0 35px rgba(22, 226, 138, 0.30);
 }
+
+
+/* =========================
+   INFORMAÇÕES
+   ========================= */
+
+.perfil_info {
+
+    flex:
+        1;
+}
+
 
 .perfil_info h1 {
-  color: var(--white);
-  font-size: 32px;
-  margin-bottom: 10px;
+
+    color:
+        var(--white);
+
+    font-size:
+        2rem;
+
+    font-weight:
+        800;
+
+    margin-bottom:
+        8px;
 }
+
 
 .perfil_info p {
-  color: #A8A8A8;
-  font-size: 15px;
+
+    color:
+        rgba(255, 255, 255, 0.68);
+
+    font-size:
+        14px;
+
+    line-height:
+        1.6;
 }
 
-/* CARDS */
+
+/* =========================
+   CARDS
+   ========================= */
+
 .perfil_card {
-  background: rgba(19, 23, 34, 0.8);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-radius: var(--radius-lg);
-  padding: 35px;
-  margin-bottom: 25px;
-  box-shadow: var(--glass-shadow);
-  transition: var(--transition-base);
+
+    padding:
+        28px;
+
+    margin-bottom:
+        18px;
+
+    border-radius:
+        var(--radius-lg);
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    backdrop-filter:
+        blur(var(--glass-blur));
+
+    -webkit-backdrop-filter:
+        blur(var(--glass-blur));
+
+    border:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        var(--glass-shadow);
+
+    transition:
+        var(--transition-base);
 }
+
 
 .perfil_card:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: var(--glass-shadow-hover);
+
+    border-color:
+        rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+        var(--glass-shadow-hover);
 }
+
 
 .perfil_card h2 {
-  color: var(--white);
-  margin-bottom: 25px;
+
+    color:
+        var(--white);
+
+    font-size:
+        1.2rem;
+
+    font-weight:
+        700;
+
+    margin-bottom:
+        22px;
 }
 
-/* FORMULÁRIO */
+
+/* =========================
+   FORMULÁRIO
+   ========================= */
+
 .form_group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    margin-bottom:
+        18px;
 }
+
+
+.form_group:last-child {
+
+    margin-bottom:
+        0;
+}
+
 
 .form_group label {
-  color: #BFBFBF;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 500;
+
+    color:
+        rgba(255, 255, 255, 0.70);
+
+    margin-bottom:
+        8px;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
 }
+
 
 .form_group input {
-  height: 55px;
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  padding: 0 15px;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--white);
-  font-size: 15px;
-  transition: var(--transition-base);
-  backdrop-filter: blur(10px);
+
+    width:
+        100%;
+
+    height:
+        52px;
+
+    padding:
+        0 16px;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius:
+        var(--radius-md);
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    color:
+        var(--white);
+
+    font-size:
+        14px;
+
+    outline:
+        none;
+
+    transition:
+        var(--transition-base);
 }
+
+
+.form_group input::placeholder {
+
+    color:
+        rgba(255, 255, 255, 0.35);
+}
+
+
+.form_group input:hover {
+
+    border-color:
+        rgba(255, 255, 255, 0.25);
+}
+
 
 .form_group input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(22, 226, 138, 0.15);
+
+    border-color:
+        var(--accent);
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        0 0 0 4px rgba(22, 226, 138, 0.12);
 }
 
-/* BOTÕES */
-.btn_primary {
-  background: var(--accent);
-  color: var(--primary);
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 14px 25px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--transition-base);
-  box-shadow: var(--shadow-accent);
+
+/* =========================
+   ÁREA DE AÇÕES
+   ========================= */
+
+.perfil_actions {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    margin-top:
+        22px;
 }
+
+
+/* =========================
+   BOTÃO PRINCIPAL
+   ========================= */
+
+.btn_primary {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        12px 22px;
+
+    border:
+        none;
+
+    border-radius:
+        var(--radius-full);
+
+    background:
+        var(--accent);
+
+    color:
+        var(--primary);
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    text-decoration:
+        none;
+
+    box-shadow:
+        var(--shadow-accent);
+
+    transition:
+        var(--transition-base);
+}
+
 
 .btn_primary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-accent-hover);
+
+    transform:
+        translateY(-2px);
+
+    background:
+        var(--accent-light);
+
+    box-shadow:
+        var(--shadow-accent-hover);
 }
+
+
+.btn_primary .material-icons {
+
+    font-size:
+        18px;
+}
+
+
+/* =========================
+   BOTÃO SECUNDÁRIO
+   ========================= */
 
 .btn_secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 2px solid var(--accent);
-  color: var(--accent);
-  border-radius: var(--radius-sm);
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: var(--transition-base);
-  font-weight: 600;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    padding:
+        11px 20px;
+
+    border:
+        1px solid var(--glass-border);
+
+    border-radius:
+        var(--radius-full);
+
+    background:
+        var(--glass-bg);
+
+    backdrop-filter:
+        blur(10px);
+
+    -webkit-backdrop-filter:
+        blur(10px);
+
+    color:
+        var(--white);
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    text-decoration:
+        none;
+
+    transition:
+        var(--transition-base);
 }
+
 
 .btn_secondary:hover {
-  background: var(--accent);
-  color: var(--primary);
+
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(255, 255, 255, 0.15);
+
+    border-color:
+        rgba(255, 255, 255, 0.30);
 }
 
-/* RESPONSIVO */
+
+.btn_secondary .material-icons {
+
+    font-size:
+        18px;
+}
+
+
+/* =========================
+   RESPONSIVO
+   ========================= */
+
 @media (max-width: 768px) {
-  .perfil_container {
-    margin-top: 90px;
-  }
 
-  .perfil_header {
-    flex-direction: column;
-    text-align: center;
-  }
+    .btn_voltar {
 
-  .perfil_info h1 {
-    font-size: 26px;
-  }
+        top:
+            18px;
 
-  .perfil_card {
-    padding: 25px;
-  }
+        left:
+            18px;
 
-  .btn_voltar {
-    top: 15px;
-    left: 15px;
-  }
+        padding:
+            10px 16px;
+
+        font-size:
+            13px;
+    }
+
+
+    .perfil_container {
+
+        padding:
+            100px 18px 60px;
+    }
+
+
+    .perfil_header {
+
+        flex-direction:
+            column;
+
+        text-align:
+            center;
+
+        padding:
+            26px 22px;
+
+        gap:
+            20px;
+    }
+
+
+    .perfil_avatar img {
+
+        width:
+            110px;
+
+        height:
+            110px;
+    }
+
+
+    .perfil_info h1 {
+
+        font-size:
+            1.6rem;
+    }
+
+
+    .perfil_info p {
+
+        font-size:
+            13px;
+    }
+
+
+    .perfil_card {
+
+        padding:
+            24px;
+    }
+
+
+    .perfil_actions {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+    }
+
+
+    .btn_primary,
+    .btn_secondary {
+
+        width:
+            100%;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .perfil_container {
+
+        padding-top:
+            95px;
+    }
+
+
+    .perfil_card {
+
+        padding:
+            20px;
+    }
+
+
+    .perfil_card h2 {
+
+        font-size:
+            1.05rem;
+
+        margin-bottom:
+            18px;
+    }
+
+
+    .form_group input {
+
+        height:
+            50px;
+    }
+
 }
