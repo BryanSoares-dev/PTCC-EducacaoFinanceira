@@ -55,7 +55,7 @@ if (!$usuario) {
     <section class="perfil_header">
 
         <form
-            action="atualizar_foto.php"
+            action="../back-end/atualizar_foto.php"
             method="POST"
             enctype="multipart/form-data"
         >
