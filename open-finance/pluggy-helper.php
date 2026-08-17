@@ -6,10 +6,16 @@
     Mantém o mesmo padrão de autenticação usado no connect-token.php
 */
 
+function pluggyCredentials() {
+    return [
+        'clientId' => getenv('PLUGGY_CLIENT_ID') ?: '3ac4dbf9-6de4-4b7e-8726-fb6a9b3050b2',
+        'clientSecret' => getenv('PLUGGY_CLIENT_SECRET') ?: 'H6xMGJ6hPHOzM3QsVbrG_EWgtiI7lC5OrGkJXptxjXE'
+    ];
+}
+
 // Autentica na Pluggy e retorna a apiKey (ou null em caso de falha)
 function pluggyAuth() {
-    $clientId = "c4aa89d1-cda5-4da8-8db9-b7ac59fb5bf0";
-    $clientSecret = "kNrUIgFWx__xGEwuk-Lfacw5Nd9G1cfVU84HKHr1OXs";
+    $credentials = pluggyCredentials();
 
     $ch = curl_init('https://api.pluggy.ai/auth');
 
@@ -17,8 +23,8 @@ function pluggyAuth() {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => json_encode([
-            'clientId' => $clientId,
-            'clientSecret' => $clientSecret
+            'clientId' => $credentials['clientId'],
+            'clientSecret' => $credentials['clientSecret']
         ]),
         CURLOPT_HTTPHEADER => ['Content-Type: application/json']
     ]);

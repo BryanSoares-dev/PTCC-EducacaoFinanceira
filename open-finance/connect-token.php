@@ -3,8 +3,7 @@
     header("Content-Type: application/json; charset=utf-8");
 
 // api key
-    $clientId = "c4aa89d1-cda5-4da8-8db9-b7ac59fb5bf0";
-    $clientSecret = "kNrUIgFWx__xGEwuk-Lfacw5Nd9G1cfVU84HKHr1OXs";
+    require_once "pluggy-helper.php";
 
 // pega a requisição enviada pelo front (no codigo js) e armazena dentro "diretório" php://input
     $inputJson = file_get_contents('php://input');
@@ -18,7 +17,7 @@
 // função auxiliar para requisições cURL
     function callPluggyApi($url, $data, $headers = []) {
         $ch = curl_init($url);
-        
+
         $defaultHeaders = ['Content-Type: application/json'];
         $allHeaders = array_merge($defaultHeaders, $headers);
 
@@ -40,10 +39,7 @@
     }
 
 // é como se o php demonstrasse pra api que possui a key
-    $authResponse = callPluggyApi('https://api.pluggy.ai/auth', [
-        'clientId' => $clientId,
-        'clientSecret' => $clientSecret
-    ]);
+    $authResponse = callPluggyApi('https://api.pluggy.ai/auth', pluggyCredentials());
 
 // retorno da api
     if ($authResponse['code'] !== 200 || empty($authResponse['data']['apiKey'])) {
