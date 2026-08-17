@@ -7,15 +7,8 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-/*
-    OBS: este código assume que a tabela "usuarios" tem as colunas
-    "moeda", "tema" e "idioma". Se a sua estrutura for diferente
-    (por exemplo, uma tabela separada "preferencias"), ajuste o
-    SELECT/UPDATE abaixo mantendo os mesmos nomes de variáveis.
-*/
-
 $stmt = $pdo->prepare("
-    SELECT id, nome, email, telefone, foto, moeda, tema, idioma
+    SELECT id, nome, email, telefone, foto, moeda, tema, idioma, resumo_semanal, alertas_metas
     FROM usuarios
     WHERE id = ?
 ");
@@ -28,37 +21,11 @@ if (!$usuario) {
     exit;
 }
 
-$mensagem = null;
-$erro = null;
+// ===================== MENSAGEM VINDA DO REDIRECT =====================
+$status = $_GET['status'] ?? null;
 
-// ===================== SALVAR PREFERÊNCIAS =====================
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $moedasValidas = ['BRL', 'USD', 'EUR'];
-    $temasValidos  = ['claro', 'escuro', 'sistema'];
-    $idiomasValidos = ['pt-BR', 'en-US', 'es-ES'];
-
-    $moeda  = in_array($_POST['moeda'] ?? '', $moedasValidas, true) ? $_POST['moeda'] : 'BRL';
-    $tema   = in_array($_POST['tema'] ?? '', $temasValidos, true) ? $_POST['tema'] : 'sistema';
-    $idioma = in_array($_POST['idioma'] ?? '', $idiomasValidos, true) ? $_POST['idioma'] : 'pt-BR';
-
-    try {
-        $update = $pdo->prepare("
-            UPDATE usuarios
-            SET moeda = ?, tema = ?, idioma = ?
-            WHERE id = ?
-        ");
-        $update->execute([$moeda, $tema, $idioma, $_SESSION['id']]);
-
-        $usuario['moeda']  = $moeda;
-        $usuario['tema']   = $tema;
-        $usuario['idioma'] = $idioma;
-
-        $mensagem = "Preferências salvas com sucesso.";
-    } catch (PDOException $e) {
-        $erro = "Não foi possível salvar suas preferências. Tente novamente.";
-    }
-}
+$mensagem = $status === 'sucesso' ? "Preferências salvas com sucesso." : null;
+$erro     = $status === 'erro' ? "Não foi possível salvar suas preferências. Tente novamente." : null;
 
 $moedaAtual  = $usuario['moeda']  ?? 'BRL';
 $temaAtual   = $usuario['tema']   ?? 'sistema';
@@ -115,7 +82,7 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
         </div>
     <?php endif; ?>
 
-    <form method="POST" class="prefs_form">
+    <form method="POST" action="salvar_preferencias.php" class="prefs_form">
 
         <!-- ===================== APARÊNCIA ===================== -->
         <section class="prefs_card glass-card">
@@ -185,12 +152,7 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
             </div>
         </section>
 
-        <!-- ===================== NOTIFICAÇÕES RÁPIDAS =====================
-             Obs: os dois toggles abaixo (resumo_semanal, alertas_metas) ainda
-             não são salvos no banco — adicione essas colunas na tabela
-             "usuarios" (ou na tabela de preferências) e inclua-as no UPDATE
-             lá em cima caso queira persistir esses valores.
-        -->
+        <!-- ===================== NOTIFICAÇÕES RÁPIDAS ===================== -->
         <section class="prefs_card glass-card">
             <div class="prefs_card_head">
                 <span class="material-icons">notifications_none</span>
