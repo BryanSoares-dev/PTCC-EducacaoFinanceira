@@ -9,10 +9,54 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+
+/* ============================================================
+   BUSCAR USUÁRIO E TEMA
+============================================================ */
+
+$stmt = $pdo->prepare("
+    SELECT id, nome, email, tema
+    FROM usuarios
+    WHERE id = ?
+");
+
+$stmt->execute([$_SESSION['id']]);
+
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+if (!$usuario) {
+    session_destroy();
+
+    header("Location: ../front-end/login.php");
+    exit;
+}
+
+
+/* ============================================================
+   TEMA
+============================================================ */
+
+$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'sistema');
+
+$temas_permitidos = [
+    'claro',
+    'escuro',
+    'sistema'
+];
+
+if (!in_array($tema, $temas_permitidos, true)) {
+    $tema = 'sistema';
+}
+
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+
+<html
+    lang="pt-BR"
+    class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"
+>
 
 <head>
 
@@ -48,12 +92,13 @@ if (!isset($_SESSION['id'])) {
 
 </head>
 
+
 <body>
 
 
-    <!-- =========================
+    <!-- ========================================================
          BACKGROUND
-    ========================== -->
+    ========================================================= -->
 
     <div class="background_shapes">
 
@@ -64,9 +109,9 @@ if (!isset($_SESSION['id'])) {
     </div>
 
 
-    <!-- =========================
+    <!-- ========================================================
          BOTÃO VOLTAR
-    ========================== -->
+    ========================================================= -->
 
     <a
         href="configuracoes.php"
@@ -82,16 +127,16 @@ if (!isset($_SESSION['id'])) {
     </a>
 
 
-    <!-- =========================
+    <!-- ========================================================
          CONTEÚDO
-    ========================== -->
+    ========================================================= -->
 
     <main class="sobre_container">
 
 
-        <!-- =========================
+        <!-- ====================================================
              HERO
-        ========================== -->
+        ===================================================== -->
 
         <section class="sobre_hero">
 
@@ -126,9 +171,9 @@ if (!isset($_SESSION['id'])) {
         </section>
 
 
-        <!-- =========================
+        <!-- ====================================================
              SOBRE O PROJETO
-        ========================== -->
+        ===================================================== -->
 
         <section class="sobre_card glass-card">
 
@@ -172,9 +217,9 @@ if (!isset($_SESSION['id'])) {
         </section>
 
 
-        <!-- =========================
+        <!-- ====================================================
              RECURSOS
-        ========================== -->
+        ===================================================== -->
 
         <h2 class="section_title">
             O que você pode fazer
@@ -183,8 +228,6 @@ if (!isset($_SESSION['id'])) {
 
         <section class="recursos_grid">
 
-
-            <!-- CARD 1 -->
 
             <div class="recurso_card glass-card">
 
@@ -208,8 +251,6 @@ if (!isset($_SESSION['id'])) {
             </div>
 
 
-            <!-- CARD 2 -->
-
             <div class="recurso_card glass-card">
 
                 <div class="recurso_icon">
@@ -232,8 +273,6 @@ if (!isset($_SESSION['id'])) {
             </div>
 
 
-            <!-- CARD 3 -->
-
             <div class="recurso_card glass-card">
 
                 <div class="recurso_icon">
@@ -255,8 +294,6 @@ if (!isset($_SESSION['id'])) {
 
             </div>
 
-
-            <!-- CARD 4 -->
 
             <div class="recurso_card glass-card">
 
@@ -283,9 +320,9 @@ if (!isset($_SESSION['id'])) {
         </section>
 
 
-        <!-- =========================
+        <!-- ====================================================
              MISSÃO
-        ========================== -->
+        ===================================================== -->
 
         <section class="missao_card glass-card">
 
@@ -324,9 +361,9 @@ if (!isset($_SESSION['id'])) {
         </section>
 
 
-        <!-- =========================
+        <!-- ====================================================
              PRINCÍPIOS
-        ========================== -->
+        ===================================================== -->
 
         <h2 class="section_title">
             Nossos princípios
@@ -417,9 +454,9 @@ if (!isset($_SESSION['id'])) {
         </section>
 
 
-        <!-- =========================
+        <!-- ====================================================
              VERSÃO
-        ========================== -->
+        ===================================================== -->
 
         <section class="versao_card glass-card">
 
@@ -452,9 +489,9 @@ if (!isset($_SESSION['id'])) {
         </section>
 
 
-        <!-- =========================
-             RODAPÉ
-        ========================== -->
+        <!-- ====================================================
+             FOOTER
+        ===================================================== -->
 
         <footer class="sobre_footer">
 
@@ -473,7 +510,7 @@ if (!isset($_SESSION['id'])) {
             </p>
 
             <span class="copyright">
-                © <?php echo date("Y"); ?> FinControl. Todos os direitos reservados.
+                © <?= date("Y") ?> FinControl. Todos os direitos reservados.
             </span>
 
         </footer>

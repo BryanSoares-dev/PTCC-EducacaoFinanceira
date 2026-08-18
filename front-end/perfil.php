@@ -1,31 +1,90 @@
 <?php
+
 session_start();
+
 require_once("../back-end/conexao.php");
 
+
+/* ============================================================
+   VERIFICAR LOGIN
+   ============================================================ */
+
 if (!isset($_SESSION['id'])) {
+
     header("Location: ../front-end/login.php");
+
     exit;
 }
 
+
+/* ============================================================
+   BUSCAR USUÁRIO
+   ============================================================ */
+
 $stmt = $pdo->prepare("
-    SELECT id, nome, email, telefone, foto
+    SELECT
+        id,
+        nome,
+        email,
+        telefone,
+        foto,
+        tema
     FROM usuarios
     WHERE id = ?
 ");
 
-$stmt->execute([$_SESSION['id']]);
+$stmt->execute([
+    $_SESSION['id']
+]);
 
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
+
+/* ============================================================
+   VERIFICAR USUÁRIO
+   ============================================================ */
+
 if (!$usuario) {
+
     session_destroy();
+
     header("Location: ../front-end/login.php");
+
     exit;
 }
+
+
+/* ============================================================
+   DEFINIR TEMA
+   ============================================================ */
+
+$tema = $usuario['tema'] ?? 'sistema';
+
+
+/* ============================================================
+   VALIDAR TEMA
+   ============================================================ */
+
+$temas_permitidos = [
+    'claro',
+    'escuro',
+    'sistema'
+];
+
+if (!in_array($tema, $temas_permitidos, true)) {
+
+    $tema = 'sistema';
+}
+
 ?>
 
+
+
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html
+    lang="pt-BR"
+    class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"
+>
 
 <head>
     <meta charset="UTF-8">

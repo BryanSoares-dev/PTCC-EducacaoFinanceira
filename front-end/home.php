@@ -2,10 +2,52 @@
 
 session_start();
 
+require_once("../back-end/conexao.php");
+
+$tema = 'sistema';
+
+if (isset($_SESSION['id'])) {
+
+    try {
+
+        $stmt = $pdo->prepare("
+            SELECT tema
+            FROM usuarios
+            WHERE id = ?
+        ");
+
+        $stmt->execute([$_SESSION['id']]);
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (
+            $usuario &&
+            in_array(
+                $usuario['tema'],
+                ['claro', 'escuro', 'sistema'],
+                true
+            )
+        ) {
+            $tema = $usuario['tema'];
+        }
+
+    } catch (PDOException $e) {
+
+        $tema = 'sistema';
+
+    }
+
+}
+
 ?>
 
+
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html
+    lang="pt-BR"
+    class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"
+>
+
 
 <head>
 

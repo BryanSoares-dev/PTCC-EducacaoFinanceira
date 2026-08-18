@@ -1,198 +1,293 @@
- /* ============================================================
-    style-perfil.css – Página de Perfil
-    Estilo Liquid Glass (Apple) — mesma base do paginas-suporte.css
- ============================================================ */
+/* ============================================================
+   style-perfil.css
+   FinControl — Página de Perfil
+   Tema claro / escuro / sistema
+   ============================================================ */
 
 
-/* =========================
-   VARIÁVEIS
-   ========================= */
+/* ============================================================
+   VARIÁVEIS GERAIS
+   ============================================================ */
 
 :root {
 
-    /* Cores base */
     --primary: #0A2540;
     --primary-light: #24314C;
-    --primary-dark: #081b30;
+    --primary-dark: #081B30;
 
     --accent: #16E28A;
-    --accent-dark: #0db873;
-    --accent-light: #29f0a0;
+    --accent-dark: #0DB873;
+    --accent-light: #29F0A0;
 
     --danger: #FF4757;
-    --danger-light: #ff6b81;
 
-    --white: #ffffff;
-
-    --gray-100: #f8fafc;
-    --gray-200: #eef4f8;
-    --gray-300: #dbe3eb;
-    --gray-400: #64748b;
-    --gray-500: #444;
-    --gray-600: #666;
-    --gray-700: #888;
-
+    --white: #FFFFFF;
     --dark: #0B0F19;
 
+    --gray-100: #F8FAFC;
+    --gray-200: #EEF4F8;
+    --gray-300: #D8E1E8;
+    --gray-400: #64748B;
+    --gray-500: #444444;
+    --gray-600: #666666;
 
-    /* Tipografia */
     --font-family: 'Inter', sans-serif;
 
-
-    /* Bordas */
     --radius-sm: 12px;
     --radius-md: 16px;
     --radius-lg: 24px;
     --radius-xl: 28px;
     --radius-full: 9999px;
 
+    --transition-fast: .2s ease;
+    --transition-base: .3s ease;
+    --transition-slow: .5s ease;
 
-    /* Liquid Glass */
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.15);
-
-    --glass-blur: 30px;
-
-    --glass-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-    --glass-shadow-hover:
-        0 16px 48px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-
-    --glass-border-hover:
-        rgba(255, 255, 255, 0.25);
-
-
-    /* Sombras */
     --shadow-sm:
-        0 10px 30px rgba(0, 0, 0, 0.08);
+        0 8px 25px rgba(0, 0, 0, .08);
 
     --shadow-md:
-        0 15px 40px rgba(0, 0, 0, 0.12);
+        0 15px 40px rgba(0, 0, 0, .12);
 
     --shadow-lg:
-        0 20px 50px rgba(0, 0, 0, 0.15);
+        0 20px 60px rgba(0, 0, 0, .18);
 
     --shadow-accent:
-        0 15px 30px rgba(22, 226, 138, 0.35);
+        0 12px 30px rgba(22, 226, 138, .28);
 
     --shadow-accent-hover:
-        0 20px 45px rgba(22, 226, 138, 0.45);
-
-
-    /* Transições */
-    --transition-fast: 0.2s ease;
-    --transition-base: 0.3s ease;
-    --transition-slow: 0.5s ease;
+        0 18px 45px rgba(22, 226, 138, .40);
 }
 
-/* =========================
-   RESET E BASE
-   ========================= */
+
+/* ============================================================
+   TEMA CLARO
+   ============================================================ */
+
+html.claro {
+
+    --bg-body: #EEF2F6;
+
+    --text-body: #0A2540;
+
+    --title-color: #0A2540;
+
+    --paragraph-color: #526174;
+
+    --muted-color: #64748B;
+
+    --card-bg: rgba(255, 255, 255, .78);
+
+    --card-border: rgba(10, 37, 64, .12);
+
+    --card-border-hover: rgba(22, 226, 138, .45);
+
+    --input-bg: rgba(255, 255, 255, .92);
+
+    --input-border: #C8D3DE;
+
+    --input-border-hover: #16E28A;
+
+    --input-text: #0A2540;
+
+    --button-secondary-bg: rgba(255, 255, 255, .75);
+
+    --button-secondary-border: #C8D3DE;
+
+    --button-secondary-text: #0A2540;
+
+    --back-bg: rgba(255, 255, 255, .78);
+
+    --back-border: rgba(10, 37, 64, .12);
+
+    --shape-opacity: 1;
+}
+
+
+/* ============================================================
+   TEMA ESCURO
+   ============================================================ */
+
+html.escuro {
+
+    --bg-body: #080D16;
+
+    --text-body: #FFFFFF;
+
+    --title-color: #FFFFFF;
+
+    --paragraph-color: #D1D5DB;
+
+    --muted-color: #A7B0BF;
+
+    --card-bg: rgba(17, 24, 39, .72);
+
+    --card-border: rgba(255, 255, 255, .12);
+
+    --card-border-hover: rgba(22, 226, 138, .45);
+
+    --input-bg: rgba(255, 255, 255, .055);
+
+    --input-border: rgba(255, 255, 255, .18);
+
+    --input-border-hover: #16E28A;
+
+    --input-text: #FFFFFF;
+
+    --button-secondary-bg: rgba(255, 255, 255, .07);
+
+    --button-secondary-border: rgba(255, 255, 255, .16);
+
+    --button-secondary-text: #FFFFFF;
+
+    --back-bg: rgba(255, 255, 255, .07);
+
+    --back-border: rgba(255, 255, 255, .14);
+
+    --shape-opacity: 1;
+}
+
+
+/* ============================================================
+   TEMA SISTEMA — CLARO
+   ============================================================ */
+
+@media (prefers-color-scheme: light) {
+
+    html.sistema {
+
+        --bg-body: #EEF2F6;
+
+        --text-body: #0A2540;
+
+        --title-color: #0A2540;
+
+        --paragraph-color: #526174;
+
+        --muted-color: #64748B;
+
+        --card-bg: rgba(255, 255, 255, .78);
+
+        --card-border: rgba(10, 37, 64, .12);
+
+        --card-border-hover: rgba(22, 226, 138, .45);
+
+        --input-bg: rgba(255, 255, 255, .92);
+
+        --input-border: #C8D3DE;
+
+        --input-border-hover: #16E28A;
+
+        --input-text: #0A2540;
+
+        --button-secondary-bg: rgba(255, 255, 255, .75);
+
+        --button-secondary-border: #C8D3DE;
+
+        --button-secondary-text: #0A2540;
+
+        --back-bg: rgba(255, 255, 255, .78);
+
+        --back-border: rgba(10, 37, 64, .12);
+    }
+}
+
+
+/* ============================================================
+   TEMA SISTEMA — ESCURO
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+
+    html.sistema {
+
+        --bg-body: #080D16;
+
+        --text-body: #FFFFFF;
+
+        --title-color: #FFFFFF;
+
+        --paragraph-color: #D1D5DB;
+
+        --muted-color: #A7B0BF;
+
+        --card-bg: rgba(17, 24, 39, .72);
+
+        --card-border: rgba(255, 255, 255, .12);
+
+        --card-border-hover: rgba(22, 226, 138, .45);
+
+        --input-bg: rgba(255, 255, 255, .055);
+
+        --input-border: rgba(255, 255, 255, .18);
+
+        --input-border-hover: #16E28A;
+
+        --input-text: #FFFFFF;
+
+        --button-secondary-bg: rgba(255, 255, 255, .07);
+
+        --button-secondary-border: rgba(255, 255, 255, .16);
+
+        --button-secondary-text: #FFFFFF;
+
+        --back-bg: rgba(255, 255, 255, .07);
+
+        --back-border: rgba(255, 255, 255, .14);
+    }
+}
+
+
+/* ============================================================
+   RESET
+   ============================================================ */
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
+
     font-family: var(--font-family);
+
     scroll-behavior: smooth;
 }
 
+
+html,
+body {
+
+    min-height: 100%;
+}
+
+
+/* ============================================================
+   BODY
+   ============================================================ */
 
 body {
 
     min-height: 100vh;
 
-    background:
-        linear-gradient(
-            135deg,
-            var(--primary) 0%,
-            var(--primary-light) 55%,
-            var(--primary) 100%
-        );
+    background: var(--bg-body);
 
-    color: var(--primary);
+    color: var(--text-body);
 
     overflow-x: hidden;
 
     position: relative;
-}
-
-
-/* =========================
-   LIQUID GLASS
-   ========================= */
-
-.glass {
-    background: var(--glass-bg);
-
-    backdrop-filter:
-        blur(var(--glass-blur));
-
-    -webkit-backdrop-filter:
-        blur(var(--glass-blur));
-
-    border:
-        1px solid var(--glass-border);
-
-    box-shadow:
-        var(--glass-shadow);
 
     transition:
-        var(--transition-base);
+        background var(--transition-base),
+        color var(--transition-base);
 }
 
 
-.glass:hover {
-
-    box-shadow:
-        var(--glass-shadow-hover);
-
-    border-color:
-        var(--glass-border-hover);
-}
-
-
-.glass-card {
-
-    background:
-        rgba(255, 255, 255, 0.06);
-
-    backdrop-filter:
-        blur(var(--glass-blur));
-
-    -webkit-backdrop-filter:
-        blur(var(--glass-blur));
-
-    border:
-        1px solid rgba(255, 255, 255, 0.12);
-
-    box-shadow:
-        var(--glass-shadow);
-
-    border-radius:
-        var(--radius-lg);
-
-    transition:
-        var(--transition-base);
-}
-
-
-.glass-card:hover {
-
-    box-shadow:
-        var(--glass-shadow-hover);
-
-    border-color:
-        rgba(255, 255, 255, 0.25);
-}
-
-
-/* =========================
-   BACKGROUND SHAPES
-   ========================= */
+/* ============================================================
+   FUNDO DECORATIVO
+   ============================================================ */
 
 .background_shapes {
 
@@ -214,733 +309,600 @@ body {
 
     border-radius: 50%;
 
-    filter:
-        blur(100px);
+    filter: blur(100px);
+
+    pointer-events: none;
+
+    opacity: var(--shape-opacity);
+
+    transition:
+        opacity var(--transition-base);
 }
 
 
 .shape1 {
 
     width: 600px;
+
     height: 600px;
 
     background:
-        rgba(22, 226, 138, 0.10);
+        rgba(22, 226, 138, .12);
 
-    top: -200px;
-    right: -150px;
+    top: -220px;
+
+    right: -180px;
 }
 
 
 .shape2 {
 
     width: 500px;
+
     height: 500px;
 
     background:
-        rgba(255, 255, 255, 0.05);
+        rgba(10, 37, 64, .10);
 
-    bottom: -180px;
-    left: -120px;
+    bottom: -220px;
+
+    left: -160px;
 }
 
 
 .shape3 {
 
     width: 350px;
+
     height: 350px;
 
     background:
-        rgba(22, 226, 138, 0.06);
+        rgba(22, 226, 138, .08);
 
     top: 45%;
+
     left: 55%;
 }
 
 
-/* =========================
+/* ============================================================
    BOTÃO VOLTAR
-   ========================= */
+   ============================================================ */
 
 .btn_voltar {
 
     position: fixed;
 
     top: 30px;
+
     left: 30px;
 
     display: inline-flex;
 
     align-items: center;
 
+    justify-content: center;
+
     gap: 8px;
 
-    padding:
-        12px 20px;
+    padding: 12px 20px;
 
-    background:
-        var(--glass-bg);
+    background: var(--back-bg);
 
-    backdrop-filter:
-        blur(var(--glass-blur));
+    backdrop-filter: blur(20px);
 
-    -webkit-backdrop-filter:
-        blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(20px);
 
-    border:
-        1px solid var(--glass-border);
+    border: 1px solid var(--back-border);
 
-    border-radius:
-        var(--radius-full);
+    border-radius: var(--radius-full);
 
-    color:
-        var(--white);
+    color: var(--title-color);
 
-    text-decoration:
-        none;
+    text-decoration: none;
 
-    font-weight:
-        600;
+    font-size: 14px;
 
-    font-size:
-        14px;
+    font-weight: 600;
 
-    box-shadow:
-        var(--glass-shadow);
+    box-shadow: var(--shadow-sm);
 
-    transition:
-        var(--transition-base);
+    transition: all var(--transition-base);
 
-    z-index:
-        100;
+    z-index: 100;
 }
 
 
 .btn_voltar:hover {
 
-    transform:
-        translateY(-3px);
+    transform: translateY(-2px);
 
-    background:
-        rgba(255, 255, 255, 0.15);
+    color: var(--accent-dark);
 
-    border-color:
-        rgba(255, 255, 255, 0.3);
+    border-color: rgba(22, 226, 138, .45);
 
-    box-shadow:
-        var(--glass-shadow-hover);
+    box-shadow: var(--shadow-md);
 }
 
 
-.btn_voltar .material-icons {
-
-    font-size:
-        18px;
-}
-
-
-/* =========================
-   CONTAINER DO PERFIL
-   ========================= */
+/* ============================================================
+   CONTAINER
+   ============================================================ */
 
 .perfil_container {
 
-    max-width:
-        1000px;
+    width: 100%;
 
-    margin:
-        0 auto;
+    max-width: 900px;
 
-    padding:
-        120px 30px 80px;
+    margin: 0 auto;
 
-    position:
-        relative;
+    padding: 120px 30px 80px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+    position: relative;
 }
 
 
-/* =========================
-   CABEÇALHO DO PERFIL
-   ========================= */
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
 
 .perfil_header {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        30px;
+    justify-content: flex-start;
 
-    padding:
-        30px;
+    gap: 30px;
 
-    margin-bottom:
-        25px;
+    padding: 35px;
 
-    border-radius:
-        var(--radius-lg);
+    border-radius: var(--radius-xl);
 
-    background:
-        rgba(255, 255, 255, 0.06);
+    background: var(--card-bg);
 
-    backdrop-filter:
-        blur(var(--glass-blur));
+    backdrop-filter: blur(30px);
 
-    -webkit-backdrop-filter:
-        blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(30px);
 
-    border:
-        1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--card-border);
 
-    box-shadow:
-        var(--glass-shadow);
+    box-shadow: var(--shadow-sm);
 
-    transition:
-        var(--transition-base);
+    transition: all var(--transition-base);
+
+    flex-wrap: wrap;
 }
 
 
 .perfil_header:hover {
 
-    border-color:
-        rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
 
-    box-shadow:
-        var(--glass-shadow-hover);
+    border-color: var(--card-border-hover);
+
+    box-shadow: var(--shadow-md);
 }
 
 
-/* =========================
+/* ============================================================
    AVATAR
-   ========================= */
+   ============================================================ */
 
 .perfil_avatar {
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        12px;
+    gap: 12px;
 
-    flex-shrink:
-        0;
+    flex-shrink: 0;
 }
 
 
 .perfil_avatar img {
 
-    width:
-        130px;
+    width: 100px;
 
-    height:
-        130px;
+    height: 100px;
 
-    object-fit:
-        cover;
+    object-fit: cover;
 
-    border-radius:
-        50%;
+    border-radius: 50%;
 
-    border:
-        3px solid var(--accent);
+    border: 3px solid var(--accent);
+
+    background: var(--surface, #fff);
 
     box-shadow:
-        0 10px 30px rgba(22, 226, 138, 0.15);
+        0 8px 25px rgba(0, 0, 0, .12);
 
-    transition:
-        var(--transition-base);
+    transition: all var(--transition-base);
 }
 
 
 .perfil_avatar img:hover {
 
-    transform:
-        scale(1.04);
+    transform: scale(1.05);
 
     box-shadow:
-        0 0 35px rgba(22, 226, 138, 0.30);
+        0 0 35px rgba(22, 226, 138, .30);
 }
 
 
-/* =========================
+/* ============================================================
    INFORMAÇÕES
-   ========================= */
+   ============================================================ */
 
 .perfil_info {
 
-    flex:
-        1;
+    flex: 1;
+
+    min-width: 200px;
 }
 
 
 .perfil_info h1 {
 
-    color:
-        var(--white);
+    color: var(--title-color);
 
-    font-size:
-        2rem;
+    font-size: 1.7rem;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    margin-bottom:
-        8px;
+    margin-bottom: 8px;
 }
 
 
 .perfil_info p {
 
-    color:
-        rgba(255, 255, 255, 0.68);
+    color: var(--paragraph-color);
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    line-height:
-        1.6;
+    line-height: 1.6;
 }
 
 
-/* =========================
+/* ============================================================
    CARDS
-   ========================= */
+   ============================================================ */
 
 .perfil_card {
 
-    padding:
-        28px;
+    width: 100%;
 
-    margin-bottom:
-        18px;
+    padding: 30px;
 
-    border-radius:
-        var(--radius-lg);
+    border-radius: var(--radius-lg);
 
-    background:
-        rgba(255, 255, 255, 0.06);
+    background: var(--card-bg);
 
-    backdrop-filter:
-        blur(var(--glass-blur));
+    backdrop-filter: blur(30px);
 
-    -webkit-backdrop-filter:
-        blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(30px);
 
-    border:
-        1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--card-border);
 
-    box-shadow:
-        var(--glass-shadow);
+    box-shadow: var(--shadow-sm);
 
-    transition:
-        var(--transition-base);
+    transition: all var(--transition-base);
 }
 
 
 .perfil_card:hover {
 
-    border-color:
-        rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
 
-    box-shadow:
-        var(--glass-shadow-hover);
+    border-color: var(--card-border-hover);
+
+    box-shadow: var(--shadow-md);
 }
 
 
 .perfil_card h2 {
 
-    color:
-        var(--white);
+    color: var(--title-color);
 
-    font-size:
-        1.2rem;
+    font-size: 1.2rem;
 
-    font-weight:
-        700;
+    font-weight: 700;
 
-    margin-bottom:
-        22px;
+    margin-bottom: 24px;
 }
 
 
-/* =========================
-   FORMULÁRIO
-   ========================= */
+/* ============================================================
+   FORM GROUP
+   ============================================================ */
 
 .form_group {
 
-    display:
-        flex;
+    display: flex;
 
-    flex-direction:
-        column;
+    flex-direction: column;
 
-    margin-bottom:
-        18px;
-}
-
-
-.form_group:last-child {
-
-    margin-bottom:
-        0;
+    margin-bottom: 18px;
 }
 
 
 .form_group label {
 
-    color:
-        rgba(255, 255, 255, 0.70);
+    color: var(--muted-color);
 
-    margin-bottom:
-        8px;
+    margin-bottom: 8px;
 
-    font-size:
-        13px;
+    font-size: 13px;
 
-    font-weight:
-        600;
+    font-weight: 600;
 }
 
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
 
 .form_group input {
 
-    width:
-        100%;
+    width: 100%;
 
-    height:
-        52px;
+    height: 52px;
 
-    padding:
-        0 16px;
+    padding: 0 16px;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.15);
+    border: 1px solid var(--input-border);
 
-    border-radius:
-        var(--radius-md);
+    border-radius: var(--radius-md);
 
-    background:
-        rgba(255, 255, 255, 0.06);
+    background: var(--input-bg);
 
-    backdrop-filter:
-        blur(10px);
+    color: var(--input-text);
 
-    -webkit-backdrop-filter:
-        blur(10px);
+    font-size: 14px;
 
-    color:
-        var(--white);
-
-    font-size:
-        14px;
-
-    outline:
-        none;
+    outline: none;
 
     transition:
-        var(--transition-base);
+        border-color var(--transition-base),
+        background var(--transition-base),
+        box-shadow var(--transition-base);
 }
 
 
-.form_group input::placeholder {
-
-    color:
-        rgba(255, 255, 255, 0.35);
-}
-
+/* IMPORTANTE:
+   garante que o navegador não apague o contorno */
 
 .form_group input:hover {
 
-    border-color:
-        rgba(255, 255, 255, 0.25);
+    border-color: var(--input-border-hover);
 }
 
 
 .form_group input:focus {
 
-    border-color:
-        var(--accent);
+    border: 1px solid var(--accent-dark);
 
-    background:
-        rgba(255, 255, 255, 0.08);
+    background: var(--input-bg);
 
     box-shadow:
-        0 0 0 4px rgba(22, 226, 138, 0.12);
+        0 0 0 4px rgba(22, 226, 138, .12);
 }
 
 
-/* =========================
-   ÁREA DE AÇÕES
-   ========================= */
+.form_group input::placeholder {
 
-.perfil_actions {
+    color: var(--muted-color);
 
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    gap:
-        12px;
-
-    margin-top:
-        22px;
+    opacity: .7;
 }
 
 
-/* =========================
+/* ============================================================
+   AUTOFILL DO CHROME
+   ============================================================ */
+
+.form_group input:-webkit-autofill,
+.form_group input:-webkit-autofill:hover,
+.form_group input:-webkit-autofill:focus {
+
+    -webkit-text-fill-color: var(--input-text);
+
+    -webkit-box-shadow:
+        0 0 0 1000px var(--input-bg) inset;
+
+    border: 1px solid var(--input-border);
+
+    transition:
+        background-color 9999s ease-in-out 0s;
+}
+
+
+/* ============================================================
    BOTÃO PRINCIPAL
-   ========================= */
+   ============================================================ */
 
 .btn_primary {
 
-    display:
-        inline-flex;
+    display: inline-flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    gap:
-        8px;
+    gap: 8px;
 
-    padding:
-        12px 22px;
+    margin-top: 5px;
 
-    border:
-        none;
+    padding: 13px 24px;
 
-    border-radius:
-        var(--radius-full);
+    border: none;
 
-    background:
-        var(--accent);
+    border-radius: var(--radius-full);
 
-    color:
-        var(--primary);
+    background: var(--accent);
 
-    font-size:
-        14px;
+    color: var(--primary-dark);
 
-    font-weight:
-        700;
+    font-size: 14px;
 
-    cursor:
-        pointer;
+    font-weight: 700;
 
-    text-decoration:
-        none;
+    cursor: pointer;
 
-    box-shadow:
-        var(--shadow-accent);
+    text-decoration: none;
 
-    transition:
-        var(--transition-base);
+    box-shadow: var(--shadow-accent);
+
+    transition: all var(--transition-base);
 }
 
 
 .btn_primary:hover {
 
-    transform:
-        translateY(-2px);
+    transform: translateY(-2px);
 
-    background:
-        var(--accent-light);
+    background: var(--accent-light);
 
-    box-shadow:
-        var(--shadow-accent-hover);
+    box-shadow: var(--shadow-accent-hover);
 }
 
 
-.btn_primary .material-icons {
+.btn_primary:active {
 
-    font-size:
-        18px;
+    transform: translateY(0);
 }
 
 
-/* =========================
+/* ============================================================
    BOTÃO SECUNDÁRIO
-   ========================= */
+   ============================================================ */
 
 .btn_secondary {
 
-    display:
-        inline-flex;
+    display: inline-flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    gap:
-        8px;
+    gap: 8px;
 
-    padding:
-        11px 20px;
+    padding: 11px 20px;
 
-    border:
-        1px solid var(--glass-border);
+    border: 1px solid var(--button-secondary-border);
 
-    border-radius:
-        var(--radius-full);
+    border-radius: var(--radius-full);
 
-    background:
-        var(--glass-bg);
+    background: var(--button-secondary-bg);
 
-    backdrop-filter:
-        blur(10px);
+    backdrop-filter: blur(15px);
 
-    -webkit-backdrop-filter:
-        blur(10px);
+    -webkit-backdrop-filter: blur(15px);
 
-    color:
-        var(--white);
+    color: var(--button-secondary-text);
 
-    font-size:
-        14px;
+    font-size: 14px;
 
-    font-weight:
-        600;
+    font-weight: 600;
 
-    cursor:
-        pointer;
+    cursor: pointer;
 
-    text-decoration:
-        none;
+    text-decoration: none;
 
-    transition:
-        var(--transition-base);
+    transition: all var(--transition-base);
 }
 
 
 .btn_secondary:hover {
 
-    transform:
-        translateY(-2px);
+    transform: translateY(-2px);
 
-    background:
-        rgba(255, 255, 255, 0.15);
+    border-color: var(--accent);
 
-    border-color:
-        rgba(255, 255, 255, 0.30);
+    color: var(--accent-dark);
+
+    background: var(--button-secondary-bg);
 }
 
 
-.btn_secondary .material-icons {
-
-    font-size:
-        18px;
-}
-
-
-/* =========================
+/* ============================================================
    RESPONSIVO
-   ========================= */
+   ============================================================ */
 
 @media (max-width: 768px) {
 
     .btn_voltar {
 
-        top:
-            18px;
+        top: 18px;
 
-        left:
-            18px;
+        left: 18px;
 
-        padding:
-            10px 16px;
+        padding: 10px 16px;
 
-        font-size:
-            13px;
+        font-size: 13px;
     }
 
 
     .perfil_container {
 
-        padding:
-            100px 18px 60px;
+        padding: 100px 18px 60px;
     }
 
 
     .perfil_header {
 
-        flex-direction:
-            column;
+        flex-direction: column;
 
-        text-align:
-            center;
+        text-align: center;
 
-        padding:
-            26px 22px;
+        padding: 28px 22px;
 
-        gap:
-            20px;
+        gap: 20px;
     }
 
 
     .perfil_avatar img {
 
-        width:
-            110px;
+        width: 110px;
 
-        height:
-            110px;
+        height: 110px;
+    }
+
+
+    .perfil_info {
+
+        width: 100%;
     }
 
 
     .perfil_info h1 {
 
-        font-size:
-            1.6rem;
-    }
-
-
-    .perfil_info p {
-
-        font-size:
-            13px;
+        font-size: 1.5rem;
     }
 
 
     .perfil_card {
 
-        padding:
-            24px;
-    }
-
-
-    .perfil_actions {
-
-        flex-direction:
-            column;
-
-        align-items:
-            stretch;
+        padding: 24px;
     }
 
 
     .btn_primary,
     .btn_secondary {
 
-        width:
-            100%;
+        width: 100%;
     }
-
 }
 
 
@@ -948,170 +910,51 @@ body {
 
     .perfil_container {
 
-        padding-top:
-            95px;
+        padding:
+            95px 14px 50px;
     }
 
 
     .perfil_card {
 
-        padding:
-            20px;
+        padding: 20px;
     }
 
 
     .perfil_card h2 {
 
-        font-size:
-            1.05rem;
+        font-size: 1.05rem;
 
-        margin-bottom:
-            18px;
+        margin-bottom: 20px;
     }
 
 
     .form_group input {
 
-        height:
-            50px;
+        height: 50px;
     }
 
-}
 
-/* =========================
-   PADRÃO DA PÁGINA DE CONFIGURAÇÕES
-   ========================= */
+    .shape1 {
 
-/* O perfil de edição utiliza a mesma paleta clara e os mesmos cards
-   translúcidos da página de configurações. */
-body {
-    background: var(--gray-100);
-    color: var(--primary);
-}
+        width: 350px;
 
-.shape {
-    filter: blur(90px);
-    opacity: 0.5;
-}
+        height: 350px;
+    }
 
-.shape1 {
-    width: 550px;
-    height: 550px;
-    background: rgba(22, 226, 138, 0.16);
-    top: -180px;
-    right: -160px;
-}
 
-.shape2 {
-    width: 480px;
-    height: 480px;
-    background: rgba(10, 37, 64, 0.10);
-    bottom: -200px;
-    left: -160px;
-}
+    .shape2 {
 
-.shape3 {
-    width: 320px;
-    height: 320px;
-    background: rgba(22, 226, 138, 0.10);
-    top: 45%;
-    left: 60%;
-}
+        width: 300px;
 
-.btn_voltar {
-    background: rgba(255, 255, 255, 0.7);
-    border-color: rgba(255, 255, 255, 0.7);
-    color: var(--primary);
-    box-shadow: var(--shadow-sm);
-}
+        height: 300px;
+    }
 
-.btn_voltar:hover {
-    color: var(--accent-dark);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-}
 
-.perfil_container {
-    max-width: 900px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
+    .shape3 {
 
-.perfil_header,
-.perfil_card {
-    background: rgba(255, 255, 255, 0.65);
-    border-color: rgba(255, 255, 255, 0.7);
-    box-shadow: var(--shadow-sm);
-}
+        width: 220px;
 
-.perfil_header {
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 35px;
-    border-radius: var(--radius-xl);
-    margin-bottom: 10px;
-}
-
-.perfil_header:hover,
-.perfil_card:hover {
-    border-color: rgba(22, 226, 138, 0.4);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-4px);
-}
-
-.perfil_avatar img {
-    width: 90px;
-    height: 90px;
-    border-color: var(--white);
-    box-shadow: var(--shadow-sm);
-}
-
-.perfil_info h1,
-.perfil_card h2 {
-    color: var(--primary);
-}
-
-.perfil_info h1 {
-    font-size: 1.6rem;
-}
-
-.perfil_info p,
-.form_group label {
-    color: var(--gray-600);
-}
-
-.perfil_card {
-    padding: 28px;
-    margin-bottom: 0;
-}
-
-.form_group input {
-    border-color: var(--gray-300);
-    background: rgba(255, 255, 255, 0.72);
-    color: var(--primary);
-}
-
-.form_group input::placeholder {
-    color: var(--gray-400);
-}
-
-.form_group input:hover {
-    border-color: rgba(22, 226, 138, 0.4);
-}
-
-.form_group input:focus {
-    background: var(--white);
-    border-color: var(--accent-dark);
-}
-
-.btn_secondary {
-    background: rgba(255, 255, 255, 0.7);
-    border-color: var(--gray-300);
-    color: var(--primary);
-}
-
-.btn_secondary:hover {
-    border-color: rgba(22, 226, 138, 0.4);
-    background: var(--white);
+        height: 220px;
+    }
 }
