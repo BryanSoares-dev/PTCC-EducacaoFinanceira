@@ -236,7 +236,7 @@ if (count($partesNome) > 1) {
         <h2 id="modal-preferencias-title" class="modal_title">Preferências</h2>
         <p class="modal_text">Personalize a moeda, o tema e o idioma da sua experiência no FinControl.</p>
 
-        <form action="../back-end/atualizar-preferencias.php" method="POST" class="modal_form">
+        <form action="../back-end/salvar_preferencias.php" method="POST" class="modal_form">
 
             <div class="modal_field">
                 <label for="moeda">Moeda</label>

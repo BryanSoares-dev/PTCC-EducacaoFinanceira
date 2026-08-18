@@ -110,7 +110,7 @@
                     <button href="../back-end/processa_login.php" type="submit" class="login_btn">
                         Entrar na Conta
                     </button>
-                    <button type="button" class="google_btn" onclick="window.location.href='google-callback.php'">
+                    <button type="button" class="google_btn" onclick="window.location.href='../back-end/google-callback.php'">
                         <svg class="google_icon" viewBox="0 0 48 48" width="20" height="20">
                             <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12
                                 c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24

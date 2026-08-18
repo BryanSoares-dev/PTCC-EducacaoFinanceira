@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../back-end/conexao.php");
+require_once("conexao.php");
 
 // ===================== AUTENTICAÇÃO =====================
 if (!isset($_SESSION['id'])) {
@@ -10,7 +10,7 @@ if (!isset($_SESSION['id'])) {
 
 // ===================== MÉTODO =====================
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: preferencias.php");
+    header("Location: ../front-end/configuracoes.php");
     exit;
 }
 
@@ -23,21 +23,18 @@ $moeda  = in_array($_POST['moeda'] ?? '', $moedasValidas, true) ? $_POST['moeda'
 $tema   = in_array($_POST['tema'] ?? '', $temasValidos, true) ? $_POST['tema'] : 'sistema';
 $idioma = in_array($_POST['idioma'] ?? '', $idiomasValidos, true) ? $_POST['idioma'] : 'pt-BR';
 
-$resumoSemanal = isset($_POST['resumo_semanal']) ? 1 : 0;
-$alertasMetas  = isset($_POST['alertas_metas']) ? 1 : 0;
-
 // ===================== SALVAR NO BANCO =====================
 try {
     $update = $pdo->prepare("
         UPDATE usuarios
-        SET moeda = ?, tema = ?, idioma = ?, resumo_semanal = ?, alertas_metas = ?
+        SET moeda = ?, tema = ?, idioma = ?
         WHERE id = ?
     ");
-    $update->execute([$moeda, $tema, $idioma, $resumoSemanal, $alertasMetas, $_SESSION['id']]);
+    $update->execute([$moeda, $tema, $idioma, $_SESSION['id']]);
 
-    header("Location: preferencias.php?status=sucesso");
+    header("Location: ../front-end/configuracoes.php?status=sucesso");
     exit;
 } catch (PDOException $e) {
-    header("Location: preferencias.php?status=erro");
+    header("Location: ../front-end/configuracoes.php?status=erro");
     exit;
 }
