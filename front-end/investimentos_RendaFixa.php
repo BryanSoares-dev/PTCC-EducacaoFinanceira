@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once("../back-end/conexao.php");
+include_once'../front-end/navbar.php';
 
 if (!isset($_SESSION['id'])) {
     header("Location: ../front-end/login.php");
@@ -12,13 +13,11 @@ if (!isset($_SESSION['id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Financeiro</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/investimentos.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/investimentos.css">
     <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
-
-<?php include_once'front-end/navbar.php'; ?>
 
 <main>
 
