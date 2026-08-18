@@ -61,7 +61,7 @@ include_once 'navbar.php';
 <!-- HERO -->
 <section class="hero-calculadora">
     <div class="hero-text">
-        <span class="badge">📈 Planejamento Financeiro</span>
+        <span class="badge">Planejamento Financeiro</span>
 
         <h1>Simule seus investimentos e descubra quanto seu dinheiro pode render.</h1>
 
@@ -77,29 +77,29 @@ include_once 'navbar.php';
 <div class="calculadora-box">
 
 <div class="titulo-calculadora">
-    <h2>💎 Calculadora de Juros Compostos</h2>
+    <h2>Calculadora de Juros Compostos</h2>
 </div>
 
 <form method="post" action="#content">
 <div class="form-grid">
 
     <div class="input-group">
-        <label>💰 Valor Inicial (R$)</label>
+        <label>Valor Inicial (R$)</label>
         <input name="valor_inicial" type="number" required>
     </div>
 
     <div class="input-group">
-        <label>📅 Aporte Mensal (R$)</label>
+        <label>Aporte Mensal (R$)</label>
         <input name="aporte_mensal" type="number" required>
     </div>
 
     <div class="input-group">
-        <label>📈 Taxa de Juros (% ao mês)</label>
+        <label>Taxa de Juros (% ao mês)</label>
         <input name="taxa_juros" type="number" step="0.01" required>
     </div>
 
     <div class="input-group">
-        <label>⏳ Tempo (meses)</label>
+        <label>Tempo (meses)</label>
         <input name="tempo" type="number" required>
     </div>
 
