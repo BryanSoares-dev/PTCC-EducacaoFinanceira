@@ -220,7 +220,7 @@ if (!isset($_SESSION['id'])) {
         }
 
         /* =========================
-           MODAL (POPUP) - Liquid Glass
+           MODAIS (POPUPS) - Liquid Glass
         ========================= */
         .modal_overlay {
             position: fixed;
@@ -260,7 +260,6 @@ if (!isset($_SESSION['id'])) {
 
         .modal_icon {
             font-size: 4rem;
-            color: #FF4757;
             margin-bottom: 15px;
         }
 
@@ -332,6 +331,11 @@ if (!isset($_SESSION['id'])) {
             color: #ffffff;
         }
 
+        /* Estilo específico para o modal de aviso (ícone de alerta) */
+        .modal_icon_warning {
+            color: #FFA502;
+        }
+
         /* =========================
            RESPONSIVO
         ========================= */
@@ -374,7 +378,6 @@ if (!isset($_SESSION['id'])) {
                 </span>
                 <h1>Realize o <span class="destaque">Teste Diagnóstico</span></h1>
                 <p>Descubra seu perfil de investidor e desbloqueie videoaulas, exercícios diários e nossa loja exclusiva.</p>
-                <!-- Botão menor para teste diagnóstico (link direto para o arquivo na mesma pasta) -->
                 <a href="teste_diagnostico.php" class="btn_teste_pequeno">
                     <i class="fas fa-arrow-right"></i> Começar teste diagnóstico
                 </a>
@@ -415,10 +418,12 @@ if (!isset($_SESSION['id'])) {
         </div>
     </section>
 
-    <!-- MODAL (POPUP) -->
+    <!-- ============================================ -->
+    <!-- PRIMEIRO MODAL: solicitação do teste         -->
+    <!-- ============================================ -->
     <div class="modal_overlay" id="modalTeste">
         <div class="modal_content">
-            <div class="modal_icon">
+            <div class="modal_icon" style="color: #16E28A;">
                 <i class="fas fa-clipboard-list"></i>
             </div>
             <h2>Teste Diagnóstico</h2>
@@ -428,8 +433,37 @@ if (!isset($_SESSION['id'])) {
                 <a href="teste_diagnostico.php" class="btn_modal_primary">
                     <i class="fas fa-arrow-right"></i> Realizar Teste
                 </a>
-                <button class="btn_modal_secondary" onclick="fecharModal()">
-                    Agora não
+                <button class="btn_modal_secondary" onclick="pularTeste()">
+                    Pular Teste
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SEGUNDO MODAL: aviso sobre classificação     -->
+    <!-- ============================================ -->
+    <div class="modal_overlay" id="modalAviso">
+        <div class="modal_content">
+            <div class="modal_icon modal_icon_warning">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h2>Atenção!</h2>
+            <p>
+                Você optou por <strong>pular o teste diagnóstico</strong>.<br><br>
+                Como não temos como avaliar seu conhecimento, você será automaticamente classificado como 
+                <strong style="color: #FFA502;">Ferro 1</strong> (nível mais baixo).<br><br>
+                Com essa patente, você <strong>não terá acesso</strong> a videoaulas e exercícios de níveis superiores, 
+                devendo começar do nível básico.
+            </p>
+            <div class="modal_buttons">
+                <!-- Botão para voltar ao primeiro modal -->
+                <button class="btn_modal_secondary" onclick="voltarTeste()" style="color: #16E28A; border: 1px solid rgba(22,226,138,0.3); border-radius: 9999px; padding: 12px;">
+                    <i class="fas fa-arrow-left"></i> Voltar e fazer o teste
+                </button>
+                <!-- Botão para confirmar e seguir com nível baixo -->
+                <button class="btn_modal_primary" onclick="confirmarPular()" style="background: #FFA502; box-shadow: 0 8px 24px rgba(255, 165, 2, 0.3);">
+                    <i class="fas fa-check"></i> Entendi, quero começar do nível baixo
                 </button>
             </div>
         </div>
@@ -441,12 +475,11 @@ if (!isset($_SESSION['id'])) {
     // Variável para armazenar o recurso que está sendo acessado
     var recursoAtual = '';
 
-    // Abre o modal
+    // Abre o primeiro modal (solicitação de teste)
     function abrirModal(recurso) {
         recursoAtual = recurso || 'recurso';
         var mensagem = document.getElementById('modalMensagem');
         
-        // Personaliza a mensagem com base no recurso
         var nomes = {
             'videoaulas': 'videoaulas',
             'exercicios': 'exercícios diários',
@@ -457,28 +490,63 @@ if (!isset($_SESSION['id'])) {
         mensagem.innerHTML = 'Para desbloquear <strong>' + nomeRecurso + '</strong>, você precisa realizar um teste diagnóstico rápido. Ele vai nos ajudar a personalizar sua experiência.';
         
         document.getElementById('modalTeste').classList.add('active');
-        // Previne scroll da página
         document.body.style.overflow = 'hidden';
     }
 
-    // Fecha o modal
+    // Fecha o primeiro modal
     function fecharModal() {
         document.getElementById('modalTeste').classList.remove('active');
-        // Restaura scroll da página
         document.body.style.overflow = 'auto';
     }
 
-    // Fecha o modal ao clicar fora do conteúdo
-    document.getElementById('modalTeste').addEventListener('click', function(e) {
-        if (e.target === this) {
-            fecharModal();
-        }
+    // Função chamada ao clicar em "Pular Teste" (abre o segundo modal)
+    function pularTeste() {
+        fecharModal();               // fecha o primeiro modal
+        document.getElementById('modalAviso').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Função para voltar do segundo modal para o primeiro
+    function voltarTeste() {
+        document.getElementById('modalAviso').classList.remove('active');
+        // Reabre o primeiro modal com a mensagem personalizada
+        abrirModal(recursoAtual);    // reutiliza o recurso armazenado
+    }
+
+    // Fecha o segundo modal e confirma a classificação como Ferro 1
+    function confirmarPular() {
+        document.getElementById('modalAviso').classList.remove('active');
+        document.body.style.overflow = 'auto';
+        // Aqui você pode redirecionar para a página de conteúdo básico, se desejar
+        // Exemplo: window.location.href = 'conteudo_basico.php';
+        // Ou recarregar a página para refletir nova classificação
+        // window.location.reload();
+    }
+
+    // Fecha qualquer modal ao clicar fora do conteúdo
+    document.querySelectorAll('.modal_overlay').forEach(function(overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                if (this.id === 'modalTeste') {
+                    fecharModal();
+                } else if (this.id === 'modalAviso') {
+                    // Fecha o segundo sem ação
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
     });
 
-    // Fecha o modal com a tecla ESC
+    // Fecha com a tecla ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            fecharModal();
+            if (document.getElementById('modalAviso').classList.contains('active')) {
+                document.getElementById('modalAviso').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            } else if (document.getElementById('modalTeste').classList.contains('active')) {
+                fecharModal();
+            }
         }
     });
 </script>
