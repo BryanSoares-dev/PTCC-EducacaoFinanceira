@@ -38,7 +38,7 @@
             <div class="user_area">
 
                 <span class="user_name">
-                    Olá, <?= htmlspecialchars($primeiroNome . " " . $ultimoNome) ?>
+                    Olá, <?= htmlspecialchars($primeiroNome) ?>
                 </span>
 
                 <div class="user_dropdown">
