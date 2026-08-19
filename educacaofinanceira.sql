@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/08/2026 às 19:57
+-- Tempo de geração: 19/08/2026 às 21:09
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -83,22 +83,25 @@ CREATE TABLE `usuarios` (
   `telefone` varchar(25) DEFAULT NULL,
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `provedor` varchar(20) DEFAULT 'local',
-  `tipo` enum('usuario','admin') NOT NULL DEFAULT 'usuario'
+  `tipo` enum('usuario','admin') NOT NULL DEFAULT 'usuario',
+  `tema` varchar(22) DEFAULT 'sistema',
+  `idioma` varchar(22) DEFAULT 'pt-br',
+  `moeda` varchar(22) DEFAULT 'BRL'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `itemid`, `nome`, `email`, `oauth_uid`, `foto`, `senha`, `telefone`, `data_criacao`, `provedor`, `tipo`) VALUES
-(1, '', 'ana portela', 'anaportela@gmail.com', NULL, NULL, '$2y$10$AQak0pbULnxpniQnTOmFcuZtVDIfBPDxH4SqGxscr9ot.2ExymF9i', '', '2026-04-29 16:09:29', 'local', 'usuario'),
-(2, '', 'isadora', 'isadorajans@gmail.com', NULL, NULL, '$2y$10$SMNthbFKZrKhI0BD5pOUz.bzQOHON1NO5i4BErJas7EMvded0jzKS', '11875938264', '2026-04-29 16:30:02', 'local', 'usuario'),
-(3, '', 'JoÃ£o Rabelo', 'rabelo@gmail.com', NULL, NULL, '$2y$10$P8D0Jm6eXaT0uQuTTnuQru4dZtnm2IcTO.IW1tf8kDHjX7dh8gvsu', '', '2026-04-29 16:46:02', 'local', 'usuario'),
-(5, '', 'João Henrique dos Santos Rabelo', 'jh.rabelo7@gmail.com', '106090355274792785689', NULL, '$2y$10$.67NR3MpIv7ySzlVHBOoQerGJUKTqqtX3FtxjQDBQRa1gy7N6BItu', '', '2026-07-04 02:39:31', 'local', 'usuario'),
-(8, '', 'Rabelx', 'jhrabelo20094541@gmail.com', '117781224819786275127', 'https://lh3.googleusercontent.com/a/ACg8ocIVAO_VpEqX5hAdKJXkwVtnJ2w3_Z0HI95nAsvQVYA67r4txtM=s96-c', '$2y$10$nk64J4bz5qHWCidSetU55ughXyigJbyoNjynxpdIRKER2N0cgAOIK', NULL, '2026-07-05 12:29:36', 'ambos', 'usuario'),
-(9, '', 'bryan', 'soares123@gmail.com', NULL, NULL, '$2y$10$aRpKKlDBBb8mTe0V4TgDEO/1DqiztrGEDOaQWOTqYHMRc/M/kWIjS', '', '2026-08-05 16:36:03', 'local', 'usuario'),
-(10, '', 'João', 'joao@gmail.com', NULL, NULL, '$2y$10$gV.4f2gaHUGiwQ3ClKbJyeVpoonOaHvXfw087bUsnEtgUIESVlXDS', '', '2026-08-19 16:04:17', 'local', 'usuario'),
-(11, '', 'João', 'joaohenrique2512jp@gmail.com', NULL, NULL, '$2y$10$Egh9yW3UuH.7GCKcLiFSjePW9Z/Prt0I9IV8XgzMfWIZfLYCp16FG', '', '2026-08-19 17:37:29', 'local', 'admin');
+INSERT INTO `usuarios` (`id`, `itemid`, `nome`, `email`, `oauth_uid`, `foto`, `senha`, `telefone`, `data_criacao`, `provedor`, `tipo`, `tema`, `idioma`, `moeda`) VALUES
+(1, '', 'ana portela', 'anaportela@gmail.com', NULL, NULL, '$2y$10$AQak0pbULnxpniQnTOmFcuZtVDIfBPDxH4SqGxscr9ot.2ExymF9i', '', '2026-04-29 16:09:29', 'local', 'usuario', 'sistema', 'pt-br', 'BRL'),
+(2, '', 'isadora', 'isadorajans@gmail.com', NULL, NULL, '$2y$10$SMNthbFKZrKhI0BD5pOUz.bzQOHON1NO5i4BErJas7EMvded0jzKS', '11875938264', '2026-04-29 16:30:02', 'local', 'usuario', 'sistema', 'pt-br', 'BRL'),
+(3, '', 'JoÃ£o Rabelo', 'rabelo@gmail.com', NULL, NULL, '$2y$10$P8D0Jm6eXaT0uQuTTnuQru4dZtnm2IcTO.IW1tf8kDHjX7dh8gvsu', '', '2026-04-29 16:46:02', 'local', 'usuario', 'sistema', 'pt-br', 'BRL'),
+(5, '', 'João Henrique dos Santos Rabelo', 'jh.rabelo7@gmail.com', '106090355274792785689', NULL, '$2y$10$.67NR3MpIv7ySzlVHBOoQerGJUKTqqtX3FtxjQDBQRa1gy7N6BItu', '', '2026-07-04 02:39:31', 'local', 'usuario', 'sistema', 'pt-br', 'BRL'),
+(8, '', 'Rabelx', 'jhrabelo20094541@gmail.com', '117781224819786275127', 'https://lh3.googleusercontent.com/a/ACg8ocIVAO_VpEqX5hAdKJXkwVtnJ2w3_Z0HI95nAsvQVYA67r4txtM=s96-c', '$2y$10$nk64J4bz5qHWCidSetU55ughXyigJbyoNjynxpdIRKER2N0cgAOIK', NULL, '2026-07-05 12:29:36', 'ambos', 'usuario', 'sistema', 'pt-br', 'BRL'),
+(9, '', 'bryan', 'soares123@gmail.com', NULL, NULL, '$2y$10$aRpKKlDBBb8mTe0V4TgDEO/1DqiztrGEDOaQWOTqYHMRc/M/kWIjS', '', '2026-08-05 16:36:03', 'local', 'usuario', 'sistema', 'pt-br', 'BRL'),
+(10, '', 'João', 'joao@gmail.com', NULL, NULL, '$2y$10$gV.4f2gaHUGiwQ3ClKbJyeVpoonOaHvXfw087bUsnEtgUIESVlXDS', '', '2026-08-19 16:04:17', 'local', 'usuario', 'sistema', 'pt-br', 'BRL'),
+(11, '', 'João', 'joaohenrique2512jp@gmail.com', NULL, NULL, '$2y$10$Egh9yW3UuH.7GCKcLiFSjePW9Z/Prt0I9IV8XgzMfWIZfLYCp16FG', '', '2026-08-19 17:37:29', 'local', 'admin', 'sistema', 'pt-br', 'BRL');
 
 --
 -- Índices para tabelas despejadas
