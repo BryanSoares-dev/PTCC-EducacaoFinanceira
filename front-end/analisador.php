@@ -1,23 +1,154 @@
 <?php
+
 session_start();
 
-// Protege a página: só usuários logados podem acessar o analisador
+require_once '../back-end/conexao.php';
+
+
+/* ============================================================
+   PROTEÇÃO DA PÁGINA
+============================================================ */
+
 if (!isset($_SESSION['id'])) {
+
     header('Location: ../front-end/login.php');
+
     exit;
 }
-?>
 
+
+/* ============================================================
+   BUSCAR USUÁRIO E TEMA
+============================================================ */
+
+$stmt = $pdo->prepare("
+    SELECT id, nome, email, tema
+    FROM usuarios
+    WHERE id = ?
+");
+
+$stmt->execute([$_SESSION['id']]);
+
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+if (!$usuario) {
+
+    session_destroy();
+
+    header("Location: ../front-end/login.php");
+
+    exit;
+}
+
+
+/* ============================================================
+   TEMA
+============================================================ */
+
+$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'sistema');
+
+$temas_permitidos = [
+    'claro',
+    'escuro',
+    'sistema'
+];
+
+if (!in_array($tema, $temas_permitidos, true)) {
+
+    $tema = 'sistema';
+
+}
+
+
+/* ============================================================
+   ID DO USUÁRIO
+============================================================ */
+
+$usuarioId = (int) $usuario['id'];
+
+
+/* ============================================================
+   RESUMO FINANCEIRO
+============================================================ */
+
+$resumo = $pdo->prepare("
+    SELECT
+
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN tipo = 'entrada'
+                    THEN valor
+                    ELSE -valor
+                END
+            ),
+            0
+        ) AS saldo,
+
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN tipo = 'entrada'
+                    AND MONTH(data_criacao) = MONTH(CURDATE())
+                    AND YEAR(data_criacao) = YEAR(CURDATE())
+                    THEN valor
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS receitas_mes,
+
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN tipo = 'saida'
+                    AND MONTH(data_criacao) = MONTH(CURDATE())
+                    AND YEAR(data_criacao) = YEAR(CURDATE())
+                    THEN valor
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS despesas_mes
+
+    FROM movimentacoes
+
+    WHERE usuario_id = ?
+");
+
+$resumo->execute([$usuarioId]);
+
+$dadosResumo =
+    $resumo->fetch(PDO::FETCH_ASSOC) ?: [];
+
+$saldo =
+    (float) ($dadosResumo['saldo'] ?? 0);
+
+$receitasMes =
+    (float) ($dadosResumo['receitas_mes'] ?? 0);
+
+$despesasMes =
+    (float) ($dadosResumo['despesas_mes'] ?? 0);
+
+$resultadoMes =
+    $receitasMes - $despesasMes;
+
+?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+
+<html
+    lang="pt-BR"
+    class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"
+>
+
+
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Analisador de Gastos · FinControl</title>
-
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/analisador.css">
 
     <link

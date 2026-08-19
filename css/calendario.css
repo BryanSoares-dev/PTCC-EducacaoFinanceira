@@ -1,849 +1,1426 @@
-/* =========================
-   CALENDÁRIO FINANCEIRO - LIQUID GLASS
-   ========================= */
+/* ============================================================
+   carteira.css – Página de Carteira
+   Estilo Liquid Glass
+============================================================ */
 
-/* Reset e Base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+/* ============================================================
+   VARIÁVEIS
+============================================================ */
+
+:root {
+
+    --primary: #0A2540;
+
+    --primary-light: #24314C;
+
+    --primary-dark: #081b30;
+
+    --accent: #16E28A;
+
+    --accent-dark: #0db873;
+
+    --accent-light: #29f0a0;
+
+    --danger: #FF4757;
+
+    --danger-light: #ff6b81;
+
+    --white: #ffffff;
+
+    --gray-100: #f8fafc;
+
+    --gray-200: #eef4f8;
+
+    --gray-300: #dbe3eb;
+
+    --gray-400: #64748b;
+
+    --gray-500: #444;
+
+    --gray-600: #666;
+
+    --gray-700: #888;
+
+    --dark: #0B0F19;
+
+
+    --font-family: 'Inter', sans-serif;
+
+
+    --radius-sm: 12px;
+
+    --radius-md: 16px;
+
+    --radius-lg: 24px;
+
+    --radius-xl: 28px;
+
+    --radius-full: 9999px;
+
+
+    --glass-blur: 30px;
+
+
+    --shadow-sm:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+
+    --shadow-md:
+        0 15px 40px rgba(0, 0, 0, 0.12);
+
+    --shadow-lg:
+        0 20px 50px rgba(0, 0, 0, 0.15);
+
+
+    --shadow-accent:
+        0 15px 30px rgba(22, 226, 138, 0.35);
+
+    --shadow-accent-hover:
+        0 20px 45px rgba(22, 226, 138, 0.45);
+
+
+    --transition-fast:
+        0.2s ease;
+
+    --transition-base:
+        0.3s ease;
+
+    --transition-slow:
+        0.5s ease;
+
 }
+
+
+/* ============================================================
+   RESET
+============================================================ */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family: var(--font-family);
+
+    scroll-behavior: smooth;
+
+}
+
 
 body {
-    background: #0A2540;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #ffffff;
+
     min-height: 100vh;
+
+    background: var(--gray-100);
+
+    color: var(--primary);
+
+    position: relative;
+
+    overflow-x: hidden;
+
 }
 
-/* =========================
-   HEADER DO CALENDÁRIO
-   ========================= */
-.calendario-header {
-    padding: 120px 20px 40px;
-    background: linear-gradient(135deg, #0A2540 0%, #24314C 50%, #0A2540 100%);
-    position: relative;
+
+/* ============================================================
+   FUNDO
+============================================================ */
+
+.background_shapes {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: -1;
+
     overflow: hidden;
+
+    pointer-events: none;
+
 }
 
-.calendario-header::before {
-    content: '';
+
+.shape {
+
     position: absolute;
-    width: 500px;
-    height: 500px;
+
     border-radius: 50%;
-    background: rgba(22, 226, 138, 0.06);
-    right: -150px;
-    top: -100px;
-    filter: blur(100px);
-}
 
-.calendario-header-content {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+    filter: blur(90px);
 
-.header-left h1 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 8px;
-}
+    opacity: 0.5;
 
-.header-left h1 i {
-    margin-right: 12px;
-}
-
-.header-left p {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.1rem;
-}
-
-.btn-filtrar {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 28px;
-    border: none;
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-filtrar:hover {
-    background: rgba(22, 226, 138, 0.15);
-    border-color: rgba(22, 226, 138, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(22, 226, 138, 0.15);
-}
-
-.btn-filtrar i {
-    color: #16E28A;
 }
 
 
-/* =========================
-   FILTRO CARD - ANOS E DESTAQUES
-   ========================= */
+.shape1 {
 
-/* Overlay escuro */
-.filtro-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.65);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    z-index: 99998;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
+    width: 550px;
+
+    height: 550px;
+
+    background: rgba(22, 226, 138, 0.16);
+
+    top: -180px;
+
+    right: -160px;
+
 }
 
-.filtro-overlay.active {
-    opacity: 1;
-    visibility: visible;
+
+.shape2 {
+
+    width: 480px;
+
+    height: 480px;
+
+    background: rgba(10, 37, 64, 0.10);
+
+    bottom: -200px;
+
+    left: -160px;
+
 }
 
-/* Card principal */
-.filtro-card {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.92);
-    background: linear-gradient(145deg, rgba(26, 42, 68, 0.97), rgba(10, 37, 64, 0.98));
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 28px;
-    padding: 35px 40px 40px;
-    max-width: 520px;
-    width: 92%;
-    z-index: 99999;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
-}
 
-.filtro-card.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -50%) scale(1);
-}
+.shape3 {
 
-/* Header do card */
-.filtro-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
+    width: 320px;
 
-.filtro-card-header h4 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin: 0;
-}
+    height: 320px;
 
-.filtro-card-header h4 i {
-    color: #16E28A;
-    margin-right: 10px;
-}
-
-.filtro-fechar {
-    background: rgba(255, 255, 255, 0.05);
-    border: none;
-    color: rgba(255, 255, 255, 0.4);
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-}
-
-.filtro-fechar:hover {
-    background: rgba(255, 107, 107, 0.15);
-    color: #FF6B6B;
-    transform: rotate(90deg);
-}
-
-/* Corpo do card */
-.filtro-card-body {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-
-/* Label dos filtros */
-.filtro-label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 12px;
-    letter-spacing: 0.5px;
-}
-
-/* Grid de anos */
-.anos-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.ano-btn {
-    padding: 14px 10px;
-    border: 2px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.ano-btn:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.12);
-    transform: translateY(-2px);
-}
-
-.ano-btn.ativo {
-    border-color: #16E28A;
     background: rgba(22, 226, 138, 0.10);
-    box-shadow: 0 0 30px rgba(22, 226, 138, 0.08);
+
+    top: 45%;
+
+    left: 60%;
+
 }
 
-.ano-numero {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ffffff;
+
+/* ============================================================
+   LIQUID GLASS
+============================================================ */
+
+.glass {
+
+    background: rgba(255, 255, 255, 0.55);
+
+    backdrop-filter: blur(var(--glass-blur));
+
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+
+    box-shadow: var(--shadow-sm);
+
+    transition: var(--transition-base);
+
 }
 
-.ano-status {
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.4);
-    font-weight: 500;
+
+.glass-card {
+
+    background: rgba(255, 255, 255, 0.65);
+
+    backdrop-filter: blur(var(--glass-blur));
+
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+
+    border: 1px solid rgba(255, 255, 255, 0.7);
+
+    box-shadow: var(--shadow-sm);
+
+    border-radius: var(--radius-lg);
+
+    transition: var(--transition-base);
+
 }
 
-.ano-btn.ativo .ano-status {
-    color: #16E28A;
+
+.glass-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: rgba(22, 226, 138, 0.4);
+
+    box-shadow: var(--shadow-md);
+
 }
 
-/* Destaques: Maior e Menor Saldo */
-.destaques-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin: 5px 0;
-}
 
-.destaque-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 18px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    transition: all 0.3s ease;
-}
+/* ============================================================
+   BOTÃO VOLTAR
+============================================================ */
 
-.destaque-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-}
+.btn_voltar {
 
-.destaque-item.maior-saldo {
-    border-left: 3px solid #16E28A;
-}
-
-.destaque-item.menor-saldo {
-    border-left: 3px solid #FF6B6B;
-}
-
-.destaque-icon {
-    font-size: 1.8rem;
-    line-height: 1;
-}
-
-.destaque-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.destaque-label {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.4);
-    font-weight: 600;
-}
-
-.destaque-valor {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.destaque-item.maior-saldo .destaque-valor {
-    color: #16E28A;
-}
-
-.destaque-item.menor-saldo .destaque-valor {
-    color: #FF6B6B;
-}
-
-.destaque-ano {
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.3);
-}
-
-/* Botão aplicar */
-.btn-aplicar-filtro {
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #16E28A, #0db873);
-    color: #0A2540;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 5px;
-    box-shadow: 0 4px 20px rgba(22, 226, 138, 0.2);
-}
-
-.btn-aplicar-filtro:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 35px rgba(22, 226, 138, 0.3);
-}
-
-/* Responsivo */
-@media (max-width: 600px) {
-    .filtro-card {
-        padding: 25px 20px 30px;
-        max-width: 96%;
-    }
-    
-    .anos-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .destaques-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .filtro-card-header h4 {
-        font-size: 1rem;
-    }
-}
-
-/* =========================
-   GRID DE MESES
-   ========================= */
-.meses-grid {
-    max-width: 1300px;
-    margin: 30px auto 60px;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 25px;
-}
-
-.mes-card {
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 28px;
-    padding: 28px 24px 24px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.mes-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(22, 226, 138, 0.25);
-    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.mes-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-    padding-bottom: 14px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.mes-header h3 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.mes-header h3 i {
-    color: #16E28A;
-    margin-right: 10px;
-    font-size: 0.9rem;
-}
-
-.mes-ano {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.06);
-    padding: 4px 14px;
-    border-radius: 9999px;
-    font-weight: 600;
-}
-
-.mes-resumo {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 18px;
-}
-
-.resumo-item {
-    text-align: center;
-    padding: 8px 4px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.resumo-item .rotulo {
-    display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.4);
-    font-weight: 600;
-}
-
-.resumo-item .valor {
-    display: block;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-top: 2px;
-}
-
-.valor.positivo {
-    color: #16E28A;
-}
-
-.valor.negativo {
-    color: #FF6B6B;
-}
-
-.grafico-pizza-container {
-    width: 120px;
-    height: 120px;
-    margin: 10px auto 15px;
-    position: relative;
-}
-
-.grafico-pizza-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.mes-footer {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.4);
-}
-
-.mes-footer i {
-    margin-right: 5px;
-    color: rgba(22, 226, 138, 0.5);
-}
-
-/* =========================
-   MODAL DE DETALHES
-   ========================= */
-.modal-overlay {
     position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    display: none;
-    justify-content: center;
+
+    top: 30px;
+
+    left: 30px;
+
+    z-index: 999;
+
+
+    display: flex;
+
     align-items: center;
-    z-index: 99999;
-    padding: 20px;
-}
 
-.modal-overlay.active {
-    display: flex;
-    animation: modalFadeIn 0.3s ease;
-}
+    gap: 8px;
 
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.95) translateY(30px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-}
 
-.modal-detalhes {
-    max-width: 900px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 32px;
-    padding: 35px 40px 40px;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
-    position: relative;
-}
+    padding: 12px 20px;
 
-/* Scrollbar personalizada */
-.modal-detalhes::-webkit-scrollbar {
-    width: 6px;
-}
 
-.modal-detalhes::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
+    background: rgba(255, 255, 255, 0.7);
 
-.modal-detalhes::-webkit-scrollbar-thumb {
-    background: rgba(22, 226, 138, 0.3);
-    border-radius: 10px;
-}
+    color: var(--primary);
 
-.modal-fechar {
-    position: absolute;
-    top: 18px;
-    right: 22px;
-    background: rgba(255, 255, 255, 0.06);
-    border: none;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 1.2rem;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-.modal-fechar:hover {
-    background: rgba(255, 107, 107, 0.15);
-    color: #FF6B6B;
-    transform: rotate(90deg);
-}
+    backdrop-filter: blur(var(--glass-blur));
 
-.modal-header {
-    margin-bottom: 30px;
-}
+    -webkit-backdrop-filter: blur(var(--glass-blur));
 
-.modal-header h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 20px;
-}
 
-.modal-header h2 i {
-    color: #16E28A;
-    margin-right: 14px;
-}
+    border: 1px solid rgba(255, 255, 255, 0.7);
 
-.modal-resumo-geral {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 16px;
-    padding: 18px 24px;
-}
+    border-radius: var(--radius-full);
 
-.modal-resumo-item {
-    display: flex;
-    flex-direction: column;
-}
 
-.modal-resumo-item span {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+
+    font-size: 14px;
+
     font-weight: 600;
+
+
+    box-shadow: var(--shadow-sm);
+
+    transition: var(--transition-base);
+
 }
 
-.modal-resumo-item strong {
-    font-size: 1.2rem;
-    font-weight: 700;
+
+.btn_voltar .material-icons {
+
+    font-size: 18px;
+
 }
 
-.modal-resumo-item strong.positivo {
-    color: #16E28A;
+
+.btn_voltar:hover {
+
+    transform: translateY(-2px);
+
+    color: var(--accent-dark);
+
+    box-shadow: var(--shadow-md);
+
 }
 
-.modal-resumo-item strong.negativo {
-    color: #FF6B6B;
-}
 
-.modal-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 35px;
-}
+/* ============================================================
+   CONTAINER
+============================================================ */
 
-.modal-grafico h4,
-.modal-lista-transacoes h4 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 18px;
-    letter-spacing: 0.5px;
-}
+.carteira_container {
 
-.modal-grafico h4 i,
-.modal-lista-transacoes h4 i {
-    margin-right: 8px;
-}
-
-.grafico-grande-container {
     width: 100%;
-    max-width: 320px;
-    height: 300px;
+
+    max-width: 1100px;
+
     margin: 0 auto;
-}
 
-.grafico-grande-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
+    padding: 120px 30px 80px;
 
-.modal-lista-transacoes {
-    max-height: 350px;
-    overflow-y: auto;
-    padding-right: 10px;
-}
 
-.modal-lista-transacoes::-webkit-scrollbar {
-    width: 4px;
-}
-
-.modal-lista-transacoes::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-}
-
-.modal-lista-transacoes::-webkit-scrollbar-thumb {
-    background: rgba(22, 226, 138, 0.2);
-    border-radius: 10px;
-}
-
-.transacao-item {
     display: flex;
+
+    flex-direction: column;
+
+    gap: 24px;
+
+}
+
+
+/* ============================================================
+   CABEÇALHO
+============================================================ */
+
+.carteira_header {
+
+    display: flex;
+
     align-items: center;
+
     justify-content: space-between;
-    padding: 12px 16px;
-    border-radius: 12px;
+
+    gap: 30px;
+
+    padding: 34px;
+
+    border-radius: var(--radius-xl);
+
+}
+
+
+.carteira_eyebrow {
+
+    display: block;
+
     margin-bottom: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    transition: background 0.3s ease;
+
+    color: var(--accent-dark);
+
+    font-size: 0.78rem;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
 }
 
-.transacao-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+
+.carteira_header h1 {
+
+    color: var(--primary);
+
+    font-size: 2rem;
+
+    line-height: 1.2;
+
+    margin-bottom: 8px;
+
 }
 
-.transacao-categoria {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.7);
-    min-width: 100px;
+
+.carteira_header p {
+
+    color: var(--gray-600);
+
+    font-size: 0.92rem;
+
 }
 
-.transacao-categoria i {
-    margin-right: 8px;
-    color: #16E28A;
+
+.carteira_header_icon {
+
+    width: 70px;
+
+    height: 70px;
+
+    flex-shrink: 0;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    border-radius: var(--radius-lg);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent),
+            var(--accent-dark)
+        );
+
+
+    color: var(--primary-dark);
+
+    box-shadow: var(--shadow-accent);
+
 }
 
-.transacao-descricao {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.5);
-    flex: 1;
-    margin: 0 15px;
+
+.carteira_header_icon .material-icons {
+
+    font-size: 34px;
+
 }
 
-.transacao-valor {
+
+/* ============================================================
+   RESUMO
+============================================================ */
+
+.resumo_grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+}
+
+
+.resumo_card {
+
+    padding: 22px;
+
+    min-height: 150px;
+
+}
+
+
+.resumo_card_top {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.resumo_icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    border-radius: var(--radius-sm);
+
+    background: rgba(22, 226, 138, 0.12);
+
+    color: var(--accent-dark);
+
+}
+
+
+.resumo_icon .material-icons {
+
+    font-size: 21px;
+
+}
+
+
+.resumo_icon_receita {
+
+    background: rgba(22, 226, 138, 0.12);
+
+    color: var(--accent-dark);
+
+}
+
+
+.resumo_icon_despesa {
+
+    background: rgba(255, 71, 87, 0.12);
+
+    color: var(--danger);
+
+}
+
+
+.resumo_icon_resultado {
+
+    background: rgba(10, 37, 64, 0.08);
+
+    color: var(--primary);
+
+}
+
+
+.resumo_label {
+
+    color: var(--gray-600);
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+
+}
+
+
+.resumo_valor {
+
+    display: block;
+
+    font-size: 1.35rem;
+
+    line-height: 1.2;
+
+    word-break: break-word;
+
+}
+
+
+.valor_positivo {
+
+    color: var(--accent-dark);
+
+}
+
+
+.valor_negativo {
+
+    color: var(--danger);
+
+}
+
+
+/* ============================================================
+   SEÇÃO DE MOVIMENTAÇÕES
+============================================================ */
+
+.movimentacoes_section {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+
+}
+
+
+.section_header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+}
+
+
+.section_header h2 {
+
+    color: var(--primary);
+
+    font-size: 1.2rem;
+
+    margin-bottom: 4px;
+
+}
+
+
+.section_header p {
+
+    color: var(--gray-600);
+
+    font-size: 0.84rem;
+
+}
+
+
+.btn_nova_movimentacao {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+
+    padding: 12px 18px;
+
+    border-radius: var(--radius-full);
+
+    border: none;
+
+
+    background: var(--accent);
+
+    color: var(--primary-dark);
+
+
+    text-decoration: none;
+
+    font-size: 13px;
+
     font-weight: 700;
-    font-size: 0.95rem;
+
+
+    box-shadow: var(--shadow-accent);
+
+    transition: var(--transition-base);
+
+    white-space: nowrap;
+
 }
 
-.transacao-valor.negativo {
-    color: #FF6B6B;
+
+.btn_nova_movimentacao .material-icons {
+
+    font-size: 18px;
+
 }
 
-.transacao-valor.positivo {
-    color: #16E28A;
+
+.btn_nova_movimentacao:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-accent-hover);
+
 }
 
-/* =========================
-   RESPONSIVIDADE
-   ========================= */
-@media (max-width: 992px) {
-    .modal-body {
+
+/* ============================================================
+   CARD DAS MOVIMENTAÇÕES
+============================================================ */
+
+.movimentacoes_card {
+
+    overflow: hidden;
+
+}
+
+
+.movimentacoes_lista {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.movimentacao_item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 18px 22px;
+
+    border-bottom: 1px solid rgba(10, 37, 64, 0.06);
+
+    transition: var(--transition-fast);
+
+}
+
+
+.movimentacao_item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.movimentacao_item:hover {
+
+    background: rgba(22, 226, 138, 0.045);
+
+}
+
+
+.movimentacao_icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    flex-shrink: 0;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    border-radius: var(--radius-md);
+
+}
+
+
+.movimentacao_icon .material-icons {
+
+    font-size: 21px;
+
+}
+
+
+.movimentacao_entrada {
+
+    background: rgba(22, 226, 138, 0.12);
+
+    color: var(--accent-dark);
+
+}
+
+
+.movimentacao_saida {
+
+    background: rgba(255, 71, 87, 0.12);
+
+    color: var(--danger);
+
+}
+
+
+.movimentacao_info {
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+
+.movimentacao_info h3 {
+
+    color: var(--primary);
+
+    font-size: 0.92rem;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.movimentacao_info p {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+
+    color: var(--gray-600);
+
+    font-size: 0.76rem;
+
+}
+
+
+.movimentacao_valor {
+
+    flex-shrink: 0;
+
+    font-size: 0.92rem;
+
+    text-align: right;
+
+}
+
+
+/* ============================================================
+   ESTADO VAZIO
+============================================================ */
+
+.empty_state {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 60px 25px;
+
+}
+
+
+.empty_icon {
+
+    width: 68px;
+
+    height: 68px;
+
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    margin-bottom: 18px;
+
+
+    border-radius: 50%;
+
+    background: rgba(22, 226, 138, 0.12);
+
+    color: var(--accent-dark);
+
+}
+
+
+.empty_icon .material-icons {
+
+    font-size: 32px;
+
+}
+
+
+.empty_state h3 {
+
+    color: var(--primary);
+
+    font-size: 1rem;
+
+    margin-bottom: 7px;
+
+}
+
+
+.empty_state p {
+
+    color: var(--gray-600);
+
+    font-size: 0.85rem;
+
+    margin-bottom: 20px;
+
+}
+
+
+.btn_empty {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+
+    padding: 11px 18px;
+
+    border-radius: var(--radius-full);
+
+
+    background: var(--accent);
+
+    color: var(--primary-dark);
+
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+
+    box-shadow: var(--shadow-accent);
+
+    transition: var(--transition-base);
+
+}
+
+
+.btn_empty:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-accent-hover);
+
+}
+
+
+/* ============================================================
+   TEMA CLARO
+============================================================ */
+
+html.claro {
+
+    background: var(--gray-100);
+
+    color: var(--primary);
+
+}
+
+
+html.claro body {
+
+    background: var(--gray-100);
+
+    color: var(--primary);
+
+}
+
+
+/* ============================================================
+   TEMA ESCURO
+============================================================ */
+
+html.escuro {
+
+    background: #0B0F19;
+
+    color: #ffffff;
+
+}
+
+
+html.escuro body {
+
+    background: #0B0F19;
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   GLASS NO ESCURO
+============================================================ */
+
+html.escuro .glass {
+
+    background: rgba(20, 27, 40, 0.75);
+
+    border-color: rgba(255, 255, 255, 0.12);
+
+}
+
+
+html.escuro .glass-card {
+
+    background: rgba(20, 27, 40, 0.75);
+
+    border-color: rgba(255, 255, 255, 0.12);
+
+}
+
+
+html.escuro .glass-card:hover {
+
+    border-color: rgba(22, 226, 138, 0.35);
+
+}
+
+
+/* ============================================================
+   BOTÃO VOLTAR - ESCURO
+============================================================ */
+
+html.escuro .btn_voltar {
+
+    background: rgba(20, 27, 40, 0.75);
+
+    border-color: rgba(255, 255, 255, 0.12);
+
+    color: #ffffff;
+
+}
+
+
+html.escuro .btn_voltar:hover {
+
+    color: var(--accent);
+
+}
+
+
+/* ============================================================
+   CABEÇALHO - ESCURO
+============================================================ */
+
+html.escuro .carteira_header h1 {
+
+    color: #ffffff;
+
+}
+
+
+html.escuro .carteira_header p {
+
+    color: #aaa;
+
+}
+
+
+/* ============================================================
+   RESUMO - ESCURO
+============================================================ */
+
+html.escuro .resumo_label {
+
+    color: #aaa;
+
+}
+
+
+html.escuro .resumo_icon_resultado {
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   MOVIMENTAÇÕES - ESCURO
+============================================================ */
+
+html.escuro .section_header h2 {
+
+    color: #ffffff;
+
+}
+
+
+html.escuro .section_header p {
+
+    color: #aaa;
+
+}
+
+
+html.escuro .movimentacao_item {
+
+    border-bottom-color:
+        rgba(255, 255, 255, 0.07);
+
+}
+
+
+html.escuro .movimentacao_item:hover {
+
+    background: rgba(22, 226, 138, 0.06);
+
+}
+
+
+html.escuro .movimentacao_info h3 {
+
+    color: #ffffff;
+
+}
+
+
+html.escuro .movimentacao_info p {
+
+    color: #aaa;
+
+}
+
+
+/* ============================================================
+   ESTADO VAZIO - ESCURO
+============================================================ */
+
+html.escuro .empty_state h3 {
+
+    color: #ffffff;
+
+}
+
+
+html.escuro .empty_state p {
+
+    color: #aaa;
+
+}
+
+
+/* ============================================================
+   TEMA SISTEMA
+============================================================ */
+
+@media (prefers-color-scheme: dark) {
+
+    html.sistema {
+
+        background: #0B0F19;
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema body {
+
+        background: #0B0F19;
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema .glass {
+
+        background: rgba(20, 27, 40, 0.75);
+
+        border-color: rgba(255, 255, 255, 0.12);
+
+    }
+
+
+    html.sistema .glass-card {
+
+        background: rgba(20, 27, 40, 0.75);
+
+        border-color: rgba(255, 255, 255, 0.12);
+
+    }
+
+
+    html.sistema .btn_voltar {
+
+        background: rgba(20, 27, 40, 0.75);
+
+        border-color: rgba(255, 255, 255, 0.12);
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema .carteira_header h1 {
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema .carteira_header p {
+
+        color: #aaa;
+
+    }
+
+
+    html.sistema .resumo_label {
+
+        color: #aaa;
+
+    }
+
+
+    html.sistema .resumo_icon_resultado {
+
+        background: rgba(255, 255, 255, 0.08);
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema .section_header h2 {
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema .section_header p {
+
+        color: #aaa;
+
+    }
+
+
+    html.sistema .movimentacao_item {
+
+        border-bottom-color:
+            rgba(255, 255, 255, 0.07);
+
+    }
+
+
+    html.sistema .movimentacao_info h3 {
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema .movimentacao_info p {
+
+        color: #aaa;
+
+    }
+
+
+    html.sistema .empty_state h3 {
+
+        color: #ffffff;
+
+    }
+
+
+    html.sistema .empty_state p {
+
+        color: #aaa;
+
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVO
+============================================================ */
+
+@media (max-width: 900px) {
+
+    .resumo_grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .carteira_container {
+
+        padding:
+            105px
+            18px
+            60px;
+
+    }
+
+
+    .btn_voltar {
+
+        top: 18px;
+
+        left: 18px;
+
+        padding: 10px 16px;
+
+        font-size: 13px;
+
+    }
+
+
+    .carteira_header {
+
+        padding: 26px 22px;
+
+    }
+
+
+    .carteira_header h1 {
+
+        font-size: 1.55rem;
+
+    }
+
+
+    .carteira_header_icon {
+
+        width: 56px;
+
+        height: 56px;
+
+    }
+
+
+    .carteira_header_icon .material-icons {
+
+        font-size: 28px;
+
+    }
+
+
+    .resumo_grid {
+
         grid-template-columns: 1fr;
-        gap: 25px;
-    }
-    
-    .grafico-grande-container {
-        max-width: 280px;
-        height: 260px;
-    }
-    
-    .modal-detalhes {
-        padding: 30px 25px;
-    }
-}
 
-@media (max-width: 768px) {
-    .calendario-header {
-        padding: 100px 16px 30px;
     }
-    
-    .calendario-header-content {
-        flex-direction: column;
+
+
+    .resumo_card {
+
+        min-height: auto;
+
+    }
+
+
+    .section_header {
+
         align-items: flex-start;
-    }
-    
-    .btn-filtrar {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .filtros-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .filtro-item {
-        min-width: unset;
-    }
-    
-    .btn-aplicar-filtro {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .meses-grid {
-        grid-template-columns: 1fr;
-        padding: 0 16px;
-    }
-    
-    .mes-resumo {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    
-    .modal-detalhes {
-        padding: 25px 18px 30px;
-        border-radius: 24px;
-        max-height: 95vh;
-    }
-    
-    .modal-header h2 {
-        font-size: 1.5rem;
-    }
-    
-    .modal-resumo-geral {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .modal-resumo-item {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .grafico-grande-container {
-        max-width: 220px;
-        height: 200px;
-    }
-    
-    .transacao-item {
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-    
-    .transacao-descricao {
-        flex: 0 0 100%;
-        margin: 0 0 0 28px;
-        font-size: 0.8rem;
-    }
-}
 
-@media (max-width: 480px) {
-    .mes-resumo {
-        grid-template-columns: 1fr;
-        gap: 5px;
+        flex-direction: column;
+
     }
-    
-    .resumo-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 6px 12px;
+
+
+    .btn_nova_movimentacao {
+
+        width: 100%;
+
     }
-    
-    .resumo-item .rotulo {
-        display: inline;
-        font-size: 0.75rem;
+
+
+    .movimentacao_item {
+
+        padding:
+            16px 15px;
+
+        gap: 11px;
+
     }
-    
-    .resumo-item .valor {
-        display: inline;
-        font-size: 0.85rem;
+
+
+    .movimentacao_icon {
+
+        width: 40px;
+
+        height: 40px;
+
     }
-    
-    .grafico-pizza-container {
-        width: 100px;
-        height: 100px;
+
+
+    .movimentacao_info h3 {
+
+        max-width: 150px;
+
     }
-    
-    .modal-resumo-geral {
-        padding: 14px 16px;
+
+
+    .movimentacao_valor {
+
+        font-size: 0.8rem;
+
     }
+
 }

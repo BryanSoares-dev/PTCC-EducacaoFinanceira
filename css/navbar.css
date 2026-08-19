@@ -1,9 +1,186 @@
-/* =========================
-   HEADER / NAVBAR
-========================= */
+/* =========================================================
+   NAVBAR
+   Tema escuro = padrão
+   Tema claro = html.claro
+   ========================================================= */
 
-header{
+
+/* =========================================================
+   VARIÁVEIS — TEMA ESCURO
+   ========================================================= */
+
+:root {
+
+    --nav-bg:
+        rgba(10, 37, 64, 0.78);
+
+    --nav-border:
+        rgba(255, 255, 255, 0.08);
+
+    --nav-shadow:
+        rgba(0, 0, 0, 0.20);
+
+    --nav-text:
+        rgba(255, 255, 255, 0.92);
+
+    --nav-text-hover:
+        #16E28A;
+
+    --nav-green:
+        #16E28A;
+
+    --nav-green-dark:
+        #0FCF79;
+
+    --nav-button-text:
+        #06150F;
+
+    --nav-secondary-bg:
+        rgba(255, 255, 255, 0.08);
+
+    --nav-secondary-border:
+        rgba(255, 255, 255, 0.12);
+
+    --nav-secondary-hover:
+        rgba(255, 255, 255, 0.15);
+
+
+    /* Dropdown */
+
+    --dropdown-bg:
+        rgba(10, 37, 64, 0.97);
+
+    --dropdown-border:
+        rgba(255, 255, 255, 0.10);
+
+    --dropdown-text:
+        rgba(255, 255, 255, 0.92);
+
+    --dropdown-muted:
+        rgba(255, 255, 255, 0.60);
+
+    --dropdown-hover:
+        rgba(22, 226, 138, 0.10);
+
+    --dropdown-hover-text:
+        #16E28A;
+
+    --dropdown-divider:
+        rgba(255, 255, 255, 0.10);
+
+    --dropdown-logout:
+        #FF6B6B;
+
+    --dropdown-logout-hover:
+        rgba(255, 107, 107, 0.10);
+
+
+    /* Avatar */
+
+    --avatar-bg:
+        linear-gradient(
+            135deg,
+            #4CAF50,
+            #2E7D32
+        );
+
+    --avatar-text:
+        #FFFFFF;
+}
+
+
+/* =========================================================
+   VARIÁVEIS — TEMA CLARO
+   ========================================================= */
+
+html.claro {
+
+    --nav-bg:
+        rgba(255, 255, 255, 0.94);
+
+    --nav-border:
+        rgba(15, 23, 42, 0.10);
+
+    --nav-shadow:
+        rgba(15, 23, 42, 0.12);
+
+    --nav-text:
+        #334155;
+
+    --nav-text-hover:
+        #0369A1;
+
+    --nav-green:
+        #0E9F6E;
+
+    --nav-green-dark:
+        #087F5B;
+
+    --nav-button-text:
+        #052E1B;
+
+    --nav-secondary-bg:
+        #F1F5F9;
+
+    --nav-secondary-border:
+        #CBD5E1;
+
+    --nav-secondary-hover:
+        #E2E8F0;
+
+
+    /* Dropdown claro */
+
+    --dropdown-bg:
+        rgba(255, 255, 255, 0.98);
+
+    --dropdown-border:
+        rgba(15, 23, 42, 0.12);
+
+    --dropdown-text:
+        #0F172A;
+
+    --dropdown-muted:
+        #64748B;
+
+    --dropdown-hover:
+        rgba(14, 159, 110, 0.08);
+
+    --dropdown-hover-text:
+        #087F5B;
+
+    --dropdown-divider:
+        rgba(15, 23, 42, 0.10);
+
+    --dropdown-logout:
+        #DC2626;
+
+    --dropdown-logout-hover:
+        rgba(220, 38, 38, 0.08);
+
+
+    /* Avatar */
+
+    --avatar-bg:
+        linear-gradient(
+            135deg,
+            #4CAF50,
+            #2E7D32
+        );
+
+    --avatar-text:
+        #FFFFFF;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+
     position: fixed;
+
     top: 20px;
     left: 50%;
 
@@ -15,310 +192,596 @@ header{
     height: 85px;
 
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     padding: 0 35px;
 
-    background: rgba(10, 37, 64, 0.75);
+    background: var(--nav-bg);
 
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
 
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid var(--nav-border);
 
     border-radius: 24px;
 
     box-shadow:
-        0 10px 40px rgba(0,0,0,.20),
-        0 0 0 1px rgba(255,255,255,.03);
+        0 10px 40px var(--nav-shadow),
+        0 0 0 1px var(--nav-border);
 
     z-index: 9999;
 
-    transition: .3s;
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 
-.logo{
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.logo {
+
     width: 65px;
-    transition: .3s;
+
+    display: block;
+
+    transition: transform 0.3s ease;
 }
 
-.logo:hover{
+.logo:hover {
+
     transform: scale(1.05);
 }
 
-/* MENU */
 
-nav ul{
-    display:flex;
-    align-items:center;
-    gap:40px;
-    list-style:none;
+/* =========================================================
+   MENU
+   ========================================================= */
+
+nav ul {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 40px;
+
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
 }
 
-nav a{
-    position:relative;
 
-    color:rgba(255,255,255,0.9);
+nav a {
 
-    text-decoration:none;
+    position: relative;
 
-    font-size:15px;
+    color: var(--nav-text);
+
+    text-decoration: none;
+
+    font-size: 15px;
+
     font-family: sans-serif;
-    font-weight:600;
 
-    transition:.3s;
+    font-weight: 600;
+
+    transition:
+        color 0.3s ease;
 }
 
-nav a:hover{
-    color:#16E28A;
+
+nav a:hover {
+
+    color: var(--nav-text-hover);
 }
 
-nav a::after{
-    content:'';
 
-    position:absolute;
+nav a::after {
 
-    bottom:-8px;
-    left:50%;
+    content: '';
 
-    transform:translateX(-50%);
+    position: absolute;
 
-    width:0;
-    height:2px;
+    bottom: -8px;
+    left: 50%;
 
-    border-radius:50px;
+    transform: translateX(-50%);
 
-    background:#16E28A;
+    width: 0;
+    height: 2px;
 
-    transition:.3s;
+    border-radius: 50px;
+
+    background: var(--nav-green);
+
+    transition:
+        width 0.3s ease;
 }
 
-nav a:hover::after{
-    width:100%;
+
+nav a:hover::after {
+
+    width: 100%;
 }
 
-/* ÁREA DIREITA */
 
-.home_bot{
-    display:flex;
-    align-items:center;
-    gap:12px;
+/* =========================================================
+   ÁREA DIREITA
+   ========================================================= */
+
+.home_bot {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
 }
 
-.user_area{
-    display:flex;
-    align-items:center;
-    gap:15px;
+
+.user_area {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
 }
 
-.user_name{
-    color:white;
-    font-weight:600;
-    font-size:15px;
+
+.user_name {
+
+    color: var(--nav-text);
+
+    font-weight: 600;
+
+    font-size: 15px;
+
+    transition:
+        color 0.3s ease;
 }
 
-/* BOTÕES */
 
-.button_log{
-    border:none;
+/* =========================================================
+   BOTÕES
+   ========================================================= */
 
-    border-radius:50px;
+.button_log {
 
-    padding:12px 22px;
+    border: none;
 
-    font-weight:700;
+    border-radius: 50px;
 
-    cursor:pointer;
+    padding: 12px 22px;
 
-    transition:.3s;
+    font-weight: 700;
 
-    background:#16E28A;
-    color:black;
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+
+    background: var(--nav-green);
+
+    color: var(--nav-button-text);
 
     box-shadow:
-        0 8px 20px rgba(22,226,138,.25);
+        0 8px 20px rgba(22, 226, 138, 0.25);
 }
 
-.button_log:hover{
-    transform:translateY(-3px);
+
+.button_log:hover {
+
+    transform: translateY(-3px);
+
+    background: var(--nav-green-dark);
 }
 
-.button_log.conectar{
-    background:rgba(255,255,255,.08);
 
-    color:white;
+.button_log.conectar {
 
-    border:1px solid rgba(255,255,255,.12);
+    background: var(--nav-secondary-bg);
 
-    box-shadow:none;
+    color: var(--nav-text);
+
+    border: 1px solid var(--nav-secondary-border);
+
+    box-shadow: none;
 }
 
-.button_log.conectar:hover{
-    background:rgba(255,255,255,.15);
+
+.button_log.conectar:hover {
+
+    background: var(--nav-secondary-hover);
+
+    transform: translateY(-2px);
 }
 
-/* =========================
-   RESPONSIVO NAVBAR
-========================= */
 
-@media(max-width:768px){
-
-    header{
-        padding:0 20px;
-    }
-
-    nav{
-        display:none;
-    }
-
-    .home_bot{
-        gap:8px;
-    }
-
-    .button_log{
-        padding:10px 15px;
-        font-size:13px;
-    }
-}
-
-/* =========================
+/* =========================================================
    DROPDOWN DO USUÁRIO
-========================= */
+   ========================================================= */
 
-.user_dropdown{
+.user_dropdown {
+
     position: relative;
 }
 
-.user_dropdown img{
+
+.user_dropdown > a {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+
+.user_dropdown img {
+
     border-radius: 50%;
+
     cursor: pointer;
-    transition: .3s;
+
+    transition:
+        transform 0.3s ease;
+
     object-fit: cover;
+
     width: 45px;
     height: 45px;
 }
 
-.user_dropdown img:hover{
+
+.user_dropdown img:hover {
+
     transform: scale(1.05);
 }
 
-.dropdown_menu{
-    display: none;
-    opacity: 0;
 
-    position: absolute;
-    top: calc(100% + 15px);
-    right: 0;
-
-    min-width: 220px;
-
-    background: rgba(10, 37, 64, 0.95);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 16px;
-
-    box-shadow:
-        0 10px 40px rgba(0,0,0,.25),
-        0 0 0 1px rgba(255,255,255,.03);
-
-    padding: 10px;
-
-    transition: .3s;
-    z-index: 9999;
-}
-
-.dropdown_menu.active{
-    display: block;
-    opacity: 1;
-}
-
-.dropdown_header{
-    padding: 10px 12px;
-    color: #0A2540;
-    font-size: 14px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    margin-bottom: 6px;
-}
-
-.dropdown_item{
-    display: block;
-
-    padding: 10px 12px;
-
-    color: #333;
-    text-decoration: none;
-
-    font-size: 14px;
-    font-weight: 500;
-
-    border-radius: 10px;
-
-    transition: .3s;
-}
-
-.dropdown_item:hover{
-    background: rgba(22,226,138,.1);
-    color: #16E28A;   /* mantém o verde no hover, mas mais sutil */
-}
-
-.dropdown_menu hr{
-    border: none;
-    border-top: 1px solid rgba(255,255,255,.08);
-    margin: 6px 0;
-}
-
-.dropdown_item.logout{
-    color: #ff6b6b;
-}
-
-.dropdown_item.logout:hover{
-    background: rgba(255,107,107,.1);
-    color: #ff6b6b;
-}
+/* =========================================================
+   AVATAR
+   ========================================================= */
 
 .avatar_img,
 .avatar_placeholder {
+
     width: 40px;
     height: 40px;
+
+    min-width: 40px;
+    min-height: 40px;
+
     border-radius: 50%;
+
     object-fit: cover;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
 }
 
+
 .avatar_placeholder {
-    background: linear-gradient(135deg, #4CAF50, #2E7D32);
-    color: #fff;
+
+    background: var(--avatar-bg);
+
+    color: var(--avatar-text);
+
     font-size: 1.1rem;
+
     font-weight: 600;
+
     font-family: "Inter", sans-serif;
 }
+
+
+/* =========================================================
+   LINK DO AVATAR
+   ========================================================= */
+
 #avatarBtn {
+
     text-decoration: none;
+
     display: flex;
+
     align-items: center;
+
+    justify-content: center;
+
     gap: 10px;
 }
 
-.dropdown_header{
+
+/* =========================================================
+   DROPDOWN
+   ========================================================= */
+
+.dropdown_menu {
+
+    display: none;
+
+    opacity: 0;
+
+    position: absolute;
+
+    top: calc(100% + 15px);
+
+    right: 0;
+
+    min-width: 230px;
+
+    background: var(--dropdown-bg);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    border: 1px solid var(--dropdown-border);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.25),
+        0 0 0 1px var(--dropdown-border);
+
+    padding: 10px;
+
+    z-index: 9999;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+.dropdown_menu.active {
+
+    display: block;
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   CABEÇALHO DO DROPDOWN
+   ========================================================= */
+
+.dropdown_header {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 
     padding: 10px 12px;
-    color: #0A2540;
+
+    color: var(--dropdown-text);
+
     font-size: 14px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
+
+    border-bottom:
+        1px solid var(--dropdown-divider);
+
     margin-bottom: 6px;
 }
 
+
 .dropdown_header > div {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 2px;
+
+    min-width: 0;
+}
+
+
+.dropdown_header strong {
+
+    color: var(--dropdown-text);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.dropdown_header small {
+
+    color: var(--dropdown-muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   ITENS DO DROPDOWN
+   ========================================================= */
+
+.dropdown_item {
+
+    display: block;
+
+    padding: 10px 12px;
+
+    color: var(--dropdown-text);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    border-radius: 10px;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+
+.dropdown_item:hover {
+
+    background: var(--dropdown-hover);
+
+    color: var(--dropdown-hover-text);
+}
+
+
+/* =========================================================
+   DIVISOR
+   ========================================================= */
+
+.dropdown_menu hr {
+
+    border: none;
+
+    border-top:
+        1px solid var(--dropdown-divider);
+
+    margin: 6px 0;
+}
+
+
+/* =========================================================
+   SAIR
+   ========================================================= */
+
+.dropdown_item.logout {
+
+    color: var(--dropdown-logout);
+}
+
+
+.dropdown_item.logout:hover {
+
+    background: var(--dropdown-logout-hover);
+
+    color: var(--dropdown-logout);
+}
+
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    header {
+
+        width: calc(100% - 30px);
+
+        height: 75px;
+
+        padding: 0 20px;
+
+        border-radius: 20px;
+    }
+
+
+    .logo {
+
+        width: 55px;
+    }
+
+
+    nav {
+
+        display: none;
+    }
+
+
+    .home_bot {
+
+        gap: 8px;
+    }
+
+
+    .button_log {
+
+        padding: 10px 15px;
+
+        font-size: 13px;
+    }
+
+
+    .user_area {
+
+        gap: 10px;
+    }
+
+
+    .user_name {
+
+        display: none;
+    }
+
+
+    .dropdown_menu {
+
+        right: -5px;
+
+        min-width: 210px;
+    }
+}
+
+
+/* =========================================================
+   TELAS MUITO PEQUENAS
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    header {
+
+        width: calc(100% - 20px);
+
+        padding: 0 14px;
+
+        top: 10px;
+    }
+
+
+    .button_log {
+
+        padding: 9px 12px;
+
+        font-size: 12px;
+    }
+
+
+    .home_bot {
+
+        gap: 5px;
+    }
+
+
+    .dropdown_menu {
+
+        right: -5px;
+
+        min-width: 200px;
+    }
 }

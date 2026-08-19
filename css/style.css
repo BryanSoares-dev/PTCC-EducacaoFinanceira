@@ -1,7 +1,7 @@
 /* ============================================================
    FINCONTROL
    style.css
-   Sistema completo de temas:
+   Sistema de temas:
    - claro
    - escuro
    - sistema
@@ -58,7 +58,7 @@
 
 
     /* =========================
-       CORES PADRÃO
+       CORES FIXAS
        ========================= */
 
     --white: #FFFFFF;
@@ -77,7 +77,10 @@
        GLASS
        ========================= */
 
-    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-blur: 30px;
+
+    --glass-bg:
+        rgba(255, 255, 255, 0.08);
 
     --glass-bg-light:
         rgba(255, 255, 255, 0.06);
@@ -87,8 +90,6 @@
 
     --glass-border-hover:
         rgba(255, 255, 255, 0.25);
-
-    --glass-blur: 30px;
 
 
     /* =========================
@@ -118,42 +119,39 @@
 
 html.claro {
 
-    /* Fundo */
+    color-scheme: light;
+
+    /* =========================
+       FUNDOS
+       ========================= */
 
     --bg-body: #F8FAFC;
-
     --bg-main: #F8FAFC;
 
     --bg-section: #FFFFFF;
-
     --bg-section-alt: #F1F5F9;
 
     --bg-card: #FFFFFF;
-
     --bg-card-hover: #F8FAFC;
 
 
-    /* Texto */
+    /* =========================
+       TEXTOS
+       ========================= */
 
     --text-main: #0A2540;
-
     --text-primary: #0A2540;
-
     --text-secondary: #475569;
-
     --text-muted: #64748B;
-
     --text-inverse: #FFFFFF;
 
-
-    /* Títulos */
-
     --title-color: #0A2540;
-
     --paragraph-color: #475569;
 
 
-    /* Bordas */
+    /* =========================
+       BORDAS
+       ========================= */
 
     --border-color:
         rgba(10, 37, 64, 0.10);
@@ -162,33 +160,38 @@ html.claro {
         rgba(10, 37, 64, 0.06);
 
 
-    /* Navbar */
+    /* =========================
+       NAVBAR
+       ========================= */
 
     --header-bg:
-        rgba(10, 37, 64, 0.90);
+        rgba(10, 37, 64, 0.94);
 
     --dropdown-bg:
-        rgba(10, 37, 64, 0.96);
+        rgba(10, 37, 64, 0.98);
 
 
-    /* Inputs */
+    /* =========================
+       INPUTS
+       ========================= */
 
     --input-bg: #FFFFFF;
-
     --input-text: #0A2540;
-
     --input-border: #DBE3EB;
-
     --input-placeholder: #94A3B8;
 
 
-    /* Sombras */
+    /* =========================
+       SOMBRAS
+       ========================= */
 
     --card-shadow:
         0 10px 30px rgba(10, 37, 64, 0.08);
 
 
-    /* Hero */
+    /* =========================
+       HERO
+       ========================= */
 
     --hero-bg:
         linear-gradient(
@@ -199,9 +202,28 @@ html.claro {
         );
 
 
-    /* Seção escura */
+    /* =========================
+       SEÇÕES ESCURAS
+       ========================= */
 
     --dark-section-bg: #162B44;
+
+
+    /* =========================
+       GLASS PARA ÁREAS CLARAS
+       ========================= */
+
+    --glass-bg:
+        rgba(255, 255, 255, 0.78);
+
+    --glass-bg-light:
+        rgba(255, 255, 255, 0.65);
+
+    --glass-border:
+        rgba(10, 37, 64, 0.10);
+
+    --glass-border-hover:
+        rgba(22, 226, 138, 0.45);
 }
 
 
@@ -211,42 +233,39 @@ html.claro {
 
 html.escuro {
 
-    /* Fundo */
+    color-scheme: dark;
+
+    /* =========================
+       FUNDOS
+       ========================= */
 
     --bg-body: #080C14;
-
     --bg-main: #080C14;
 
     --bg-section: #0D1420;
-
     --bg-section-alt: #111A28;
 
     --bg-card: #172131;
-
     --bg-card-hover: #1D2A3D;
 
 
-    /* Texto */
+    /* =========================
+       TEXTOS
+       ========================= */
 
     --text-main: #F8FAFC;
-
     --text-primary: #FFFFFF;
-
     --text-secondary: #CBD5E1;
-
     --text-muted: #94A3B8;
-
     --text-inverse: #0A2540;
 
-
-    /* Títulos */
-
     --title-color: #FFFFFF;
-
     --paragraph-color: #CBD5E1;
 
 
-    /* Bordas */
+    /* =========================
+       BORDAS
+       ========================= */
 
     --border-color:
         rgba(255, 255, 255, 0.10);
@@ -255,7 +274,9 @@ html.escuro {
         rgba(255, 255, 255, 0.06);
 
 
-    /* Navbar */
+    /* =========================
+       NAVBAR
+       ========================= */
 
     --header-bg:
         rgba(8, 12, 20, 0.94);
@@ -264,10 +285,11 @@ html.escuro {
         rgba(13, 20, 32, 0.98);
 
 
-    /* Inputs */
+    /* =========================
+       INPUTS
+       ========================= */
 
     --input-bg: #172131;
-
     --input-text: #FFFFFF;
 
     --input-border:
@@ -276,13 +298,17 @@ html.escuro {
     --input-placeholder: #64748B;
 
 
-    /* Sombras */
+    /* =========================
+       SOMBRAS
+       ========================= */
 
     --card-shadow:
         0 15px 40px rgba(0, 0, 0, 0.35);
 
 
-    /* Hero */
+    /* =========================
+       HERO
+       ========================= */
 
     --hero-bg:
         linear-gradient(
@@ -293,9 +319,28 @@ html.escuro {
         );
 
 
-    /* Seção escura */
+    /* =========================
+       SEÇÕES ESCURAS
+       ========================= */
 
     --dark-section-bg: #080C14;
+
+
+    /* =========================
+       GLASS
+       ========================= */
+
+    --glass-bg:
+        rgba(255, 255, 255, 0.07);
+
+    --glass-bg-light:
+        rgba(255, 255, 255, 0.05);
+
+    --glass-border:
+        rgba(255, 255, 255, 0.12);
+
+    --glass-border-hover:
+        rgba(255, 255, 255, 0.22);
 }
 
 
@@ -307,30 +352,24 @@ html.escuro {
 
     html.sistema {
 
-        --bg-body: #080C14;
+        color-scheme: dark;
 
+        --bg-body: #080C14;
         --bg-main: #080C14;
 
         --bg-section: #0D1420;
-
         --bg-section-alt: #111A28;
 
         --bg-card: #172131;
-
         --bg-card-hover: #1D2A3D;
 
         --text-main: #F8FAFC;
-
         --text-primary: #FFFFFF;
-
         --text-secondary: #CBD5E1;
-
         --text-muted: #94A3B8;
-
         --text-inverse: #0A2540;
 
         --title-color: #FFFFFF;
-
         --paragraph-color: #CBD5E1;
 
         --border-color:
@@ -346,7 +385,6 @@ html.escuro {
             rgba(13, 20, 32, 0.98);
 
         --input-bg: #172131;
-
         --input-text: #FFFFFF;
 
         --input-border:
@@ -366,6 +404,18 @@ html.escuro {
             );
 
         --dark-section-bg: #080C14;
+
+        --glass-bg:
+            rgba(255, 255, 255, 0.07);
+
+        --glass-bg-light:
+            rgba(255, 255, 255, 0.05);
+
+        --glass-border:
+            rgba(255, 255, 255, 0.12);
+
+        --glass-border-hover:
+            rgba(255, 255, 255, 0.22);
     }
 }
 
@@ -378,30 +428,24 @@ html.escuro {
 
     html.sistema {
 
-        --bg-body: #F8FAFC;
+        color-scheme: light;
 
+        --bg-body: #F8FAFC;
         --bg-main: #F8FAFC;
 
         --bg-section: #FFFFFF;
-
         --bg-section-alt: #F1F5F9;
 
         --bg-card: #FFFFFF;
-
         --bg-card-hover: #F8FAFC;
 
         --text-main: #0A2540;
-
         --text-primary: #0A2540;
-
         --text-secondary: #475569;
-
         --text-muted: #64748B;
-
         --text-inverse: #FFFFFF;
 
         --title-color: #0A2540;
-
         --paragraph-color: #475569;
 
         --border-color:
@@ -411,17 +455,14 @@ html.escuro {
             rgba(10, 37, 64, 0.06);
 
         --header-bg:
-            rgba(10, 37, 64, 0.90);
+            rgba(10, 37, 64, 0.94);
 
         --dropdown-bg:
-            rgba(10, 37, 64, 0.96);
+            rgba(10, 37, 64, 0.98);
 
         --input-bg: #FFFFFF;
-
         --input-text: #0A2540;
-
         --input-border: #DBE3EB;
-
         --input-placeholder: #94A3B8;
 
         --card-shadow:
@@ -436,6 +477,18 @@ html.escuro {
             );
 
         --dark-section-bg: #162B44;
+
+        --glass-bg:
+            rgba(255, 255, 255, 0.78);
+
+        --glass-bg-light:
+            rgba(255, 255, 255, 0.65);
+
+        --glass-border:
+            rgba(10, 37, 64, 0.10);
+
+        --glass-border-hover:
+            rgba(22, 226, 138, 0.45);
     }
 }
 
@@ -445,15 +498,10 @@ html.escuro {
    ============================================================ */
 
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
-
     font-family: var(--font-family);
-
     scroll-behavior: smooth;
 }
 
@@ -463,11 +511,10 @@ html.escuro {
    ============================================================ */
 
 html {
-
     background: var(--bg-body);
-
     transition:
-        background-color 0.3s ease;
+        background-color 0.3s ease,
+        color 0.3s ease;
 }
 
 
@@ -476,12 +523,13 @@ html {
    ============================================================ */
 
 body {
-
     min-height: 100vh;
 
-    background: var(--bg-body);
+    background:
+        var(--bg-body);
 
-    color: var(--text-main);
+    color:
+        var(--text-main);
 
     overflow-x: hidden;
 
@@ -496,7 +544,7 @@ body {
    ============================================================ */
 
 a {
-
+    color: inherit;
     text-decoration: none;
 }
 
@@ -506,22 +554,23 @@ a {
    ============================================================ */
 
 button {
-
     font-family: inherit;
 }
 
 
 /* ============================================================
-   ELEMENTOS DE FORMULÁRIO
+   FORMULÁRIOS
    ============================================================ */
 
 input,
 select,
 textarea {
 
-    background: var(--input-bg);
+    background:
+        var(--input-bg);
 
-    color: var(--input-text);
+    color:
+        var(--input-text);
 
     border:
         1px solid var(--input-border);
@@ -529,13 +578,13 @@ textarea {
     transition:
         background-color 0.3s ease,
         color 0.3s ease,
-        border-color 0.3s ease;
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 
 input::placeholder,
 textarea::placeholder {
-
     color: var(--input-placeholder);
 }
 
@@ -546,7 +595,8 @@ textarea:focus {
 
     outline: none;
 
-    border-color: var(--accent);
+    border-color:
+        var(--accent);
 
     box-shadow:
         0 0 0 3px
@@ -560,7 +610,8 @@ textarea:focus {
 
 .glass {
 
-    background: var(--glass-bg);
+    background:
+        var(--glass-bg);
 
     border:
         1px solid var(--glass-border);
@@ -636,7 +687,6 @@ header {
     position: fixed;
 
     top: 20px;
-
     left: 50%;
 
     transform:
@@ -651,9 +701,11 @@ header {
     height:
         85px;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
     justify-content:
         space-between;
@@ -666,7 +718,7 @@ header {
 
     border:
         1px solid
-        var(--glass-border);
+        rgba(255, 255, 255, 0.15);
 
     border-radius:
         var(--radius-lg);
@@ -691,7 +743,7 @@ header {
 header:hover {
 
     border-color:
-        var(--glass-border-hover);
+        rgba(255, 255, 255, 0.25);
 
     box-shadow:
         var(--shadow-lg);
@@ -704,7 +756,8 @@ header:hover {
 
 .logo {
 
-    width: 65px;
+    width:
+        65px;
 
     transition:
         var(--transition-base);
@@ -724,19 +777,24 @@ header:hover {
 
 nav ul {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 40px;
+    gap:
+        40px;
 
-    list-style: none;
+    list-style:
+        none;
 }
 
 
 nav a {
 
-    position: relative;
+    position:
+        relative;
 
     color:
         rgba(255, 255, 255, 0.90);
@@ -753,9 +811,7 @@ nav a {
 
 
 nav a:hover {
-
-    color:
-        var(--accent);
+    color: var(--accent);
 }
 
 
@@ -763,15 +819,20 @@ nav a::after {
 
     content: '';
 
-    position: absolute;
+    position:
+        absolute;
 
-    left: 50%;
+    left:
+        50%;
 
-    bottom: -8px;
+    bottom:
+        -8px;
 
-    width: 0;
+    width:
+        0;
 
-    height: 2px;
+    height:
+        2px;
 
     border-radius:
         var(--radius-full);
@@ -788,7 +849,6 @@ nav a::after {
 
 
 nav a:hover::after {
-
     width: 100%;
 }
 
@@ -799,28 +859,34 @@ nav a:hover::after {
 
 .home_bot {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 12px;
+    gap:
+        12px;
 }
 
 
 .user_area {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    gap: 15px;
+    gap:
+        15px;
 }
 
 
 .user_name {
 
     color:
-        var(--white);
+        #FFFFFF;
 
     font-size:
         15px;
@@ -881,7 +947,7 @@ nav a:hover::after {
         rgba(255, 255, 255, 0.08);
 
     color:
-        var(--white);
+        #FFFFFF;
 
     border:
         1px solid
@@ -904,9 +970,7 @@ nav a:hover::after {
    ============================================================ */
 
 .user_dropdown {
-
-    position:
-        relative;
+    position: relative;
 }
 
 
@@ -956,7 +1020,7 @@ nav a:hover::after {
         );
 
     color:
-        var(--white);
+        #FFFFFF;
 
     font-size:
         1.1rem;
@@ -1006,7 +1070,7 @@ nav a:hover::after {
 
     border:
         1px solid
-        var(--glass-border);
+        rgba(255, 255, 255, 0.15);
 
     border-radius:
         var(--radius-md);
@@ -1054,7 +1118,7 @@ nav a:hover::after {
         rgba(255, 255, 255, 0.08);
 
     color:
-        var(--white);
+        #FFFFFF;
 
     font-size:
         14px;
@@ -1213,9 +1277,7 @@ nav a:hover::after {
 
 
 .hero_content {
-
-    flex:
-        1;
+    flex: 1;
 }
 
 
@@ -1248,13 +1310,20 @@ nav a:hover::after {
 }
 
 
+/*
+   IMPORTANTE:
+   O HERO É ESCURO.
+   Por isso os textos permanecem brancos mesmo
+   quando o tema geral é claro.
+*/
+
 .hero_content h1 {
 
     margin-bottom:
         25px;
 
     color:
-        var(--white);
+        #FFFFFF;
 
     font-size:
         clamp(3rem, 5vw, 5rem);
@@ -1355,7 +1424,7 @@ nav a:hover::after {
         rgba(255, 255, 255, 0.08);
 
     color:
-        var(--white);
+        #FFFFFF;
 
     border:
         1px solid
@@ -1462,7 +1531,7 @@ nav a:hover::after {
         8px;
 
     color:
-        var(--white);
+        #FFFFFF;
 }
 
 
@@ -1541,7 +1610,7 @@ section {
 .section_dark .section_title h2 {
 
     color:
-        var(--white);
+        #FFFFFF;
 }
 
 
@@ -1566,7 +1635,7 @@ section {
 .como_funciona .section_title h2 {
 
     color:
-        var(--white);
+        #FFFFFF;
 }
 
 
@@ -1846,7 +1915,7 @@ section {
         10px;
 
     color:
-        var(--white);
+        #FFFFFF;
 }
 
 
@@ -1986,7 +2055,7 @@ section {
         20px;
 
     color:
-        var(--white);
+        #FFFFFF;
 }
 
 
@@ -2037,7 +2106,7 @@ section {
         20px;
 
     color:
-        var(--white);
+        #FFFFFF;
 
     font-size:
         3rem;
@@ -2115,7 +2184,7 @@ footer {
 
 
 /* ============================================================
-   TRANSIÇÃO GLOBAL DO TEMA
+   TRANSIÇÃO GLOBAL
    ============================================================ */
 
 body,
@@ -2199,16 +2268,12 @@ textarea {
 
 
     nav {
-
-        display:
-            none;
+        display: none;
     }
 
 
     .home_bot {
-
-        gap:
-            8px;
+        gap: 8px;
     }
 
 

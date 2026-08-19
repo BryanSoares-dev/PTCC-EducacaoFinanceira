@@ -26,58 +26,126 @@
 
             <?php
                 $usuario = $_SESSION['usuario'] ?? [];
+
                 $nomeCompleto = trim($usuario['nome'] ?? '');
-                // remove espaços duplicados e separa os nomes
-                $partes = $nomeCompleto !== '' ? preg_split('/\s+/', $nomeCompleto) : ['Usuário'];
+
+                $partes = $nomeCompleto !== ''
+                    ? preg_split('/\s+/', $nomeCompleto)
+                    : ['Usuário'];
+
                 $primeiroNome = $partes[0];
-                // só existe "último nome" se houver mais de uma parte
-                $ultimoNome = count($partes) > 1 ? $partes[count($partes) - 1] : null;
-                // nome de exibição: "Primeiro Último" ou só "Primeiro" se não houver sobrenome
-                $nomeExibicao = $ultimoNome ? $primeiroNome . " " . $ultimoNome : $primeiroNome;
-                $inicial = mb_strtoupper(mb_substr($primeiroNome, 0, 1));
+
+                $ultimoNome = count($partes) > 1
+                    ? $partes[count($partes) - 1]
+                    : null;
+
+                $nomeExibicao = $ultimoNome
+                    ? $primeiroNome . " " . $ultimoNome
+                    : $primeiroNome;
+
+                $inicial = mb_strtoupper(
+                    mb_substr($primeiroNome, 0, 1)
+                );
+
                 $temFoto = !empty($usuario['foto']);
-                $fotoUsuario = $temFoto ? $usuario['foto'] : null;
+
+                $fotoUsuario = $temFoto
+                    ? $usuario['foto']
+                    : null;
             ?>
 
             <div class="user_area">
 
                 <span class="user_name">
-                    <strong><?= htmlspecialchars($nomeExibicao) ?></strong>
+                    <strong>
+                        <?= htmlspecialchars($nomeExibicao) ?>
+                    </strong>
                 </span>
 
                 <div class="user_dropdown">
 
-                    <a href="#" id="avatarBtn">
+                    <a href="#" id="avatarBtn" aria-label="Abrir menu do usuário">
+
                         <?php if ($temFoto): ?>
-                            <img src="<?= htmlspecialchars($fotoUsuario) ?>" class="avatar_img" alt="Avatar">
+
+                            <img
+                                src="<?= htmlspecialchars($fotoUsuario) ?>"
+                                class="avatar_img"
+                                alt="Avatar"
+                            >
+
                         <?php else: ?>
+
                             <div class="avatar_placeholder">
                                 <?= htmlspecialchars($inicial) ?>
                             </div>
+
                         <?php endif; ?>
+
                     </a>
+
 
                     <div class="dropdown_menu" id="dropdownMenu">
 
                         <div class="dropdown_header">
+
                             <?php if ($temFoto): ?>
-                                <img src="<?= htmlspecialchars($fotoUsuario) ?>" alt="Avatar" class="avatar_img">
+
+                                <img
+                                    src="<?= htmlspecialchars($fotoUsuario) ?>"
+                                    alt="Avatar"
+                                    class="avatar_img"
+                                >
+
                             <?php else: ?>
-                                <div class="avatar_placeholder"><?= htmlspecialchars($inicial) ?></div>
+
+                                <div class="avatar_placeholder">
+                                    <?= htmlspecialchars($inicial) ?>
+                                </div>
+
                             <?php endif; ?>
 
+
                             <div>
-                                <strong><?= htmlspecialchars($primeiroNome . " " . $ultimoNome) ?></strong>
-                                <small>Usuário</small>
+
+                                <strong>
+                                    <?= htmlspecialchars($nomeExibicao) ?>
+                                </strong>
+
+                                <small>
+                                    Usuário
+                                </small>
+
                             </div>
+
                         </div>
 
-                        <a href="perfil.php" class="dropdown_item">Ver Perfil</a>
-                        <a href="configuracoes.php" class="dropdown_item">Configurações</a>
+
+                        <a
+                            href="perfil.php"
+                            class="dropdown_item"
+                        >
+                            Ver Perfil
+                        </a>
+
+
+                        <a
+                            href="configuracoes.php"
+                            class="dropdown_item"
+                        >
+                            Configurações
+                        </a>
+
 
                         <hr>
 
-                        <a href="../back-end/logout.php" class="dropdown_item logout">Sair</a>
+
+                        <a
+                            href="../back-end/logout.php"
+                            class="dropdown_item logout"
+                        >
+                            Sair
+                        </a>
 
                     </div>
 
@@ -85,41 +153,75 @@
 
             </div>
 
+
         <?php else: ?>
 
+
             <a href="cadastro.php">
-                <button class="button_log">Registrar</button>
+                <button
+                    type="button"
+                    class="button_log"
+                >
+                    Registrar
+                </button>
             </a>
 
+
             <a href="login.php">
-                <button class="button_log conectar">Entrar</button>
+                <button
+                    type="button"
+                    class="button_log conectar"
+                >
+                    Entrar
+                </button>
             </a>
+
 
         <?php endif; ?>
 
     </div>
+
 </header>
+
 
 <script>
 (function () {
+
     if (window.__navbarInitialized) return;
+
     window.__navbarInitialized = true;
+
 
     const avatarBtn = document.getElementById("avatarBtn");
     const dropdownMenu = document.getElementById("dropdownMenu");
 
+
     if (avatarBtn && dropdownMenu) {
-        avatarBtn.addEventListener("click", (e) => {
+
+        avatarBtn.addEventListener("click", function (e) {
+
             e.preventDefault();
             e.stopPropagation();
+
             dropdownMenu.classList.toggle("active");
+
         });
 
-        document.addEventListener("click", (e) => {
-            if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+
+        document.addEventListener("click", function (e) {
+
+            if (
+                !avatarBtn.contains(e.target) &&
+                !dropdownMenu.contains(e.target)
+            ) {
+
                 dropdownMenu.classList.remove("active");
+
             }
+
         });
+
     }
+
 })();
 </script>

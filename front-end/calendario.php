@@ -1,619 +1,655 @@
 <?php
-// Inclui a conexão com o caminho correto
+
 session_start();
-require_once("../back-end/conexao.php");
+
+require_once '../back-end/conexao.php';
+
+
+/* ============================================================
+   PROTEÇÃO DA PÁGINA
+============================================================ */
 
 if (!isset($_SESSION['id'])) {
-    header("Location: login.php");
-    exit();
+
+    header('Location: login.php');
+
+    exit;
 }
+
+
+/* ============================================================
+   BUSCAR USUÁRIO E TEMA
+============================================================ */
+
+$stmt = $pdo->prepare("
+    SELECT id, nome, email, tema
+    FROM usuarios
+    WHERE id = ?
+");
+
+$stmt->execute([$_SESSION['id']]);
+
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+if (!$usuario) {
+
+    session_destroy();
+
+    header('Location: login.php');
+
+    exit;
+}
+
+
+/* ============================================================
+   TEMA
+============================================================ */
+
+$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'sistema');
+
+$temas_permitidos = [
+    'claro',
+    'escuro',
+    'sistema'
+];
+
+if (!in_array($tema, $temas_permitidos, true)) {
+
+    $tema = 'sistema';
+
+}
+
+
+$usuarioId = (int) $usuario['id'];
+
+
+/* ============================================================
+   BUSCAR MOVIMENTAÇÕES
+============================================================ */
+
+$stmtMovimentacoes = $pdo->prepare("
+    SELECT
+        id,
+        descricao,
+        tipo,
+        valor,
+        data_criacao
+    FROM movimentacoes
+    WHERE usuario_id = ?
+    ORDER BY data_criacao DESC, id DESC
+");
+
+$stmtMovimentacoes->execute([$usuarioId]);
+
+$movimentacoes =
+    $stmtMovimentacoes->fetchAll(PDO::FETCH_ASSOC);
+
+
+/* ============================================================
+   RESUMO FINANCEIRO
+============================================================ */
+
+$resumo = $pdo->prepare("
+    SELECT
+
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN tipo = 'entrada'
+                    THEN valor
+                    ELSE -valor
+                END
+            ),
+            0
+        ) AS saldo,
+
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN tipo = 'entrada'
+                    AND MONTH(data_criacao) = MONTH(CURDATE())
+                    AND YEAR(data_criacao) = YEAR(CURDATE())
+                    THEN valor
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS receitas_mes,
+
+        COALESCE(
+            SUM(
+                CASE
+                    WHEN tipo = 'saida'
+                    AND MONTH(data_criacao) = MONTH(CURDATE())
+                    AND YEAR(data_criacao) = YEAR(CURDATE())
+                    THEN valor
+                    ELSE 0
+                END
+            ),
+            0
+        ) AS despesas_mes
+
+    FROM movimentacoes
+
+    WHERE usuario_id = ?
+");
+
+$resumo->execute([$usuarioId]);
+
+$dadosResumo =
+    $resumo->fetch(PDO::FETCH_ASSOC) ?: [];
+
+
+$saldo =
+    (float) (
+        $dadosResumo['saldo'] ?? 0
+    );
+
+
+$receitasMes =
+    (float) (
+        $dadosResumo['receitas_mes'] ?? 0
+    );
+
+
+$despesasMes =
+    (float) (
+        $dadosResumo['despesas_mes'] ?? 0
+    );
+
+
+$resultadoMes =
+    $receitasMes - $despesasMes;
+
+
+/* ============================================================
+   FORMATAR MOEDA
+============================================================ */
+
+function formatarMoeda($valor)
+{
+    return 'R$ ' . number_format(
+        $valor,
+        2,
+        ',',
+        '.'
+    );
+}
+
+
+/* ============================================================
+   FORMATAR DATA
+============================================================ */
+
+function formatarData($data)
+{
+    if (empty($data)) {
+        return '';
+    }
+
+    return date(
+        'd/m/Y',
+        strtotime($data)
+    );
+}
+
 ?>
+
+
 <!DOCTYPE html>
-<html lang="pt-br">
+
+<html
+    lang="pt-BR"
+    class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"
+>
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário Financeiro</title>
-    <link rel="stylesheet" href="../css/calendario.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../img/favicon.png">
-    <!-- Chart.js para gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Carteira | FinControl</title>
+
+
+    <link
+        rel="stylesheet"
+        href="../css/carteira.css"
+    >
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <link
+        href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet"
+    >
+
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="../img/favicon.png"
+    >
+
 </head>
+
+
 <body>
 
-<?php include_once 'navbar.php'; ?>
 
-<main>
-    <!-- HEADER DO CALENDÁRIO -->
-    <section class="calendario-header">
-        <div class="calendario-header-content">
-            <div class="header-left">
-                <h1>
-                    <i class="fas fa-calendar-alt" style="color: #16E28A;"></i> 
-                    Calendário Financeiro
-                </h1>
-                <p>Visualize seus gastos e receitas mês a mês</p>
-            </div>
-            <div class="header-right">
-                <button class="btn-filtrar" onclick="toggleFiltros()">
-                    <i class="fas fa-sliders-h"></i> Filtrar
-                </button>
-            </div>
-        </div>
-    </section>
-     <!-- CARD DE FILTRO (aparece ao clicar em Filtrar) -->
-<div class="filtro-overlay" id="filtroOverlay"></div>
+<!-- ============================================================
+     FUNDO
+============================================================ -->
 
-<div class="filtro-card" id="filtroCard">
-    <!-- Header do card -->
-    <div class="filtro-card-header">
-        <h4><i class="fas fa-chart-line"></i> Filtro por Ano</h4>
-        <button class="filtro-fechar" onclick="fecharFiltro()">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
+<div class="background_shapes">
 
-    <!-- Corpo do card -->
-    <div class="filtro-card-body">
-        <!-- Anos disponíveis -->
-        <div class="anos-container">
-            <label class="filtro-label"> Selecione o Ano</label>
-            <div class="anos-grid">
-                <button class="ano-btn" data-ano="2024" onclick="selecionarAno(this)">
-                    <span class="ano-numero">2024</span>
-                    <span class="ano-status"> R$ 400,00</span>
-                </button>
-                <button class="ano-btn" data-ano="2025" onclick="selecionarAno(this)">
-                    <span class="ano-numero">2025</span>
-                    <span class="ano-status"> R$ 700,00</span>
-                </button>
-                <button class="ano-btn ativo" data-ano="2026" onclick="selecionarAno(this)">
-                    <span class="ano-numero">2026</span>
-                    <span class="ano-status"> R$ 1.800,00</span>
-                </button>
-            </div>
-        </div>
+    <div class="shape shape1"></div>
 
-        <!-- Destaques: Maior e Menor Saldo -->
-            <div class="destaques-container">
-                <div class="destaque-item maior-saldo">
-                    <div class="destaque-info">
-                        <span class="destaque-label">Maior Saldo</span>
-                        <span class="destaque-valor">R$ 1.800,00</span>
-                        <span class="destaque-ano">em 2026</span>
-                    </div>
-                </div>
-                <div class="destaque-item menor-saldo">
-                    <div class="destaque-info">
-                        <span class="destaque-label">Menor Saldo</span>
-                        <span class="destaque-valor">R$ 400,00</span>
-                        <span class="destaque-ano">em 2024</span>
-                    </div>
-                </div>
-            </div>
+    <div class="shape shape2"></div>
 
-        <!-- Botão de aplicar -->
-            <button class="btn-aplicar-filtro" onclick="aplicarFiltro()">
-                <i class="fas fa-check-circle"></i> Aplicar Filtro
-            </button>
-        </div>
-    </div>
+    <div class="shape shape3"></div>
 
-    
+</div>
 
-    <!-- GRID DE MESES -->
-    <section class="meses-grid">
-        <!-- Mês 1: Janeiro -->
-        <div class="mes-card" onclick="abrirDetalhesMes('Janeiro')">
-            <div class="mes-header">
-                <h3><i class="fas fa-calendar-check"></i> Janeiro</h3>
-                <span class="mes-ano">2026</span>
-            </div>
-            <div class="mes-resumo">
-                <div class="resumo-item receita">
-                    <span class="rotulo">Receitas</span>
-                    <span class="valor positivo">R$ 4.500,00</span>
-                </div>
-                <div class="resumo-item despesa">
-                    <span class="rotulo">Despesas</span>
-                    <span class="valor negativo">R$ 3.200,00</span>
-                </div>
-                <div class="resumo-item saldo">
-                    <span class="rotulo">Saldo</span>
-                    <span class="valor positivo">R$ 1.300,00</span>
-                </div>
-            </div>
-            <div class="grafico-pizza-container">
-                <canvas id="pizzaJan" width="120" height="120"></canvas>
-            </div>
-            <div class="mes-footer">
-                <span class="categorias-count"><i class="fas fa-tags"></i> 5 categorias</span>
-                <span class="transacoes-count"><i class="fas fa-exchange-alt"></i> 12 transações</span>
-            </div>
+
+<!-- ============================================================
+     BOTÃO VOLTAR
+============================================================ -->
+
+<a
+    href="home.php"
+    class="btn_voltar"
+>
+
+    <span class="material-icons">
+        arrow_back
+    </span>
+
+    Voltar
+
+</a>
+
+
+<!-- ============================================================
+     CONTEÚDO
+============================================================ -->
+
+<main class="carteira_container">
+
+
+    <!-- ========================================================
+         CABEÇALHO
+    ========================================================= -->
+
+    <section class="carteira_header glass">
+
+        <div>
+
+            <span class="carteira_eyebrow">
+                Finanças
+            </span>
+
+            <h1>
+                Minha carteira
+            </h1>
+
+            <p>
+                Acompanhe seu saldo e suas movimentações.
+            </p>
+
         </div>
 
-        <!-- Mês 2: Fevereiro -->
-        <div class="mes-card" onclick="abrirDetalhesMes('Fevereiro')">
-            <div class="mes-header">
-                <h3><i class="fas fa-calendar-check"></i> Fevereiro</h3>
-                <span class="mes-ano">2026</span>
-            </div>
-            <div class="mes-resumo">
-                <div class="resumo-item receita">
-                    <span class="rotulo">Receitas</span>
-                    <span class="valor positivo">R$ 4.500,00</span>
-                </div>
-                <div class="resumo-item despesa">
-                    <span class="rotulo">Despesas</span>
-                    <span class="valor negativo">R$ 3.800,00</span>
-                </div>
-                <div class="resumo-item saldo">
-                    <span class="rotulo">Saldo</span>
-                    <span class="valor positivo">R$ 700,00</span>
-                </div>
-            </div>
-            <div class="grafico-pizza-container">
-                <canvas id="pizzaFev" width="120" height="120"></canvas>
-            </div>
-            <div class="mes-footer">
-                <span class="categorias-count"><i class="fas fa-tags"></i> 4 categorias</span>
-                <span class="transacoes-count"><i class="fas fa-exchange-alt"></i> 8 transações</span>
-            </div>
+
+        <div class="carteira_header_icon">
+
+            <span class="material-icons">
+                account_balance_wallet
+            </span>
+
         </div>
 
-        <!-- Mês 3: Março -->
-        <div class="mes-card" onclick="abrirDetalhesMes('Março')">
-            <div class="mes-header">
-                <h3><i class="fas fa-calendar-check"></i> Março</h3>
-                <span class="mes-ano">2026</span>
-            </div>
-            <div class="mes-resumo">
-                <div class="resumo-item receita">
-                    <span class="rotulo">Receitas</span>
-                    <span class="valor positivo">R$ 4.500,00</span>
-                </div>
-                <div class="resumo-item despesa">
-                    <span class="rotulo">Despesas</span>
-                    <span class="valor negativo">R$ 2.900,00</span>
-                </div>
-                <div class="resumo-item saldo">
-                    <span class="valor positivo">R$ 1.600,00</span>
-                </div>
-            </div>
-            <div class="grafico-pizza-container">
-                <canvas id="pizzaMar" width="120" height="120"></canvas>
-            </div>
-            <div class="mes-footer">
-                <span class="categorias-count"><i class="fas fa-tags"></i> 6 categorias</span>
-                <span class="transacoes-count"><i class="fas fa-exchange-alt"></i> 15 transações</span>
-            </div>
-        </div>
-
-        <!-- Mês 4: Abril -->
-        <div class="mes-card" onclick="abrirDetalhesMes('Abril')">
-            <div class="mes-header">
-                <h3><i class="fas fa-calendar-check"></i> Abril</h3>
-                <span class="mes-ano">2026</span>
-            </div>
-            <div class="mes-resumo">
-                <div class="resumo-item receita">
-                    <span class="rotulo">Receitas</span>
-                    <span class="valor positivo">R$ 4.500,00</span>
-                </div>
-                <div class="resumo-item despesa">
-                    <span class="rotulo">Despesas</span>
-                    <span class="valor negativo">R$ 4.100,00</span>
-                </div>
-                <div class="resumo-item saldo">
-                    <span class="rotulo">Saldo</span>
-                    <span class="valor positivo">R$ 400,00</span>
-                </div>
-            </div>
-            <div class="grafico-pizza-container">
-                <canvas id="pizzaAbr" width="120" height="120"></canvas>
-            </div>
-            <div class="mes-footer">
-                <span class="categorias-count"><i class="fas fa-tags"></i> 4 categorias</span>
-                <span class="transacoes-count"><i class="fas fa-exchange-alt"></i> 10 transações</span>
-            </div>
-        </div>
-
-        <!-- Mês 5: Maio -->
-        <div class="mes-card" onclick="abrirDetalhesMes('Maio')">
-            <div class="mes-header">
-                <h3><i class="fas fa-calendar-check"></i> Maio</h3>
-                <span class="mes-ano">2026</span>
-            </div>
-            <div class="mes-resumo">
-                <div class="resumo-item receita">
-                    <span class="rotulo">Receitas</span>
-                    <span class="valor positivo">R$ 4.500,00</span>
-                </div>
-                <div class="resumo-item despesa">
-                    <span class="rotulo">Despesas</span>
-                    <span class="valor negativo">R$ 3.500,00</span>
-                </div>
-                <div class="resumo-item saldo">
-                    <span class="rotulo">Saldo</span>
-                    <span class="valor positivo">R$ 1.000,00</span>
-                </div>
-            </div>
-            <div class="grafico-pizza-container">
-                <canvas id="pizzaMai" width="120" height="120"></canvas>
-            </div>
-            <div class="mes-footer">
-                <span class="categorias-count"><i class="fas fa-tags"></i> 5 categorias</span>
-                <span class="transacoes-count"><i class="fas fa-exchange-alt"></i> 14 transações</span>
-            </div>
-        </div>
-
-        <!-- Mês 6: Junho -->
-        <div class="mes-card" onclick="abrirDetalhesMes('Junho')">
-            <div class="mes-header">
-                <h3><i class="fas fa-calendar-check"></i> Junho</h3>
-                <span class="mes-ano">2026</span>
-            </div>
-            <div class="mes-resumo">
-                <div class="resumo-item receita">
-                    <span class="rotulo">Receitas</span>
-                    <span class="valor positivo">R$ 4.500,00</span>
-                </div>
-                <div class="resumo-item despesa">
-                    <span class="rotulo">Despesas</span>
-                    <span class="valor negativo">R$ 2.700,00</span>
-                </div>
-                <div class="resumo-item saldo">
-                    <span class="rotulo">Saldo</span>
-                    <span class="valor positivo">R$ 1.800,00</span>
-                </div>
-            </div>
-            <div class="grafico-pizza-container">
-                <canvas id="pizzaJun" width="120" height="120"></canvas>
-            </div>
-            <div class="mes-footer">
-                <span class="categorias-count"><i class="fas fa-tags"></i> 7 categorias</span>
-                <span class="transacoes-count"><i class="fas fa-exchange-alt"></i> 18 transações</span>
-            </div>
-        </div>
     </section>
 
-    <!-- MODAL DE DETALHES DO MÊS -->
-    <div class="modal-overlay" id="modalDetalhes">
-        <div class="modal-detalhes">
-            <button class="modal-fechar" onclick="fecharDetalhes()">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal-header">
-                <h2 id="modalTituloMes"><i class="fas fa-calendar-alt"></i> Janeiro 2026</h2>
-                <div class="modal-resumo-geral">
-                    <div class="modal-resumo-item">
-                        <span>Receitas</span>
-                        <strong class="positivo">R$ 4.500,00</strong>
-                    </div>
-                    <div class="modal-resumo-item">
-                        <span>Despesas</span>
-                        <strong class="negativo">R$ 3.200,00</strong>
-                    </div>
-                    <div class="modal-resumo-item">
-                        <span>Saldo</span>
-                        <strong class="positivo">R$ 1.300,00</strong>
-                    </div>
+
+    <!-- ========================================================
+         RESUMO
+    ========================================================= -->
+
+    <section class="resumo_grid">
+
+
+        <!-- SALDO -->
+
+        <div class="resumo_card glass-card resumo_card_saldo">
+
+            <div class="resumo_card_top">
+
+                <div class="resumo_icon">
+
+                    <span class="material-icons">
+                        account_balance_wallet
+                    </span>
+
                 </div>
+
+                <span class="resumo_label">
+                    Saldo atual
+                </span>
+
             </div>
-            <div class="modal-body">
-                <div class="modal-grafico">
-                    <h4>Distribuição de Gastos</h4>
-                    <div class="grafico-grande-container">
-                        <canvas id="modalPizzaGrande" width="300" height="300"></canvas>
-                    </div>
-                </div>
-                <div class="modal-lista-transacoes">
-                    <h4>Últimas Transações</h4>
-                    <div class="transacao-item">
-                        <span class="transacao-categoria"><i class="fas fa-utensils"></i> Alimentação</span>
-                        <span class="transacao-descricao">Supermercado</span>
-                        <span class="transacao-valor negativo">-R$ 350,00</span>
-                    </div>
-                    <div class="transacao-item">
-                        <span class="transacao-categoria"><i class="fas fa-bus"></i> Transporte</span>
-                        <span class="transacao-descricao">Uber</span>
-                        <span class="transacao-valor negativo">-R$ 45,00</span>
-                    </div>
-                    <div class="transacao-item">
-                        <span class="transacao-categoria"><i class="fas fa-home"></i> Moradia</span>
-                        <span class="transacao-descricao">Aluguel</span>
-                        <span class="transacao-valor negativo">-R$ 1.200,00</span>
-                    </div>
-                    <div class="transacao-item">
-                        <span class="transacao-categoria"><i class="fas fa-film"></i> Lazer</span>
-                        <span class="transacao-descricao">Cinema</span>
-                        <span class="transacao-valor negativo">-R$ 60,00</span>
-                    </div>
-                    <div class="transacao-item">
-                        <span class="transacao-categoria"><i class="fas fa-heartbeat"></i> Saúde</span>
-                        <span class="transacao-descricao">Farmácia</span>
-                        <span class="transacao-valor negativo">-R$ 120,00</span>
-                    </div>
-                </div>
-            </div>
+
+
+            <strong
+                class="resumo_valor <?= $saldo < 0 ? 'valor_negativo' : 'valor_positivo' ?>"
+            >
+
+                <?= formatarMoeda($saldo) ?>
+
+            </strong>
+
         </div>
-    </div>
+
+
+        <!-- RECEITAS -->
+
+        <div class="resumo_card glass-card">
+
+            <div class="resumo_card_top">
+
+                <div class="resumo_icon resumo_icon_receita">
+
+                    <span class="material-icons">
+                        trending_up
+                    </span>
+
+                </div>
+
+                <span class="resumo_label">
+                    Receitas do mês
+                </span>
+
+            </div>
+
+
+            <strong class="resumo_valor valor_positivo">
+
+                <?= formatarMoeda($receitasMes) ?>
+
+            </strong>
+
+        </div>
+
+
+        <!-- DESPESAS -->
+
+        <div class="resumo_card glass-card">
+
+            <div class="resumo_card_top">
+
+                <div class="resumo_icon resumo_icon_despesa">
+
+                    <span class="material-icons">
+                        trending_down
+                    </span>
+
+                </div>
+
+                <span class="resumo_label">
+                    Despesas do mês
+                </span>
+
+            </div>
+
+
+            <strong class="resumo_valor valor_negativo">
+
+                <?= formatarMoeda($despesasMes) ?>
+
+            </strong>
+
+        </div>
+
+
+        <!-- RESULTADO -->
+
+        <div class="resumo_card glass-card">
+
+            <div class="resumo_card_top">
+
+                <div class="resumo_icon resumo_icon_resultado">
+
+                    <span class="material-icons">
+                        analytics
+                    </span>
+
+                </div>
+
+                <span class="resumo_label">
+                    Resultado do mês
+                </span>
+
+            </div>
+
+
+            <strong
+                class="resumo_valor <?= $resultadoMes < 0 ? 'valor_negativo' : 'valor_positivo' ?>"
+            >
+
+                <?= formatarMoeda($resultadoMes) ?>
+
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         MOVIMENTAÇÕES
+    ========================================================= -->
+
+    <section class="movimentacoes_section">
+
+
+        <div class="section_header">
+
+            <div>
+
+                <h2>
+                    Movimentações
+                </h2>
+
+                <p>
+                    Histórico financeiro da sua conta
+                </p>
+
+            </div>
+
+
+            <a
+                href="movimentacoes.php"
+                class="btn_nova_movimentacao"
+            >
+
+                <span class="material-icons">
+                    add
+                </span>
+
+                Nova movimentação
+
+            </a>
+
+        </div>
+
+
+        <div class="movimentacoes_card glass-card">
+
+
+            <?php if (empty($movimentacoes)): ?>
+
+
+                <div class="empty_state">
+
+                    <div class="empty_icon">
+
+                        <span class="material-icons">
+                            account_balance_wallet
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Nenhuma movimentação
+                    </h3>
+
+
+                    <p>
+                        Suas entradas e saídas aparecerão aqui.
+                    </p>
+
+
+                    <a
+                        href="movimentacoes.php"
+                        class="btn_empty"
+                    >
+
+                        Adicionar movimentação
+
+                    </a>
+
+                </div>
+
+
+            <?php else: ?>
+
+
+                <div class="movimentacoes_lista">
+
+
+                    <?php foreach ($movimentacoes as $movimentacao): ?>
+
+
+                        <?php
+
+                        $tipo =
+                            strtolower(
+                                $movimentacao['tipo'] ?? ''
+                            );
+
+                        $isEntrada =
+                            $tipo === 'entrada';
+
+                        ?>
+
+
+                        <div class="movimentacao_item">
+
+
+                            <div
+                                class="
+                                    movimentacao_icon
+                                    <?= $isEntrada
+                                        ? 'movimentacao_entrada'
+                                        : 'movimentacao_saida'
+                                    ?>
+                                "
+                            >
+
+                                <span class="material-icons">
+
+                                    <?= $isEntrada
+                                        ? 'arrow_downward'
+                                        : 'arrow_upward'
+                                    ?>
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="movimentacao_info">
+
+                                <h3>
+
+                                    <?= htmlspecialchars(
+                                        $movimentacao['descricao']
+                                            ?: 'Movimentação',
+                                        ENT_QUOTES,
+                                        'UTF-8'
+                                    ) ?>
+
+                                </h3>
+
+
+                                <p>
+
+                                    <?= $isEntrada
+                                        ? 'Entrada'
+                                        : 'Saída'
+                                    ?>
+
+                                    <span>
+                                        •
+                                    </span>
+
+                                    <?= formatarData(
+                                        $movimentacao['data_criacao']
+                                    ) ?>
+
+                                </p>
+
+                            </div>
+
+
+                            <strong
+                                class="
+                                    movimentacao_valor
+                                    <?= $isEntrada
+                                        ? 'valor_positivo'
+                                        : 'valor_negativo'
+                                    ?>
+                                "
+                            >
+
+                                <?= $isEntrada ? '+' : '-' ?>
+
+                                <?= formatarMoeda(
+                                    (float) $movimentacao['valor']
+                                ) ?>
+
+                            </strong>
+
+
+                        </div>
+
+
+                    <?php endforeach; ?>
+
+
+                </div>
+
+
+            <?php endif; ?>
+
+
+        </div>
+
+    </section>
+
 
 </main>
 
-<script>
-    // ========== FUNÇÕES DO CALENDÁRIO ==========
-
-    // Toggle dos filtros
-    function toggleFiltros() {
-    const section = document.getElementById('filtrosSection');
-    section.classList.toggle('active');
-}
-
-    // Abrir modal de detalhes
-    function abrirDetalhesMes(mes) {
-        document.getElementById('modalTituloMes').innerHTML = `<i class="fas fa-calendar-alt"></i> ${mes} 2026`;
-        document.getElementById('modalDetalhes').classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        // Inicializa o gráfico grande
-        criarGraficoGrande();
-    }
-
-    // Fechar modal de detalhes
-    function fecharDetalhes() {
-        document.getElementById('modalDetalhes').classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-
-    // Fechar modal com clique fora
-    document.getElementById('modalDetalhes').addEventListener('click', function(e) {
-        if (e.target === this) {
-            fecharDetalhes();
-        }
-    });
-
-    // Fechar com ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            fecharDetalhes();
-        }
-    });
-
-    // ========== FUNÇÕES DO FILTRO CARD ==========
-
-// Abrir filtro
-function toggleFiltros() {
-    const card = document.getElementById('filtroCard');
-    const overlay = document.getElementById('filtroOverlay');
-    
-    card.classList.add('active');
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-// Fechar filtro
-function fecharFiltro() {
-    const card = document.getElementById('filtroCard');
-    const overlay = document.getElementById('filtroOverlay');
-    
-    card.classList.remove('active');
-    overlay.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-// Selecionar ano
-function selecionarAno(elemento) {
-    document.querySelectorAll('.ano-btn').forEach(btn => {
-        btn.classList.remove('ativo');
-    });
-    elemento.classList.add('ativo');
-}
-
-// Aplicar filtro
-function aplicarFiltro() {
-    const anoSelecionado = document.querySelector('.ano-btn.ativo');
-    if (anoSelecionado) {
-        const ano = anoSelecionado.dataset.ano;
-        console.log('Filtrando por ano:', ano);
-        
-        // Aqui você faz a ação de filtrar os dados
-        // Exemplo: window.location.href = `?ano=${ano}`;
-        
-        // Feedback visual
-        const btn = document.querySelector('.btn-aplicar-filtro');
-        const textoOriginal = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Aplicando...';
-        btn.disabled = true;
-        
-        setTimeout(() => {
-            btn.innerHTML = '<i class="fas fa-check-circle"></i> Filtro Aplicado!';
-            btn.style.background = 'linear-gradient(135deg, #16E28A, #0db873)';
-            
-            setTimeout(() => {
-                fecharFiltro();
-                btn.innerHTML = textoOriginal;
-                btn.disabled = false;
-            }, 1000);
-        }, 800);
-    } else {
-        alert('Selecione um ano primeiro!');
-    }
-}
-
-// Fechar ao clicar no overlay
-document.addEventListener('click', function(e) {
-    const card = document.getElementById('filtroCard');
-    const overlay = document.getElementById('filtroOverlay');
-    
-    if (e.target === overlay) {
-        fecharFiltro();
-    }
-});
-
-// Fechar com ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        const card = document.getElementById('filtroCard');
-        if (card.classList.contains('active')) {
-            fecharFiltro();
-        }
-    }
-});
-    // ========== CRIAÇÃO DOS GRÁFICOS ==========
-
-    // Cores para os gráficos
-    const cores = [
-        '#16E28A', '#FF6B6B', '#4ECDC4', '#FFD93D', '#6C5CE7', 
-        '#A8E6CF', '#FF8A5C', '#74B9FF', '#FD79A8', '#00B894'
-    ];
-
-    // Dados dos meses (exemplo)
-    const dadosMeses = {
-        'Janeiro': {
-            categorias: ['Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Saúde'],
-            valores: [350, 200, 1200, 400, 150]
-        },
-        'Fevereiro': {
-            categorias: ['Alimentação', 'Moradia', 'Lazer', 'Saúde'],
-            valores: [400, 1200, 300, 180]
-        },
-        'Março': {
-            categorias: ['Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Saúde', 'Educação'],
-            valores: [380, 250, 1200, 350, 200, 150]
-        },
-        'Abril': {
-            categorias: ['Alimentação', 'Moradia', 'Lazer', 'Saúde'],
-            valores: [420, 1200, 280, 200]
-        },
-        'Maio': {
-            categorias: ['Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Saúde'],
-            valores: [360, 220, 1200, 380, 170]
-        },
-        'Junho': {
-            categorias: ['Alimentação', 'Transporte', 'Moradia', 'Lazer', 'Saúde', 'Educação', 'Outros'],
-            valores: [340, 200, 1200, 320, 180, 150, 100]
-        }
-    };
-
-    // Criar gráficos pequenos para cada mês
-    function criarGraficosPequenos() {
-        const mesesIds = {
-            'Janeiro': 'pizzaJan',
-            'Fevereiro': 'pizzaFev',
-            'Março': 'pizzaMar',
-            'Abril': 'pizzaAbr',
-            'Maio': 'pizzaMai',
-            'Junho': 'pizzaJun'
-        };
-
-        Object.keys(mesesIds).forEach(mes => {
-            const canvasId = mesesIds[mes];
-            const canvas = document.getElementById(canvasId);
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                const dados = dadosMeses[mes];
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: dados.categorias,
-                        datasets: [{
-                            data: dados.valores,
-                            backgroundColor: cores.slice(0, dados.categorias.length),
-                            borderWidth: 0,
-                            hoverOffset: 8
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                        let percent = ((context.parsed / total) * 100).toFixed(1);
-                                        return `${context.label}: R$ ${context.parsed} (${percent}%)`;
-                                    }
-                                }
-                            }
-                        },
-                        cutout: '65%'
-                    }
-                });
-            }
-        });
-    }
-
-    // Criar gráfico grande no modal
-    let graficoGrande = null;
-
-    function criarGraficoGrande() {
-        const canvas = document.getElementById('modalPizzaGrande');
-        if (!canvas) return;
-        
-        const ctx = canvas.getContext('2d');
-        const dados = dadosMeses['Janeiro'];
-        
-        // Destroi gráfico anterior se existir
-        if (graficoGrande) {
-            graficoGrande.destroy();
-        }
-        
-        graficoGrande = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: dados.categorias,
-                datasets: [{
-                    data: dados.valores,
-                    backgroundColor: cores.slice(0, dados.categorias.length),
-                    borderColor: 'rgba(10, 37, 64, 0.8)',
-                    borderWidth: 2,
-                    hoverOffset: 15
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            color: '#ffffff',
-                            font: { size: 12 },
-                            padding: 15,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                let percent = ((context.parsed / total) * 100).toFixed(1);
-                                return `${context.label}: R$ ${context.parsed} (${percent}%)`;
-                            }
-                        }
-                    }
-                },
-                cutout: '60%',
-                animation: {
-                    animateRotate: true,
-                    duration: 1000
-                }
-            }
-        });
-    }
-
-    // Inicializar gráficos quando a página carregar
-    document.addEventListener('DOMContentLoaded', function() {
-        criarGraficosPequenos();
-    });
-</script>
 
 </body>
+
 </html>
