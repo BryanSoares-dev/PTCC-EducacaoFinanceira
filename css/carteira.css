@@ -268,15 +268,17 @@ body {
 
 html:not(.claro) {
 
-    color-scheme:
-        dark;
+    color-scheme:dark;
 }
 
 
 html.claro {
 
-    color-scheme:
-        light;
+    color-scheme: light;
+}
+
+html.escuro{
+    color-scheme: dark;
 }
 
 

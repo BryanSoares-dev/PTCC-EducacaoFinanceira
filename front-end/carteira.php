@@ -4,22 +4,10 @@ session_start();
 
 require_once '../back-end/conexao.php';
 
-
-/* ============================================================
-   PROTEÇÃO DA PÁGINA
-============================================================ */
-
 if (!isset($_SESSION['id'])) {
-
     header('Location: login.php');
-
     exit;
 }
-
-
-/* ============================================================
-   BUSCAR USUÁRIO E TEMA
-============================================================ */
 
 $stmt = $pdo->prepare("
     SELECT id, nome, email, tema
@@ -31,20 +19,11 @@ $stmt->execute([$_SESSION['id']]);
 
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
 if (!$usuario) {
-
     session_destroy();
-
     header('Location: login.php');
-
     exit;
 }
-
-
-/* ============================================================
-   TEMA
-============================================================ */
 
 $tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'sistema');
 
@@ -55,11 +34,8 @@ $temas_permitidos = [
 ];
 
 if (!in_array($tema, $temas_permitidos, true)) {
-
     $tema = 'sistema';
-
 }
-
 
 $usuarioId = (int) $usuario['id'];
 
