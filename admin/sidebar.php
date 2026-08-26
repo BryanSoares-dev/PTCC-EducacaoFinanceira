@@ -22,7 +22,7 @@ $paginaAtual = $paginaAtual ?? '';
         <a href="movimentacoes.php" class="<?= $paginaAtual === 'movimentacoes' ? 'ativo' : '' ?>">
             <i class="fas fa-exchange-alt"></i> Movimentações
         </a>
-        <a href="../back-end/logout.php" class="sair">
+        <a href="../front-end/home.php" class="sair">
             <i class="fas fa-sign-out-alt"></i> Sair
         </a>
     </nav>

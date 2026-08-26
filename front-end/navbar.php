@@ -3,6 +3,23 @@
 <link rel="stylesheet" href="../css/style-perfil.css">
 
 
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isAdmin = false;
+if (isset($_SESSION['id'])) {
+    require_once __DIR__ . '/../back-end/conexao.php';
+    $stmt = $pdo->prepare("SELECT tipo FROM usuarios WHERE id = ?");
+    $stmt->execute([$_SESSION['id']]);
+    $dadosTipo = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($dadosTipo && ($dadosTipo['tipo'] ?? '') === 'admin') {
+        $isAdmin = true;
+    }
+}
+?>
+
 <header>
 
     <a href="../front-end/home.php">
@@ -12,11 +29,14 @@
     <nav>
         <ul>
             <li><a href="home.php">Início</a></li>
-            <li><a href="#Educacao">Educação</a></li>
+            <li><a href="aprendizado.php">Educação</a></li>
             <li><a href="calculadora.php">Calculadora</a></li>
             <li><a href="carteira.php">Carteira</a></li>
             <li><a href="investimentos_Diversificacao.php">Investimentos</a></li>
             <li><a href="analisador.php">Analisador</a></li>
+            <?php if ($isAdmin): ?>
+                <li><a href="../admin/index.php">Admin</a></li>
+            <?php endif; ?>
         </ul>
     </nav>
 
