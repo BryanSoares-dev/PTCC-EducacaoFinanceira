@@ -5,31 +5,34 @@ session_start();
 require_once '../back-end/conexao.php';
 
 
-/* ============================================================
-   PROTEÇÃO DA PÁGINA
-============================================================ */
-
 if (!isset($_SESSION['id'])) {
 
     header('Location: login.php');
 
     exit;
+
 }
 
 
-/* ============================================================
-   BUSCAR USUÁRIO E TEMA
-============================================================ */
-
 $stmt = $pdo->prepare("
-    SELECT id, nome, email, tema
+    SELECT
+        id,
+        nome,
+        tema,
+        data_criacao
     FROM usuarios
     WHERE id = ?
 ");
 
-$stmt->execute([$_SESSION['id']]);
 
-$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->execute([
+    $_SESSION['id']
+]);
+
+
+$usuario = $stmt->fetch(
+    PDO::FETCH_ASSOC
+);
 
 
 if (!$usuario) {
@@ -39,169 +42,19 @@ if (!$usuario) {
     header('Location: login.php');
 
     exit;
-}
-
-
-/* ============================================================
-   TEMA
-============================================================ */
-
-$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'sistema');
-
-$temas_permitidos = [
-    'claro',
-    'escuro',
-    'sistema'
-];
-
-if (!in_array($tema, $temas_permitidos, true)) {
-
-    $tema = 'sistema';
 
 }
 
 
-$usuarioId = (int) $usuario['id'];
-
-
-/* ============================================================
-   BUSCAR MOVIMENTAÇÕES
-============================================================ */
-
-$stmtMovimentacoes = $pdo->prepare("
-    SELECT
-        id,
-        descricao,
-        tipo,
-        valor,
-        data_criacao
-    FROM movimentacoes
-    WHERE usuario_id = ?
-    ORDER BY data_criacao DESC, id DESC
-");
-
-$stmtMovimentacoes->execute([$usuarioId]);
-
-$movimentacoes =
-    $stmtMovimentacoes->fetchAll(PDO::FETCH_ASSOC);
-
-
-/* ============================================================
-   RESUMO FINANCEIRO
-============================================================ */
-
-$resumo = $pdo->prepare("
-    SELECT
-
-        COALESCE(
-            SUM(
-                CASE
-                    WHEN tipo = 'entrada'
-                    THEN valor
-                    ELSE -valor
-                END
-            ),
-            0
-        ) AS saldo,
-
-        COALESCE(
-            SUM(
-                CASE
-                    WHEN tipo = 'entrada'
-                    AND MONTH(data_criacao) = MONTH(CURDATE())
-                    AND YEAR(data_criacao) = YEAR(CURDATE())
-                    THEN valor
-                    ELSE 0
-                END
-            ),
-            0
-        ) AS receitas_mes,
-
-        COALESCE(
-            SUM(
-                CASE
-                    WHEN tipo = 'saida'
-                    AND MONTH(data_criacao) = MONTH(CURDATE())
-                    AND YEAR(data_criacao) = YEAR(CURDATE())
-                    THEN valor
-                    ELSE 0
-                END
-            ),
-            0
-        ) AS despesas_mes
-
-    FROM movimentacoes
-
-    WHERE usuario_id = ?
-");
-
-$resumo->execute([$usuarioId]);
-
-$dadosResumo =
-    $resumo->fetch(PDO::FETCH_ASSOC) ?: [];
-
-
-$saldo =
-    (float) (
-        $dadosResumo['saldo'] ?? 0
-    );
-
-
-$receitasMes =
-    (float) (
-        $dadosResumo['receitas_mes'] ?? 0
-    );
-
-
-$despesasMes =
-    (float) (
-        $dadosResumo['despesas_mes'] ?? 0
-    );
-
-
-$resultadoMes =
-    $receitasMes - $despesasMes;
-
-
-/* ============================================================
-   FORMATAR MOEDA
-============================================================ */
-
-function formatarMoeda($valor)
-{
-    return 'R$ ' . number_format(
-        $valor,
-        2,
-        ',',
-        '.'
-    );
-}
-
-
-/* ============================================================
-   FORMATAR DATA
-============================================================ */
-
-function formatarData($data)
-{
-    if (empty($data)) {
-        return '';
-    }
-
-    return date(
-        'd/m/Y',
-        strtotime($data)
-    );
-}
+$tema = $usuario['tema'] ?? 'sistema';
 
 ?>
-
 
 <!DOCTYPE html>
 
 <html
     lang="pt-BR"
-    class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"
+    class="<?= htmlspecialchars($tema) ?>"
 >
 
 <head>
@@ -213,31 +66,25 @@ function formatarData($data)
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Carteira | FinControl</title>
+    <title>
+        Calendário Financeiro | FinControl
+    </title>
 
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 
     <link
         rel="stylesheet"
-        href="../css/carteira.css"
+        href="../css/calendario.css"
     >
-
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
         rel="stylesheet"
     >
 
-
     <link
         href="https://fonts.googleapis.com/icon?family=Material+Icons"
         rel="stylesheet"
-    >
-
-
-    <link
-        rel="icon"
-        type="image/png"
-        href="../img/favicon.png"
     >
 
 </head>
@@ -245,10 +92,6 @@ function formatarData($data)
 
 <body>
 
-
-<!-- ============================================================
-     FUNDO
-============================================================ -->
 
 <div class="background_shapes">
 
@@ -261,12 +104,9 @@ function formatarData($data)
 </div>
 
 
-<!-- ============================================================
-     BOTÃO VOLTAR
-============================================================ -->
 
 <a
-    href="home.php"
+    href="carteira.php"
     class="btn_voltar"
 >
 
@@ -274,380 +114,994 @@ function formatarData($data)
         arrow_back
     </span>
 
-    Voltar
+    Voltar para carteira
 
 </a>
 
 
-<!-- ============================================================
-     CONTEÚDO
-============================================================ -->
 
-<main class="carteira_container">
+<main class="calendario_container">
 
 
-    <!-- ========================================================
-         CABEÇALHO
-    ========================================================= -->
+    <!-- CABEÇALHO -->
 
-    <section class="carteira_header glass">
+    <section class="calendario_header glass">
+
 
         <div>
 
-            <span class="carteira_eyebrow">
+
+            <span class="calendario_eyebrow">
+
                 Finanças
+
             </span>
+
 
             <h1>
-                Minha carteira
+
+                Calendário financeiro
+
             </h1>
 
+
             <p>
-                Acompanhe seu saldo e suas movimentações.
+
+                Visualize suas despesas
+                e acompanhe sua evolução.
+
             </p>
+
 
         </div>
 
 
-        <div class="carteira_header_icon">
+        <div class="calendar_icon">
 
             <span class="material-icons">
-                account_balance_wallet
+
+                calendar_month
+
             </span>
 
         </div>
 
-    </section>
-
-
-    <!-- ========================================================
-         RESUMO
-    ========================================================= -->
-
-    <section class="resumo_grid">
-
-
-        <!-- SALDO -->
-
-        <div class="resumo_card glass-card resumo_card_saldo">
-
-            <div class="resumo_card_top">
-
-                <div class="resumo_icon">
-
-                    <span class="material-icons">
-                        account_balance_wallet
-                    </span>
-
-                </div>
-
-                <span class="resumo_label">
-                    Saldo atual
-                </span>
-
-            </div>
-
-
-            <strong
-                class="resumo_valor <?= $saldo < 0 ? 'valor_negativo' : 'valor_positivo' ?>"
-            >
-
-                <?= formatarMoeda($saldo) ?>
-
-            </strong>
-
-        </div>
-
-
-        <!-- RECEITAS -->
-
-        <div class="resumo_card glass-card">
-
-            <div class="resumo_card_top">
-
-                <div class="resumo_icon resumo_icon_receita">
-
-                    <span class="material-icons">
-                        trending_up
-                    </span>
-
-                </div>
-
-                <span class="resumo_label">
-                    Receitas do mês
-                </span>
-
-            </div>
-
-
-            <strong class="resumo_valor valor_positivo">
-
-                <?= formatarMoeda($receitasMes) ?>
-
-            </strong>
-
-        </div>
-
-
-        <!-- DESPESAS -->
-
-        <div class="resumo_card glass-card">
-
-            <div class="resumo_card_top">
-
-                <div class="resumo_icon resumo_icon_despesa">
-
-                    <span class="material-icons">
-                        trending_down
-                    </span>
-
-                </div>
-
-                <span class="resumo_label">
-                    Despesas do mês
-                </span>
-
-            </div>
-
-
-            <strong class="resumo_valor valor_negativo">
-
-                <?= formatarMoeda($despesasMes) ?>
-
-            </strong>
-
-        </div>
-
-
-        <!-- RESULTADO -->
-
-        <div class="resumo_card glass-card">
-
-            <div class="resumo_card_top">
-
-                <div class="resumo_icon resumo_icon_resultado">
-
-                    <span class="material-icons">
-                        analytics
-                    </span>
-
-                </div>
-
-                <span class="resumo_label">
-                    Resultado do mês
-                </span>
-
-            </div>
-
-
-            <strong
-                class="resumo_valor <?= $resultadoMes < 0 ? 'valor_negativo' : 'valor_positivo' ?>"
-            >
-
-                <?= formatarMoeda($resultadoMes) ?>
-
-            </strong>
-
-        </div>
 
     </section>
 
 
-    <!-- ========================================================
-         MOVIMENTAÇÕES
-    ========================================================= -->
 
-    <section class="movimentacoes_section">
+    <!-- NAVEGAÇÃO DOS MESES -->
 
-
-        <div class="section_header">
-
-            <div>
-
-                <h2>
-                    Movimentações
-                </h2>
-
-                <p>
-                    Histórico financeiro da sua conta
-                </p>
-
-            </div>
+    <section class="month_navigation glass">
 
 
-            <a
-                href="movimentacoes.php"
-                class="btn_nova_movimentacao"
-            >
+        <button
+            id="btnAnterior"
+            class="month_button"
+        >
 
-                <span class="material-icons">
-                    add
-                </span>
+            <span class="material-icons">
 
-                Nova movimentação
+                chevron_left
 
-            </a>
+            </span>
+
+        </button>
+
+
+        <div class="month_title_container">
+
+
+            <span>
+
+                Período selecionado
+
+            </span>
+
+
+            <h2 id="mesTitulo">
+
+                Carregando...
+
+            </h2>
+
 
         </div>
 
 
-        <div class="movimentacoes_card glass-card">
+        <button
+            id="btnProximo"
+            class="month_button"
+        >
+
+            <span class="material-icons">
+
+                chevron_right
+
+            </span>
+
+        </button>
 
 
-            <?php if (empty($movimentacoes)): ?>
+    </section>
 
 
-                <div class="empty_state">
 
-                    <div class="empty_icon">
+    <!-- CONTEÚDO -->
+
+    <section
+        id="dashboard"
+        class="dashboard_grid"
+    >
+
+
+        <!-- GRÁFICO -->
+
+        <div class="chart_card glass">
+
+
+            <div class="chart_header">
+
+
+                <div>
+
+
+                    <h2>
+
+                        Despesas por categoria
+
+                    </h2>
+
+
+                    <p>
+
+                        Distribuição das suas despesas.
+
+                    </p>
+
+
+                </div>
+
+
+                <div class="chart_badge">
+
+                    <span class="material-icons">
+
+                        pie_chart
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div
+                id="chartArea"
+                class="chart_area"
+            >
+
+
+                <canvas
+                    id="graficoPizza"
+                ></canvas>
+
+
+                <div
+                    id="emptyChart"
+                    class="empty_chart hidden"
+                >
+
+
+                    <span class="material-icons">
+
+                        pie_chart_outline
+
+                    </span>
+
+
+                    <h3>
+
+                        Nenhuma despesa
+
+                    </h3>
+
+
+                    <p>
+
+                        Não existem movimentações
+                        neste período.
+
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- RESUMO -->
+
+        <div class="summary_column">
+
+
+            <div class="summary_card glass-card">
+
+
+                <div class="summary_top">
+
+
+                    <div class="summary_icon receita">
 
                         <span class="material-icons">
-                            account_balance_wallet
+
+                            trending_up
+
                         </span>
 
                     </div>
 
 
-                    <h3>
-                        Nenhuma movimentação
-                    </h3>
+                    <span>
 
+                        Receitas
 
-                    <p>
-                        Suas entradas e saídas aparecerão aqui.
-                    </p>
-
-
-                    <a
-                        href="movimentacoes.php"
-                        class="btn_empty"
-                    >
-
-                        Adicionar movimentação
-
-                    </a>
-
-                </div>
-
-
-            <?php else: ?>
-
-
-                <div class="movimentacoes_lista">
-
-
-                    <?php foreach ($movimentacoes as $movimentacao): ?>
-
-
-                        <?php
-
-                        $tipo =
-                            strtolower(
-                                $movimentacao['tipo'] ?? ''
-                            );
-
-                        $isEntrada =
-                            $tipo === 'entrada';
-
-                        ?>
-
-
-                        <div class="movimentacao_item">
-
-
-                            <div
-                                class="
-                                    movimentacao_icon
-                                    <?= $isEntrada
-                                        ? 'movimentacao_entrada'
-                                        : 'movimentacao_saida'
-                                    ?>
-                                "
-                            >
-
-                                <span class="material-icons">
-
-                                    <?= $isEntrada
-                                        ? 'arrow_downward'
-                                        : 'arrow_upward'
-                                    ?>
-
-                                </span>
-
-                            </div>
-
-
-                            <div class="movimentacao_info">
-
-                                <h3>
-
-                                    <?= htmlspecialchars(
-                                        $movimentacao['descricao']
-                                            ?: 'Movimentação',
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ) ?>
-
-                                </h3>
-
-
-                                <p>
-
-                                    <?= $isEntrada
-                                        ? 'Entrada'
-                                        : 'Saída'
-                                    ?>
-
-                                    <span>
-                                        •
-                                    </span>
-
-                                    <?= formatarData(
-                                        $movimentacao['data_criacao']
-                                    ) ?>
-
-                                </p>
-
-                            </div>
-
-
-                            <strong
-                                class="
-                                    movimentacao_valor
-                                    <?= $isEntrada
-                                        ? 'valor_positivo'
-                                        : 'valor_negativo'
-                                    ?>
-                                "
-                            >
-
-                                <?= $isEntrada ? '+' : '-' ?>
-
-                                <?= formatarMoeda(
-                                    (float) $movimentacao['valor']
-                                ) ?>
-
-                            </strong>
-
-
-                        </div>
-
-
-                    <?php endforeach; ?>
+                    </span>
 
 
                 </div>
 
 
-            <?php endif; ?>
+                <strong
+                    id="receitas"
+                    class="positive"
+                >
+
+                    R$ 0,00
+
+                </strong>
+
+
+            </div>
+
+
+
+            <div class="summary_card glass-card">
+
+
+                <div class="summary_top">
+
+
+                    <div class="summary_icon despesa">
+
+                        <span class="material-icons">
+
+                            trending_down
+
+                        </span>
+
+                    </div>
+
+
+                    <span>
+
+                        Despesas
+
+                    </span>
+
+
+                </div>
+
+
+                <strong
+                    id="despesas"
+                    class="negative"
+                >
+
+                    R$ 0,00
+
+                </strong>
+
+
+            </div>
+
+
+
+            <div class="summary_card glass-card">
+
+
+                <div class="summary_top">
+
+
+                    <div class="summary_icon resultado">
+
+                        <span class="material-icons">
+
+                            analytics
+
+                        </span>
+
+                    </div>
+
+
+                    <span>
+
+                        Resultado
+
+                    </span>
+
+
+                </div>
+
+
+                <strong
+                    id="resultado"
+                >
+
+                    R$ 0,00
+
+                </strong>
+
+
+            </div>
 
 
         </div>
+
+
+    </section>
+
+
+
+    <!-- LEGENDA -->
+
+    <section
+        id="legenda"
+        class="legend_card glass"
+    >
+
+
+        <div class="legend_header">
+
+
+            <h2>
+
+                Categorias
+
+            </h2>
+
+
+            <span
+                id="quantidadeMovimentacoes"
+            >
+
+                0 movimentações
+
+            </span>
+
+
+        </div>
+
+
+        <div
+            id="listaCategorias"
+            class="category_list"
+        >
+
+        </div>
+
 
     </section>
 
 
 </main>
+
+
+
+<!-- CHART.JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+
+/* ==========================================
+   ELEMENTOS
+========================================== */
+
+const mesTitulo =
+    document.getElementById(
+        'mesTitulo'
+    );
+
+
+const btnAnterior =
+    document.getElementById(
+        'btnAnterior'
+    );
+
+
+const btnProximo =
+    document.getElementById(
+        'btnProximo'
+    );
+
+
+const receitasEl =
+    document.getElementById(
+        'receitas'
+    );
+
+
+const despesasEl =
+    document.getElementById(
+        'despesas'
+    );
+
+
+const resultadoEl =
+    document.getElementById(
+        'resultado'
+    );
+
+
+const listaCategorias =
+    document.getElementById(
+        'listaCategorias'
+    );
+
+
+const emptyChart =
+    document.getElementById(
+        'emptyChart'
+    );
+
+
+const quantidadeMovimentacoes =
+    document.getElementById(
+        'quantidadeMovimentacoes'
+    );
+
+
+/* ==========================================
+   DATA ATUAL
+========================================== */
+
+const hoje = new Date();
+
+
+let mesAtual =
+    hoje.getMonth() + 1;
+
+
+let anoAtual =
+    hoje.getFullYear();
+
+
+let grafico = null;
+
+
+const nomesMeses = [
+
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro'
+
+];
+
+
+
+/* ==========================================
+   FORMATAR MOEDA
+========================================== */
+
+function formatarMoeda(valor) {
+
+    return new Intl.NumberFormat(
+
+        'pt-BR',
+
+        {
+
+            style: 'currency',
+
+            currency: 'BRL'
+
+        }
+
+    ).format(valor);
+
+}
+
+
+
+/* ==========================================
+   CORES DO GRÁFICO
+========================================== */
+
+const cores = [
+
+    '#54e39a',
+
+    '#4dabf7',
+
+    '#9775fa',
+
+    '#ff922b',
+
+    '#f06595',
+
+    '#20c997',
+
+    '#ffd43b',
+
+    '#748ffc'
+
+];
+
+
+
+/* ==========================================
+   CARREGAR DADOS
+========================================== */
+
+async function carregarDados() {
+
+
+    const url =
+        `../back-end/dados_grafico.php?mes=${mesAtual}&ano=${anoAtual}`;
+
+
+    try {
+
+
+        const resposta =
+            await fetch(url);
+
+
+        const dados =
+            await resposta.json();
+
+
+        if (!dados.sucesso) {
+
+            return;
+
+        }
+
+
+        atualizarTela(
+            dados
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            'Erro ao carregar gráfico:',
+            erro
+        );
+
+    }
+
+}
+
+
+
+/* ==========================================
+   ATUALIZAR TELA
+========================================== */
+
+function atualizarTela(dados) {
+
+
+    mesTitulo.textContent =
+        `${nomesMeses[mesAtual - 1]} ${anoAtual}`;
+
+
+    /* RESUMO */
+
+    receitasEl.textContent =
+        formatarMoeda(
+            dados.resumo.receitas
+        );
+
+
+    despesasEl.textContent =
+        formatarMoeda(
+            dados.resumo.despesas
+        );
+
+
+    resultadoEl.textContent =
+        formatarMoeda(
+            dados.resumo.resultado
+        );
+
+
+    resultadoEl.className =
+        dados.resumo.resultado >= 0
+
+            ? 'positive'
+
+            : 'negative';
+
+
+    quantidadeMovimentacoes.textContent =
+        `${dados.quantidade} movimentação${dados.quantidade === 1 ? '' : 'ões'}`;
+
+
+    /* GRÁFICO */
+
+    if (
+        dados.grafico.labels.length === 0
+    ) {
+
+
+        emptyChart.classList.remove(
+            'hidden'
+        );
+
+
+        document
+            .getElementById(
+                'graficoPizza'
+            )
+            .style.display = 'none';
+
+
+        if (grafico) {
+
+            grafico.destroy();
+
+            grafico = null;
+
+        }
+
+
+    } else {
+
+
+        emptyChart.classList.add(
+            'hidden'
+        );
+
+
+        const canvas =
+            document.getElementById(
+                'graficoPizza'
+            );
+
+
+        canvas.style.display =
+            'block';
+
+
+        if (grafico) {
+
+            grafico.destroy();
+
+        }
+
+
+        grafico =
+            new Chart(
+
+                canvas,
+
+                {
+
+                    type: 'doughnut',
+
+
+                    data: {
+
+                        labels:
+                            dados.grafico.labels,
+
+
+                        datasets: [
+
+                            {
+
+                                data:
+                                    dados.grafico.valores,
+
+
+                                backgroundColor:
+
+                                    dados
+                                        .grafico
+                                        .valores
+                                        .map(
+                                            (
+                                                _,
+                                                index
+                                            ) =>
+                                                cores[
+                                                    index %
+                                                    cores.length
+                                                ]
+                                        ),
+
+
+                                borderWidth:
+                                    0,
+
+                                borderRadius:
+                                    8
+
+                            }
+
+                        ]
+
+                    },
+
+
+                    options: {
+
+                        responsive:
+                            true,
+
+
+                        maintainAspectRatio:
+                            false,
+
+
+                        cutout:
+                            '65%',
+
+
+                        animation: {
+
+                            animateRotate:
+                                true,
+
+                            duration:
+                                1000
+
+                        },
+
+
+                        plugins: {
+
+                            legend: {
+
+                                display:
+                                    false
+
+                            },
+
+
+                            tooltip: {
+
+                                callbacks: {
+
+                                    label:
+
+                                        function(
+                                            context
+                                        ) {
+
+                                            return (
+                                                ' ' +
+                                                context.label +
+                                                ': ' +
+                                                formatarMoeda(
+                                                    context.raw
+                                                )
+                                            );
+
+                                        }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            );
+
+
+    }
+
+
+    /* LEGENDA */
+
+    listaCategorias.innerHTML = '';
+
+
+    dados.grafico.labels.forEach(
+
+        (
+            categoria,
+            index
+        ) => {
+
+
+            const item =
+                document.createElement(
+                    'div'
+                );
+
+
+            item.className =
+                'category_item';
+
+
+            const cor =
+                cores[
+                    index %
+                    cores.length
+                ];
+
+
+            item.innerHTML = `
+
+                <div class="category_left">
+
+                    <span
+                        class="category_color"
+                        style="background:${cor}"
+                    ></span>
+
+                    <span>
+
+                        ${categoria}
+
+                    </span>
+
+                </div>
+
+
+                <strong>
+
+                    ${formatarMoeda(
+                        dados.grafico.valores[index]
+                    )}
+
+                </strong>
+
+            `;
+
+
+            listaCategorias.appendChild(
+                item
+            );
+
+
+        }
+
+    );
+
+
+}
+
+
+
+/* ==========================================
+   MÊS ANTERIOR
+========================================== */
+
+btnAnterior.addEventListener(
+
+    'click',
+
+    () => {
+
+
+        mesAtual--;
+
+
+        if (mesAtual < 1) {
+
+            mesAtual = 12;
+
+            anoAtual--;
+
+        }
+
+
+        carregarDados();
+
+    }
+
+);
+
+
+
+/* ==========================================
+   PRÓXIMO MÊS
+========================================== */
+
+btnProximo.addEventListener(
+
+    'click',
+
+    () => {
+
+
+        const hoje =
+            new Date();
+
+
+        const mesHoje =
+            hoje.getMonth() + 1;
+
+
+        const anoHoje =
+            hoje.getFullYear();
+
+
+        if (
+
+            anoAtual > anoHoje ||
+
+            (
+
+                anoAtual === anoHoje &&
+
+                mesAtual >= mesHoje
+
+            )
+
+        ) {
+
+            return;
+
+        }
+
+
+        mesAtual++;
+
+
+        if (mesAtual > 12) {
+
+            mesAtual = 1;
+
+            anoAtual++;
+
+        }
+
+
+        carregarDados();
+
+    }
+
+);
+
+
+
+/* ==========================================
+   INICIAR
+========================================== */
+
+carregarDados();
+
+
+</script>
 
 
 </body>

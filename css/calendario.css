@@ -1,272 +1,97 @@
-/* ============================================================
-   carteira.css – Página de Carteira
-   Estilo Liquid Glass
-============================================================ */
-
-
-/* ============================================================
-   VARIÁVEIS
-============================================================ */
-
-:root {
-
-    --primary: #0A2540;
-
-    --primary-light: #24314C;
-
-    --primary-dark: #081b30;
-
-    --accent: #16E28A;
-
-    --accent-dark: #0db873;
-
-    --accent-light: #29f0a0;
-
-    --danger: #FF4757;
-
-    --danger-light: #ff6b81;
-
-    --white: #ffffff;
-
-    --gray-100: #f8fafc;
-
-    --gray-200: #eef4f8;
-
-    --gray-300: #dbe3eb;
-
-    --gray-400: #64748b;
-
-    --gray-500: #444;
-
-    --gray-600: #666;
-
-    --gray-700: #888;
-
-    --dark: #0B0F19;
-
-
-    --font-family: 'Inter', sans-serif;
-
-
-    --radius-sm: 12px;
-
-    --radius-md: 16px;
-
-    --radius-lg: 24px;
-
-    --radius-xl: 28px;
-
-    --radius-full: 9999px;
-
-
-    --glass-blur: 30px;
-
-
-    --shadow-sm:
-        0 10px 30px rgba(0, 0, 0, 0.08);
-
-    --shadow-md:
-        0 15px 40px rgba(0, 0, 0, 0.12);
-
-    --shadow-lg:
-        0 20px 50px rgba(0, 0, 0, 0.15);
-
-
-    --shadow-accent:
-        0 15px 30px rgba(22, 226, 138, 0.35);
-
-    --shadow-accent-hover:
-        0 20px 45px rgba(22, 226, 138, 0.45);
-
-
-    --transition-fast:
-        0.2s ease;
-
-    --transition-base:
-        0.3s ease;
-
-    --transition-slow:
-        0.5s ease;
-
-}
-
-
-/* ============================================================
-   RESET
-============================================================ */
-
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
-
-    font-family: var(--font-family);
-
-    scroll-behavior: smooth;
-
 }
-
 
 body {
-
     min-height: 100vh;
-
-    background: var(--gray-100);
-
-    color: var(--primary);
-
-    position: relative;
-
+    font-family: 'Inter', sans-serif;
+    background: #07131f;
+    color: white;
     overflow-x: hidden;
-
 }
 
 
-/* ============================================================
-   FUNDO
-============================================================ */
+/* FUNDO */
 
 .background_shapes {
-
     position: fixed;
-
     inset: 0;
-
-    z-index: -1;
-
     overflow: hidden;
-
-    pointer-events: none;
-
+    z-index: -1;
 }
 
 
 .shape {
-
     position: absolute;
-
     border-radius: 50%;
-
-    filter: blur(90px);
-
-    opacity: 0.5;
-
+    filter: blur(100px);
+    opacity: 0.22;
 }
 
 
 .shape1 {
-
-    width: 550px;
-
-    height: 550px;
-
-    background: rgba(22, 226, 138, 0.16);
-
+    width: 450px;
+    height: 450px;
+    background: #54e39a;
     top: -180px;
-
-    right: -160px;
-
+    left: -100px;
 }
 
 
 .shape2 {
-
-    width: 480px;
-
-    height: 480px;
-
-    background: rgba(10, 37, 64, 0.10);
-
-    bottom: -200px;
-
-    left: -160px;
-
+    width: 500px;
+    height: 500px;
+    background: #4dabf7;
+    right: -200px;
+    top: 150px;
 }
 
 
 .shape3 {
-
-    width: 320px;
-
-    height: 320px;
-
-    background: rgba(22, 226, 138, 0.10);
-
-    top: 45%;
-
-    left: 60%;
-
+    width: 350px;
+    height: 350px;
+    background: #9775fa;
+    bottom: -150px;
+    left: 35%;
 }
 
 
-/* ============================================================
-   LIQUID GLASS
-============================================================ */
+/* CONTAINER */
 
-.glass {
-
-    background: rgba(255, 255, 255, 0.55);
-
-    backdrop-filter: blur(var(--glass-blur));
-
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-
-    border: 1px solid rgba(255, 255, 255, 0.6);
-
-    box-shadow: var(--shadow-sm);
-
-    transition: var(--transition-base);
-
+.calendario_container {
+    width: min(1200px, calc(100% - 40px));
+    margin: auto;
+    padding: 100px 0 60px;
 }
 
 
+/* GLASS */
+
+.glass,
 .glass-card {
+    background: rgba(255, 255, 255, 0.06);
 
-    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(25px);
 
-    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(25px);
 
-    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid rgba(255, 255, 255, 0.12);
 
-    border: 1px solid rgba(255, 255, 255, 0.7);
-
-    box-shadow: var(--shadow-sm);
-
-    border-radius: var(--radius-lg);
-
-    transition: var(--transition-base);
-
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
 
-.glass-card:hover {
-
-    transform: translateY(-4px);
-
-    border-color: rgba(22, 226, 138, 0.4);
-
-    box-shadow: var(--shadow-md);
-
-}
-
-
-/* ============================================================
-   BOTÃO VOLTAR
-============================================================ */
+/* VOLTAR */
 
 .btn_voltar {
-
     position: fixed;
 
-    top: 30px;
+    top: 25px;
 
     left: 30px;
-
-    z-index: 999;
-
 
     display: flex;
 
@@ -274,86 +99,35 @@ body {
 
     gap: 8px;
 
-
-    padding: 12px 20px;
-
-
-    background: rgba(255, 255, 255, 0.7);
-
-    color: var(--primary);
-
-
-    backdrop-filter: blur(var(--glass-blur));
-
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-
-
-    border: 1px solid rgba(255, 255, 255, 0.7);
-
-    border-radius: var(--radius-full);
-
+    color: white;
 
     text-decoration: none;
 
-    font-size: 14px;
+    padding: 12px 18px;
 
-    font-weight: 600;
+    border-radius: 14px;
 
+    background: rgba(255, 255, 255, 0.08);
 
-    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(15px);
 
-    transition: var(--transition-base);
+    transition: 0.25s;
 
-}
-
-
-.btn_voltar .material-icons {
-
-    font-size: 18px;
-
+    z-index: 10;
 }
 
 
 .btn_voltar:hover {
-
-    transform: translateY(-2px);
-
-    color: var(--accent-dark);
-
-    box-shadow: var(--shadow-md);
-
+    transform: translateX(-4px);
 }
 
 
-/* ============================================================
-   CONTAINER
-============================================================ */
+/* HEADER */
 
-.carteira_container {
+.calendario_header {
+    padding: 35px;
 
-    width: 100%;
-
-    max-width: 1100px;
-
-    margin: 0 auto;
-
-    padding: 120px 30px 80px;
-
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 24px;
-
-}
-
-
-/* ============================================================
-   CABEÇALHO
-============================================================ */
-
-.carteira_header {
+    border-radius: 25px;
 
     display: flex;
 
@@ -361,489 +135,179 @@ body {
 
     justify-content: space-between;
 
-    gap: 30px;
+    margin-bottom: 25px;
 
-    padding: 34px;
-
-    border-radius: var(--radius-xl);
-
+    animation: aparecer 0.6s ease;
 }
 
 
-.carteira_eyebrow {
-
-    display: block;
-
-    margin-bottom: 8px;
-
-    color: var(--accent-dark);
-
-    font-size: 0.78rem;
-
-    font-weight: 800;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.08em;
-
+.calendario_eyebrow {
+    color: #54e39a;
+    font-size: 13px;
+    font-weight: 700;
 }
 
 
-.carteira_header h1 {
-
-    color: var(--primary);
-
-    font-size: 2rem;
-
-    line-height: 1.2;
-
-    margin-bottom: 8px;
-
+.calendario_header h1 {
+    margin-top: 8px;
+    font-size: 32px;
 }
 
 
-.carteira_header p {
-
-    color: var(--gray-600);
-
-    font-size: 0.92rem;
-
+.calendario_header p {
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.65);
 }
 
 
-.carteira_header_icon {
-
-    width: 70px;
-
-    height: 70px;
-
-    flex-shrink: 0;
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-
-    border-radius: var(--radius-lg);
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--accent),
-            var(--accent-dark)
-        );
-
-
-    color: var(--primary-dark);
-
-    box-shadow: var(--shadow-accent);
-
-}
-
-
-.carteira_header_icon .material-icons {
-
-    font-size: 34px;
-
-}
-
-
-/* ============================================================
-   RESUMO
-============================================================ */
-
-.resumo_grid {
+.calendar_icon {
+    width: 75px;
+    height: 75px;
 
     display: grid;
+    place-items: center;
 
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
+    border-radius: 20px;
 
-    gap: 14px;
+    background: rgba(84, 227, 154, 0.12);
 
+    color: #54e39a;
 }
 
 
-.resumo_card {
-
-    padding: 22px;
-
-    min-height: 150px;
-
+.calendar_icon span {
+    font-size: 35px;
 }
 
 
-.resumo_card_top {
+/* NAVEGAÇÃO */
+
+.month_navigation {
+    border-radius: 20px;
+
+    padding: 18px;
 
     display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 20px;
-
-}
-
-
-.resumo_icon {
-
-    width: 40px;
-
-    height: 40px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-
-    border-radius: var(--radius-sm);
-
-    background: rgba(22, 226, 138, 0.12);
-
-    color: var(--accent-dark);
-
-}
-
-
-.resumo_icon .material-icons {
-
-    font-size: 21px;
-
-}
-
-
-.resumo_icon_receita {
-
-    background: rgba(22, 226, 138, 0.12);
-
-    color: var(--accent-dark);
-
-}
-
-
-.resumo_icon_despesa {
-
-    background: rgba(255, 71, 87, 0.12);
-
-    color: var(--danger);
-
-}
-
-
-.resumo_icon_resultado {
-
-    background: rgba(10, 37, 64, 0.08);
-
-    color: var(--primary);
-
-}
-
-
-.resumo_label {
-
-    color: var(--gray-600);
-
-    font-size: 0.78rem;
-
-    font-weight: 600;
-
-}
-
-
-.resumo_valor {
-
-    display: block;
-
-    font-size: 1.35rem;
-
-    line-height: 1.2;
-
-    word-break: break-word;
-
-}
-
-
-.valor_positivo {
-
-    color: var(--accent-dark);
-
-}
-
-
-.valor_negativo {
-
-    color: var(--danger);
-
-}
-
-
-/* ============================================================
-   SEÇÃO DE MOVIMENTAÇÕES
-============================================================ */
-
-.movimentacoes_section {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 14px;
-
-}
-
-
-.section_header {
-
-    display: flex;
-
-    align-items: center;
 
     justify-content: space-between;
 
-    gap: 20px;
-
-}
-
-
-.section_header h2 {
-
-    color: var(--primary);
-
-    font-size: 1.2rem;
-
-    margin-bottom: 4px;
-
-}
-
-
-.section_header p {
-
-    color: var(--gray-600);
-
-    font-size: 0.84rem;
-
-}
-
-
-.btn_nova_movimentacao {
-
-    display: flex;
-
     align-items: center;
 
-    justify-content: center;
+    margin-bottom: 25px;
+}
 
-    gap: 7px;
+
+.month_title_container {
+    text-align: center;
+}
 
 
-    padding: 12px 18px;
+.month_title_container span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
 
-    border-radius: var(--radius-full);
+
+.month_title_container h2 {
+    margin-top: 4px;
+}
+
+
+.month_button {
+    width: 45px;
+    height: 45px;
 
     border: none;
 
+    border-radius: 14px;
 
-    background: var(--accent);
+    cursor: pointer;
 
-    color: var(--primary-dark);
+    color: white;
 
+    background: rgba(255, 255, 255, 0.08);
 
-    text-decoration: none;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-
-    box-shadow: var(--shadow-accent);
-
-    transition: var(--transition-base);
-
-    white-space: nowrap;
-
+    transition: 0.2s;
 }
 
 
-.btn_nova_movimentacao .material-icons {
-
-    font-size: 18px;
-
+.month_button:hover {
+    transform: scale(1.08);
+    background: rgba(84, 227, 154, 0.18);
 }
 
 
-.btn_nova_movimentacao:hover {
+/* DASHBOARD */
 
-    transform: translateY(-2px);
+.dashboard_grid {
+    display: grid;
 
-    box-shadow: var(--shadow-accent-hover);
+    grid-template-columns: 1fr 280px;
 
+    gap: 25px;
 }
 
 
-/* ============================================================
-   CARD DAS MOVIMENTAÇÕES
-============================================================ */
+.chart_card {
+    border-radius: 25px;
 
-.movimentacoes_card {
+    padding: 28px;
 
-    overflow: hidden;
-
+    min-height: 480px;
 }
 
 
-.movimentacoes_lista {
-
+.chart_header {
     display: flex;
 
-    flex-direction: column;
+    justify-content: space-between;
 
+    align-items: flex-start;
 }
 
 
-.movimentacao_item {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    padding: 18px 22px;
-
-    border-bottom: 1px solid rgba(10, 37, 64, 0.06);
-
-    transition: var(--transition-fast);
-
+.chart_header h2 {
+    font-size: 20px;
 }
 
 
-.movimentacao_item:last-child {
-
-    border-bottom: none;
-
+.chart_header p {
+    margin-top: 6px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.55);
 }
 
 
-.movimentacao_item:hover {
+.chart_badge {
+    width: 45px;
+    height: 45px;
 
-    background: rgba(22, 226, 138, 0.045);
+    display: grid;
+    place-items: center;
 
+    border-radius: 13px;
+
+    background: rgba(84, 227, 154, 0.12);
+
+    color: #54e39a;
 }
 
 
-.movimentacao_icon {
+.chart_area {
+    position: relative;
 
-    width: 44px;
+    height: 360px;
 
-    height: 44px;
-
-    flex-shrink: 0;
-
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-
-    border-radius: var(--radius-md);
-
+    margin-top: 30px;
 }
 
 
-.movimentacao_icon .material-icons {
+/* VAZIO */
 
-    font-size: 21px;
+.empty_chart {
+    position: absolute;
 
-}
-
-
-.movimentacao_entrada {
-
-    background: rgba(22, 226, 138, 0.12);
-
-    color: var(--accent-dark);
-
-}
-
-
-.movimentacao_saida {
-
-    background: rgba(255, 71, 87, 0.12);
-
-    color: var(--danger);
-
-}
-
-
-.movimentacao_info {
-
-    flex: 1;
-
-    min-width: 0;
-
-}
-
-
-.movimentacao_info h3 {
-
-    color: var(--primary);
-
-    font-size: 0.92rem;
-
-    font-weight: 700;
-
-    margin-bottom: 5px;
-
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
-}
-
-
-.movimentacao_info p {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-
-    color: var(--gray-600);
-
-    font-size: 0.76rem;
-
-}
-
-
-.movimentacao_valor {
-
-    flex-shrink: 0;
-
-    font-size: 0.92rem;
-
-    text-align: right;
-
-}
-
-
-/* ============================================================
-   ESTADO VAZIO
-============================================================ */
-
-.empty_state {
+    inset: 0;
 
     display: flex;
 
@@ -855,451 +319,225 @@ body {
 
     text-align: center;
 
-    padding: 60px 25px;
-
+    color: rgba(255, 255, 255, 0.65);
 }
 
 
-.empty_icon {
+.empty_chart span {
+    font-size: 70px;
+    margin-bottom: 15px;
+    color: #54e39a;
+}
 
-    width: 68px;
 
-    height: 68px;
+.hidden {
+    display: none;
+}
 
 
+/* RESUMO */
+
+.summary_column {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.summary_card {
+    border-radius: 20px;
+
+    padding: 22px;
+
+    min-height: 140px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    transition: 0.25s;
+}
+
+
+.summary_card:hover {
+    transform: translateY(-5px);
+}
+
+
+.summary_top {
     display: flex;
 
     align-items: center;
 
-    justify-content: center;
+    gap: 10px;
 
-
-    margin-bottom: 18px;
-
-
-    border-radius: 50%;
-
-    background: rgba(22, 226, 138, 0.12);
-
-    color: var(--accent-dark);
-
+    color: rgba(255, 255, 255, 0.7);
 }
 
 
-.empty_icon .material-icons {
+.summary_icon {
+    width: 38px;
+    height: 38px;
 
-    font-size: 32px;
+    display: grid;
+    place-items: center;
 
+    border-radius: 11px;
 }
 
 
-.empty_state h3 {
-
-    color: var(--primary);
-
-    font-size: 1rem;
-
-    margin-bottom: 7px;
-
+.summary_icon.receita {
+    color: #54e39a;
+    background: rgba(84, 227, 154, 0.12);
 }
 
 
-.empty_state p {
+.summary_icon.despesa {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.12);
+}
 
-    color: var(--gray-600);
 
-    font-size: 0.85rem;
+.summary_icon.resultado {
+    color: #4dabf7;
+    background: rgba(77, 171, 247, 0.12);
+}
+
+
+.summary_card strong {
+    font-size: 22px;
+}
+
+
+.positive {
+    color: #54e39a;
+}
+
+
+.negative {
+    color: #ff6b6b;
+}
+
+
+/* LEGENDA */
+
+.legend_card {
+    margin-top: 25px;
+
+    border-radius: 25px;
+
+    padding: 25px;
+}
+
+
+.legend_header {
+    display: flex;
+
+    justify-content: space-between;
 
     margin-bottom: 20px;
-
 }
 
 
-.btn_empty {
+.legend_header span {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+}
 
-    display: inline-flex;
+
+.category_list {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+}
+
+
+.category_item {
+    display: flex;
+
+    justify-content: space-between;
 
     align-items: center;
 
-    justify-content: center;
+    padding: 15px;
 
+    border-radius: 14px;
 
-    padding: 11px 18px;
+    background: rgba(255, 255, 255, 0.05);
 
-    border-radius: var(--radius-full);
-
-
-    background: var(--accent);
-
-    color: var(--primary-dark);
-
-
-    text-decoration: none;
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-
-    box-shadow: var(--shadow-accent);
-
-    transition: var(--transition-base);
-
+    animation: aparecer 0.35s ease;
 }
 
 
-.btn_empty:hover {
+.category_left {
+    display: flex;
 
-    transform: translateY(-2px);
+    align-items: center;
 
-    box-shadow: var(--shadow-accent-hover);
-
+    gap: 10px;
 }
 
 
-/* ============================================================
-   TEMA CLARO
-============================================================ */
+.category_color {
+    width: 12px;
+    height: 12px;
 
-html.claro {
-
-    background: var(--gray-100);
-
-    color: var(--primary);
-
+    border-radius: 50%;
 }
 
 
-html.claro body {
+/* ANIMAÇÃO */
 
-    background: var(--gray-100);
+@keyframes aparecer {
 
-    color: var(--primary);
+    from {
 
-}
+        opacity: 0;
 
-
-/* ============================================================
-   TEMA ESCURO
-============================================================ */
-
-html.escuro {
-
-    background: #0B0F19;
-
-    color: #ffffff;
-
-}
-
-
-html.escuro body {
-
-    background: #0B0F19;
-
-    color: #ffffff;
-
-}
-
-
-/* ============================================================
-   GLASS NO ESCURO
-============================================================ */
-
-html.escuro .glass {
-
-    background: rgba(20, 27, 40, 0.75);
-
-    border-color: rgba(255, 255, 255, 0.12);
-
-}
-
-
-html.escuro .glass-card {
-
-    background: rgba(20, 27, 40, 0.75);
-
-    border-color: rgba(255, 255, 255, 0.12);
-
-}
-
-
-html.escuro .glass-card:hover {
-
-    border-color: rgba(22, 226, 138, 0.35);
-
-}
-
-
-/* ============================================================
-   BOTÃO VOLTAR - ESCURO
-============================================================ */
-
-html.escuro .btn_voltar {
-
-    background: rgba(20, 27, 40, 0.75);
-
-    border-color: rgba(255, 255, 255, 0.12);
-
-    color: #ffffff;
-
-}
-
-
-html.escuro .btn_voltar:hover {
-
-    color: var(--accent);
-
-}
-
-
-/* ============================================================
-   CABEÇALHO - ESCURO
-============================================================ */
-
-html.escuro .carteira_header h1 {
-
-    color: #ffffff;
-
-}
-
-
-html.escuro .carteira_header p {
-
-    color: #aaa;
-
-}
-
-
-/* ============================================================
-   RESUMO - ESCURO
-============================================================ */
-
-html.escuro .resumo_label {
-
-    color: #aaa;
-
-}
-
-
-html.escuro .resumo_icon_resultado {
-
-    background: rgba(255, 255, 255, 0.08);
-
-    color: #ffffff;
-
-}
-
-
-/* ============================================================
-   MOVIMENTAÇÕES - ESCURO
-============================================================ */
-
-html.escuro .section_header h2 {
-
-    color: #ffffff;
-
-}
-
-
-html.escuro .section_header p {
-
-    color: #aaa;
-
-}
-
-
-html.escuro .movimentacao_item {
-
-    border-bottom-color:
-        rgba(255, 255, 255, 0.07);
-
-}
-
-
-html.escuro .movimentacao_item:hover {
-
-    background: rgba(22, 226, 138, 0.06);
-
-}
-
-
-html.escuro .movimentacao_info h3 {
-
-    color: #ffffff;
-
-}
-
-
-html.escuro .movimentacao_info p {
-
-    color: #aaa;
-
-}
-
-
-/* ============================================================
-   ESTADO VAZIO - ESCURO
-============================================================ */
-
-html.escuro .empty_state h3 {
-
-    color: #ffffff;
-
-}
-
-
-html.escuro .empty_state p {
-
-    color: #aaa;
-
-}
-
-
-/* ============================================================
-   TEMA SISTEMA
-============================================================ */
-
-@media (prefers-color-scheme: dark) {
-
-    html.sistema {
-
-        background: #0B0F19;
-
-        color: #ffffff;
+        transform: translateY(15px);
 
     }
 
+    to {
 
-    html.sistema body {
+        opacity: 1;
 
-        background: #0B0F19;
-
-        color: #ffffff;
-
-    }
-
-
-    html.sistema .glass {
-
-        background: rgba(20, 27, 40, 0.75);
-
-        border-color: rgba(255, 255, 255, 0.12);
-
-    }
-
-
-    html.sistema .glass-card {
-
-        background: rgba(20, 27, 40, 0.75);
-
-        border-color: rgba(255, 255, 255, 0.12);
-
-    }
-
-
-    html.sistema .btn_voltar {
-
-        background: rgba(20, 27, 40, 0.75);
-
-        border-color: rgba(255, 255, 255, 0.12);
-
-        color: #ffffff;
-
-    }
-
-
-    html.sistema .carteira_header h1 {
-
-        color: #ffffff;
-
-    }
-
-
-    html.sistema .carteira_header p {
-
-        color: #aaa;
-
-    }
-
-
-    html.sistema .resumo_label {
-
-        color: #aaa;
-
-    }
-
-
-    html.sistema .resumo_icon_resultado {
-
-        background: rgba(255, 255, 255, 0.08);
-
-        color: #ffffff;
-
-    }
-
-
-    html.sistema .section_header h2 {
-
-        color: #ffffff;
-
-    }
-
-
-    html.sistema .section_header p {
-
-        color: #aaa;
-
-    }
-
-
-    html.sistema .movimentacao_item {
-
-        border-bottom-color:
-            rgba(255, 255, 255, 0.07);
-
-    }
-
-
-    html.sistema .movimentacao_info h3 {
-
-        color: #ffffff;
-
-    }
-
-
-    html.sistema .movimentacao_info p {
-
-        color: #aaa;
-
-    }
-
-
-    html.sistema .empty_state h3 {
-
-        color: #ffffff;
-
-    }
-
-
-    html.sistema .empty_state p {
-
-        color: #aaa;
+        transform: translateY(0);
 
     }
 
 }
 
 
-/* ============================================================
-   RESPONSIVO
-============================================================ */
+/* RESPONSIVO */
 
-@media (max-width: 900px) {
+@media (max-width: 850px) {
 
-    .resumo_grid {
+    .dashboard_grid {
 
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .summary_column {
+
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+
+
+    .category_list {
+
+        grid-template-columns: 1fr;
 
     }
 
@@ -1308,118 +546,44 @@ html.escuro .empty_state p {
 
 @media (max-width: 600px) {
 
-    .carteira_container {
+    .calendario_container {
 
-        padding:
-            105px
-            18px
-            60px;
+        width: min(
+            100% - 24px,
+            1200px
+        );
 
-    }
-
-
-    .btn_voltar {
-
-        top: 18px;
-
-        left: 18px;
-
-        padding: 10px 16px;
-
-        font-size: 13px;
+        padding-top: 90px;
 
     }
 
 
-    .carteira_header {
+    .calendario_header {
 
-        padding: 26px 22px;
-
-    }
-
-
-    .carteira_header h1 {
-
-        font-size: 1.55rem;
+        padding: 25px;
 
     }
 
 
-    .carteira_header_icon {
+    .calendar_icon {
 
-        width: 56px;
-
-        height: 56px;
+        display: none;
 
     }
 
 
-    .carteira_header_icon .material-icons {
-
-        font-size: 28px;
-
-    }
-
-
-    .resumo_grid {
+    .summary_column {
 
         grid-template-columns: 1fr;
 
     }
 
 
-    .resumo_card {
+    .btn_voltar {
 
-        min-height: auto;
+        left: 12px;
 
-    }
-
-
-    .section_header {
-
-        align-items: flex-start;
-
-        flex-direction: column;
-
-    }
-
-
-    .btn_nova_movimentacao {
-
-        width: 100%;
-
-    }
-
-
-    .movimentacao_item {
-
-        padding:
-            16px 15px;
-
-        gap: 11px;
-
-    }
-
-
-    .movimentacao_icon {
-
-        width: 40px;
-
-        height: 40px;
-
-    }
-
-
-    .movimentacao_info h3 {
-
-        max-width: 150px;
-
-    }
-
-
-    .movimentacao_valor {
-
-        font-size: 0.8rem;
+        top: 12px;
 
     }
 
