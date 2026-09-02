@@ -12,14 +12,13 @@ if (!isset($_SESSION['id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Financeiro</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/investimentos.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/investimentos.css">
     <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
 
-<?php include_once'front-end/navbar.php'; ?>
-
+<?php include_once 'navbar.php'; ?>
 <main>
 
     <!-- HERO RENDA VARIÁVEL -->

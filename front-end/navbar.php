@@ -146,13 +146,80 @@ if (isset($_SESSION['id'])) {
             </li>
 
 
-            <!-- INVESTIMENTOS -->
+            <!-- INVESTIMENTOS COM DROPDOWN -->
 
-            <li>
+            <li class="investment-dropdown">
 
-                <a href="investimentos_Diversificacao.php">
+                <a
+                    href="investimentos_Diversificacao.php"
+                    class="investment-trigger">
                     Investimentos
+
+                    <i class="fas fa-chevron-down investment-arrow"></i>
                 </a>
+
+
+                <div class="investment-dropdown-menu">
+
+
+                    <!-- DIVERSIFICAÇÃO -->
+
+                    <a href="investimentos_Diversificacao.php">
+
+                        <i class="fas fa-chart-pie"></i>
+
+                        <div>
+
+                            <strong>Diversificação</strong>
+
+                            <span>
+                                Distribua melhor seus investimentos
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+                    <!-- RENDA FIXA -->
+
+                    <a href="investimentos_RendaFixa.php">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                        <div>
+
+                            <strong>Renda Fixa</strong>
+
+                            <span>
+                                Segurança e previsibilidade
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+                    <!-- RENDA VARIÁVEL -->
+
+                    <a href="investimentos_RendaVariavel.php">
+
+                        <i class="fas fa-chart-line"></i>
+
+                        <div>
+
+                            <strong>Renda Variável</strong>
+
+                            <span>
+                                Potencial de crescimento
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+                </div>
 
             </li>
 
@@ -252,9 +319,7 @@ if (isset($_SESSION['id'])) {
 
             /* FOTO */
 
-            $temFoto = !empty(
-                $usuario['foto']
-            );
+            $temFoto = !empty($usuario['foto']);
 
 
             $fotoUsuario = $temFoto
