@@ -38,6 +38,31 @@
       cursor: pointer;
     }
     select:focus { outline: none; border-color: #4c8bf5; }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0e1116;
+      border: 1px solid #303845;
+      border-radius: 6px;
+      color: #e6e8eb;
+      font-size: 1rem;
+      margin-bottom: 14px;
+    }
+    input[type="number"]:focus { outline: none; border-color: #4c8bf5; }
+
+    .total-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      background: #0e1116;
+      border: 1px solid #303845;
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-top: 12px;
+    }
+    .total-box .label { color: #8b93a1; font-size: 0.9rem; }
+    .total-box .value { font-size: 1.3rem; font-weight: 700; color: #3fb950; }
     
     button {
       background: #4c8bf5;
@@ -87,6 +112,9 @@
         <option value="">Carregando ações...</option>
       </select>
 
+      <label for="quantidade">Quantidade:</label>
+      <input type="number" id="quantidade" value="1" min="1" step="1">
+
       <button id="btnBuscar" onclick="buscarCotacao()">Buscar cotação</button>
     </div>
 
@@ -117,6 +145,10 @@
       }
     }
 
+    // Guarda os dados da última cotação buscada, para recalcular o total
+    // sempre que a quantidade mudar, sem precisar chamar a API de novo.
+    let ultimaCotacao = null;
+
     // Função para consultar os dados da ação selecionada
     async function buscarCotacao() {
       const ticker = document.getElementById('selectStock').value;
@@ -125,6 +157,7 @@
 
       if (!ticker) {
         resultadoDiv.innerHTML = '<div class="status error">Por favor, selecione uma ação.</div>';
+        ultimaCotacao = null;
         return;
       }
 
@@ -138,40 +171,66 @@
 
         if (!response.ok || !data.results || data.results.length === 0) {
           resultadoDiv.innerHTML = `<div class="status error">Erro ao buscar dados do ticker ${ticker}.</div>`;
+          ultimaCotacao = null;
           return;
         }
 
         const q = data.results[0];
-        const change = q.regularMarketChangePercent || 0;
-        const changeClass = change >= 0 ? 'positive' : 'negative';
-        const changeSign = change >= 0 ? '+' : '';
-
-        resultadoDiv.innerHTML = `
-          <div class="card">
-            <div class="quote">
-              <span class="ticker">${q.symbol}</span>
-              <span class="price">${q.currency || 'R$'} ${Number(q.regularMarketPrice).toFixed(2)}</span>
-            </div>
-            <div class="change ${changeClass}">
-              ${changeSign}${Number(q.regularMarketChange || 0).toFixed(2)} (${changeSign}${Number(change).toFixed(2)}%)
-            </div>
-            <div class="details">
-              <div><span>Nome</span><span>${q.shortName || q.longName || '-'}</span></div>
-              <div><span>Abertura</span><span>${q.regularMarketOpen ?? '-'}</span></div>
-              <div><span>Máxima</span><span>${q.regularMarketDayHigh ?? '-'}</span></div>
-              <div><span>Mínima</span><span>${q.regularMarketDayLow ?? '-'}</span></div>
-              <div><span>Volume</span><span>${q.regularMarketVolume ?? '-'}</span></div>
-            </div>
-            <pre>${JSON.stringify(q, null, 2)}</pre>
-          </div>
-        `;
+        ultimaCotacao = q; // guarda para o cálculo do total
+        renderizarResultado(q);
       } catch (err) {
         resultadoDiv.innerHTML = `<div class="status error">Erro na requisição: ${err.message}</div>`;
+        ultimaCotacao = null;
       } finally {
         btn.disabled = false;
         btn.textContent = 'Buscar cotação';
       }
     }
+
+    // Desenha o card de resultado, incluindo o total (preço x quantidade)
+    function renderizarResultado(q) {
+      const resultadoDiv = document.getElementById('resultado');
+      const quantidade = Math.max(1, parseInt(document.getElementById('quantidade').value, 10) || 1);
+      const preco = Number(q.regularMarketPrice) || 0;
+      const total = preco * quantidade;
+      const moeda = q.currency || 'R$';
+
+      const change = q.regularMarketChangePercent || 0;
+      const changeClass = change >= 0 ? 'positive' : 'negative';
+      const changeSign = change >= 0 ? '+' : '';
+
+      resultadoDiv.innerHTML = `
+        <div class="card">
+          <div class="quote">
+            <span class="ticker">${q.symbol}</span>
+            <span class="price">${moeda} ${preco.toFixed(2)}</span>
+          </div>
+          <div class="change ${changeClass}">
+            ${changeSign}${Number(q.regularMarketChange || 0).toFixed(2)} (${changeSign}${Number(change).toFixed(2)}%)
+          </div>
+          <div class="total-box">
+            <span class="label">${q.symbol} x ${quantidade}</span>
+            <span class="value">${moeda} ${total.toFixed(2)}</span>
+          </div>
+          <div class="details">
+            <div><span>Nome</span><span>${q.shortName || q.longName || '-'}</span></div>
+            <div><span>Abertura</span><span>${q.regularMarketOpen ?? '-'}</span></div>
+            <div><span>Máxima</span><span>${q.regularMarketDayHigh ?? '-'}</span></div>
+            <div><span>Mínima</span><span>${q.regularMarketDayLow ?? '-'}</span></div>
+            <div><span>Volume</span><span>${q.regularMarketVolume ?? '-'}</span></div>
+          </div>
+          <pre>${JSON.stringify(q, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    // Recalcula o total instantaneamente ao mudar a quantidade,
+    // sem precisar buscar a cotação de novo na API.
+    document.getElementById('quantidade').addEventListener('input', () => {
+      if (ultimaCotacao) {
+        renderizarResultado(ultimaCotacao);
+      }
+    });
 
     // Inicializa a busca das ações ao carregar
     carregarOpcoes();
