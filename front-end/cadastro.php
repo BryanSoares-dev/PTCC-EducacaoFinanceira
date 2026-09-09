@@ -4,20 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Conta | FinControl</title>
+    <title>Criar Conta | AFDE</title>
 
-```
 <link rel="stylesheet" href="../css/cadastro.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="../img/favicon.png">
-```
 
 </head>
 
 <body>
 
-```
 <div class="background_shapes">
     <div class="shape shape1"></div>
     <div class="shape shape2"></div>
@@ -31,7 +28,7 @@
 
     <section class="cadastro_left">
 
-        <img src="../img/logo.png" alt="FinControl" class="brand_logo">
+        <img src="../img/logo.png" alt="AFDE" class="brand_logo">
 
         <span class="badge">
             Plataforma de Educação Financeira
@@ -185,7 +182,9 @@
     </section>
 
 </main>
-```
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>

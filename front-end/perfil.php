@@ -89,7 +89,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Perfil | FinControl</title>
+    <title>Meu Perfil | AFDE</title>
 
     <link rel="stylesheet" href="../css/style-perfil.css">
 
@@ -250,5 +250,8 @@ if (!in_array($tema, $temas_permitidos, true)) {
 
 </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>

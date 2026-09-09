@@ -67,7 +67,7 @@ $tema = $usuario['tema'] ?? 'sistema';
     >
 
     <title>
-        Calendário Financeiro | FinControl
+        Calendário Financeiro | AFDE
     </title>
 
     <link rel="icon" type="image/png" href="../img/favicon.png">
@@ -1104,6 +1104,9 @@ carregarDados();
 </script>
 
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

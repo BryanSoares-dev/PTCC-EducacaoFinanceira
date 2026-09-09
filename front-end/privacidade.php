@@ -14,7 +14,7 @@ if (!isset($_SESSION['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacidade e dados | FinControl</title>
+    <title>Privacidade e dados | AFDE</title>
 
     <link rel="stylesheet" href="../css/paginas-suporte.css">
 
@@ -45,7 +45,7 @@ if (!isset($_SESSION['id'])) {
         </div>
         <div>
             <h1>Privacidade e dados</h1>
-            <p>Controle o uso das suas informações dentro do FinControl</p>
+            <p>Controle o uso das suas informações dentro do AFDE</p>
         </div>
     </section>
 
@@ -58,7 +58,7 @@ if (!isset($_SESSION['id'])) {
         </div>
         <div class="pagina_card_text">
             <h3>Exportar meus dados</h3>
-            <p>Baixe uma cópia de todas as suas informações cadastradas e transações registradas no FinControl, em formato CSV.</p>
+            <p>Baixe uma cópia de todas as suas informações cadastradas e transações registradas no AFDE, em formato CSV.</p>
         </div>
         <a href="../back-end/exportar-dados.php" class="btn_pagina_secundario">
             <span class="material-icons">file_download</span>
@@ -72,7 +72,7 @@ if (!isset($_SESSION['id'])) {
         </div>
         <div class="pagina_card_text">
             <h3>Uso dos seus dados</h3>
-            <p>Utilizamos suas informações exclusivamente para o funcionamento do FinControl: cálculo de saldos, gráficos e relatórios financeiros. Seus dados não são vendidos ou compartilhados com terceiros para fins de publicidade.</p>
+            <p>Utilizamos suas informações exclusivamente para o funcionamento do AFDE: cálculo de saldos, gráficos e relatórios financeiros. Seus dados não são vendidos ou compartilhados com terceiros para fins de publicidade.</p>
         </div>
     </div>
 
@@ -83,7 +83,7 @@ if (!isset($_SESSION['id'])) {
         <div class="pagina_toggle_row">
             <div class="pagina_card_text">
                 <h3>Compartilhar dados de uso anônimos</h3>
-                <p>Ajude a melhorar o FinControl enviando estatísticas de uso sem identificação pessoal.</p>
+                <p>Ajude a melhorar o AFDE enviando estatísticas de uso sem identificação pessoal.</p>
             </div>
             <label class="toggle_switch">
                 <input type="checkbox" checked>
@@ -96,7 +96,7 @@ if (!isset($_SESSION['id'])) {
         <div class="pagina_toggle_row">
             <div class="pagina_card_text">
                 <h3>Personalização de recomendações</h3>
-                <p>Permita que o FinControl use seu histórico financeiro para sugerir metas e categorias.</p>
+                <p>Permita que o AFDE use seu histórico financeiro para sugerir metas e categorias.</p>
             </div>
             <label class="toggle_switch">
                 <input type="checkbox" checked>
@@ -150,5 +150,8 @@ if (!isset($_SESSION['id'])) {
 
 <script src="../js/modais.js"></script>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>

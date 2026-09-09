@@ -5,7 +5,7 @@ $paginaAtual = $paginaAtual ?? '';
 ?>
 <aside class="admin-sidebar">
     <div class="admin-brand">
-        <img src="../img/logo.png" alt="FinControl">
+        <img src="../img/logo.png" alt="AFDE">
         <span>Admin</span>
     </div>
 

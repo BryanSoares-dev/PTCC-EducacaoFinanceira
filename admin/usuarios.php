@@ -45,7 +45,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Usuários | Admin FinControl</title>
+    <title>Usuários | Admin AFDE</title>
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/png" href="../img/favicon.png">
@@ -121,5 +121,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>

@@ -133,7 +133,7 @@ $resultadoMes =
     >
 
     <title>
-        Carteira financeira | FinControl
+        Carteira financeira | AFDE
     </title>
 
 
@@ -1486,6 +1486,9 @@ carregarDadosOpenFinance();
 </script>
 
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

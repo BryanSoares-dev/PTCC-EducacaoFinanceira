@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar | FinControl</title>
+    <title>Entrar | AFDE</title>
 
     <link rel="stylesheet" href="../css/login.css">
 
@@ -26,7 +26,7 @@
 
         <section class="login_left">
 
-            <img src="../img/logo.png" alt="FinControl" class="brand_logo">
+            <img src="../img/logo.png" alt="AFDE" class="brand_logo">
 
             <span class="badge">
                 Plataforma de Educação Financeira
@@ -152,5 +152,8 @@
 
     </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>

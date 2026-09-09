@@ -71,7 +71,7 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Preferências | FinControl</title>
+    <title>Preferências | AFDE</title>
 
     <link rel="stylesheet" href="../css/style-perfil.css">
     <link rel="stylesheet" href="../css/preferencias.css">
@@ -123,7 +123,7 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
                 <span class="material-icons">palette</span>
                 <div>
                     <h2>Aparência</h2>
-                    <p>Escolha como o FinControl deve aparecer para você</p>
+                    <p>Escolha como o AFDE deve aparecer para você</p>
                 </div>
             </div>
 
@@ -234,5 +234,8 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
 
 </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>

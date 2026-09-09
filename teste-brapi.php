@@ -235,5 +235,8 @@
     // Inicializa a busca das ações ao carregar
     carregarOpcoes();
   </script>
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="JS/acessibilidade.js" defer></script>
 </body>
 </html>

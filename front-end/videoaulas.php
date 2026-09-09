@@ -3294,6 +3294,9 @@ window.addEventListener(
 </script>
 
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

@@ -100,7 +100,7 @@ if (count($partesNome) > 1) {
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Configurações | FinControl</title>
+    <title>Configurações | AFDE</title>
 
     <link
         rel="stylesheet"
@@ -496,7 +496,7 @@ if (count($partesNome) > 1) {
             <div class="settings_card_text">
 
                 <h3>
-                    Sobre o FinControl
+                    Sobre o AFDE
                 </h3>
 
                 <p>
@@ -685,7 +685,7 @@ if (count($partesNome) > 1) {
 
         <p class="modal_text">
 
-            Personalize a moeda, o tema e o idioma da sua experiência no FinControl.
+            Personalize a moeda, o tema e o idioma da sua experiência no AFDE.
 
         </p>
 
@@ -1108,6 +1108,9 @@ if (count($partesNome) > 1) {
 </script>
 
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

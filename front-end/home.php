@@ -54,7 +54,7 @@ if (isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FinControl</title>
+    <title>AFDE</title>
 
     <!-- Fonte -->
     <link
@@ -703,17 +703,20 @@ if (isset($_SESSION['id'])) {
             <img
                 class="footer_logo"
                 src="../img/logo.png"
-                alt="Logo FinControl"
+                alt="Logo AFDE"
             >
 
             <p>
-                © 2026 FinControl. Todos os direitos reservados.
+                © 2026 AFDE. Todos os direitos reservados.
             </p>
 
         </div>
 
     </footer>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

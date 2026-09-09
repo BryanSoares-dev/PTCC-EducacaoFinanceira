@@ -67,7 +67,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Sobre o FinControl</title>
+    <title>Sobre o AFDE</title>
 
     <link
         rel="stylesheet"
@@ -161,7 +161,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
                 </h1>
 
                 <p>
-                    O FinControl foi criado para ajudar você a
+                    O AFDE foi criado para ajudar você a
                     organizar sua vida financeira, acompanhar seus
                     gastos e tomar decisões melhores sobre seu dinheiro.
                 </p>
@@ -189,11 +189,11 @@ if (!in_array($tema, $temas_permitidos, true)) {
             <div class="sobre_card_content">
 
                 <h2>
-                    Sobre o FinControl
+                    Sobre o AFDE
                 </h2>
 
                 <p>
-                    O FinControl é uma plataforma de gerenciamento
+                    O AFDE é uma plataforma de gerenciamento
                     financeiro desenvolvida para tornar o controle
                     das finanças pessoais mais fácil, organizado e
                     acessível.
@@ -351,7 +351,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
 
                 <p>
                     Acreditamos que organizar o dinheiro não precisa
-                    ser complicado. O FinControl busca oferecer
+                    ser complicado. O AFDE busca oferecer
                     ferramentas simples para que qualquer pessoa
                     consiga acompanhar suas finanças com mais clareza.
                 </p>
@@ -472,7 +472,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
             <div>
 
                 <h3>
-                    FinControl
+                    AFDE
                 </h3>
 
                 <p>
@@ -501,7 +501,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
                     account_balance_wallet
                 </span>
 
-                FinControl
+                AFDE
 
             </div>
 
@@ -510,7 +510,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
             </p>
 
             <span class="copyright">
-                © <?= date("Y") ?> FinControl. Todos os direitos reservados.
+                © <?= date("Y") ?> AFDE. Todos os direitos reservados.
             </span>
 
         </footer>
@@ -518,6 +518,9 @@ if (!in_array($tema, $temas_permitidos, true)) {
 
     </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

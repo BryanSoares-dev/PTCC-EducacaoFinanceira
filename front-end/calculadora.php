@@ -153,5 +153,8 @@ include_once 'navbar.php';
 </main>
 </div>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>

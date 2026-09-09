@@ -18,7 +18,7 @@ if (!isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Central de ajuda | FinControl</title>
+    <title>Central de ajuda | AFDE</title>
 
     <link rel="stylesheet" href="../css/paginas-suporte.css">
 
@@ -188,7 +188,7 @@ if (!isset($_SESSION['id'])) {
                 >
 
                     <span>
-                        O FinControl é gratuito?
+                        O AFDE é gratuito?
                     </span>
 
                     <span class="material-icons faq_arrow">
@@ -201,7 +201,7 @@ if (!isset($_SESSION['id'])) {
                 <div class="faq_answer">
 
                     <p>
-                        Sim. O FinControl possui suas principais
+                        Sim. O AFDE possui suas principais
                         funcionalidades disponíveis gratuitamente
                         para uso pessoal.
                     </p>
@@ -343,7 +343,7 @@ if (!isset($_SESSION['id'])) {
                 <div class="faq_answer">
 
                     <p>
-                        O FinControl utiliza mecanismos de segurança
+                        O AFDE utiliza mecanismos de segurança
                         para proteger as informações armazenadas.
                         Recomendamos também que você utilize uma senha
                         forte e não compartilhe suas credenciais de acesso.
@@ -604,6 +604,9 @@ if (!isset($_SESSION['id'])) {
     </script>
 
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>
