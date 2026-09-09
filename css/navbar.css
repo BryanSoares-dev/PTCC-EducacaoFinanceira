@@ -219,6 +219,10 @@ header {
         box-shadow 0.3s ease;
 }
 
+.investment-trigger{
+    color: white;
+}
+
 
 /* =========================================================
    LOGO
@@ -504,6 +508,14 @@ nav a:hover::after {
     justify-content: center;
 
     gap: 10px;
+}
+
+.avatar_btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-block;
 }
 
 
