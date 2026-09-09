@@ -27,3 +27,4 @@ if ($response['code'] !== 200 || empty($response['data']['accessToken'])) {
 }
 
 pluggyJsonResponse(['accessToken' => $response['data']['accessToken']]);
+

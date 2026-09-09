@@ -19,3 +19,4 @@ $stmt = $pdo->prepare('UPDATE usuarios SET itemid = :itemid WHERE id = :id');
 $stmt->execute([':itemid' => trim($itemId), ':id' => $usuarioId]);
 
 pluggyJsonResponse(['success' => true]);
+

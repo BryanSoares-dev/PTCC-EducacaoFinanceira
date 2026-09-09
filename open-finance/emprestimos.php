@@ -42,3 +42,4 @@
         'emprestimos' => $resposta['data']['results'] ?? []
     ]);
     exit;
+

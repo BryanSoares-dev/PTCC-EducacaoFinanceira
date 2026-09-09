@@ -42,3 +42,4 @@
         'investimentos' => $resposta['data']['results'] ?? []
     ]);
     exit;
+
