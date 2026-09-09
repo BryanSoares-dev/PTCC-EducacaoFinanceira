@@ -150,8 +150,8 @@ if (isset($_SESSION['id'])) {
 
             <li class="investment-dropdown">
 
-                <a
-                    href="investimentos_Diversificacao.php"
+                
+                    <href="investimentos_Diversificacao.php"
                     class="investment-trigger">
                     Investimentos
 
@@ -356,9 +356,15 @@ if (isset($_SESSION['id'])) {
                 <div class="user_dropdown">
 
 
-                    <!-- AVATAR -->
+                    <!-- AVATAR (botão, não link, para não navegar ao clicar) -->
 
-                    <a href="perfil.php" id="avatarBtn" aria-label="Abrir perfil">
+                    <button
+                        type="button"
+                        id="avatarBtn"
+                        class="avatar_btn"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        aria-label="Abrir menu do perfil">
 
 
                         <?php if ($temFoto): ?>
@@ -380,7 +386,7 @@ if (isset($_SESSION['id'])) {
                         <?php endif; ?>
 
 
-                    </a>
+                    </button>
 
 
                     <!-- ==========================================
@@ -520,3 +526,39 @@ if (isset($_SESSION['id'])) {
 
 </header>
 
+
+<!-- ==========================================
+     SCRIPT: ABRIR/FECHAR DROPDOWN DO PERFIL
+========================================== -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const avatarBtn = document.getElementById('avatarBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    if (avatarBtn && dropdownMenu) {
+
+        avatarBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const aberto = dropdownMenu.classList.toggle('activate');
+            avatarBtn.setAttribute('aria-expanded', aberto);
+        });
+
+        // Fecha ao clicar fora do menu
+        document.addEventListener('click', function (e) {
+            if (!dropdownMenu.contains(e.target) && !avatarBtn.contains(e.target)) {
+                dropdownMenu.classList.remove('activate');
+                avatarBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Fecha ao pressionar ESC
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                dropdownMenu.classList.remove('activate');
+                avatarBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+});
+</script>
