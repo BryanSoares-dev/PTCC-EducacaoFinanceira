@@ -255,3 +255,4 @@ if (!in_array($tema, $temas_permitidos, true)) {
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

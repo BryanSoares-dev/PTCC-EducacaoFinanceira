@@ -71,3 +71,4 @@ $saldo = $totalEntradas - $totalSaidas;
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

@@ -85,3 +85,4 @@ if (!$usuario) {
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

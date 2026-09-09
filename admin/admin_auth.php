@@ -32,3 +32,4 @@ if (!$dadosAdmin || $dadosAdmin['tipo'] !== 'admin') {
 // Disponível para todas as páginas que incluírem este arquivo
 $adminLogadoId   = (int) $dadosAdmin['id'];
 $adminLogadoNome = $dadosAdmin['nome'];
+

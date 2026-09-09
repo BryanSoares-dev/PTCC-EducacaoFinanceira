@@ -162,3 +162,4 @@ $usuariosFiltro = $pdo->query("SELECT id, nome FROM usuarios ORDER BY nome ASC")
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

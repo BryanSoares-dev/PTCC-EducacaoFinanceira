@@ -514,3 +514,4 @@ if (!isset($_SESSION['id'])) {
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

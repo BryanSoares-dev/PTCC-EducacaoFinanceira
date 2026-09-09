@@ -683,3 +683,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

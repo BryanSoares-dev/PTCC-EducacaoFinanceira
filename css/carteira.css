@@ -2102,3 +2102,100 @@ body.claro .hero-saldo span {
             none;
     }
 }
+
+
+
+/* ============================================================
+   CATEGORIA DAS TRANSAÇÕES IMPORTADAS
+============================================================ */
+
+.categoria-open-finance {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: .68rem;
+}
+
+.categoria-open-finance select {
+    max-width: 130px;
+    padding: 5px 7px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    outline: none;
+    background: var(--input-bg);
+    color: var(--input-text);
+    font: inherit;
+}
+
+.categoria-open-finance select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(22,226,138,.12);
+}
+
+/* ============================================================
+   ACESSO AO CALENDÁRIO
+============================================================ */
+
+.acesso-calendario {
+    max-width: 1400px;
+    margin: 35px auto 0;
+    padding: 30px 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    box-sizing: border-box;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    background: var(--glass-bg);
+    box-shadow: var(--glass-shadow);
+}
+
+.acesso-calendario h2 {
+    margin: 0 0 8px;
+    color: var(--text-main);
+    font-size: 1.45rem;
+}
+
+.acesso-calendario p {
+    max-width: 700px;
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.btn-calendario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 14px 22px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    color: #0A2540;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: var(--shadow-accent);
+    transition: var(--transition-base);
+}
+
+.btn-calendario:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-accent-hover);
+}
+
+@media (max-width: 768px) {
+    .acesso-calendario {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 25px;
+    }
+
+    .btn-calendario {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

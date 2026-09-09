@@ -126,3 +126,4 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

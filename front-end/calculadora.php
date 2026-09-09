@@ -158,3 +158,4 @@ include_once 'navbar.php';
     <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

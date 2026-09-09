@@ -38,3 +38,4 @@ try {
     header("Location: ../front-end/configuracoes.php?status=erro");
     exit;
 }
+

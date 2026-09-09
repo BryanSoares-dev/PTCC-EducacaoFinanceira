@@ -588,3 +588,58 @@ body {
     }
 
 }
+
+
+
+/* HISTÓRICO E ORIGEM DOS DADOS */
+
+.data_source {
+    display: block;
+    margin-top: 6px;
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 12px;
+}
+
+.history_card {
+    margin-top: 25px;
+    border-radius: 25px;
+    padding: 28px;
+}
+
+.history_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.history_header h2 {
+    font-size: 20px;
+}
+
+.history_header p {
+    margin-top: 6px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 14px;
+}
+
+.history_chart_area {
+    position: relative;
+    height: 340px;
+    margin-top: 25px;
+}
+
+.history_chart_area canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+@media (max-width: 600px) {
+    .history_card {
+        padding: 22px;
+    }
+
+    .history_chart_area {
+        height: 290px;
+    }
+}
