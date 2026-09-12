@@ -64,11 +64,10 @@ $usuariosFiltro = $pdo->query("SELECT id, nome FROM usuarios ORDER BY nome ASC")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movimentações | Admin AFDE</title>
-    <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
 </head>
-<body>
+<body class="admin-page">
 
 <?php include 'sidebar.php'; ?>
 
@@ -143,6 +142,7 @@ $usuariosFiltro = $pdo->query("SELECT id, nome FROM usuarios ORDER BY nome ASC")
                     <td><?= !empty($m['data_criacao']) ? date('d/m/Y H:i', strtotime($m['data_criacao'])) : '—' ?></td>
                     <td>
                         <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta movimentação? Esta ação não pode ser desfeita.');" style="display:inline;">
+            <?= csrf_field() ?>
                             <input type="hidden" name="excluir_id" value="<?= $m['id'] ?>">
                             <button type="submit" class="btn btn-perigo btn-sm">
                                 <i class="fas fa-trash"></i> Excluir
@@ -157,9 +157,5 @@ $usuariosFiltro = $pdo->query("SELECT id, nome FROM usuarios ORDER BY nome ASC")
     </div>
 </main>
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
-

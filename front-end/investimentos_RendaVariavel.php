@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/bootstrap.php';
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
@@ -11,10 +11,10 @@ if (!isset($_SESSION['id'])) {
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Dashboard Financeiro</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/investimentos.css">
-    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
 </head>
 <body>
 
@@ -117,7 +117,7 @@ if (!isset($_SESSION['id'])) {
         <div class="tipos_grid_variavel">
             <div class="tipo_card_variavel">
                 <div class="tipo_icon_variavel">
-                    <img src="img/acoes.png" alt="Ações">
+                    <img src="img/acoes.svg" alt="Ações" loading="lazy" decoding="async">
                 </div>
                 <h3>Ações</h3>
                 <p class="tipo_desc_variavel">Frações de empresas negociadas na Bolsa. Você vira sócio.</p>
@@ -131,7 +131,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_variavel">
                 <div class="tipo_icon_variavel">
-                    <img src="img/fiis.png" alt="FIIs">
+                    <img src="img/fiis.svg" alt="FIIs" loading="lazy" decoding="async">
                 </div>
                 <h3>Fundos Imobiliários</h3>
                 <p class="tipo_desc_variavel">Invista em imóveis sem comprar propriedades físicas.</p>
@@ -145,7 +145,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_variavel">
                 <div class="tipo_icon_variavel">
-                    <img src="img/etfs.png" alt="ETFs">
+                    <img src="img/etfs.svg" alt="ETFs" loading="lazy" decoding="async">
                 </div>
                 <h3>ETFs</h3>
                 <p class="tipo_desc_variavel">Fundos que replicam índices como Ibovespa e S&P500.</p>
@@ -159,7 +159,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_variavel">
                 <div class="tipo_icon_variavel">
-                    <img src="img/bdr.png" alt="BDRs">
+                    <img src="img/bdr.svg" alt="BDRs" loading="lazy" decoding="async">
                 </div>
                 <h3>BDRs</h3>
                 <p class="tipo_desc_variavel">Invista em empresas internacionais sem sair do Brasil.</p>
@@ -295,9 +295,5 @@ if (!isset($_SESSION['id'])) {
     }
 </script>
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
-

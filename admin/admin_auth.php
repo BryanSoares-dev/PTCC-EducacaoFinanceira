@@ -6,8 +6,10 @@
  * back-end/processa_login.php e back-end/google-callback.php.
  */
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+require_once __DIR__ . '/../back-end/bootstrap.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf();
 }
 
 require_once __DIR__ . '/../back-end/conexao.php';
@@ -32,4 +34,3 @@ if (!$dadosAdmin || $dadosAdmin['tipo'] !== 'admin') {
 // Disponível para todas as páginas que incluírem este arquivo
 $adminLogadoId   = (int) $dadosAdmin['id'];
 $adminLogadoNome = $dadosAdmin['nome'];
-

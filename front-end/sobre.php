@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/bootstrap.php';
 
 require_once("../back-end/conexao.php");
 
@@ -71,7 +71,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
 
     <link
         rel="stylesheet"
-        href="../css/sobre.css"
+        href="../css/app.css"
     >
 
     <link
@@ -87,7 +87,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
     <link
         rel="icon"
         type="image/png"
-        href="../img/favicon.png"
+        href="../img/favicon.svg"
     >
 
 </head>
@@ -518,9 +518,6 @@ if (!in_array($tema, $temas_permitidos, true)) {
 
     </main>
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

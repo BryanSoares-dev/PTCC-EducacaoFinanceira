@@ -1,12 +1,9 @@
-<link rel="stylesheet" href="../css/navbar.css">
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/style-perfil.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="../css/app.css">
 
 <?php
 
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    require_once __DIR__ . '/../back-end/bootstrap.php';
 }
 
 /* ==========================================
@@ -47,7 +44,7 @@ if (isset($_SESSION['id'])) {
 
     <a href="../front-end/home.php">
 
-        <img class="logo" src="../img/logo.png" alt="Logo">
+        <img class="logo" src="../img/logo.svg" alt="Logo">
 
     </a>
 
@@ -150,8 +147,8 @@ if (isset($_SESSION['id'])) {
 
             <li class="investment-dropdown">
 
-                
-                    <href="investimentos_Diversificacao.php"
+                <a
+                    href="investimentos_Diversificacao.php"
                     class="investment-trigger">
                     Investimentos
 
@@ -356,21 +353,15 @@ if (isset($_SESSION['id'])) {
                 <div class="user_dropdown">
 
 
-                    <!-- AVATAR (botão, não link, para não navegar ao clicar) -->
+                    <!-- AVATAR -->
 
-                    <button
-                        type="button"
-                        id="avatarBtn"
-                        class="avatar_btn"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        aria-label="Abrir menu do perfil">
+                    <a href="perfil.php" id="avatarBtn" aria-label="Abrir perfil">
 
 
                         <?php if ($temFoto): ?>
 
 
-                            <img src="<?= htmlspecialchars($fotoUsuario) ?>" class="avatar_img" alt="Avatar">
+                            <img src="<?= htmlspecialchars($fotoUsuario) ?>" loading="lazy" decoding="async" class="avatar_img" alt="Avatar">
 
 
                         <?php else: ?>
@@ -386,7 +377,7 @@ if (isset($_SESSION['id'])) {
                         <?php endif; ?>
 
 
-                    </button>
+                    </a>
 
 
                     <!-- ==========================================
@@ -404,7 +395,7 @@ if (isset($_SESSION['id'])) {
                             <?php if ($temFoto): ?>
 
 
-                                <img src="<?= htmlspecialchars($fotoUsuario) ?>" alt="Avatar" class="avatar_img">
+                                <img src="<?= htmlspecialchars($fotoUsuario) ?>" loading="lazy" decoding="async" alt="Avatar" class="avatar_img">
 
 
                             <?php else: ?>
@@ -525,40 +516,3 @@ if (isset($_SESSION['id'])) {
 
 
 </header>
-
-
-<!-- ==========================================
-     SCRIPT: ABRIR/FECHAR DROPDOWN DO PERFIL
-========================================== -->
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const avatarBtn = document.getElementById('avatarBtn');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-
-    if (avatarBtn && dropdownMenu) {
-
-        avatarBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            const aberto = dropdownMenu.classList.toggle('activate');
-            avatarBtn.setAttribute('aria-expanded', aberto);
-        });
-
-        // Fecha ao clicar fora do menu
-        document.addEventListener('click', function (e) {
-            if (!dropdownMenu.contains(e.target) && !avatarBtn.contains(e.target)) {
-                dropdownMenu.classList.remove('activate');
-                avatarBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        // Fecha ao pressionar ESC
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                dropdownMenu.classList.remove('activate');
-                avatarBtn.setAttribute('aria-expanded', 'false');
-            }
-        });
-    }
-});
-</script>

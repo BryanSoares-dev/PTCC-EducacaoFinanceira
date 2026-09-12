@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/bootstrap.php';
 require_once("conexao.php");
 
 // ===================== AUTENTICAÇÃO =====================
@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ===================== VALIDAÇÃO (WHITELIST) =====================
+require_csrf();
+
 $moedasValidas   = ['BRL', 'USD', 'EUR'];
 $temasValidos    = ['claro', 'escuro', 'sistema'];
 $idiomasValidos  = ['pt-BR', 'en-US', 'es-ES'];
@@ -38,4 +40,3 @@ try {
     header("Location: ../front-end/configuracoes.php?status=erro");
     exit;
 }
-

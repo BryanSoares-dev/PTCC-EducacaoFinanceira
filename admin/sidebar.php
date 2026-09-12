@@ -5,7 +5,7 @@ $paginaAtual = $paginaAtual ?? '';
 ?>
 <aside class="admin-sidebar">
     <div class="admin-brand">
-        <img src="../img/logo.png" alt="AFDE">
+        <img src="../img/logo.svg" alt="AFDE" loading="lazy" decoding="async">
         <span>Admin</span>
     </div>
 
@@ -27,4 +27,3 @@ $paginaAtual = $paginaAtual ?? '';
         </a>
     </nav>
 </aside>
-

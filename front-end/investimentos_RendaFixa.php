@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/bootstrap.php';
 require_once("../back-end/conexao.php");
 include_once'../front-end/navbar.php';
 
@@ -12,10 +12,10 @@ if (!isset($_SESSION['id'])) {
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Dashboard Financeiro</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/investimentos.css">
-    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
 </head>
 <body>
 
@@ -117,7 +117,7 @@ if (!isset($_SESSION['id'])) {
         <div class="tipos_grid_fixa">
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/tesouro-direto.png" alt="Tesouro Direto">
+                    <img src="img/tesouro-direto.svg" alt="Tesouro Direto" loading="lazy" decoding="async">
                 </div>
                 <h3>Tesouro Direto</h3>
                 <p class="tipo_desc_fixa">Títulos públicos federais. O investimento mais seguro do Brasil.</p>
@@ -131,7 +131,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/cdb.png" alt="CDB">
+                    <img src="img/cdb.svg" alt="CDB" loading="lazy" decoding="async">
                 </div>
                 <h3>CDB</h3>
                 <p class="tipo_desc_fixa">Certificado de Depósito Bancário. Empreste para bancos.</p>
@@ -145,7 +145,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/lci-lca.png" alt="LCI/LCA">
+                    <img src="img/lci-lca.svg" alt="LCI/LCA" loading="lazy" decoding="async">
                 </div>
                 <h3>LCI / LCA</h3>
                 <p class="tipo_desc_fixa">Letras de Crédito. Isentas de Imposto de Renda.</p>
@@ -159,7 +159,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/debentures.png" alt="Debêntures">
+                    <img src="img/debentures.svg" alt="Debêntures" loading="lazy" decoding="async">
                 </div>
                 <h3>Debêntures</h3>
                 <p class="tipo_desc_fixa">Títulos de dívida de empresas. Maior rentabilidade.</p>
@@ -294,9 +294,6 @@ if (!isset($_SESSION['id'])) {
     }
 </script>
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
 

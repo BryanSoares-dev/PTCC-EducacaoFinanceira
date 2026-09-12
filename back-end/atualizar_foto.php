@@ -1,136 +1,84 @@
 <?php
-    session_start();
-    require_once 'conexao.php';
 
-    if (!isset($_SESSION['id'])) {
-        header("Location: login.php");
-        exit;
+declare(strict_types=1);
+require_once __DIR__ . '/bootstrap.php';
+require_once __DIR__ . '/conexao.php';
+
+if (empty($_SESSION['id'])) {
+    header('Location: ../front-end/login.php');
+    exit;
+}
+
+function voltarPerfil(string $erro): never
+{
+    header('Location: ../front-end/perfil.php?erro=' . rawurlencode($erro));
+    exit;
+}
+
+require_csrf();
+
+$campo = (($_POST['tipo'] ?? 'foto') === 'banner') ? 'banner' : 'foto';
+$arquivo = $_FILES[$campo] ?? null;
+
+if (!$arquivo || !isset($arquivo['error'], $arquivo['tmp_name'], $arquivo['size']) || $arquivo['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($arquivo['tmp_name'])) {
+    voltarPerfil('upload_falhou');
+}
+
+$limite = $campo === 'banner' ? 8 * 1024 * 1024 : 5 * 1024 * 1024;
+if ((int) $arquivo['size'] > $limite) {
+    voltarPerfil($campo === 'banner' ? 'banner_grande' : 'arquivo_grande');
+}
+
+$finfo = new finfo(FILEINFO_MIME_TYPE);
+$mime = $finfo->file($arquivo['tmp_name']);
+$tipos = [
+    'image/jpeg' => 'jpg',
+    'image/png'  => 'png',
+    'image/webp' => 'webp',
+    'image/gif'  => 'gif',
+];
+
+$imagem = @getimagesize($arquivo['tmp_name']);
+if (!isset($tipos[$mime]) || $imagem === false || ($imagem[0] < 1 || $imagem[1] < 1)) {
+    voltarPerfil('formato_invalido');
+}
+
+$uploadDir = dirname(__DIR__) . '/uploads/perfis';
+if (!is_dir($uploadDir) && !mkdir($uploadDir, 0755, true)) {
+    voltarPerfil('pasta_indisponivel');
+}
+
+$usuarioId = (int) $_SESSION['id'];
+$nomeArquivo = $campo . '_' . $usuarioId . '_' . bin2hex(random_bytes(12)) . '.' . $tipos[$mime];
+$caminhoServidor = $uploadDir . DIRECTORY_SEPARATOR . $nomeArquivo;
+$caminhoPublico = '../uploads/perfis/' . $nomeArquivo;
+
+try {
+    $stmt = $pdo->prepare("SELECT {$campo} FROM usuarios WHERE id = ? LIMIT 1");
+    $stmt->execute([$usuarioId]);
+    $arquivoAntigo = $stmt->fetchColumn();
+
+    if (!move_uploaded_file($arquivo['tmp_name'], $caminhoServidor)) {
+        voltarPerfil('upload_falhou');
     }
 
-    if (!isset($_FILES['foto']) || $_FILES['foto']['error'] !== 0) {
-        echo "
-        <script>
-            alert('Erro ao enviar a imagem.');
-            window.location='perfil.php';
-        </script>
-        ";
-        exit;
-    }
+    $update = $pdo->prepare("UPDATE usuarios SET {$campo} = ? WHERE id = ?");
+    $update->execute([$caminhoPublico, $usuarioId]);
+    $_SESSION[$campo] = $caminhoPublico;
 
-    $arquivo = $_FILES['foto'];
-
-    // limita o tamanho da imagem para 2mb
-    $limite = 2 * 1024 * 1024;
-    if ($arquivo['size'] > $limite) {
-        echo "
-        <script>
-            alert('A imagem deve ter no máximo 2MB.');
-            window.location='perfil.php';
-        </script>
-        ";
-        exit;
-    }
-
-    /* VERIFICA SE É IMAGEM */
-    if (!getimagesize($arquivo['tmp_name'])) {
-        echo "
-        <script>
-            alert('O arquivo enviado não é uma imagem válida.');
-            window.location='perfil.php';
-        </script>
-        ";
-        exit;
-    }
-
-    $extensao = strtolower(
-        pathinfo($arquivo['name'], PATHINFO_EXTENSION)
-    );
-
-    $permitidas = [
-        'jpg',
-        'jpeg',
-        'png',
-        'webp'
-    ];
-
-    if (!in_array($extensao, $permitidas)) {
-        echo "
-        <script>
-            alert('Formato não permitido. Utilize JPG, JPEG, PNG ou WEBP.');
-            window.location='perfil.php';
-        </script>
-        ";
-        exit;
-    }
-
-    try {
-        /* BUSCA FOTO ANTIGA */
-        $stmt = $pdo->prepare("
-            SELECT foto
-            FROM usuarios
-            WHERE id = ?
-        ");
-
-        $stmt->execute([
-            $_SESSION['id']
-        ]);
-
-        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        /* GERA NOVO NOME */
-        $novoNome =
-            "perfil_" .
-            $_SESSION['id'] .
-            "_" .
-            time() .
-            "." .
-            $extensao;
-
-        $caminho = "uploads/perfis/" . $novoNome;
-        if (!move_uploaded_file(
-            $arquivo['tmp_name'],
-            $caminho
-        )) {
-
-            throw new Exception(
-                "Falha ao mover arquivo."
-            );
+    if (is_string($arquivoAntigo) && str_starts_with($arquivoAntigo, '../uploads/perfis/')) {
+        $antigoServidor = dirname(__DIR__) . '/' . ltrim($arquivoAntigo, './');
+        if (is_file($antigoServidor) && realpath($antigoServidor) !== realpath($caminhoServidor)) {
+            @unlink($antigoServidor);
         }
+    }
 
-        /* REMOVE FOTO ANTIGA */
-
-        if (
-            !empty($usuario['foto']) &&
-            file_exists($usuario['foto'])
-        ) {
-
-            unlink($usuario['foto']);
-        }
-
-        /* ATUALIZA BANCO */
-        $stmt = $pdo->prepare("
-            UPDATE usuarios
-            SET foto = ?
-            WHERE id = ?
-        ");
-
-        $stmt->execute([
-            $caminho,
-            $_SESSION['id']
-        ]);
-
-        // Atualiza a sessão para refletir a nova foto
-        $_SESSION['foto'] = $caminho;
-
-        header("Location: perfil.php");
-        exit;
-
-        // Especifica melhor o erro, sem uso de alert
-        } catch (Exception $e) {
-
-            echo "<pre>";
-            echo $e->getMessage();
-            echo "</pre>";
-        }
-    ?>
-
+    header('Location: ../front-end/perfil.php?sucesso=' . rawurlencode($campo));
+    exit;
+} catch (Throwable $e) {
+    if (is_file($caminhoServidor)) {
+        @unlink($caminhoServidor);
+    }
+    error_log('Erro ao atualizar ' . $campo . ': ' . $e->getMessage());
+    voltarPerfil('indisponivel');
+}

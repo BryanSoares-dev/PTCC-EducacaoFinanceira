@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/bootstrap.php';
 
 require_once '../back-end/conexao.php';
 
@@ -104,7 +104,7 @@ if (count($partesNome) > 1) {
 
     <link
         rel="stylesheet"
-        href="../css/configuracoes.css"
+        href="../css/app.css"
     >
 
     <link
@@ -120,7 +120,7 @@ if (count($partesNome) > 1) {
     <link
         rel="icon"
         type="image/png"
-        href="../img/favicon.png"
+        href="../img/favicon.svg"
     >
 
 </head>
@@ -166,7 +166,7 @@ if (count($partesNome) > 1) {
             <?php if (!empty($usuario['foto'])): ?>
 
                 <img
-                    src="../uploads/<?= htmlspecialchars($usuario['foto']) ?>"
+                    src="<?= htmlspecialchars($usuario['foto']) ?>" loading="lazy" decoding="async"
                     alt="Foto de perfil"
                     class="perfil_avatar"
                 >
@@ -695,6 +695,7 @@ if (count($partesNome) > 1) {
             method="POST"
             class="modal_form"
         >
+            <?= csrf_field() ?>
 
 
             <div class="modal_field">
@@ -869,6 +870,7 @@ if (count($partesNome) > 1) {
             method="POST"
             class="modal_form"
         >
+            <?= csrf_field() ?>
 
 
             <label class="modal_toggle">
@@ -1108,10 +1110,6 @@ if (count($partesNome) > 1) {
 </script>
 
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>
-

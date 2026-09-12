@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/bootstrap.php';
 
 require_once '../back-end/conexao.php';
 
@@ -156,19 +156,18 @@ $resultadoMes =
 
     <link
         rel="stylesheet"
-        href="../css/style.css"
+        href="../css/app.css"
     >
 
     <link
         rel="stylesheet"
-        href="../css/carteira.css"
     >
 
 
     <link
         rel="icon"
         type="image/png"
-        href="../img/favicon.png"
+        href="../img/favicon.svg"
     >
 
 </head>
@@ -494,28 +493,6 @@ $resultadoMes =
     </section>
 
 
-    <!-- ======================================================
-         CALENDÁRIO FINANCEIRO
-         ====================================================== -->
-
-    <section class="acesso-calendario" aria-label="Calendário financeiro">
-
-        <div>
-            <span class="carteira-tag">Acompanhamento</span>
-            <h2>Veja sua evolução financeira</h2>
-            <p>
-                Consulte os gastos por categoria, compare os meses e acompanhe
-                as transações da sua conta desde a criação do cadastro.
-            </p>
-        </div>
-
-        <a class="btn-calendario" href="calendario.php">
-            <span class="material-icons">calendar_month</span>
-            Abrir calendário financeiro
-        </a>
-
-    </section>
-
 </main>
 
 
@@ -558,6 +535,7 @@ $resultadoMes =
             action="../back-end/processa_movimentacao.php"
             method="POST"
         >
+            <?= csrf_field() ?>
 
 
             <div class="form-group">
@@ -692,7 +670,6 @@ const categorias = {
         'Alimentação',
         'Transporte',
         'Moradia',
-        'Contas',
         'Saúde',
         'Educação',
         'Lazer',
@@ -910,7 +887,6 @@ function detalheDoItem(item, tipo) {
 
         return (
             item.contaNome ||
-            item.categoria ||
             item.category ||
             item.type ||
             'Conta conectada'
@@ -1029,34 +1005,11 @@ function renderizarLista(
                 const classe =
                     tipo === 'transacoes' &&
                     (
-                        item.tipo === 'saida' ||
                         item.type === 'DEBIT' ||
                         valor < 0
                     )
                         ? 'valor-negativo'
                         : 'valor-positivo';
-
-                const tipoTransacao = item.tipo ||
-                    (item.type === 'CREDIT' ? 'entrada' : 'saida');
-                const categoriasTransacao = categorias[tipoTransacao] || categorias.saida;
-                const categoriaAtual = item.categoria || item.categoriaSugerida || item.category || 'Outros';
-                const controleCategoria = tipo === 'transacoes'
-                    ? `
-                        <label class="categoria-open-finance">
-                            Categoria
-                            <select
-                                data-transacao-id="${escapar(item.id)}"
-                                onchange="classificarTransacao(this)"
-                            >
-                                ${categoriasTransacao.map(categoria => `
-                                    <option value="${escapar(categoria)}" ${categoria === categoriaAtual ? 'selected' : ''}>
-                                        ${escapar(categoria)}
-                                    </option>
-                                `).join('')}
-                            </select>
-                        </label>
-                    `
-                    : '';
 
 
                 return `
@@ -1106,8 +1059,6 @@ function renderizarLista(
                                 )}
 
                             </small>
-
-                            ${controleCategoria}
 
                         </div>
 
@@ -1179,7 +1130,7 @@ async function carregarDadosOpenFinance() {
 
         const response =
             await fetch(
-                '../open-finance/dados.php?sync=1',
+                '../open-finance/dados.php',
                 {
                     credentials:
                         'same-origin',
@@ -1247,14 +1198,10 @@ async function carregarDadosOpenFinance() {
         );
 
 
-        const resumoSincronizacao = dados.sincronizado
-            ? `${dados.sincronizado} transação${dados.sincronizado === 1 ? '' : 'ões'} sincronizada${dados.sincronizado === 1 ? '' : 's'}.`
-            : 'Dados salvos anteriormente foram carregados.';
-
         statusOpenFinance.textContent =
             dados.avisos?.length
-                ? `${dados.avisos.join(' ')} ${resumoSincronizacao}`
-                : `Dados atualizados da sua conta conectada. ${resumoSincronizacao}`;
+                ? dados.avisos.join(' ')
+                : 'Dados atualizados da sua conta conectada.';
 
     }
 
@@ -1471,36 +1418,6 @@ async function conectarConta() {
 }
 
 
-async function classificarTransacao(select) {
-
-    const categoriaAnterior = select.dataset.categoriaAnterior || select.value;
-    select.disabled = true;
-
-    try {
-        const resposta = await fetch('../open-finance/classificar.php', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                transacaoId: select.dataset.transacaoId,
-                categoria: select.value
-            })
-        });
-        const dados = await resposta.json();
-        if (!resposta.ok || !dados.success) {
-            throw new Error(dados.error || 'Não foi possível salvar a categoria.');
-        }
-        select.dataset.categoriaAnterior = select.value;
-        statusOpenFinance.textContent = 'Categoria da transação atualizada.';
-    } catch (error) {
-        select.value = categoriaAnterior;
-        statusOpenFinance.textContent = error.message;
-    } finally {
-        select.disabled = false;
-    }
-}
-
-
 /* ============================================================
    EVENTOS
    ============================================================ */
@@ -1569,9 +1486,6 @@ carregarDadosOpenFinance();
 </script>
 
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

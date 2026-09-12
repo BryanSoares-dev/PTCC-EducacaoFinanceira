@@ -1,56 +1,95 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import os
-from google import genai
+/* ============================================================
+   carteira.js – Modal de Movimentação + Categorias Dinâmicas
+   ============================================================ */
 
-from extratores.extrator_pdf import buscar_texto as extrair_pdf
-from extratores.extrator_csv import buscar_texto as extrair_csv
+// Categorias disponíveis para cada tipo de movimentação
+const CATEGORIAS_POR_TIPO = {
+    entrada: [
+        { valor: "Salário",       label: "💰 Salário" },
+        { valor: "Freelance",     label: "💻 Freelance" },
+        { valor: "Investimentos", label: "📈 Investimentos" },
+        { valor: "Presente",      label: "🎁 Presente" },
+        { valor: "Outros",        label: "📦 Outros" }
+    ],
+    saida: [
+        { valor: "Alimentação", label: "🍔 Alimentação" },
+        { valor: "Transporte",  label: "🚗 Transporte" },
+        { valor: "Moradia",     label: "🏠 Moradia" },
+        { valor: "Saúde",       label: "🏥 Saúde" },
+        { valor: "Educação",    label: "📚 Educação" },
+        { valor: "Lazer",       label: "🎮 Lazer" },
+        { valor: "Outros",      label: "📦 Outros" }
+    ]
+};
 
-from dotenv import load_dotenv
-load_dotenv()
+let modal;
+let selectTipo;
+let selectCategoria;
 
-app = Flask(__name__)
-CORS(app)  # permite o navegador (index.php) chamar essa API
+document.addEventListener("DOMContentLoaded", () => {
+    modal = document.getElementById("modalMovimentacao");
+    selectTipo = document.getElementById("tipoSelect");
+    selectCategoria = document.getElementById("categoriaSelect");
 
-client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+    // Atualiza a lista de categorias sempre que o tipo mudar
+    if (selectTipo) {
+        selectTipo.addEventListener("change", atualizarCategorias);
+    }
 
-# Criando uma pasta temporaria
-PASTA_TEMP = "temp"
-os.makedirs(PASTA_TEMP, exist_ok=True)
+    // Fecha o modal clicando fora do conteúdo (no overlay escuro)
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                fecharModal();
+            }
+        });
+    }
 
-@app.route('/api/analisar', methods=['POST'])
-def analisar():
-    arquivo = request.files.get('extrato')  # 'extrato' é o mesmo nome usado no FormData do JS
+    // Fecha o modal com a tecla ESC
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal && modal.classList.contains("active")) {
+            fecharModal();
+        }
+    });
+});
 
-    if not arquivo:
-        return jsonify({"erro": "Nenhum arquivo enviado"}), 400
+function atualizarCategorias() {
+    const tipo = selectTipo.value;
 
-    nome = arquivo.filename
-    extensao = nome.rsplit('.', 1)[-1].lower()
+    // Limpa as opções atuais, mantendo o placeholder
+    selectCategoria.innerHTML = '<option value="" selected disabled>Selecione uma categoria</option>';
 
-    # Forma o caminho para conseguir abrir o arquivo
-    caminho_salvo = os.path.join(PASTA_TEMP, nome)
-    arquivo.save(caminho_salvo)
+    if (!tipo || !CATEGORIAS_POR_TIPO[tipo]) {
+        selectCategoria.disabled = true;
+        return;
+    }
 
-    # decide qual extrator usar baseado na extensão
-    if extensao == 'pdf':
-        texto = extrair_pdf(caminho_salvo)
-    elif extensao == 'csv':
-        texto = extrair_csv(caminho_salvo)
-    else:
-        os.remove(caminho_salvo)
-        return jsonify({"erro": "Formato não suportado. Envie PDF ou CSV."}), 400
+    selectCategoria.disabled = false;
 
-    os.remove(caminho_salvo)  # apaga o arquivo temporário depois de ler
+    CATEGORIAS_POR_TIPO[tipo].forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat.valor;
+        option.textContent = cat.label;
+        selectCategoria.appendChild(option);
+    });
+}
 
-    prompt = f"Aqui estão os gastos do usuário:\n{texto}\n\nResuma por categoria e dê 3 dicas financeiras."
+function abrirModal() {
+    if (!modal) return;
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden"; // trava o scroll do fundo
+}
 
-    resposta = client.models.generate_content(
-        model="gemini-3.1-flash-lite",
-        contents=prompt
-    )
+function fecharModal() {
+    if (!modal) return;
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
 
-    return jsonify({"resumo": resposta.text})
-
-if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    // Reseta o formulário e a categoria ao fechar
+    const form = modal.querySelector("form");
+    if (form) form.reset();
+    if (selectCategoria) {
+        selectCategoria.innerHTML = '<option value="" selected disabled>Selecione uma categoria</option>';
+        selectCategoria.disabled = true;
+    }
+}

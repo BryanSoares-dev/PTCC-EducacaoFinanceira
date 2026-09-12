@@ -46,11 +46,10 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuários | Admin AFDE</title>
-    <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
 </head>
-<body>
+<body class="admin-page">
 
 <?php include 'sidebar.php'; ?>
 
@@ -105,7 +104,8 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php if ((int)$u['id'] === $adminLogadoId): ?>
                             <span style="color:var(--texto-fraco); font-size:0.8rem;">Sua conta</span>
                         <?php else: ?>
-                            <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir o usuário <?= htmlspecialchars(addslashes($u['nome'])) ?>? Esta ação não pode ser desfeita.');" style="display:inline;">
+                            <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir o usuário <?= htmlspecialchars(addslashes($u['nome'])) ?>
+            <?= csrf_field() ?>? Esta ação não pode ser desfeita.');" style="display:inline;">
                                 <input type="hidden" name="excluir_id" value="<?= $u['id'] ?>">
                                 <button type="submit" class="btn btn-perigo btn-sm">
                                     <i class="fas fa-trash"></i> Excluir
@@ -121,9 +121,5 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </main>
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
-

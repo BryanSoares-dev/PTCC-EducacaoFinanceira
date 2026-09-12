@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/bootstrap.php';
 
 require_once("../back-end/conexao.php");
 
@@ -63,10 +63,10 @@ if (isset($_SESSION['id'])) {
     >
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/app.css">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
 
 </head>
 
@@ -702,9 +702,9 @@ if (isset($_SESSION['id'])) {
 
             <img
                 class="footer_logo"
-                src="../img/logo.png"
+                src="../img/logo.svg"
                 alt="Logo AFDE"
-            >
+             loading="lazy" decoding="async">
 
             <p>
                 © 2026 AFDE. Todos os direitos reservados.
@@ -714,10 +714,6 @@ if (isset($_SESSION['id'])) {
 
     </footer>
 
-
-    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
-    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>
-
