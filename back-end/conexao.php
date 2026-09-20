@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 $host = getenv('DB_HOST') ?: '127.0.0.1';
-$port = (int) (getenv('DB_PORT') ?: 3307);
+$port = (int) (getenv('DB_PORT') ?: 3306);
 $db   = getenv('DB_NAME') ?: 'educacaofinanceira';
 $user = getenv('DB_USER') ?: 'root';
 $pass = getenv('DB_PASS') ?: '';
@@ -21,7 +21,14 @@ try {
         ]
     );
 } catch (PDOException $e) {
-    error_log(sprintf('Falha PDO [%s] host=%s porta=%d banco=%s: %s', $e->getCode(), $host, $port, $db, $e->getMessage()));
+    error_log(sprintf(
+        'Falha PDO [%s] host=%s porta=%d banco=%s: %s',
+        $e->getCode(),
+        $host,
+        $port,
+        $db,
+        $e->getMessage()
+    ));
     http_response_code(503);
-    exit('Não foi possível conectar ao banco de dados. Verifique o serviço MySQL/MariaDB, a porta 3307 e o banco configurado.');
+    exit('Não foi possível conectar ao banco de dados. Verifique o serviço MySQL/MariaDB, a porta configurada e o banco de dados.');
 }

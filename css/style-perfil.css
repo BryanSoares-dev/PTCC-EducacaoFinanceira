@@ -1,292 +1,119 @@
 /* ============================================================
-   style-perfil.css
-   AFDE — Página de Perfil
-   Tema claro / escuro / sistema
+   STYLE-PERFIL.CSS
+   Página de Perfil
+   Compatível com app.css global
    ============================================================ */
 
 
 /* ============================================================
-   VARIÁVEIS GERAIS
+   VARIÁVEIS LOCAIS
+   Não altera as variáveis do app.css
    ============================================================ */
 
-:root {
+.perfil-page {
 
-    --primary: #0A2540;
-    --primary-light: #24314C;
-    --primary-dark: #081B30;
+    --perfil-bg:
+        linear-gradient(
+            135deg,
+            #061525 0%,
+            #0b2238 50%,
+            #062d2d 100%
+        );
 
-    --accent: #16E28A;
-    --accent-dark: #0DB873;
-    --accent-light: #29F0A0;
+    --perfil-card:
+        rgba(12, 38, 62, 0.90);
 
-    --danger: #FF4757;
+    --perfil-card-2:
+        rgba(18, 48, 75, 0.92);
 
-    --white: #FFFFFF;
-    --dark: #0B0F19;
+    --perfil-border:
+        rgba(150, 205, 225, 0.20);
 
-    --gray-100: #F8FAFC;
-    --gray-200: #EEF4F8;
-    --gray-300: #D8E1E8;
-    --gray-400: #64748B;
-    --gray-500: #444444;
-    --gray-600: #666666;
+    --perfil-border-strong:
+        rgba(150, 205, 225, 0.30);
 
-    --font-family: 'Inter', sans-serif;
+    --perfil-text:
+        #f4f7fa;
 
-    --radius-sm: 12px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-    --radius-xl: 28px;
-    --radius-full: 9999px;
+    --perfil-text-muted:
+        #b9c7d4;
 
-    --transition-fast: .2s ease;
-    --transition-base: .3s ease;
-    --transition-slow: .5s ease;
+    --perfil-input:
+        #071729;
 
-    --shadow-sm:
-        0 8px 25px rgba(0, 0, 0, .08);
+    --perfil-input-border:
+        rgba(160, 200, 220, 0.25);
 
-    --shadow-md:
-        0 15px 40px rgba(0, 0, 0, .12);
+    --perfil-accent:
+        #48e8ae;
 
-    --shadow-lg:
-        0 20px 60px rgba(0, 0, 0, .18);
+    --perfil-accent-dark:
+        #18d995;
 
-    --shadow-accent:
-        0 12px 30px rgba(22, 226, 138, .28);
+    --perfil-danger:
+        #ef5350;
 
-    --shadow-accent-hover:
-        0 18px 45px rgba(22, 226, 138, .40);
-}
+    --perfil-radius:
+        22px;
 
+    --perfil-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.28);
 
-/* ============================================================
-   TEMA CLARO
-   ============================================================ */
+    width: 100%;
+    max-width: 1200px;
 
-html.claro {
+    margin: 0 auto;
 
-    --bg-body: #EEF2F6;
-
-    --text-body: #0A2540;
-
-    --title-color: #0A2540;
-
-    --paragraph-color: #526174;
-
-    --muted-color: #64748B;
-
-    --card-bg: rgba(255, 255, 255, .78);
-
-    --card-border: rgba(10, 37, 64, .12);
-
-    --card-border-hover: rgba(22, 226, 138, .45);
-
-    --input-bg: rgba(255, 255, 255, .92);
-
-    --input-border: #C8D3DE;
-
-    --input-border-hover: #16E28A;
-
-    --input-text: #0A2540;
-
-    --button-secondary-bg: rgba(255, 255, 255, .75);
-
-    --button-secondary-border: #C8D3DE;
-
-    --button-secondary-text: #0A2540;
-
-    --back-bg: rgba(255, 255, 255, .78);
-
-    --back-border: rgba(10, 37, 64, .12);
-
-    --shape-opacity: 1;
-}
-
-
-/* ============================================================
-   TEMA ESCURO
-   ============================================================ */
-
-html.escuro {
-
-    --bg-body: #080D16;
-
-    --text-body: #FFFFFF;
-
-    --title-color: #FFFFFF;
-
-    --paragraph-color: #D1D5DB;
-
-    --muted-color: #A7B0BF;
-
-    --card-bg: rgba(17, 24, 39, .72);
-
-    --card-border: rgba(255, 255, 255, .12);
-
-    --card-border-hover: rgba(22, 226, 138, .45);
-
-    --input-bg: rgba(255, 255, 255, .055);
-
-    --input-border: rgba(255, 255, 255, .18);
-
-    --input-border-hover: #16E28A;
-
-    --input-text: #FFFFFF;
-
-    --button-secondary-bg: rgba(255, 255, 255, .07);
-
-    --button-secondary-border: rgba(255, 255, 255, .16);
-
-    --button-secondary-text: #FFFFFF;
-
-    --back-bg: rgba(255, 255, 255, .07);
-
-    --back-border: rgba(255, 255, 255, .14);
-
-    --shape-opacity: 1;
-}
-
-
-/* ============================================================
-   TEMA SISTEMA — CLARO
-   ============================================================ */
-
-@media (prefers-color-scheme: light) {
-
-    html.sistema {
-
-        --bg-body: #EEF2F6;
-
-        --text-body: #0A2540;
-
-        --title-color: #0A2540;
-
-        --paragraph-color: #526174;
-
-        --muted-color: #64748B;
-
-        --card-bg: rgba(255, 255, 255, .78);
-
-        --card-border: rgba(10, 37, 64, .12);
-
-        --card-border-hover: rgba(22, 226, 138, .45);
-
-        --input-bg: rgba(255, 255, 255, .92);
-
-        --input-border: #C8D3DE;
-
-        --input-border-hover: #16E28A;
-
-        --input-text: #0A2540;
-
-        --button-secondary-bg: rgba(255, 255, 255, .75);
-
-        --button-secondary-border: #C8D3DE;
-
-        --button-secondary-text: #0A2540;
-
-        --back-bg: rgba(255, 255, 255, .78);
-
-        --back-border: rgba(10, 37, 64, .12);
-    }
-}
-
-
-/* ============================================================
-   TEMA SISTEMA — ESCURO
-   ============================================================ */
-
-@media (prefers-color-scheme: dark) {
-
-    html.sistema {
-
-        --bg-body: #080D16;
-
-        --text-body: #FFFFFF;
-
-        --title-color: #FFFFFF;
-
-        --paragraph-color: #D1D5DB;
-
-        --muted-color: #A7B0BF;
-
-        --card-bg: rgba(17, 24, 39, .72);
-
-        --card-border: rgba(255, 255, 255, .12);
-
-        --card-border-hover: rgba(22, 226, 138, .45);
-
-        --input-bg: rgba(255, 255, 255, .055);
-
-        --input-border: rgba(255, 255, 255, .18);
-
-        --input-border-hover: #16E28A;
-
-        --input-text: #FFFFFF;
-
-        --button-secondary-bg: rgba(255, 255, 255, .07);
-
-        --button-secondary-border: rgba(255, 255, 255, .16);
-
-        --button-secondary-text: #FFFFFF;
-
-        --back-bg: rgba(255, 255, 255, .07);
-
-        --back-border: rgba(255, 255, 255, .14);
-    }
-}
-
-
-/* ============================================================
-   RESET
-   ============================================================ */
-
-* {
-
-    margin: 0;
-
-    padding: 0;
-
-    box-sizing: border-box;
-
-    font-family: var(--font-family);
-
-    scroll-behavior: smooth;
-}
-
-
-html,
-body {
-
-    min-height: 100%;
-}
-
-
-/* ============================================================
-   BODY
-   ============================================================ */
-
-body {
-
-    min-height: 100vh;
-
-    background: var(--bg-body);
-
-    color: var(--text-body);
-
-    overflow-x: hidden;
+    padding:
+        120px
+        24px
+        60px;
 
     position: relative;
 
-    transition:
-        background var(--transition-base),
-        color var(--transition-base);
+    z-index: 2;
+
+    box-sizing: border-box;
 }
 
 
 /* ============================================================
-   FUNDO DECORATIVO
+   RESET LOCAL
+   Impede o app.css de deformar os elementos do perfil
+   ============================================================ */
+
+.perfil-page *,
+.perfil-page *::before,
+.perfil-page *::after {
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   BODY DA PÁGINA
+   ============================================================ */
+
+body:has(.perfil-page) {
+
+    min-height: 100vh;
+
+    margin: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #061525 0%,
+            #081a2d 45%,
+            #062d2d 100%
+        );
+
+    color: var(--perfil-text);
+}
+
+
+/* ============================================================
+   ELEMENTOS DECORATIVOS
    ============================================================ */
 
 .background_shapes {
@@ -295,73 +122,73 @@ body {
 
     inset: 0;
 
+    width: 100%;
+    height: 100%;
+
     overflow: hidden;
 
-    z-index: -1;
-
     pointer-events: none;
+
+    z-index: 0;
 }
 
-
-.shape {
+.background_shapes .shape {
 
     position: absolute;
 
     border-radius: 50%;
 
-    filter: blur(100px);
-
     pointer-events: none;
 
-    opacity: var(--shape-opacity);
-
-    transition:
-        opacity var(--transition-base);
+    filter: blur(2px);
 }
 
+.background_shapes .shape1 {
 
-.shape1 {
+    width: 380px;
+    height: 380px;
 
-    width: 600px;
-
-    height: 600px;
+    top: -150px;
+    left: -120px;
 
     background:
-        rgba(22, 226, 138, .12);
+        radial-gradient(
+            circle,
+            rgba(72, 232, 174, 0.10),
+            transparent 70%
+        );
+}
 
-    top: -220px;
+.background_shapes .shape2 {
+
+    width: 450px;
+    height: 450px;
 
     right: -180px;
-}
-
-
-.shape2 {
-
-    width: 500px;
-
-    height: 500px;
+    top: 25%;
 
     background:
-        rgba(10, 37, 64, .10);
-
-    bottom: -220px;
-
-    left: -160px;
+        radial-gradient(
+            circle,
+            rgba(0, 150, 255, 0.08),
+            transparent 70%
+        );
 }
 
+.background_shapes .shape3 {
 
-.shape3 {
+    width: 420px;
+    height: 420px;
 
-    width: 350px;
-
-    height: 350px;
+    bottom: -180px;
+    left: 35%;
 
     background:
-        rgba(22, 226, 138, .08);
-
-    top: 45%;
-
-    left: 55%;
+        radial-gradient(
+            circle,
+            rgba(72, 232, 174, 0.07),
+            transparent 70%
+        );
 }
 
 
@@ -369,13 +196,425 @@ body {
    BOTÃO VOLTAR
    ============================================================ */
 
-.btn_voltar {
+.perfil-page .btn_voltar {
 
     position: fixed;
 
-    top: 30px;
+    top: 115px;
+    left: 25px;
 
-    left: 30px;
+    z-index: 100;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding: 9px 17px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
+
+    border-radius: 999px;
+
+    background:
+        rgba(10, 30, 50, 0.80);
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.20);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+/*
+   O app.css global coloca ::after em nav a.
+   Este botão não deve receber aquela linha.
+*/
+
+.perfil-page .btn_voltar::after {
+
+    content: none !important;
+
+    display: none !important;
+}
+
+.perfil-page .btn_voltar:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        rgba(25, 55, 80, 0.95);
+
+    border-color:
+        rgba(72, 232, 174, 0.40);
+}
+
+
+/* ============================================================
+   ALERTAS
+   ============================================================ */
+
+.perfil-page .perfil_alert {
+
+    width: 100%;
+
+    margin:
+        0
+        0
+        20px;
+
+    padding: 14px 18px;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    border: 1px solid transparent;
+
+    box-sizing: border-box;
+}
+
+.perfil-page .perfil_alert-error {
+
+    color: #ffd6d6;
+
+    background:
+        rgba(239, 83, 80, 0.12);
+
+    border-color:
+        rgba(239, 83, 80, 0.35);
+}
+
+.perfil-page .perfil_alert-success {
+
+    color: #caffea;
+
+    background:
+        rgba(72, 232, 174, 0.10);
+
+    border-color:
+        rgba(72, 232, 174, 0.30);
+}
+
+
+/* ============================================================
+   CABEÇALHO DO PERFIL
+   ============================================================ */
+
+.perfil-page .perfil_header-cover {
+
+    position: relative;
+
+    width: 100%;
+
+    /*
+       IMPORTANTE:
+       Não usar height fixa pequena.
+       Era isso que estava cortando o botão inferior.
+    */
+
+    min-height: 300px;
+
+    height: auto;
+
+    padding:
+        145px
+        32px
+        32px;
+
+    display: grid;
+
+    grid-template-columns:
+        100px
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+
+    column-gap: 24px;
+
+    overflow: visible;
+
+    border:
+        1px solid
+        var(--perfil-border-strong);
+
+    border-radius:
+        24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(11, 37, 62, 0.96),
+            rgba(3, 21, 37, 0.96)
+        );
+
+    box-shadow:
+        var(--perfil-shadow);
+
+    isolation: isolate;
+}
+
+
+/* ============================================================
+   BANNER
+   ============================================================ */
+
+.perfil-page .perfil-banner-image {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    z-index: -3;
+
+    border-radius: inherit;
+}
+
+.perfil-page .perfil-cover-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -2;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(3, 17, 30, 0.96) 0%,
+            rgba(4, 22, 37, 0.86) 45%,
+            rgba(4, 22, 37, 0.72) 100%
+        );
+}
+
+.perfil-page .perfil_header-cover:not(.has-banner) {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0a2540 0%,
+            #071a2c 55%,
+            #052f31 100%
+        );
+}
+
+
+/* ============================================================
+   FORMULÁRIO DO AVATAR
+   ============================================================ */
+
+.perfil-page .perfil-avatar-form {
+
+    position: relative;
+
+    width: 100px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin: 0;
+
+    z-index: 5;
+}
+
+
+/* ============================================================
+   AVATAR GRANDE
+   ============================================================ */
+
+.perfil-page .perfil_avatar {
+
+    width: 92px;
+    height: 92px;
+
+    min-width: 92px;
+    min-height: 92px;
+
+    margin: 0;
+
+    padding: 4px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4ff0b5,
+            #42dca8
+        );
+
+    border:
+        2px solid
+        rgba(255, 255, 255, 0.65);
+
+    box-shadow:
+        0 0 0 3px rgba(72, 232, 174, 0.18),
+        0 10px 30px rgba(0, 0, 0, 0.30);
+
+    flex-shrink: 0;
+}
+
+.perfil-page .perfil_avatar img {
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+}
+
+
+/* ============================================================
+   INFORMAÇÕES DO USUÁRIO
+   ============================================================ */
+
+.perfil-page .perfil-info-cover {
+
+    min-width: 0;
+
+    align-self: center;
+
+    margin: 0;
+
+    padding: 0;
+}
+
+.perfil-page .perfil-info-cover h1 {
+
+    margin:
+        0
+        0
+        10px;
+
+    padding: 0;
+
+    color: #ffffff;
+
+    font-size:
+        clamp(
+            25px,
+            3vw,
+            34px
+        );
+
+    line-height: 1.15;
+
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
+
+    overflow-wrap: anywhere;
+}
+
+.perfil-page .perfil-info-cover p {
+
+    margin: 0;
+
+    padding: 0;
+
+    color:
+        rgba(255, 255, 255, 0.78);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* ============================================================
+   FORMULÁRIO DO BANNER
+   ============================================================ */
+
+.perfil-page .perfil-banner-form {
+
+    width: auto;
+
+    min-width: 200px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin: 0;
+
+    padding: 0;
+}
+
+.perfil-page .perfil-banner-form small {
+
+    display: block;
+
+    margin: 0;
+
+    color:
+        rgba(255, 255, 255, 0.72);
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   BOTÃO SECUNDÁRIO
+   ============================================================ */
+
+.perfil-page .btn_secondary {
+
+    appearance: none;
+
+    -webkit-appearance: none;
 
     display: inline-flex;
 
@@ -383,195 +622,57 @@ body {
 
     justify-content: center;
 
-    gap: 8px;
+    width: auto;
 
-    padding: 12px 20px;
+    min-height: 44px;
 
-    background: var(--back-bg);
+    margin: 0;
 
-    backdrop-filter: blur(20px);
+    padding:
+        11px
+        20px;
 
-    -webkit-backdrop-filter: blur(20px);
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.22);
 
-    border: 1px solid var(--back-border);
+    border-radius: 12px;
 
-    border-radius: var(--radius-full);
+    background:
+        rgba(255, 255, 255, 0.08);
 
-    color: var(--title-color);
+    color: #ffffff;
 
-    text-decoration: none;
+    font-family: inherit;
 
     font-size: 14px;
 
-    font-weight: 600;
+    font-weight: 700;
 
-    box-shadow: var(--shadow-sm);
+    line-height: 1.2;
 
-    transition: all var(--transition-base);
+    text-align: center;
 
-    z-index: 100;
+    cursor: pointer;
+
+    box-shadow: none;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
 }
 
+.perfil-page .btn_secondary:hover {
 
-.btn_voltar:hover {
+    background:
+        rgba(255, 255, 255, 0.15);
 
-    transform: translateY(-2px);
+    border-color:
+        rgba(72, 232, 174, 0.45);
 
-    color: var(--accent-dark);
-
-    border-color: rgba(22, 226, 138, .45);
-
-    box-shadow: var(--shadow-md);
-}
-
-
-/* ============================================================
-   CONTAINER
-   ============================================================ */
-
-.perfil_container {
-
-    width: 100%;
-
-    max-width: 900px;
-
-    margin: 0 auto;
-
-    padding: 120px 30px 80px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 20px;
-
-    position: relative;
-}
-
-
-/* ============================================================
-   CABEÇALHO
-   ============================================================ */
-
-.perfil_header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: flex-start;
-
-    gap: 30px;
-
-    padding: 35px;
-
-    border-radius: var(--radius-xl);
-
-    background: var(--card-bg);
-
-    backdrop-filter: blur(30px);
-
-    -webkit-backdrop-filter: blur(30px);
-
-    border: 1px solid var(--card-border);
-
-    box-shadow: var(--shadow-sm);
-
-    transition: all var(--transition-base);
-
-    flex-wrap: wrap;
-}
-
-
-.perfil_header:hover {
-
-    transform: translateY(-3px);
-
-    border-color: var(--card-border-hover);
-
-    box-shadow: var(--shadow-md);
-}
-
-
-/* ============================================================
-   AVATAR
-   ============================================================ */
-
-.perfil_avatar {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    gap: 12px;
-
-    flex-shrink: 0;
-}
-
-
-.perfil_avatar img {
-
-    width: 100px;
-
-    height: 100px;
-
-    object-fit: cover;
-
-    border-radius: 50%;
-
-    border: 3px solid var(--accent);
-
-    background: var(--surface, #fff);
-
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, .12);
-
-    transition: all var(--transition-base);
-}
-
-
-.perfil_avatar img:hover {
-
-    transform: scale(1.05);
-
-    box-shadow:
-        0 0 35px rgba(22, 226, 138, .30);
-}
-
-
-/* ============================================================
-   INFORMAÇÕES
-   ============================================================ */
-
-.perfil_info {
-
-    flex: 1;
-
-    min-width: 200px;
-}
-
-
-.perfil_info h1 {
-
-    color: var(--title-color);
-
-    font-size: 1.7rem;
-
-    font-weight: 800;
-
-    margin-bottom: 8px;
-}
-
-
-.perfil_info p {
-
-    color: var(--paragraph-color);
-
-    font-size: 14px;
-
-    line-height: 1.6;
+    transform:
+        translateY(-2px);
 }
 
 
@@ -579,73 +680,109 @@ body {
    CARDS
    ============================================================ */
 
-.perfil_card {
+.perfil-page .perfil_card {
 
     width: 100%;
 
-    padding: 30px;
+    margin:
+        30px
+        0
+        0;
 
-    border-radius: var(--radius-lg);
+    padding:
+        30px;
 
-    background: var(--card-bg);
+    border:
+        1px solid
+        var(--perfil-border);
 
-    backdrop-filter: blur(30px);
+    border-radius:
+        var(--perfil-radius);
 
-    -webkit-backdrop-filter: blur(30px);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(16, 46, 73, 0.94),
+            rgba(8, 29, 49, 0.94)
+        );
 
-    border: 1px solid var(--card-border);
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.20);
 
-    box-shadow: var(--shadow-sm);
+    backdrop-filter:
+        blur(14px);
 
-    transition: all var(--transition-base);
+    -webkit-backdrop-filter:
+        blur(14px);
+
+    color:
+        var(--perfil-text);
 }
 
+.perfil-page .perfil_card h2 {
 
-.perfil_card:hover {
+    margin:
+        0
+        0
+        24px;
 
-    transform: translateY(-3px);
+    padding: 0;
 
-    border-color: var(--card-border-hover);
+    color: #ffffff;
 
-    box-shadow: var(--shadow-md);
-}
+    font-size: 20px;
 
+    line-height: 1.3;
 
-.perfil_card h2 {
-
-    color: var(--title-color);
-
-    font-size: 1.2rem;
-
-    font-weight: 700;
-
-    margin-bottom: 24px;
+    font-weight: 800;
 }
 
 
 /* ============================================================
-   FORM GROUP
+   FORMULÁRIOS
    ============================================================ */
 
-.form_group {
+.perfil-page form {
 
-    display: flex;
-
-    flex-direction: column;
-
-    margin-bottom: 18px;
+    margin: 0;
 }
 
+.perfil-page .form_group {
 
-.form_group label {
+    width: 100%;
 
-    color: var(--muted-color);
+    margin:
+        0
+        0
+        20px;
 
-    margin-bottom: 8px;
+    padding: 0;
+}
+
+.perfil-page .form_group:last-child {
+
+    margin-bottom: 0;
+}
+
+.perfil-page .form_group label {
+
+    display: block;
+
+    margin:
+        0
+        0
+        8px;
+
+    padding: 0;
+
+    color:
+        #cbd7e2;
 
     font-size: 13px;
 
-    font-weight: 600;
+    font-weight: 700;
+
+    line-height: 1.4;
 }
 
 
@@ -653,58 +790,82 @@ body {
    INPUTS
    ============================================================ */
 
-.form_group input {
+.perfil-page input[type="text"],
+.perfil-page input[type="email"],
+.perfil-page input[type="tel"],
+.perfil-page input[type="password"] {
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    display: block;
 
     width: 100%;
 
-    height: 52px;
+    min-height: 50px;
 
-    padding: 0 16px;
+    margin: 0;
 
-    border: 1px solid var(--input-border);
+    padding:
+        0
+        16px;
 
-    border-radius: var(--radius-md);
+    border:
+        1px solid
+        var(--perfil-input-border);
 
-    background: var(--input-bg);
-
-    color: var(--input-text);
-
-    font-size: 14px;
+    border-radius: 17px;
 
     outline: none;
 
+    background:
+        var(--perfil-input);
+
+    color:
+        #ffffff;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    line-height: 1.2;
+
+    box-shadow: none;
+
     transition:
-        border-color var(--transition-base),
-        background var(--transition-base),
-        box-shadow var(--transition-base);
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
+.perfil-page input:hover {
 
-/* IMPORTANTE:
-   garante que o navegador não apague o contorno */
-
-.form_group input:hover {
-
-    border-color: var(--input-border-hover);
+    border-color:
+        rgba(160, 200, 220, 0.38);
 }
 
+.perfil-page input:focus {
 
-.form_group input:focus {
+    border-color:
+        var(--perfil-accent);
 
-    border: 1px solid var(--accent-dark);
-
-    background: var(--input-bg);
+    background:
+        #081b2e;
 
     box-shadow:
-        0 0 0 4px rgba(22, 226, 138, .12);
+        0 0 0 3px
+        rgba(72, 232, 174, 0.12);
+
+    outline: none;
 }
 
+.perfil-page input::placeholder {
 
-.form_group input::placeholder {
-
-    color: var(--muted-color);
-
-    opacity: .7;
+    color:
+        rgba(255, 255, 255, 0.38);
 }
 
 
@@ -712,16 +873,16 @@ body {
    AUTOFILL DO CHROME
    ============================================================ */
 
-.form_group input:-webkit-autofill,
-.form_group input:-webkit-autofill:hover,
-.form_group input:-webkit-autofill:focus {
+.perfil-page input:-webkit-autofill,
+.perfil-page input:-webkit-autofill:hover,
+.perfil-page input:-webkit-autofill:focus {
 
-    -webkit-text-fill-color: var(--input-text);
+    -webkit-text-fill-color: #ffffff;
 
     -webkit-box-shadow:
-        0 0 0 1000px var(--input-bg) inset;
-
-    border: 1px solid var(--input-border);
+        0 0 0 1000px
+        var(--perfil-input)
+        inset;
 
     transition:
         background-color 9999s ease-in-out 0s;
@@ -732,230 +893,714 @@ body {
    BOTÃO PRINCIPAL
    ============================================================ */
 
-.btn_primary {
+.perfil-page .btn_primary {
 
-    display: inline-flex;
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 49px;
+
+    margin:
+        24px
+        0
+        0;
+
+    padding:
+        12px
+        20px;
+
+    border: none;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4cebb0,
+            #18d995
+        );
+
+    color:
+        #04151f;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px
+        rgba(24, 217, 149, 0.20);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
+}
+
+.perfil-page .btn_primary:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 14px 30px
+        rgba(24, 217, 149, 0.28);
+
+    filter: brightness(1.04);
+}
+
+.perfil-page .btn_primary:active {
+
+    transform:
+        translateY(0);
+}
+
+
+/* ============================================================
+   INPUT DE ARQUIVO
+   ============================================================ */
+
+.perfil-page input[type="file"] {
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+
+    border: 0;
+}
+
+
+/* ============================================================
+   MODAL DE CORTE
+   ============================================================ */
+
+.perfil-page .crop-modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100000;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(1, 8, 15, 0.78);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+}
+
+.perfil-page .crop-modal[hidden] {
+
+    display: none !important;
+}
+
+
+/* ============================================================
+   CAIXA DO MODAL
+   ============================================================ */
+
+.perfil-page .crop-dialog {
+
+    position: relative;
+
+    width: min(
+        1050px,
+        100%
+    );
+
+    max-height:
+        calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    padding: 28px;
+
+    border:
+        1px solid
+        rgba(160, 210, 225, 0.20);
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0d2943,
+            #071a2c
+        );
+
+    box-shadow:
+        0 30px 100px
+        rgba(0, 0, 0, 0.50);
+
+    color: #ffffff;
+}
+
+.perfil-page .crop-close {
+
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.16);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   TÍTULO DO MODAL
+   ============================================================ */
+
+.perfil-page .crop-kicker {
+
+    margin:
+        0
+        0
+        6px;
+
+    color:
+        var(--perfil-accent);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    text-transform: uppercase;
+}
+
+.perfil-page .crop-heading {
+
+    margin:
+        0
+        0
+        24px;
+
+    color: #ffffff;
+
+    font-size: 22px;
+
+    font-weight: 800;
+}
+
+
+/* ============================================================
+   ÁREA DE TRABALHO
+   ============================================================ */
+
+.perfil-page .crop-workspace {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.5fr)
+        minmax(220px, 0.7fr);
+
+    gap: 24px;
+
+    align-items: start;
+}
+
+.perfil-page .crop-stage {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 360px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius: 18px;
+
+    background:
+        #020b14;
+}
+
+.perfil-page #cropCanvas {
+
+    display: block;
+
+    max-width: 100%;
+
+    height: auto;
+}
+
+.perfil-page .crop-guide {
+
+    position: absolute;
+
+    inset: 50% auto auto 50%;
+
+    width: 80%;
+
+    aspect-ratio: 1 / 1;
+
+    transform:
+        translate(-50%, -50%);
+
+    border:
+        2px solid
+        rgba(255, 255, 255, 0.80);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.perfil-page .crop-preview-wrap {
+
+    display: flex;
+
+    flex-direction: column;
 
     align-items: center;
 
     justify-content: center;
 
-    gap: 8px;
+    gap: 14px;
 
-    margin-top: 5px;
+    min-height: 260px;
 
-    padding: 13px 24px;
+    padding: 20px;
 
-    border: none;
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
 
-    border-radius: var(--radius-full);
+    border-radius: 18px;
 
-    background: var(--accent);
+    background:
+        rgba(0, 0, 0, 0.16);
+}
 
-    color: var(--primary-dark);
+.perfil-page #cropPreview {
+
+    width: 180px;
+    height: 180px;
+
+    max-width: 100%;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border:
+        3px solid
+        rgba(72, 232, 174, 0.75);
+}
+
+
+/* ============================================================
+   ZOOM
+   ============================================================ */
+
+.perfil-page .crop-zoom-label {
+
+    display: block;
+
+    margin:
+        20px
+        0
+        8px;
+
+    color:
+        var(--perfil-text-muted);
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.perfil-page .crop-zoom {
+
+    width: 100%;
+
+    accent-color:
+        var(--perfil-accent);
+
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   AÇÕES DO CROP
+   ============================================================ */
+
+.perfil-page .crop-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 24px;
+}
+
+.perfil-page .crop-button {
+
+    min-height: 44px;
+
+    padding:
+        10px
+        18px;
+
+    border-radius: 12px;
+
+    font-family: inherit;
 
     font-size: 14px;
 
     font-weight: 700;
 
     cursor: pointer;
-
-    text-decoration: none;
-
-    box-shadow: var(--shadow-accent);
-
-    transition: all var(--transition-base);
 }
 
+.perfil-page .crop-button-ghost {
 
-.btn_primary:hover {
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
 
-    transform: translateY(-2px);
+    background:
+        rgba(255, 255, 255, 0.06);
 
-    background: var(--accent-light);
-
-    box-shadow: var(--shadow-accent-hover);
+    color: #ffffff;
 }
 
+.perfil-page .crop-button-primary {
 
-.btn_primary:active {
+    border: none;
 
-    transform: translateY(0);
-}
+    background:
+        var(--perfil-accent);
 
-
-/* ============================================================
-   BOTÃO SECUNDÁRIO
-   ============================================================ */
-
-.btn_secondary {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    padding: 11px 20px;
-
-    border: 1px solid var(--button-secondary-border);
-
-    border-radius: var(--radius-full);
-
-    background: var(--button-secondary-bg);
-
-    backdrop-filter: blur(15px);
-
-    -webkit-backdrop-filter: blur(15px);
-
-    color: var(--button-secondary-text);
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
-    transition: all var(--transition-base);
-}
-
-
-.btn_secondary:hover {
-
-    transform: translateY(-2px);
-
-    border-color: var(--accent);
-
-    color: var(--accent-dark);
-
-    background: var(--button-secondary-bg);
+    color:
+        #04151f;
 }
 
 
 /* ============================================================
-   RESPONSIVO
+   TABLET
    ============================================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 850px) {
 
-    .btn_voltar {
+    .perfil-page {
 
-        top: 18px;
-
-        left: 18px;
-
-        padding: 10px 16px;
-
-        font-size: 13px;
+        padding:
+            120px
+            18px
+            45px;
     }
 
+    .perfil-page .perfil_header-cover {
 
-    .perfil_container {
+        grid-template-columns:
+            90px
+            minmax(0, 1fr);
 
-        padding: 100px 18px 60px;
+        padding:
+            125px
+            24px
+            28px;
+
+        column-gap: 18px;
     }
 
+    .perfil-page .perfil-banner-form {
 
-    .perfil_header {
-
-        flex-direction: column;
-
-        text-align: center;
-
-        padding: 28px 22px;
-
-        gap: 20px;
-    }
-
-
-    .perfil_avatar img {
-
-        width: 110px;
-
-        height: 110px;
-    }
-
-
-    .perfil_info {
+        grid-column: 1 / -1;
 
         width: 100%;
+
+        margin-top: 10px;
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            auto;
+
+        align-items: center;
+
+        gap: 12px;
     }
 
+    .perfil-page .perfil-banner-form small {
 
-    .perfil_info h1 {
-
-        font-size: 1.5rem;
+        text-align: left;
     }
 
-
-    .perfil_card {
+    .perfil-page .perfil_card {
 
         padding: 24px;
     }
 
+    .perfil-page .crop-workspace {
 
-    .btn_primary,
-    .btn_secondary {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .perfil-page {
+
+        padding:
+            105px
+            12px
+            35px;
+    }
+
+    .perfil-page .btn_voltar {
+
+        position: absolute;
+
+        top: 92px;
+        left: 12px;
+    }
+
+    .perfil-page .perfil_header-cover {
+
+        min-height: auto;
+
+        grid-template-columns: 1fr;
+
+        justify-items: center;
+
+        padding:
+            120px
+            18px
+            24px;
+
+        row-gap: 18px;
+
+        text-align: center;
+    }
+
+    .perfil-page .perfil-avatar-form {
+
+        width: 100%;
+    }
+
+    .perfil-page .perfil-info-cover {
+
+        width: 100%;
+    }
+
+    .perfil-page .perfil-info-cover h1 {
+
+        font-size: 24px;
+
+        overflow-wrap: anywhere;
+    }
+
+    .perfil-page .perfil-banner-form {
+
+        grid-column: auto;
+
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        margin-top: 0;
+    }
+
+    .perfil-page .perfil-banner-form .btn_secondary {
+
+        width: 100%;
+    }
+
+    .perfil-page .perfil-banner-form small {
+
+        text-align: center;
+    }
+
+    .perfil-page .perfil_card {
+
+        margin-top: 20px;
+
+        padding: 20px 16px;
+
+        border-radius: 18px;
+    }
+
+    .perfil-page .perfil_card h2 {
+
+        font-size: 18px;
+    }
+
+    .perfil-page .crop-dialog {
+
+        padding: 20px 15px;
+    }
+
+    .perfil-page .crop-stage {
+
+        min-height: 250px;
+    }
+
+    .perfil-page .crop-preview-wrap {
+
+        min-height: 200px;
+    }
+
+    .perfil-page #cropPreview {
+
+        width: 140px;
+        height: 140px;
+    }
+
+    .perfil-page .crop-actions {
+
+        flex-direction: column;
+    }
+
+    .perfil-page .crop-button {
 
         width: 100%;
     }
 }
 
 
-@media (max-width: 500px) {
+/* ============================================================
+   CELULAR PEQUENO
+   ============================================================ */
 
-    .perfil_container {
+@media (max-width: 400px) {
+
+    .perfil-page {
+
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .perfil-page .perfil_header-cover {
 
         padding:
-            95px 14px 50px;
+            115px
+            14px
+            22px;
     }
 
+    .perfil-page .perfil_card {
 
-    .perfil_card {
-
-        padding: 20px;
+        padding:
+            18px
+            13px;
     }
 
+    .perfil-page input[type="text"],
+    .perfil-page input[type="email"],
+    .perfil-page input[type="tel"],
+    .perfil-page input[type="password"] {
 
-    .perfil_card h2 {
+        min-height: 48px;
 
-        font-size: 1.05rem;
-
-        margin-bottom: 20px;
-    }
-
-
-    .form_group input {
-
-        height: 50px;
-    }
-
-
-    .shape1 {
-
-        width: 350px;
-
-        height: 350px;
-    }
-
-
-    .shape2 {
-
-        width: 300px;
-
-        height: 300px;
-    }
-
-
-    .shape3 {
-
-        width: 220px;
-
-        height: 220px;
+        padding:
+            0
+            14px;
     }
 }
 
+
+/* ============================================================
+   ACESSIBILIDADE
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .perfil-page *,
+    .perfil-page *::before,
+    .perfil-page *::after {
+
+        scroll-behavior: auto !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+    }
+}

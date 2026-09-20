@@ -516,3 +516,36 @@ if (isset($_SESSION['id'])) {
 
 
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const avatarBtn = document.getElementById('avatarBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+
+    if (!avatarBtn || !dropdownMenu) {
+        return;
+    }
+
+    avatarBtn.addEventListener('click', function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        dropdownMenu.classList.toggle('active');
+    });
+
+
+    document.addEventListener('click', function (event) {
+
+        if (
+            !dropdownMenu.contains(event.target) &&
+            !avatarBtn.contains(event.target)
+        ) {
+            dropdownMenu.classList.remove('active');
+        }
+
+    });
+
+});
+</script>
