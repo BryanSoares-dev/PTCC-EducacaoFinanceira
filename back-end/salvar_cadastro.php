@@ -1,58 +1,66 @@
 <?php
+session_start();
+require_once 'conexao.php';
 
-declare(strict_types=1);
-require_once __DIR__ . '/bootstrap.php';
-require_once __DIR__ . '/conexao.php';
+if ($_POST) {
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $confirmar_senha = $_POST['confirmar_senha'];
+    $telefone = $_POST['telefone'];
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../front-end/cadastro.php');
-    exit;
-}
-
-require_csrf();
-
-$nome = trim((string) ($_POST['nome'] ?? ''));
-$email = strtolower(trim((string) ($_POST['email'] ?? '')));
-$senha = (string) ($_POST['senha'] ?? '');
-$confirmarSenha = (string) ($_POST['confirmar_senha'] ?? '');
-$telefone = trim((string) ($_POST['telefone'] ?? ''));
-
-if ($nome === '' || mb_strlen($nome) > 255 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header('Location: ../front-end/cadastro.php?erro=dados_invalidos');
-    exit;
-}
-if (strlen($senha) < 8 || $senha !== $confirmarSenha) {
-    header('Location: ../front-end/cadastro.php?erro=senha_invalida');
-    exit;
-}
-if (mb_strlen($telefone) > 25) {
-    header('Location: ../front-end/cadastro.php?erro=telefone_invalido');
-    exit;
-}
-
-try {
-    $stmt = $pdo->prepare('SELECT id, senha, provedor FROM usuarios WHERE email = ? LIMIT 1');
-    $stmt->execute([$email]);
-    $usuario = $stmt->fetch();
-
-    if ($usuario) {
-        if ($usuario['provedor'] === 'google' && empty($usuario['senha'])) {
-            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-            $update = $pdo->prepare("UPDATE usuarios SET senha = ?, provedor = 'ambos' WHERE id = ?");
-            $update->execute([$senhaHash, (int) $usuario['id']]);
-            header('Location: ../front-end/login.php?sucesso=senha_definida');
-            exit;
-        }
-        header('Location: ../front-end/cadastro.php?erro=email_existente');
+    if ($senha !== $confirmar_senha) {
+        echo "<script>alert('Erro na confirmação de senha'); window.history.back();</script>";
         exit;
     }
 
-    $insert = $pdo->prepare("INSERT INTO usuarios (nome, email, senha, telefone, provedor) VALUES (?, ?, ?, ?, 'local')");
-    $insert->execute([$nome, $email, password_hash($senha, PASSWORD_DEFAULT), $telefone]);
-    header('Location: ../front-end/login.php?sucesso=cadastro');
-    exit;
-} catch (Throwable $e) {
-    error_log('Erro no cadastro: ' . $e->getMessage());
-    header('Location: ../front-end/cadastro.php?erro=indisponivel');
-    exit;
+    // Verifica se o e-mail já existe (com prepared statement, seguro contra SQL Injection)
+    $sql = "SELECT id, senha, provedor FROM usuarios WHERE email = ?";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$email]);
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($usuario) {
+        // Conta existe. Verifica se veio do Google e ainda não tem senha definida.
+        if ($usuario['provedor'] === 'google' && empty($usuario['senha'])) {
+
+            // Em vez de bloquear, aproveita e define a senha nessa conta já existente
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+            $sqlUpdate = "UPDATE usuarios SET senha = ?, provedor = 'ambos' WHERE email = ?";
+            $stmtUpdate = $pdo->prepare($sqlUpdate);
+
+            if ($stmtUpdate->execute([$senhaHash, $email])) {
+                $_SESSION['mensagem'] = "Senha adicionada à sua conta com sucesso! Agora você pode entrar com e-mail e senha.";
+                header("Location: ../front-end/login.php");
+                exit;
+            } else {
+                echo "<script>alert('Erro ao definir senha!'); window.history.back();</script>";
+                exit;
+            }
+
+        } else {
+            // Já existe conta local de verdade (com senha própria) → erro real
+            echo "<script>alert('Este e-mail já está cadastrado!'); window.history.back();</script>";
+            exit;
+        }
+    }
+
+    // E-mail não existe ainda → cria conta nova normalmente
+    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+    $sqlInsert = "INSERT INTO usuarios (nome, email, senha, telefone, provedor) 
+                  VALUES (?, ?, ?, ?, 'local')";
+    $stmtInsert = $pdo->prepare($sqlInsert);
+
+    if ($stmtInsert->execute([$nome, $email, $senhaHash, $telefone])) {
+        $_SESSION['mensagem'] = "Cadastro realizado com sucesso!";
+        header("Location: ../front-end/login.php");
+        exit;
+    } else {
+        echo "<script>alert('Erro ao cadastrar!'); window.history.back();</script>";
+        exit;
+    }
 }
+?>
+

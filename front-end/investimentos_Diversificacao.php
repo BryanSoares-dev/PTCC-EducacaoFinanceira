@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../back-end/bootstrap.php';
+session_start();
 
 require_once("../back-end/conexao.php");
 
@@ -96,17 +96,18 @@ $usuarioId = (int) $usuario['id'];
 
     <link
         rel="stylesheet"
-        href="../css/app.css"
+        href="../css/style.css"
     >
 
     <link
         rel="stylesheet"
+        href="../css/investimentos.css"
     >
 
     <link
         rel="icon"
         type="image/png"
-        href="../img/favicon.svg"
+        href="../img/favicon.png"
     >
 
 </head>
@@ -1151,6 +1152,9 @@ function scrollToConteudo() {
 </script>
 
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

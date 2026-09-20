@@ -33,10 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar produto | Admin AFDE</title>
-    <link rel="stylesheet" href="../css/app.css">
-    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
-<body class="admin-page">
+<body>
 
 <?php include 'sidebar.php'; ?>
 
@@ -54,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form method="POST" class="form-card">
-            <?= csrf_field() ?>
         <div class="form-group">
             <label>Nome *</label>
             <input type="text" name="nome" required value="<?= htmlspecialchars($_POST['nome'] ?? '') ?>">
@@ -100,5 +100,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
 </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

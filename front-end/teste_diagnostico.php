@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../back-end/bootstrap.php';
+session_start();
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
@@ -292,8 +292,296 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teste Diagnóstico</title>
-    <link rel="stylesheet" href="../css/app.css">
-    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* =========================
+           ESTILOS DO TESTE DIAGNÓSTICO
+           Liquid Glass + tema escuro
+        ========================= */
+        
+        .hero_teste {
+            padding-top: 120px;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0A2540 0%, #24314C 50%, #0A2540 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero_teste::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(22, 226, 138, 0.06);
+            right: -150px;
+            top: -100px;
+            filter: blur(120px);
+        }
+
+        .hero_teste_container {
+            width: 100%;
+            max-width: 1300px;
+            margin: auto;
+            padding: 60px 40px 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero_teste_content {
+            max-width: 750px;
+        }
+
+        .badge_teste {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 9999px;
+            background: rgba(22, 226, 138, 0.12);
+            color: #16E28A;
+            border: 1px solid rgba(22, 226, 138, 0.25);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero_teste_content h1 {
+            font-size: clamp(2.8rem, 5vw, 4rem);
+            line-height: 1.15;
+            color: #ffffff;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .hero_teste_content h1 .destaque {
+            color: #16E28A;
+            background: linear-gradient(135deg, #16E28A, #0db873);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero_teste_content p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        /* Container do teste */
+        .teste_container {
+            max-width: 900px;
+            margin: -30px auto 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .teste_card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .progresso_teste {
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .progresso_teste span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .progresso_teste strong {
+            color: #16E28A;
+        }
+
+        .questao {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .questao:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .questao_numero {
+            display: inline-block;
+            background: rgba(22, 226, 138, 0.15);
+            color: #16E28A;
+            padding: 4px 14px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .questao p {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .alternativas {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .alternativa {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .alternativa:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(22, 226, 138, 0.3);
+        }
+
+        .alternativa input[type="radio"] {
+            accent-color: #16E28A;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .alternativa label {
+            color: rgba(255, 255, 255, 0.85);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* Botão finalizar */
+        .btn_finalizar {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #16E28A, #29f0a0);
+            color: #0A2540;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 8px 24px rgba(22, 226, 138, 0.30);
+            margin-top: 20px;
+        }
+
+        .btn_finalizar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(22, 226, 138, 0.45);
+        }
+
+        /* =========================
+           RESULTADO
+        ========================= */
+        .resultado_box {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .resultado_icone {
+            font-size: 5rem;
+            margin-bottom: 15px;
+        }
+
+        .resultado_box h2 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .resultado_patente {
+            display: inline-block;
+            padding: 8px 24px;
+            background: linear-gradient(135deg, #16E28A, #29f0a0);
+            color: #0A2540;
+            border-radius: 9999px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+
+        .resultado_box p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .resultado_pontuacao {
+            color: #16E28A;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .btn_voltar_recursos {
+            display: inline-block;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 9999px;
+            background: #16E28A;
+            color: #0A2540;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(22, 226, 138, 0.25);
+        }
+
+        .btn_voltar_recursos:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(22, 226, 138, 0.40);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .hero_teste {
+                min-height: 35vh;
+                padding-top: 100px;
+            }
+            .hero_teste_container {
+                padding: 40px 20px;
+            }
+            .hero_teste_content h1 {
+                font-size: 2.2rem;
+            }
+            .teste_card {
+                padding: 25px 20px;
+            }
+            .alternativa {
+                padding: 10px 14px;
+            }
+            .resultado_patente {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -322,7 +610,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
             
             <!-- Formulário do teste -->
             <form method="POST" action="">
-            <?= csrf_field() ?>
                 <div class="progresso_teste">
                     <span><i class="fas fa-info-circle"></i> Responda todas as questões. Cada questão vale <strong>1 ponto</strong>.</span>
                 </div>
@@ -391,5 +678,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
     });
 </script>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

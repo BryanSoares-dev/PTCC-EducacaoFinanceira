@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__ . '/bootstrap.php';
+    session_start();
     require_once 'conexao.php'; // aqui a variável disponível é $pdo, não $conn
     require_once 'google-config.php';
 
@@ -69,3 +69,4 @@
 
     header('Location: ../front-end/home.php');
 ?>    
+

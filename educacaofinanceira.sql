@@ -11,11 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-CREATE DATABASE IF NOT EXISTS `educacaofinanceira`
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
-USE `educacaofinanceira`;
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +35,7 @@ CREATE TABLE `movimentacoes` (
   `descricao` varchar(255) DEFAULT NULL,
   `categoria` varchar(100) DEFAULT NULL,
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Despejando dados para a tabela `movimentacoes`
@@ -84,7 +79,6 @@ CREATE TABLE `usuarios` (
   `email` varchar(255) NOT NULL,
   `oauth_uid` varchar(255) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
-  `banner` varchar(255) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
   `telefone` varchar(25) DEFAULT NULL,
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -158,3 +152,33 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+-- ============================================================
+-- Open Finance: transações persistidas para o calendário
+-- ============================================================
+
+CREATE TABLE IF NOT EXISTS `open_finance_transacoes` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL,
+  `transacao_id` varchar(255) NOT NULL,
+  `account_id` varchar(255) DEFAULT NULL,
+  `conta_nome` varchar(255) DEFAULT NULL,
+  `tipo` enum('entrada','saida') NOT NULL,
+  `status` varchar(30) DEFAULT 'POSTED',
+  `valor` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `descricao` varchar(255) DEFAULT NULL,
+  `categoria` varchar(100) NOT NULL DEFAULT 'Outros',
+  `categoria_sugerida` varchar(100) NOT NULL DEFAULT 'Outros',
+  `categoria_origem` enum('automatica','manual') NOT NULL DEFAULT 'automatica',
+  `moeda` varchar(12) DEFAULT 'BRL',
+  `data_transacao` datetime NOT NULL,
+  `payload` longtext DEFAULT NULL,
+  `sincronizado_em` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_open_finance_usuario_transacao` (`usuario_id`,`transacao_id`),
+  KEY `idx_open_finance_usuario_data` (`usuario_id`,`data_transacao`),
+  KEY `idx_open_finance_usuario_categoria` (`usuario_id`,`categoria`),
+  CONSTRAINT `fk_open_finance_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

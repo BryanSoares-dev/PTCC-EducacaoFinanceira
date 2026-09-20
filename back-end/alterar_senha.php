@@ -1,45 +1,73 @@
 <?php
+session_start();
+require_once 'conexao.php';
 
-declare(strict_types=1);
-require_once __DIR__ . '/bootstrap.php';
-require_once __DIR__ . '/conexao.php';
-
-if (empty($_SESSION['id'])) {
-    header('Location: ../front-end/login.php');
-    exit;
-}
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../front-end/perfil.php');
-    exit;
-}
-require_csrf();
-
-$senhaAtual = (string) ($_POST['senha_atual'] ?? '');
-$novaSenha = (string) ($_POST['nova_senha'] ?? '');
-$confirmarSenha = (string) ($_POST['confirmar_senha'] ?? '');
-
-if ($senhaAtual === '' || strlen($novaSenha) < 8 || strlen($novaSenha) > 72 || !hash_equals($novaSenha, $confirmarSenha)) {
-    header('Location: ../front-end/perfil.php?erro=senha_invalida');
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
     exit;
 }
 
-try {
-    $stmt = $pdo->prepare('SELECT senha FROM usuarios WHERE id = ? LIMIT 1');
-    $stmt->execute([(int) $_SESSION['id']]);
-    $senhaArmazenada = (string) $stmt->fetchColumn();
+$senhaAtual = $_POST['senha_atual'];
+$novaSenha = $_POST['nova_senha'];
+$confirmarSenha = $_POST['confirmar_senha'];
 
-    if ($senhaArmazenada === '' || !password_verify($senhaAtual, $senhaArmazenada)) {
-        header('Location: ../front-end/perfil.php?erro=senha_atual');
-        exit;
-    }
+// Busca a senha atual do usuário
+$stmt = $pdo->prepare("
+    SELECT senha
+    FROM usuarios
+    WHERE id = ?
+");
 
-    $update = $pdo->prepare('UPDATE usuarios SET senha = ? WHERE id = ?');
-    $update->execute([password_hash($novaSenha, PASSWORD_DEFAULT), (int) $_SESSION['id']]);
-    session_regenerate_id(true);
-    header('Location: ../front-end/perfil.php?sucesso=senha');
-    exit;
-} catch (Throwable $e) {
-    error_log('Erro ao alterar senha: ' . $e->getMessage());
-    header('Location: ../front-end/perfil.php?erro=indisponivel');
+$stmt->execute([$_SESSION['id']]);
+
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Verifica se a senha atual está correta
+if (!password_verify($senhaAtual, $usuario['senha'])) {
+
+    echo "
+    <script>
+        alert('A senha atual está incorreta!');
+        window.location='perfil.php';
+    </script>
+    ";
+
     exit;
 }
+
+// Verifica confirmação da nova senha
+if ($novaSenha != $confirmarSenha) {
+
+    echo "
+    <script>
+        alert('As novas senhas não coincidem!');
+        window.location='perfil.php';
+    </script>
+    ";
+
+    exit;
+}
+
+// Gera novo hash
+$novaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
+
+// Atualiza a senha
+$stmt = $pdo->prepare("
+    UPDATE usuarios
+    SET senha = ?
+    WHERE id = ?
+");
+
+$stmt->execute([
+    $novaHash,
+    $_SESSION['id']
+]);
+
+echo "
+<script>
+    alert('Senha alterada com sucesso!');
+    window.location='perfil.php';
+</script>
+";
+?>
+

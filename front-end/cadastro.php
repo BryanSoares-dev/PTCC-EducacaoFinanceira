@@ -1,15 +1,15 @@
-<?php require_once __DIR__ . '/../back-end/bootstrap.php'; ?>
 <!DOCTYPE html>
 
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="stylesheet" href="../css/app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Conta | AFDE</title>
 
+<link rel="stylesheet" href="../css/cadastro.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-<link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+<link rel="icon" type="image/png" href="../img/favicon.png">
 
 </head>
 
@@ -28,7 +28,7 @@
 
     <section class="cadastro_left">
 
-        <img src="../img/logo.svg" alt="AFDE" class="brand_logo">
+        <img src="../img/logo.png" alt="AFDE" class="brand_logo">
 
         <span class="badge">
             Plataforma de Educação Financeira
@@ -80,7 +80,6 @@
             </div>
 
             <form class="cadastro_form" action="../back-end/salvar_cadastro.php" method="POST">
-            <?= csrf_field() ?>
 
                 <div class="input_group">
                     <label>Nome Completo</label>
@@ -184,5 +183,9 @@
 
 </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

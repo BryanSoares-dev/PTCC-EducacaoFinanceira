@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../back-end/bootstrap.php';
+session_start();
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
@@ -43,10 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Dashboard Financeiro</title>
-  <link rel="stylesheet" href="../css/app.css">
-  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <link rel="stylesheet" href="../css/calculadora.css">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
 
@@ -82,7 +81,6 @@ include_once 'navbar.php';
 </div>
 
 <form method="post" action="#content">
-            <?= csrf_field() ?>
 <div class="form-grid">
 
     <div class="input-group">
@@ -155,5 +153,9 @@ include_once 'navbar.php';
 </main>
 </div>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+

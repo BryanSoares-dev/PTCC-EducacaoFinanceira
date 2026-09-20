@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__ . '/../back-end/bootstrap.php';
+    session_start();
     header("Content-Type: application/json; charset=utf-8");
 
     require_once "../back-end/conexao.php";

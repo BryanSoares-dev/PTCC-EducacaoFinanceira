@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../back-end/bootstrap.php';
+session_start();
 
 require_once '../back-end/conexao.php';
 
@@ -70,11 +70,11 @@ $tema = $usuario['tema'] ?? 'sistema';
         Calendário Financeiro | AFDE
     </title>
 
-    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 
     <link
         rel="stylesheet"
-        href="../css/app.css"
+        href="../css/calendario.css"
     >
 
     <link
@@ -147,8 +147,8 @@ $tema = $usuario['tema'] ?? 'sistema';
 
             <p>
 
-                Visualize suas despesas
-                e acompanhe sua evolução.
+                Visualize lançamentos manuais e transações da sua conta conectada,
+                acompanhe as categorias e veja sua evolução desde a criação da conta.
 
             </p>
 
@@ -205,6 +205,10 @@ $tema = $usuario['tema'] ?? 'sistema';
                 Carregando...
 
             </h2>
+
+            <small id="fonteDados" class="data_source">
+                Carregando lançamentos...
+            </small>
 
 
         </div>
@@ -461,6 +465,40 @@ $tema = $usuario['tema'] ?? 'sistema';
 
 
 
+    <!-- HISTÓRICO DESDE A CRIAÇÃO DA CONTA -->
+
+    <section class="history_card glass">
+
+        <div class="history_header">
+
+            <div>
+
+                <h2>Histórico mensal</h2>
+
+                <p id="historicoDescricao">
+                    Receitas e despesas de todos os meses desde a criação da sua conta.
+                </p>
+
+            </div>
+
+            <div class="chart_badge">
+                <span class="material-icons">timeline</span>
+            </div>
+
+        </div>
+
+        <div class="history_chart_area">
+            <canvas id="graficoHistorico"></canvas>
+            <div id="emptyHistorico" class="empty_chart hidden">
+                <span class="material-icons">timeline</span>
+                <h3>Histórico vazio</h3>
+                <p>As transações aparecerão aqui depois da sincronização.</p>
+            </div>
+        </div>
+
+    </section>
+
+
     <!-- LEGENDA -->
 
     <section
@@ -572,6 +610,30 @@ const quantidadeMovimentacoes =
     );
 
 
+const fonteDados =
+    document.getElementById(
+        'fonteDados'
+    );
+
+
+const historicoDescricao =
+    document.getElementById(
+        'historicoDescricao'
+    );
+
+
+const emptyHistorico =
+    document.getElementById(
+        'emptyHistorico'
+    );
+
+
+const canvasHistorico =
+    document.getElementById(
+        'graficoHistorico'
+    );
+
+
 /* ==========================================
    DATA ATUAL
 ========================================== */
@@ -588,6 +650,8 @@ let anoAtual =
 
 
 let grafico = null;
+let graficoHistorico = null;
+let sincronizacaoInicial = null;
 
 
 const nomesMeses = [
@@ -659,12 +723,43 @@ const cores = [
 
 
 
+async function sincronizarSeNecessario() {
+
+    if (sincronizacaoInicial) {
+        return sincronizacaoInicial;
+    }
+
+    sincronizacaoInicial = fetch(
+        '../open-finance/sincronizar.php',
+        {
+            method: 'POST',
+            credentials: 'same-origin',
+            cache: 'no-store'
+        }
+    )
+        .then(async resposta => {
+            const dados = await resposta.json();
+            if (!resposta.ok || dados.success === false) {
+                throw new Error(dados.error || 'Sincronização indisponível.');
+            }
+            return dados;
+        })
+        .catch(erro => {
+            console.warn('Sincronização Open Finance:', erro.message);
+            return null;
+        });
+
+    return sincronizacaoInicial;
+}
+
+
 /* ==========================================
    CARREGAR DADOS
 ========================================== */
 
 async function carregarDados() {
 
+    await sincronizarSeNecessario();
 
     const url =
         `../back-end/dados_grafico.php?mes=${mesAtual}&ano=${anoAtual}`;
@@ -704,6 +799,119 @@ async function carregarDados() {
 
 }
 
+
+
+/* ==========================================
+   CARREGAR HISTÓRICO MENSAL
+========================================== */
+
+async function carregarHistorico() {
+
+    await sincronizarSeNecessario();
+
+    try {
+
+        const resposta = await fetch(
+            '../back-end/dados_historico.php',
+            { cache: 'no-store' }
+        );
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok || !dados.sucesso) {
+            throw new Error(dados.mensagem || 'Não foi possível carregar o histórico.');
+        }
+
+        historicoDescricao.textContent = dados.periodo?.descricao ||
+            'Receitas e despesas de todos os meses desde a criação da sua conta.';
+
+        if (!dados.meses?.length) {
+            emptyHistorico.classList.remove('hidden');
+            canvasHistorico.style.display = 'none';
+            return;
+        }
+
+        emptyHistorico.classList.add('hidden');
+        canvasHistorico.style.display = 'block';
+
+        if (graficoHistorico) {
+            graficoHistorico.destroy();
+        }
+
+        const coresHistorico = [
+            '#ff6b6b', '#ff922b', '#ffd43b', '#54e39a',
+            '#4dabf7', '#9775fa', '#f06595', '#20c997'
+        ];
+        const categoriasHistorico = dados.categorias || [];
+        const datasetsHistorico = categoriasHistorico.map((categoria, index) => ({
+            type: 'bar',
+            label: categoria,
+            data: dados.meses.map(item => item.categorias?.[categoria] || 0),
+            backgroundColor: coresHistorico[index % coresHistorico.length],
+            borderRadius: 6,
+            maxBarThickness: 34,
+            stack: 'despesas'
+        }));
+        datasetsHistorico.push({
+            type: 'line',
+            label: 'Receitas',
+            data: dados.meses.map(item => item.receitas),
+            borderColor: '#54e39a',
+            backgroundColor: '#54e39a',
+            pointBackgroundColor: '#54e39a',
+            pointRadius: 4,
+            borderWidth: 3,
+            tension: .3,
+            fill: false,
+            order: 0
+        });
+
+        graficoHistorico = new Chart(canvasHistorico, {
+            type: 'bar',
+            data: {
+                labels: dados.meses.map(item => item.rotulo),
+                datasets: datasetsHistorico
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                        ticks: { color: 'rgba(255,255,255,.65)' },
+                        grid: { display: false }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,.65)',
+                            callback: value => formatarMoeda(value)
+                        },
+                        grid: { color: 'rgba(255,255,255,.08)' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: 'rgba(255,255,255,.78)' }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: context => ' ' + context.dataset.label + ': ' + formatarMoeda(context.raw)
+                        }
+                    }
+                }
+            }
+        });
+
+    } catch (erro) {
+        console.error('Erro ao carregar histórico:', erro);
+        historicoDescricao.textContent = erro.message;
+        emptyHistorico.classList.remove('hidden');
+        canvasHistorico.style.display = 'none';
+    }
+
+}
 
 
 /* ==========================================
@@ -747,6 +955,10 @@ function atualizarTela(dados) {
 
     quantidadeMovimentacoes.textContent =
         `${dados.quantidade} movimentação${dados.quantidade === 1 ? '' : 'ões'}`;
+
+    const fontes = dados.fontes || {};
+    fonteDados.textContent =
+        `${fontes.open_finance || 0} da conta conectada · ${fontes.manual || 0} manual${fontes.manual === 1 ? '' : 'is'}`;
 
 
     /* GRÁFICO */
@@ -1099,11 +1311,15 @@ btnProximo.addEventListener(
 ========================================== */
 
 carregarDados();
+carregarHistorico();
 
 
 </script>
 
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 
 </html>

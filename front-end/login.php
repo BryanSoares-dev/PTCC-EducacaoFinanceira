@@ -1,4 +1,3 @@
-<?php require_once __DIR__ . '/../back-end/bootstrap.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrar | AFDE</title>
 
-    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/login.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 
 <body>
@@ -27,7 +26,7 @@
 
         <section class="login_left">
 
-            <img src="../img/logo.svg" alt="AFDE" class="brand_logo">
+            <img src="../img/logo.png" alt="AFDE" class="brand_logo">
 
             <span class="badge">
                 Plataforma de Educação Financeira
@@ -79,7 +78,6 @@
                 </div>
 
                 <form action="../back-end/processa_login.php" method="POST" class="login_form">
-            <?= csrf_field() ?>
 
                     <div class="input_group">
 
@@ -154,5 +152,9 @@
 
     </main>
 
+
+    <!-- Widget de Acessibilidade — integrado em todas as páginas -->
+    <script src="../JS/acessibilidade.js" defer></script>
 </body>
 </html>
+
