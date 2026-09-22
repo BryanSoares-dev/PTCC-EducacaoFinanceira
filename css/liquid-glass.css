@@ -602,3 +602,21 @@ html.claro { --lg-white-sheen: rgba(255,255,255,.26); --lg-white-rim: rgba(31,65
   transition: transform .28s ease, border-color .28s ease, background .28s ease;
 }
 .btn-voltar-aprendizado:hover { transform: translateY(-2px); border-color: rgba(105,232,187,.52); background: rgba(105,232,187,.12); }
+
+/* Camada de consist?ncia v101: tokens e acessibilidade compartilhados. */
+:root {
+  --af-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --af-radius-control: 14px;
+  --af-radius-card: 20px;
+  --af-focus-ring: 0 0 0 3px rgba(105, 232, 187, .28);
+  --af-transition: 180ms ease;
+}
+html { color-scheme: dark; }
+html.claro { color-scheme: light; }
+body, button, input, select, textarea { font-family: var(--font-family, var(--af-font)); }
+button, input, select, textarea { font: inherit; }
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--lg-accent, #69e8bb);
+  outline-offset: 3px;
+  box-shadow: var(--af-focus-ring);
+}

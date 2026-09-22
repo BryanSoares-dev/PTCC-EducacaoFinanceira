@@ -87,7 +87,7 @@ $tema = $usuario['tema'] ?? 'sistema';
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
 
 </head>
 

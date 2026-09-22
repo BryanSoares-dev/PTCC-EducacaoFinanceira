@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Dashboard Financeiro</title>
   <link rel="stylesheet" href="../css/calculadora.css">
   <link rel="icon" type="image/png" href="../img/favicon.png">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
 
 </head>
 <body>

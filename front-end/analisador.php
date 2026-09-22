@@ -157,7 +157,7 @@ $resultadoMes =
     >
 
     <link rel="icon" type="image/png" href="../img/favicon.png">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
 
 </head>
 
@@ -195,7 +195,6 @@ $resultadoMes =
 
                 </div>
 
-                <div class="hero_card">
 
                     <div class="card_dashboard">
 
@@ -229,7 +228,7 @@ $resultadoMes =
 
                     </div>
 
-                </div>
+
 
             </div>
 

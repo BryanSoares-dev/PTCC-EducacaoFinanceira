@@ -110,7 +110,7 @@ $usuarioId = (int) $usuario['id'];
         href="../img/favicon.png"
     >
 
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
 
 </head>
 

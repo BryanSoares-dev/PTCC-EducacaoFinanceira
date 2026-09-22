@@ -1376,7 +1376,7 @@ nav a:hover::after {
 .btn_secondary {
 
     padding:
-        15px 30px;
+        15px 20px;
 
     border-radius:
         var(--radius-full);

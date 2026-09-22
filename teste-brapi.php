@@ -100,7 +100,7 @@
       margin-top: 16px;
     }
   </style>
-    <link rel="stylesheet" href="css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="css/liquid-glass.css?v=101">
 
 </head>
 <body>
