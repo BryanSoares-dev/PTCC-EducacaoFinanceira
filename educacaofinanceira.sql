@@ -86,7 +86,8 @@ CREATE TABLE `usuarios` (
   `tipo` enum('usuario','admin') NOT NULL DEFAULT 'usuario',
   `tema` varchar(22) DEFAULT 'sistema',
   `idioma` varchar(22) DEFAULT 'pt-br',
-  `moeda` varchar(22) DEFAULT 'BRL'
+  `moeda` varchar(22) DEFAULT 'BRL',
+  `banner` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
