@@ -87,12 +87,13 @@ $tema = $usuario['tema'] ?? 'sistema';
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 
 
 <body>
+<?php include_once 'navbar.php'; ?>
 
 
 <div class="background_shapes">
@@ -1322,7 +1323,7 @@ carregarHistorico();
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 
 </html>

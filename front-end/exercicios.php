@@ -1070,7 +1070,7 @@ $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] 
             }
         }
     </style>
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 
@@ -1264,7 +1264,7 @@ $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] 
 
             <button type="button" class="btn-voltar" id="btnVoltarModulos">
                 <i class="fas fa-arrow-left"></i>
-                Voltar aos Módulos
+                Voltar
             </button>
         </div>
 
@@ -1761,9 +1761,7 @@ document.querySelectorAll(".btn-entrar").forEach(btn => {
 });
 
 document.getElementById("btnVoltarModulos").addEventListener("click", () => {
-    timelineContainer.classList.remove("active");
-    modulosSection.style.display = "block";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.location.href = "aprendizado.php";
 });
 
 /* ================================================================
@@ -1905,7 +1903,6 @@ window.addEventListener("load", () => {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
-

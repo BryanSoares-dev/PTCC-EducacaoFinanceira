@@ -402,7 +402,7 @@ if (!isset($_SESSION['id'])) {
             }
         }
     </style>
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 <body>
@@ -417,6 +417,7 @@ if (!isset($_SESSION['id'])) {
             <div class="hero-texto">
                 <h1>Loja <span class="destaque">Premium</span></h1>
                 <p>Ganhe <strong>Afidis</strong> estudando e troque por itens especiais. Sem pay‑to‑win, só dedicação.</p>
+                <a href="aprendizado.php" class="btn-voltar-aprendizado"><i class="fas fa-arrow-left"></i> Voltar</a>
             </div>
 
             <div class="saldo-card">
@@ -514,7 +515,6 @@ if (!isset($_SESSION['id'])) {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
-

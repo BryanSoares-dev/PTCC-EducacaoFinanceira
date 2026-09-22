@@ -7,6 +7,17 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+try {
+    $pdo->exec("ALTER TABLE usuarios ADD COLUMN patente VARCHAR(30) NULL AFTER banner");
+} catch (PDOException $ignored) {
+    // A coluna já existe ou será criada pela migration_patente.sql.
+}
+try {
+    $pdo->exec("ALTER TABLE usuarios ADD COLUMN xp INT NOT NULL DEFAULT 0 AFTER patente");
+} catch (PDOException $ignored) {
+    // A coluna já existe ou será criada pela migration_xp.sql.
+}
+
 // Array com as questões e respostas corretas (índice 0-based)
 $questoes = [
     // Q1
@@ -282,6 +293,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
     } catch (PDOException $e) {
         // Se a tabela não existir, apenas ignora
     }
+
+    $stmtPatente = $pdo->prepare("UPDATE usuarios SET patente = ?, xp = GREATEST(COALESCE(xp, 0), ?) WHERE id = ?");
+    $stmtPatente->execute([$patente, $pontuacao * 10, $_SESSION['id']]);
     
     $teste_finalizado = true;
 }
@@ -582,7 +596,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
             }
         }
     </style>
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 <body>
@@ -683,7 +697,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
-

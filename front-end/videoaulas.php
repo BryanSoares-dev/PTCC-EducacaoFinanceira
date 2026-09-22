@@ -1727,7 +1727,7 @@ if (!isset($_SESSION['id'])) {
 
     </style>
 
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 
@@ -1789,7 +1789,7 @@ if (!isset($_SESSION['id'])) {
 
 
                 <a
-                    href="loja.php"
+                    href="aprendizado.php"
                     class="btn-voltar">
 
                     <i class="fas fa-arrow-left"></i>
@@ -2202,7 +2202,7 @@ if (!isset($_SESSION['id'])) {
 
                 <i class="fas fa-arrow-left"></i>
 
-                Voltar aos módulos
+                Voltar
 
             </button>
 
@@ -3016,23 +3016,7 @@ document
         "click",
         function() {
 
-            timelineContainer
-                .classList
-                .remove("active");
-
-
-            modulosSection.style.display =
-                "block";
-
-
-            window.scrollTo({
-
-                top: 0,
-
-                behavior:
-                    "smooth"
-
-            });
+            window.location.href = "aprendizado.php";
 
         }
     );
@@ -3299,8 +3283,7 @@ window.addEventListener(
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 
 </html>
-

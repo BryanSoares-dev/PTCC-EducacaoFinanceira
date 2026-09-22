@@ -19,8 +19,19 @@ if (isset($_SESSION['id'])) {
 
     require_once __DIR__ . '/../back-end/conexao.php';
 
+    try {
+        $pdo->exec("ALTER TABLE usuarios ADD COLUMN patente VARCHAR(30) NULL AFTER banner");
+    } catch (PDOException $ignored) {
+        // A coluna já existe.
+    }
+    try {
+        $pdo->exec("ALTER TABLE usuarios ADD COLUMN xp INT NOT NULL DEFAULT 0 AFTER patente");
+    } catch (PDOException $ignored) {
+        // A coluna já existe.
+    }
+
     $stmt = $pdo->prepare(
-        "SELECT tipo FROM usuarios WHERE id = ?"
+        "SELECT nome, foto, tipo, patente, xp FROM usuarios WHERE id = ?"
     );
 
     $stmt->execute([
@@ -29,10 +40,7 @@ if (isset($_SESSION['id'])) {
 
     $dadosTipo = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (
-        $dadosTipo &&
-        ($dadosTipo['tipo'] ?? '') === 'admin'
-    ) {
+    if ($dadosTipo && ($dadosTipo['tipo'] ?? '') === 'admin') {
         $isAdmin = true;
     }
 }
@@ -150,9 +158,7 @@ if (isset($_SESSION['id'])) {
 
             <li class="investment-dropdown">
 
-                
-                    <href="investimentos_Diversificacao.php"
-                    class="investment-trigger">
+                    <a href="investimentos_Diversificacao.php" class="investment-trigger">
                     Investimentos
 
                     <i class="fas fa-chevron-down investment-arrow"></i>
@@ -267,7 +273,7 @@ if (isset($_SESSION['id'])) {
 
             <?php
 
-            $usuario = $_SESSION['usuario'] ?? [];
+            $usuario = array_merge($_SESSION['usuario'] ?? [], $dadosTipo ?? []);
 
 
             /* NOME */
@@ -322,11 +328,13 @@ if (isset($_SESSION['id'])) {
             $temFoto = !empty($usuario['foto']);
 
 
-            $fotoUsuario = $temFoto
-
-                ? $usuario['foto']
-
-                : null;
+            $fotoUsuario = null;
+            if ($temFoto) {
+                $fotoUsuario = $usuario['foto'];
+                if (!preg_match('/^https?:\/\//i', $fotoUsuario)) {
+                    $fotoUsuario = str_starts_with($fotoUsuario, '../') ? $fotoUsuario : '../' . ltrim($fotoUsuario, '/');
+                }
+            }
 
             ?>
 

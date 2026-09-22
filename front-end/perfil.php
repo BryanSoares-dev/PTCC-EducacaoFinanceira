@@ -12,8 +12,18 @@ try {
 } catch (PDOException $ignored) {
     // A coluna já existe ou o banco será atualizado pelo migration_perfil.sql.
 }
+try {
+    $pdo->exec("ALTER TABLE usuarios ADD COLUMN patente VARCHAR(30) NULL AFTER banner");
+} catch (PDOException $ignored) {
+    // A coluna já existe ou será criada pela migration_patente.sql.
+}
+try {
+    $pdo->exec("ALTER TABLE usuarios ADD COLUMN xp INT NOT NULL DEFAULT 0 AFTER patente");
+} catch (PDOException $ignored) {
+    // A coluna já existe ou será criada pela migration_xp.sql.
+}
 
-$stmt = $pdo->prepare("SELECT id, nome, email, telefone, foto, banner, tema FROM usuarios WHERE id = ?");
+$stmt = $pdo->prepare("SELECT id, nome, email, telefone, foto, banner, patente, xp, tema FROM usuarios WHERE id = ?");
 $stmt->execute([$_SESSION['id']]);
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -45,6 +55,23 @@ $temBanner = !empty($usuario['banner']);
 $nomeEscapado = htmlspecialchars($usuario['nome'] ?? '', ENT_QUOTES, 'UTF-8');
 $emailEscapado = htmlspecialchars($usuario['email'] ?? '', ENT_QUOTES, 'UTF-8');
 $telefoneEscapado = htmlspecialchars($usuario['telefone'] ?? '', ENT_QUOTES, 'UTF-8');
+$patenteAtual = trim((string) ($usuario['patente'] ?? ''));
+$patentes = [
+    'Ferro 1' => 0, 'Ferro 2' => 100, 'Ferro 3' => 250,
+    'Ouro 1' => 450, 'Ouro 2' => 700, 'Ouro 3' => 1000,
+    'Esmeralda 1' => 1400
+];
+$patenteExibicao = $patenteAtual && isset($patentes[$patenteAtual]) ? $patenteAtual : 'Ferro 1';
+$xpAtual = max(0, (int) ($usuario['xp'] ?? 0));
+$patenteIndex = array_search($patenteExibicao, array_keys($patentes), true);
+$patenteIndex = $patenteIndex === false ? 0 : $patenteIndex;
+$patenteBaseXp = array_values($patentes)[$patenteIndex];
+$proximaPatente = array_keys($patentes)[$patenteIndex + 1] ?? null;
+$proximoXp = $proximaPatente ? $patentes[$proximaPatente] : $patenteBaseXp;
+$faixaXp = max(1, $proximoXp - $patenteBaseXp);
+$xpNaPatente = max(0, $xpAtual - $patenteBaseXp);
+$xpFaltante = $proximaPatente ? max(0, $proximoXp - $xpAtual) : 0;
+$progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100)) : 100;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR" class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>">
@@ -55,13 +82,14 @@ $telefoneEscapado = htmlspecialchars($usuario['telefone'] ?? '', ENT_QUOTES, 'UT
     <link rel="stylesheet" href="../css/style-perfil.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="../img/favicon.png">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 <body>
 <div class="background_shapes" aria-hidden="true">
     <div class="shape shape1"></div><div class="shape shape2"></div><div class="shape shape3"></div>
 </div>
+<?php include_once 'navbar.php'; ?>
 <a href="javascript:history.back()" class="btn_voltar">← Voltar</a>
 
 <main class="perfil-page">
@@ -84,6 +112,10 @@ $telefoneEscapado = htmlspecialchars($usuario['telefone'] ?? '', ENT_QUOTES, 'UT
         <div class="perfil-info-cover">
             <h1><?= $nomeEscapado ?></h1>
             <p><?= $emailEscapado ?></p>
+            <div class="perfil-patente" aria-label="Patente atual">
+                <i class="fas fa-medal" aria-hidden="true"></i>
+                <span><?= htmlspecialchars($patenteExibicao, ENT_QUOTES, 'UTF-8') ?></span>
+            </div>
         </div>
 
         <form class="perfil-banner-form" action="../back-end/atualizar_banner.php" method="POST" enctype="multipart/form-data">
@@ -92,6 +124,22 @@ $telefoneEscapado = htmlspecialchars($usuario['telefone'] ?? '', ENT_QUOTES, 'UT
             <input type="file" id="banner" name="banner" accept="image/jpeg,image/png,image/webp">
             <input type="hidden" name="banner_cortado" id="bannerCortado">
         </form>
+    </section>
+
+    <section class="perfil-rank-card" aria-labelledby="perfilRankTitle">
+        <div class="perfil-rank-heading">
+            <div>
+                <span class="perfil-rank-eyebrow"><i class="fas fa-ranking-star"></i> Patente atual</span>
+                <h2 id="perfilRankTitle"><?= htmlspecialchars($patenteExibicao, ENT_QUOTES, 'UTF-8') ?></h2>
+                <p><?= $proximaPatente ? 'Continue estudando para alcançar ' . htmlspecialchars($proximaPatente, ENT_QUOTES, 'UTF-8') . '.' : 'Você alcançou a última patente disponível.' ?></p>
+            </div>
+            <div class="perfil-rank-medal" aria-hidden="true"><i class="fas fa-medal"></i></div>
+        </div>
+        <div class="perfil-xp-meta"><strong><i class="fas fa-bolt"></i> XP de treino — <?= $xpAtual ?> / <?= $proximoXp ?> XP</strong><span><?= $proximaPatente ? $xpFaltante . ' XP para subir' : 'Patente máxima' ?></span></div>
+        <div class="perfil-xp-track" role="progressbar" aria-label="Progresso para a próxima patente" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= (int) round($progressoXp) ?>">
+            <span style="width: <?= number_format($progressoXp, 2, '.', '') ?>%"></span>
+        </div>
+        <div class="perfil-xp-foot"><span><?= $xpNaPatente ?> / <?= $faixaXp ?> XP nesta patente</span><span><?= (int) round($progressoXp) ?>%</span></div>
     </section>
 
     <section class="perfil_card">
@@ -144,6 +192,6 @@ $telefoneEscapado = htmlspecialchars($usuario['telefone'] ?? '', ENT_QUOTES, 'UT
 <script src="../JS/perfil-editor.js?v=68" defer></script>
 <script src="../JS/banner-editor.js?v=68" defer></script>
 <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>

@@ -68,7 +68,7 @@ if (isset($_SESSION['id'])) {
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../img/favicon.png">
 
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 
@@ -719,7 +719,7 @@ if (isset($_SESSION['id'])) {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 
 </html>

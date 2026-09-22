@@ -479,3 +479,126 @@ html.claro { --lg-white-sheen: rgba(255,255,255,.26); --lg-white-rim: rgba(31,65
 .lg-cursor-away { opacity: 0 !important; }
 @keyframes lg-orb-breathe { 0%,100% { transform: scale(.88); opacity: .55; } 50% { transform: scale(1.12); opacity: .20; } }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) { .lg-cursor-orb, .lg-parallax-haze { display: none; } }
+
+
+/* ============================================================
+   v100 — material uniforme para cards específicos de cada página
+   ============================================================ */
+.liquid-glass-ready .lg-card-surface {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(30, 49, 82, .72), rgba(14, 25, 48, .56)) !important;
+  border: 1px solid rgba(196, 224, 255, .20) !important;
+  box-shadow: 0 20px 58px rgba(0, 0, 0, .24), inset 0 1px rgba(255, 255, 255, .10) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  transform: translate3d(0, var(--lg-scroll-shift, 0px), 0) perspective(1100px) rotateX(var(--lg-tilt-x, 0deg)) rotateY(var(--lg-tilt-y, 0deg));
+  transition: transform .48s cubic-bezier(.2, .8, .2, 1), border-color .35s ease, box-shadow .35s ease, background .35s ease;
+  will-change: transform;
+}
+.liquid-glass-ready .lg-card-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--lg-x, 50%) var(--lg-y, 0%), rgba(218, 246, 255, .13), transparent 28%), linear-gradient(125deg, rgba(255,255,255,.12), transparent 30%, transparent 70%, rgba(105, 232, 187, .08));
+  opacity: .82;
+  transition: opacity .4s ease, background-position .55s ease;
+}
+.liquid-glass-ready .lg-card-surface::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.035), inset 0 16px 30px rgba(255,255,255,.025);
+}
+.liquid-glass-ready .lg-card-surface:hover,
+.liquid-glass-ready .lg-card-surface.lg-water-active {
+  border-color: rgba(125, 232, 201, .42) !important;
+  box-shadow: 0 28px 78px rgba(0, 0, 0, .30), 0 0 0 1px rgba(139, 221, 255, .10), inset 0 1px rgba(255,255,255,.15) !important;
+}
+.liquid-glass-ready .lg-card-surface.lg-water-active::before { opacity: .96; }
+
+/* Cards que anteriormente tinham superfícies opacas próprias. */
+.liquid-glass-ready .modulo-card,
+.liquid-glass-ready .aula-item,
+.liquid-glass-ready .quiz-card,
+.liquid-glass-ready .streak-modal-card,
+.liquid-glass-ready .item-card,
+.liquid-glass-ready .saldo-card,
+.liquid-glass-ready .como-ganhar-box,
+.liquid-glass-ready .resultado-card,
+.liquid-glass-ready .chart_card,
+.liquid-glass-ready .summary_card,
+.liquid-glass-ready .legend_card,
+.liquid-glass-ready .history_card,
+.liquid-glass-ready .pagina_card,
+.liquid-glass-ready .sobre_card,
+.liquid-glass-ready .missao_card,
+.liquid-glass-ready .recurso_card,
+.liquid-glass-ready .beneficio_card,
+.liquid-glass-ready .step_card,
+.liquid-glass-ready .prefs_card,
+.liquid-glass-ready .cadastro_card,
+.liquid-glass-ready .login_card,
+.liquid-glass-ready .form-card,
+.liquid-glass-ready .card-stat {
+  background: linear-gradient(145deg, rgba(30, 49, 82, .72), rgba(14, 25, 48, .56)) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+}
+
+/* Parallax óptico: o conteúdo respira em ritmos diferentes sem exagero. */
+.liquid-glass-ready .lg-card-surface > :where(.modulo-icon, .item-icone, .card_icon, .pagina_card_icon, .sobre_card_icon, .missao_card_icon, .feature_icon) {
+  transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .45s ease;
+  will-change: transform;
+}
+.liquid-glass-ready .lg-card-surface:hover > :where(.modulo-icon, .item-icone, .card_icon, .pagina_card_icon, .sobre_card_icon, .missao_card_icon, .feature_icon) {
+  transform: translate3d(0, -4px, 0) scale(1.035);
+  filter: drop-shadow(0 8px 18px rgba(87, 230, 190, .16));
+}
+.liquid-glass-ready .lg-card-surface > :where(h1, h2, h3, h4, .modulo-desc, .aula-titulo, .item-desc) {
+  transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.liquid-glass-ready .lg-card-surface:hover > :where(h1, h2, h3, h4, .modulo-desc, .aula-titulo, .item-desc) { transform: translate3d(0, -1px, 0); }
+
+/* Navegação permanece translúcida, sem fundos estranhos nos itens internos. */
+.liquid-glass-ready header nav a,
+.liquid-glass-ready .navbar a,
+.liquid-glass-ready nav a,
+.liquid-glass-ready .navbar li,
+.liquid-glass-ready nav li,
+.liquid-glass-ready .dropdown_menu,
+.liquid-glass-ready .dropdown_menu a {
+  background: transparent !important;
+  box-shadow: none;
+}
+.liquid-glass-ready .dropdown_menu { background: rgba(14, 27, 49, .88) !important; }
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .liquid-glass-ready .lg-card-surface { transform: none; will-change: auto; }
+  .liquid-glass-ready .lg-card-surface > :where(.modulo-icon, .item-icone, .card_icon, .pagina_card_icon, .sobre_card_icon, .missao_card_icon, .feature_icon) { transition: none; }
+}
+
+
+.btn-voltar-aprendizado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 10px 16px;
+  border: 1px solid rgba(196,224,255,.22);
+  border-radius: 999px;
+  background: rgba(255,255,255,.07);
+  color: var(--lg-text, #f6f9ff);
+  text-decoration: none;
+  font-weight: 750;
+  box-shadow: 0 10px 28px rgba(0,0,0,.16), inset 0 1px rgba(255,255,255,.12);
+  transition: transform .28s ease, border-color .28s ease, background .28s ease;
+}
+.btn-voltar-aprendizado:hover { transform: translateY(-2px); border-color: rgba(105,232,187,.52); background: rgba(105,232,187,.12); }

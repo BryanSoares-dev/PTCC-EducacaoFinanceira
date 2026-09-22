@@ -7,6 +7,17 @@ if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
+
+try {
+    $pdo->exec("ALTER TABLE usuarios ADD COLUMN patente VARCHAR(30) NULL AFTER banner");
+} catch (PDOException $ignored) {
+    // A coluna já existe ou será criada pela migration_patente.sql.
+}
+
+$stmtPatente = $pdo->prepare("SELECT patente FROM usuarios WHERE id = ?");
+$stmtPatente->execute([$_SESSION['id']]);
+$patenteAtual = $stmtPatente->fetchColumn() ?: null;
+$recursosLiberados = !empty($patenteAtual);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -361,8 +372,18 @@ if (!isset($_SESSION['id'])) {
                 padding: 30px 20px;
             }
         }
+        .recurso-liberado { border-color: rgba(22, 226, 138, .34); }
+        .recurso-liberado .card_icon { background: rgba(22, 226, 138, .16); }
+        .recurso-link { display: inline-block; text-decoration: none; }
+        .modal_icon_success { color: #16E28A; animation: patentePulse 1.8s ease-in-out infinite; }
+        .conquista-kicker { display: block; color: #16E28A; font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 8px; }
+        .conquista-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 22px 0 8px; }
+        .conquista-links .btn_modal_primary { padding: 12px 8px; font-size: .9rem; }
+        .salvando-patente { opacity: .65; pointer-events: none; }
+        @keyframes patentePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        @media (max-width: 600px) { .conquista-links { grid-template-columns: 1fr; } }
     </style>
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 
 </head>
 <body>
@@ -387,36 +408,42 @@ if (!isset($_SESSION['id'])) {
         </div>
     </section>
 
-    <!-- CARDS BLOQUEADOS -->
+    <!-- RECURSOS: liberados após patente ou bloqueados antes do teste -->
     <section class="cards_aprendizado">
         <!-- Card 1: Videoaulas -->
-        <div class="card_recurso">
+        <div class="card_recurso <?= $recursosLiberados ? 'recurso-liberado' : 'recurso-bloqueado' ?>">
             <span class="card_icon"><i class="fas fa-video"></i></span>
             <h3>Videoaulas</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero id justo tincidunt, sed venenatis lorem interdum.</p>
-            <button class="btn_bloqueado" onclick="abrirModal('videoaulas')">
-                <i class="fas fa-lock"></i> Acessar (bloqueado)
-            </button>
+            <?php if ($recursosLiberados): ?>
+                <a class="btn_bloqueado recurso-link" href="videoaulas.php"><i class="fas fa-play"></i> Acessar videoaulas</a>
+            <?php else: ?>
+                <button class="btn_bloqueado" onclick="abrirModal('videoaulas')"><i class="fas fa-lock"></i> Acessar (bloqueado)</button>
+            <?php endif; ?>
         </div>
 
         <!-- Card 2: Exercícios Diários -->
-        <div class="card_recurso">
+        <div class="card_recurso <?= $recursosLiberados ? 'recurso-liberado' : 'recurso-bloqueado' ?>">
             <span class="card_icon"><i class="fas fa-dumbbell"></i></span>
             <h3>Exercícios Diários</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero id justo tincidunt, sed venenatis lorem interdum.</p>
-            <button class="btn_bloqueado" onclick="abrirModal('exercicios')">
-                <i class="fas fa-lock"></i> Acessar (bloqueado)
-            </button>
+            <?php if ($recursosLiberados): ?>
+                <a class="btn_bloqueado recurso-link" href="exercicios.php"><i class="fas fa-dumbbell"></i> Acessar exercícios</a>
+            <?php else: ?>
+                <button class="btn_bloqueado" onclick="abrirModal('exercicios')"><i class="fas fa-lock"></i> Acessar (bloqueado)</button>
+            <?php endif; ?>
         </div>
 
         <!-- Card 3: Loja -->
-        <div class="card_recurso">
+        <div class="card_recurso <?= $recursosLiberados ? 'recurso-liberado' : 'recurso-bloqueado' ?>">
             <span class="card_icon"><i class="fas fa-store"></i></span>
             <h3>Loja</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero id justo tincidunt, sed venenatis lorem interdum.</p>
-            <button class="btn_bloqueado" onclick="abrirModal('loja')">
-                <i class="fas fa-lock"></i> Acessar (bloqueado)
-            </button>
+            <?php if ($recursosLiberados): ?>
+                <a class="btn_bloqueado recurso-link" href="loja.php"><i class="fas fa-store"></i> Acessar loja</a>
+            <?php else: ?>
+                <button class="btn_bloqueado" onclick="abrirModal('loja')"><i class="fas fa-lock"></i> Acessar (bloqueado)</button>
+            <?php endif; ?>
         </div>
     </section>
 
@@ -471,6 +498,21 @@ if (!isset($_SESSION['id'])) {
         </div>
     </div>
 
+    <div class="modal_overlay" id="modalConquista" aria-hidden="true">
+        <div class="modal_content modal_conquista" role="dialog" aria-modal="true" aria-labelledby="conquistaTitulo">
+            <div class="modal_icon modal_icon_success"><i class="fas fa-medal"></i></div>
+            <span class="conquista-kicker">Nova conquista desbloqueada</span>
+            <h2 id="conquistaTitulo">Parabéns! Você é Ferro 1</h2>
+            <p>Sua patente foi salva no seu perfil. A partir de agora, <strong>videoaulas, exercícios e loja</strong> estão liberados para você.</p>
+            <div class="conquista-links">
+                <a href="videoaulas.php" class="btn_modal_primary"><i class="fas fa-video"></i> Videoaulas</a>
+                <a href="exercicios.php" class="btn_modal_primary"><i class="fas fa-dumbbell"></i> Exercícios</a>
+                <a href="loja.php" class="btn_modal_primary"><i class="fas fa-store"></i> Loja</a>
+            </div>
+            <button type="button" class="btn_modal_secondary" onclick="fecharConquista()">Continuar na área de aprendizado</button>
+        </div>
+    </div>
+
 </main>
 
 <script>
@@ -515,14 +557,32 @@ if (!isset($_SESSION['id'])) {
         abrirModal(recursoAtual);    // reutiliza o recurso armazenado
     }
 
-    // Fecha o segundo modal e confirma a classificação como Ferro 1
-    function confirmarPular() {
-        document.getElementById('modalAviso').classList.remove('active');
+    // Confirma o pulo, persiste Ferro 1 e libera os três recursos.
+    async function confirmarPular() {
+        var botao = document.querySelector('#modalAviso .btn_modal_primary');
+        if (botao) { botao.disabled = true; botao.classList.add('salvando-patente'); }
+        try {
+            var resposta = await fetch('../back-end/pular_teste.php', {
+                method: 'POST', headers: { 'Accept': 'application/json' }, credentials: 'same-origin'
+            });
+            var dados = await resposta.json();
+            if (!resposta.ok || !dados.ok) throw new Error(dados.message || 'Falha ao salvar a patente.');
+            document.getElementById('modalAviso').classList.remove('active');
+            document.getElementById('modalConquista').classList.add('active');
+            document.getElementById('modalConquista').setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            document.querySelectorAll('.card_recurso').forEach(function(card) { card.classList.remove('recurso-bloqueado'); card.classList.add('recurso-liberado'); });
+            setTimeout(function() { window.location.reload(); }, 3200);
+        } catch (erro) {
+            alert(erro.message || 'Não foi possível salvar a patente.');
+            if (botao) { botao.disabled = false; botao.classList.remove('salvando-patente'); }
+        }
+    }
+
+    function fecharConquista() {
+        document.getElementById('modalConquista').classList.remove('active');
+        document.getElementById('modalConquista').setAttribute('aria-hidden', 'true');
         document.body.style.overflow = 'auto';
-        // Aqui você pode redirecionar para a página de conteúdo básico, se desejar
-        // Exemplo: window.location.href = 'conteudo_basico.php';
-        // Ou recarregar a página para refletir nova classificação
-        // window.location.reload();
     }
 
     // Fecha qualquer modal ao clicar fora do conteúdo
@@ -535,6 +595,8 @@ if (!isset($_SESSION['id'])) {
                     // Fecha o segundo sem ação
                     this.classList.remove('active');
                     document.body.style.overflow = 'auto';
+                } else if (this.id === 'modalConquista') {
+                    fecharConquista();
                 }
             }
         });
@@ -543,7 +605,9 @@ if (!isset($_SESSION['id'])) {
     // Fecha com a tecla ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            if (document.getElementById('modalAviso').classList.contains('active')) {
+            if (document.getElementById('modalConquista').classList.contains('active')) {
+                fecharConquista();
+            } else if (document.getElementById('modalAviso').classList.contains('active')) {
                 document.getElementById('modalAviso').classList.remove('active');
                 document.body.style.overflow = 'auto';
             } else if (document.getElementById('modalTeste').classList.contains('active')) {
@@ -556,7 +620,6 @@ if (!isset($_SESSION['id'])) {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
-    <script src="../JS/liquid-glass.js?v=99" defer></script>
+    <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
-
