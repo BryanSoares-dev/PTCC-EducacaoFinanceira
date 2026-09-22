@@ -1070,6 +1070,8 @@ $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] 
             }
         }
     </style>
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+
 </head>
 
 <body>
@@ -1903,6 +1905,7 @@ window.addEventListener("load", () => {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
+    <script src="../JS/liquid-glass.js?v=99" defer></script>
 </body>
 </html>
 

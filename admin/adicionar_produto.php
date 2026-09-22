@@ -36,6 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+
 </head>
 <body>
 
@@ -103,6 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
+    <script src="../JS/liquid-glass.js?v=99" defer></script>
 </body>
 </html>
 

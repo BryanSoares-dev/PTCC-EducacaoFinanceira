@@ -79,6 +79,8 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="icon" type="image/png" href="../img/favicon.png">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+
 </head>
 
 <body>
@@ -237,6 +239,7 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
+    <script src="../JS/liquid-glass.js?v=99" defer></script>
 </body>
 </html>
 

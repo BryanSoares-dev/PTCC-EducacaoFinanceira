@@ -21,8 +21,14 @@ if (!isset($_SESSION['id'])) {
    BUSCAR USUÁRIO E TEMA
 ============================================================ */
 
+try {
+    $pdo->exec("ALTER TABLE usuarios ADD COLUMN banner VARCHAR(255) NULL AFTER foto");
+} catch (PDOException $ignored) {
+    // A coluna já existe ou será criada pelo migration_perfil.sql.
+}
+
 $stmt = $pdo->prepare("
-    SELECT id, nome, email, tema
+    SELECT id, nome, email, telefone, foto, banner, tema
     FROM usuarios
     WHERE id = ?
 ");
@@ -39,6 +45,11 @@ if (!$usuario) {
     header("Location: ../front-end/login.php");
 
     exit;
+}
+
+$fotoConfiguracao = $usuario['foto'] ?? '';
+if ($fotoConfiguracao && !preg_match('/^https?:\\/\\//i', $fotoConfiguracao)) {
+    $fotoConfiguracao = str_starts_with($fotoConfiguracao, '../') ? $fotoConfiguracao : '../' . ltrim($fotoConfiguracao, '/');
 }
 
 
@@ -123,6 +134,8 @@ if (count($partesNome) > 1) {
         href="../img/favicon.png"
     >
 
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=99">
+
 </head>
 
 <body>
@@ -163,10 +176,10 @@ if (count($partesNome) > 1) {
         <div class="perfil_header_info">
 
 
-            <?php if (!empty($usuario['foto'])): ?>
+            <?php if (!empty($fotoConfiguracao)): ?>
 
                 <img
-                    src="../uploads/<?= htmlspecialchars($usuario['foto']) ?>"
+                    src="<?= htmlspecialchars($fotoConfiguracao, ENT_QUOTES, 'UTF-8') ?>"
                     alt="Foto de perfil"
                     class="perfil_avatar"
                 >
@@ -1111,7 +1124,7 @@ if (count($partesNome) > 1) {
 
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
+    <script src="../JS/liquid-glass.js?v=99" defer></script>
 </body>
 
 </html>
-

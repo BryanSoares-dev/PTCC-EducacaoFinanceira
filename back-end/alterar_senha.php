@@ -28,7 +28,7 @@ if (!password_verify($senhaAtual, $usuario['senha'])) {
     echo "
     <script>
         alert('A senha atual está incorreta!');
-        window.location='perfil.php';
+        window.location='../front-end/perfil.php';
     </script>
     ";
 
@@ -41,7 +41,7 @@ if ($novaSenha != $confirmarSenha) {
     echo "
     <script>
         alert('As novas senhas não coincidem!');
-        window.location='perfil.php';
+        window.location='../front-end/perfil.php';
     </script>
     ";
 
@@ -66,8 +66,7 @@ $stmt->execute([
 echo "
 <script>
     alert('Senha alterada com sucesso!');
-    window.location='perfil.php';
+    window.location='../front-end/perfil.php?status=sucesso';
 </script>
 ";
 ?>
-

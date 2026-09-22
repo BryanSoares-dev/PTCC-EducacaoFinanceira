@@ -356,15 +356,13 @@ if (isset($_SESSION['id'])) {
                 <div class="user_dropdown">
 
 
-                    <!-- AVATAR (botão, não link, para não navegar ao clicar) -->
+                    <!-- AVATAR: abre diretamente o painel de perfil -->
 
-                    <button
-                        type="button"
+                    <a
+                        href="perfil.php"
                         id="avatarBtn"
                         class="avatar_btn"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        aria-label="Abrir menu do perfil">
+                        aria-label="Abrir painel do perfil">
 
 
                         <?php if ($temFoto): ?>
@@ -386,7 +384,7 @@ if (isset($_SESSION['id'])) {
                         <?php endif; ?>
 
 
-                    </button>
+                    </a>
 
 
                     <!-- ==========================================
@@ -538,17 +536,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (avatarBtn && dropdownMenu) {
 
-        avatarBtn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            const aberto = dropdownMenu.classList.toggle('activate');
-            avatarBtn.setAttribute('aria-expanded', aberto);
-        });
-
-        // Fecha ao clicar fora do menu
+        // O avatar agora navega diretamente para perfil.php.
+        // Mantemos apenas o fechamento defensivo do menu legado.
         document.addEventListener('click', function (e) {
             if (!dropdownMenu.contains(e.target) && !avatarBtn.contains(e.target)) {
                 dropdownMenu.classList.remove('activate');
-                avatarBtn.setAttribute('aria-expanded', 'false');
             }
         });
 
@@ -556,7 +548,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 dropdownMenu.classList.remove('activate');
-                avatarBtn.setAttribute('aria-expanded', 'false');
             }
         });
     }

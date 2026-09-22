@@ -15,7 +15,7 @@ if (empty($nome) || empty($email)) {
     echo "
     <script>
         alert('Preencha todos os campos obrigatórios.');
-        window.location='perfil.php';
+        window.location='../front-end/perfil.php';
     </script>
     ";
     exit;
@@ -41,7 +41,7 @@ try {
         echo "
         <script>
             alert('Este e-mail já está sendo utilizado por outra conta.');
-            window.location='perfil.php';
+            window.location='../front-end/perfil.php';
         </script>
         ";
 
@@ -70,7 +70,7 @@ try {
     echo "
     <script>
         alert('Perfil atualizado com sucesso!');
-        window.location='../front-end/perfil.php';
+        window.location='../front-end/perfil.php?status=sucesso';
     </script>
     ";
 
@@ -79,9 +79,8 @@ try {
     echo "
     <script>
         alert('Erro ao atualizar perfil.');
-        window.location='perfil.php';
+        window.location='../front-end/perfil.php';
     </script>
     ";
 }
 ?>
-

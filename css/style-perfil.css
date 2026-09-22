@@ -1604,3 +1604,44 @@ body:has(.perfil-page) {
             1 !important;
     }
 }
+
+
+/* Ajustes do editor de avatar e upload de banner */
+.perfil-page .perfil-banner-form input[type="file"] { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.perfil-page .crop-help { margin: 12px 0 0; color: var(--perfil-text-muted); font-size: 12px; text-align: center; }
+.perfil-page .crop-stage { touch-action: none; cursor: grab; }
+.perfil-page .crop-stage:active { cursor: grabbing; }
+.perfil-page .crop-preview-wrap strong { color: #d9fff0; font-size: 13px; }
+@media (max-width: 600px) {
+  .perfil-page .perfil-banner-form { grid-template-columns: 1fr; }
+  .perfil-page .perfil-banner-form .btn_secondary { width: 100%; }
+  .perfil-page .crop-dialog { padding: 22px 16px; }
+  .perfil-page .crop-actions { flex-direction: column-reverse; }
+  .perfil-page .crop-button { width: 100%; }
+}
+
+
+/* Editor v67: gatilho de foto acessível e compatível com mouse, toque e teclado */
+.perfil-page #avatarTrigger { cursor: pointer; outline: none; }
+.perfil-page #avatarTrigger:hover { transform: scale(1.03); }
+.perfil-page #avatarTrigger:focus-visible { box-shadow: 0 0 0 4px rgba(72, 232, 174, .45), 0 0 0 7px rgba(2, 11, 20, .85); }
+.perfil-page .crop-modal { overscroll-behavior: contain; }
+.perfil-page .crop-dialog { animation: perfil-modal-in .18s ease-out both; }
+@keyframes perfil-modal-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+
+/* Editor v2: banner horizontal 3:1 */
+.perfil-page .banner-stage { min-height: 0; aspect-ratio: 3 / 1; }
+.perfil-page #bannerCanvas { display: block; width: 100%; height: auto; max-width: 100%; }
+.perfil-page #bannerPreview { width: min(360px, 100%); height: 120px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(72,232,174,.75); }
+.perfil-page .banner-workspace { grid-template-columns: minmax(0, 1.8fr) minmax(220px, .7fr); }
+@media (max-width: 850px) { .perfil-page .banner-workspace { grid-template-columns: 1fr; } }
+
+
+/* Evolução v68: enquadramento sem escapar da imagem e prévias maiores */
+.perfil-page .perfil_header-cover { grid-template-columns: 120px minmax(0, 1fr) auto; }
+.perfil-page .perfil-avatar-form { width: 120px; }
+.perfil-page .perfil_avatar { width: 112px; height: 112px; min-width: 112px; min-height: 112px; }
+.perfil-page #cropPreview { width: 220px; height: 220px; }
+.perfil-page .crop-stage, .perfil-page .banner-stage { user-select: none; -webkit-user-select: none; }
+@media (max-width: 850px) { .perfil-page .perfil_header-cover { grid-template-columns: 100px minmax(0, 1fr); } .perfil-page .perfil-avatar-form { width: 100px; } .perfil-page .perfil_avatar { width: 92px; height: 92px; min-width: 92px; min-height: 92px; } }
