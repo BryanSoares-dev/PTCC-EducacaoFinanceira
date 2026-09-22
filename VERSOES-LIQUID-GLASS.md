@@ -47,3 +47,36 @@ A implementação fica em `css/liquid-glass.css` e `JS/liquid-glass.js`. As rota
 | Versão | Alteração | Justificativa |
 |---:|---|---|
 | 99 | Luzes brancas suavizadas, material unificado, fundos conflitantes da navbar neutralizados, parallax amortecido, orbe discreto seguindo o mouse e tilt reduzido | Deixar todas as páginas visualmente coerentes, elegantes e menos brilhantes, com movimento contínuo sem competir com o conteúdo ou bloquear a interação. |
+
+
+# Revisão Liquid Glass — v100
+
+| Versão | Alteração | Justificativa |
+|---:|---|---|
+| 100 | Material global aplicado também a `modulo-card`, `aula-item`, `quiz-card`, `item-card`, cards de saldo e caixas de conteúdo | Corrigir a ausência visual do Liquid Glass nas páginas de videoaulas, exercícios e loja sem remover os estilos específicos existentes. |
+| 100 | Descoberta automática de cards por seletores semânticos e classes reutilizáveis | Fazer a mesma experiência alcançar as demais páginas, inclusive componentes criados em CSS interno. |
+| 100 | Parallax de rolagem com amortecimento, tilt suave pelo ponteiro, brilho contextual e ripple | Dar profundidade e resposta física aos cards sem exagerar no movimento. |
+| 100 | Ícones e títulos dos cards receberam microparallax no hover | Criar hierarquia visual e sensação de materialidade. |
+| 100 | Navegação e dropdowns tiveram fundos internos neutralizados | Corrigir os fundos de cor conflitantes observados na navbar. |
+| 100 | Cache global atualizado de v99 para v100 em 21 páginas visuais | Garantir que o navegador carregue os assets novos. |
+
+
+# Revisão de navegação e progressão — v101
+
+| Área | Alteração | Justificativa |
+|---|---|---|
+| Navbar | Inclusão nas páginas internas que não exibiam o componente | Manter orientação e acesso ao perfil em todo o site autenticado. |
+| Perfil | Foto real buscada do banco na navbar | Evitar que o menu mostre apenas a inicial depois do upload. |
+| Educação | Videoaulas, exercícios e loja retornam para `aprendizado.php` | Criar um fluxo educacional previsível e consistente. |
+| Patente | Patente em destaque com superfície Liquid Glass | Tornar a conquista visível e compreensível. |
+| XP | Novo campo persistido, barra de progresso e distância até a próxima patente | Mostrar claramente a evolução do usuário. |
+| Navbar | Correção do link quebrado de Investimentos | Restaurar o dropdown e a navegação entre os conteúdos. |
+
+
+# Ajuste v102 — retornos e cartão de patente
+
+| Área | Alteração | Justificativa |
+|---|---|---|
+| Videoaulas | Botão superior corrigido de `loja.php` para `aprendizado.php` | Evitar que o usuário seja enviado para a loja ao tentar voltar. |
+| Educação | Textos internos padronizados para “Voltar” | Reduzir ruído visual e manter os controles objetivos. |
+| Perfil | Linha de XP reorganizada como “XP de treino — atual / meta” | Aproximar a leitura do exemplo enviado e tornar a progressão imediata. |

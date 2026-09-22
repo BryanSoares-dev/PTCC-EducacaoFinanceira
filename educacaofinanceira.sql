@@ -87,7 +87,9 @@ CREATE TABLE `usuarios` (
   `tema` varchar(22) DEFAULT 'sistema',
   `idioma` varchar(22) DEFAULT 'pt-br',
   `moeda` varchar(22) DEFAULT 'BRL',
-  `banner` varchar(255) DEFAULT NULL
+  `banner` varchar(255) DEFAULT NULL,
+  `patente` varchar(30) DEFAULT NULL,
+  `xp` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

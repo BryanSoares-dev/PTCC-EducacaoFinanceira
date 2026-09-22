@@ -2,7 +2,7 @@
 
 ## Configuração do MySQL no XAMPP
 
-O projeto está configurado para conectar ao MySQL/MariaDB do XAMPP pela porta padrão **3306**. Verifique no arquivo `xampp/mysql/bin/my.ini` se a diretiva `port` está definida como `3306`, inicie o MySQL e importe `educacaofinanceira.sql` no banco `educacaofinanceira`. Se o usuário `root` possuir senha, atualize a variável `$pass` no arquivo `back-end/conexao.php`.
+O projeto está configurado para conectar ao MySQL/MariaDB do XAMPP pela porta **3307**. Verifique no arquivo `xampp/mysql/bin/my.ini` se a diretiva `port` está definida como `3307`, inicie o MySQL e importe `educacaofinanceira.sql` no banco `educacaofinanceira`. Se o usuário `root` possuir senha, atualize a variável `$pass` no arquivo `back-end/conexao.php`.
 
 ## Acessibilidade
 
@@ -59,4 +59,26 @@ A revisão v99 uniformiza o material em todas as páginas, reduz a intensidade d
 
 ## Configuração atual do banco
 
-A conexão ativa do projeto usa `127.0.0.1:3306`. Se o XAMPP estiver usando outra porta, altere `$port` em `back-end/conexao.php` e a diretiva correspondente no `my.ini`.
+A conexão ativa do projeto usa `127.0.0.1:3307`. Se o XAMPP estiver usando outra porta, altere `$port` em `back-end/conexao.php` e a diretiva correspondente no `my.ini`.
+
+
+## Patentes e desbloqueio do aprendizado
+
+A tabela `usuarios` agora possui a coluna `patente`. Execute `migration_patente.sql` uma vez em bancos já existentes; o fluxo também tenta criar a coluna automaticamente quando o usuário abre o aprendizado, o teste ou o perfil. Ao confirmar **Pular Teste**, o endpoint `back-end/pular_teste.php` grava a patente **Ferro 1**, exibe um popup de conquista e libera os cards de **Videoaulas**, **Exercícios** e **Loja** com links para `videoaulas.php`, `exercicios.php` e `loja.php`. A conclusão normal do diagnóstico grava a patente calculada no mesmo campo.
+
+
+## Liquid Glass v100 — cards e parallax
+
+A revisão v100 uniformiza o material Liquid Glass nos cards das páginas de videoaulas, exercícios e loja, incluindo módulos, aulas, quiz, itens de loja, saldo e caixas auxiliares. O motor global também reconhece novos cards semanticamente e aplica parallax de rolagem, tilt suave ao mover o cursor, brilho especular contextual, ripple de clique e microparallax em ícones e títulos. A navbar mantém seus itens transparentes para evitar fundos conflitantes. O movimento respeita `prefers-reduced-motion` e é desativado em ponteiros de toque para preservar desempenho.
+
+
+## Navegação e progressão — revisão v101
+
+A navbar compartilhada foi adicionada às páginas internas que não a exibiam, incluindo configurações, preferências, privacidade, ajuda, calendário, sobre e perfil. A navbar agora busca a foto atual diretamente no banco e usa um fallback de inicial quando necessário. Os retornos das videoaulas e exercícios apontam diretamente para `aprendizado.php`, e a loja ganhou o mesmo retorno explícito.
+
+O perfil exibe a patente em destaque com material Liquid Glass, medalha visual e uma barra de XP que informa o total atual, o percentual da patente e quanto falta para a próxima. O campo `xp` foi adicionado à tabela `usuarios`; em bancos existentes, execute `migration_xp.sql`. O teste diagnóstico concede XP proporcional à pontuação, enquanto pular o teste mantém o usuário em Ferro 1.
+
+
+## Ajuste v102 — retornos e cartão de patente
+
+O botão superior das videoaulas foi corrigido para apontar para `aprendizado.php`, em vez de `loja.php`. Os botões educacionais agora exibem apenas “Voltar”. O cartão de patente do perfil foi refinado com a hierarquia do exemplo fornecido: patente atual em destaque, ícone/medalha, linha de XP de treino no formato atual/meta, barra de progresso e indicação de XP restante para subir.
