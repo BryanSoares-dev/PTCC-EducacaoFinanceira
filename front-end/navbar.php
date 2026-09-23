@@ -367,7 +367,7 @@ if (isset($_SESSION['id'])) {
                     <!-- AVATAR: abre diretamente o painel de perfil -->
 
                     <a
-                        href="perfil.php"
+
                         id="avatarBtn"
                         class="avatar_btn"
                         aria-label="Abrir painel do perfil">
@@ -542,22 +542,31 @@ document.addEventListener('DOMContentLoaded', function () {
     const avatarBtn = document.getElementById('avatarBtn');
     const dropdownMenu = document.getElementById('dropdownMenu');
 
-    if (avatarBtn && dropdownMenu) {
+    if (!avatarBtn || !dropdownMenu) return;
 
-        // O avatar agora navega diretamente para perfil.php.
-        // Mantemos apenas o fechamento defensivo do menu legado.
-        document.addEventListener('click', function (e) {
-            if (!dropdownMenu.contains(e.target) && !avatarBtn.contains(e.target)) {
-                dropdownMenu.classList.remove('activate');
-            }
-        });
+    avatarBtn.addEventListener('click', function (e) {
+        e.preventDefault();
 
-        // Fecha ao pressionar ESC
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                dropdownMenu.classList.remove('activate');
-            }
-        });
-    }
+        dropdownMenu.classList.toggle('active');
+
+    });
+
+    document.addEventListener('click', function (e) {
+        if (
+            !dropdownMenu.contains(e.target) &&
+            !avatarBtn.contains(e.target)
+        ) {
+            dropdownMenu.classList.remove('active');
+
+        }
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            dropdownMenu.classList.remove('active');
+
+        }
+    });
 });
 </script>
+
