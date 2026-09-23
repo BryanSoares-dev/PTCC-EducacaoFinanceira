@@ -153,20 +153,6 @@ if (count($partesNome) > 1) {
 </div>
 
 
-<a
-    href="home.php"
-    class="btn_voltar"
->
-
-    <span class="material-icons">
-        arrow_back
-    </span>
-
-    Voltar
-
-</a>
-
-
 <main class="perfil_container">
 
 

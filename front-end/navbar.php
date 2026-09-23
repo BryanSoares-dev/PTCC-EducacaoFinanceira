@@ -367,7 +367,6 @@ if (isset($_SESSION['id'])) {
                     <!-- AVATAR: abre diretamente o painel de perfil -->
 
                     <a
-
                         id="avatarBtn"
                         class="avatar_btn"
                         aria-label="Abrir painel do perfil">

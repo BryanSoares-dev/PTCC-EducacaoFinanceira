@@ -90,7 +90,9 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
     <div class="shape shape1"></div><div class="shape shape2"></div><div class="shape shape3"></div>
 </div>
 <?php include_once 'navbar.php'; ?>
-<a href="javascript:history.back()" class="btn_voltar">← Voltar</a>
+
+<main class="perfil-page">
+
 
 <main class="perfil-page">
     <?php if (isset($_GET['status'])): ?>

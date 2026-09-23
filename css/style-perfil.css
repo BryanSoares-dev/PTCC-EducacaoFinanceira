@@ -194,41 +194,48 @@ body:has(.perfil-page) {
 
 /* ============================================================
    BOTÃO VOLTAR
+   É um <a>, não um <button>
+   Fica fora de .perfil-page, portanto não usar
+   .perfil-page .btn_voltar
    ============================================================ */
 
-.perfil-page .btn_voltar {
-
+.btn_voltar {
     position: fixed;
 
-    top: 115px;
+    top: 120px;
     left: 25px;
 
-    z-index: 100;
+    z-index: 9998;
 
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
 
+    width: auto;
+    min-width: 0;
     min-height: 42px;
 
+    margin: 0;
     padding: 9px 17px;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.18);
+    box-sizing: border-box;
 
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 999px;
 
-    background:
-        rgba(10, 30, 50, 0.80);
+    background: rgba(10, 30, 50, 0.85);
 
-    color: #ffffff;
+    color: #ffffff !important;
 
-    text-decoration: none;
-
+    font-family: inherit;
     font-size: 14px;
     font-weight: 700;
+    line-height: 1;
+
+    text-align: center;
+    text-decoration: none !important;
+
+    cursor: pointer;
 
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -239,31 +246,171 @@ body:has(.perfil-page) {
     transition:
         transform 0.25s ease,
         background 0.25s ease,
-        border-color 0.25s ease;
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 
-/*
-   O app.css global coloca ::after em nav a.
-   Este botão não deve receber aquela linha.
-*/
+/* ============================================================
+   ÍCONE
+   ============================================================ */
 
-.perfil-page .btn_voltar::after {
+.btn_voltar i {
+    margin-right: 8px;
 
+    font-size: 13px;
+
+    color: inherit;
+}
+
+
+/* ============================================================
+   REMOVE EFEITOS GLOBAIS DE LINKS
+   ============================================================ */
+
+.btn_voltar::before,
+.btn_voltar::after {
     content: none !important;
 
     display: none !important;
 }
 
-.perfil-page .btn_voltar:hover {
 
+/* ============================================================
+   HOVER
+   ============================================================ */
+
+.btn_voltar:hover {
     transform: translateY(-2px);
 
     background:
-        rgba(25, 55, 80, 0.95);
+        rgba(25, 55, 80, 0.96);
 
     border-color:
-        rgba(72, 232, 174, 0.40);
+        rgba(72, 232, 174, 0.45);
+
+    color: #ffffff !important;
+
+    text-decoration: none !important;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+
+/* ============================================================
+   CLIQUE
+   ============================================================ */
+
+.btn_voltar:active {
+    transform: translateY(0);
+}
+
+
+/* ============================================================
+   FOCO
+   ============================================================ */
+
+.btn_voltar:focus {
+    outline: none;
+}
+
+.btn_voltar:focus-visible {
+    outline: none;
+
+    border-color:
+        rgba(72, 232, 174, 0.75);
+
+    box-shadow:
+        0 0 0 3px rgba(72, 232, 174, 0.20),
+        0 12px 30px rgba(0, 0, 0, 0.28);
+}
+
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .btn_voltar {
+        position: absolute;
+
+        top: 92px;
+        left: 12px;
+
+        min-height: 40px;
+
+        padding: 9px 14px;
+
+        font-size: 13px;
+    }
+
+}
+
+
+/* ============================================================
+   CELULAR PEQUENO
+   ============================================================ */
+
+@media (max-width: 400px) {
+
+    .btn_voltar {
+
+        top: 88px;
+        left: 10px;
+
+        padding: 8px 12px;
+
+        font-size: 12px;
+    }
+
+}
+
+
+/*
+   CELULAR
+*/
+
+@media (max-width: 600px) {
+
+    .btn_voltar {
+
+        position: fixed;
+
+        top: 92px;
+
+        left: 12px;
+
+        min-height: 40px;
+
+        padding: 9px 14px;
+
+        font-size: 13px;
+
+    }
+
+}
+
+
+/*
+   CELULAR MUITO PEQUENO
+*/
+
+@media (max-width: 400px) {
+
+    .btn_voltar {
+
+        top: 88px;
+
+        left: 10px;
+
+        padding: 8px 12px;
+
+        font-size: 12px;
+
+    }
+
 }
 
 
