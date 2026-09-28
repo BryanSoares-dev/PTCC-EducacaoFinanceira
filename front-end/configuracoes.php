@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 
 require_once '../back-end/conexao.php';
 
@@ -695,6 +696,8 @@ if (count($partesNome) > 1) {
             method="POST"
             class="modal_form"
         >
+            <?= csrf_campo() ?>
+
 
 
             <div class="modal_field">
@@ -869,6 +872,8 @@ if (count($partesNome) > 1) {
             method="POST"
             class="modal_form"
         >
+            <?= csrf_campo() ?>
+
 
 
             <label class="modal_toggle">

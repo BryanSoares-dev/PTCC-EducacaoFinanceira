@@ -7,6 +7,7 @@ $tipoMensagem = '';
 
 // ===================== ATIVAR / DESATIVAR =====================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_id'])) {
+    csrf_exigir();
     $idToggle = (int) $_POST['toggle_id'];
 
     $stmt = $pdo->prepare("SELECT status FROM produtos WHERE id = ?");
@@ -24,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_id'])) {
 
 // ===================== EXCLUIR =====================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_id'])) {
+    csrf_exigir();
     $idExcluir = (int) $_POST['excluir_id'];
     $stmt = $pdo->prepare("DELETE FROM produtos WHERE id = ?");
     $stmt->execute([$idExcluir]);
@@ -99,6 +101,8 @@ $produtos = $pdo->query(
                         </a>
 
                         <form method="POST" style="display:inline;">
+            <?= csrf_campo() ?>
+
                             <input type="hidden" name="toggle_id" value="<?= $p['id'] ?>">
                             <button type="submit" class="btn btn-secundario btn-sm">
                                 <?= $p['status'] === 'ativo' ? '<i class="fas fa-eye-slash"></i> Desativar' : '<i class="fas fa-eye"></i> Ativar' ?>
@@ -106,6 +110,8 @@ $produtos = $pdo->query(
                         </form>
 
                         <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.');" style="display:inline;">
+            <?= csrf_campo() ?>
+
                             <input type="hidden" name="excluir_id" value="<?= $p['id'] ?>">
                             <button type="submit" class="btn btn-perigo btn-sm">
                                 <i class="fas fa-trash"></i> Excluir

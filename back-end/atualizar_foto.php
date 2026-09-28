@@ -1,11 +1,16 @@
 <?php
-session_start();
+require_once __DIR__ . '/seguranca.php';
+iniciar_sessao_segura();
 require_once __DIR__ . '/conexao.php';
 
 if (!isset($_SESSION['id'])) {
     header('Location: ../front-end/login.php');
     exit;
 }
+
+// CSRF: impede que outro site force o upload/alteração da foto de
+// perfil da vítima usando a sessão autenticada dela.
+csrf_exigir();
 
 function falharFoto(string $mensagem): never
 {

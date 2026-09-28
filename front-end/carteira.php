@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 
 require_once '../back-end/conexao.php';
 
@@ -124,6 +125,7 @@ $resultadoMes =
 
 
 <head>
+<meta name="csrf-token" content="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
 
     <meta charset="UTF-8">
 
@@ -560,6 +562,8 @@ $resultadoMes =
             action="../back-end/processa_movimentacao.php"
             method="POST"
         >
+            <?= csrf_campo() ?>
+
 
 
             <div class="form-group">
@@ -1318,7 +1322,10 @@ async function conectarConta() {
                 '../open-finance/connect-token.php',
                 {
                     method: 'POST',
-                    credentials: 'same-origin'
+                    credentials: 'same-origin',
+                    headers: {
+                        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                    }
                 }
             );
 
@@ -1391,7 +1398,9 @@ async function conectarConta() {
 
                                     headers: {
                                         'Content-Type':
-                                            'application/json'
+                                            'application/json',
+                                        'X-CSRF-Token':
+                                            document.querySelector('meta[name="csrf-token"]').content
                                     },
 
                                     body:
@@ -1482,7 +1491,10 @@ async function classificarTransacao(select) {
         const resposta = await fetch('../open-finance/classificar.php', {
             method: 'POST',
             credentials: 'same-origin',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+            },
             body: JSON.stringify({
                 transacaoId: select.dataset.transacaoId,
                 categoria: select.value

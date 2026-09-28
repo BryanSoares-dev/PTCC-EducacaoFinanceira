@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once '../back-end/conexao.php';
 require_once 'pluggy-helper.php';
 
@@ -11,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if (!isset($_SESSION['id'])) {
     pluggyJsonResponse(['success' => false, 'error' => 'Usuário não autenticado.'], 401);
 }
+
+csrf_exigir_header();
 
 $body = json_decode(file_get_contents('php://input'), true) ?: [];
 $transacaoId = trim((string) ($body['transacaoId'] ?? ''));
@@ -47,9 +50,11 @@ try {
         'categoria' => $categoria,
     ]);
 } catch (Throwable $exception) {
+    // Não expõe $exception->getMessage() na resposta (pode revelar nomes
+    // de tabelas/colunas); loga o detalhe técnico só no servidor.
+    tratar_erro_bd($exception, 'open-finance/classificar');
     pluggyJsonResponse([
         'success' => false,
         'error' => 'Não foi possível salvar a categoria.',
-        'details' => $exception->getMessage(),
     ], 500);
 }

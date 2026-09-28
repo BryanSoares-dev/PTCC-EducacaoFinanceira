@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/seguranca.php';
+iniciar_sessao_segura();
 require_once 'conexao.php';
 
 if (!isset($_SESSION['id'])) {
@@ -7,11 +8,15 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+// CSRF: impede que outro site altere nome/e-mail/telefone da vítima
+// usando a sessão autenticada dela.
+csrf_exigir();
+
 $nome = trim($_POST['nome'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $telefone = trim($_POST['telefone'] ?? '');
 
-if (empty($nome) || empty($email)) {
+if (empty($nome) || empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo "
     <script>
         alert('Preencha todos os campos obrigatórios.');

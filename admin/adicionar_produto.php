@@ -5,6 +5,7 @@ $paginaAtual = 'produtos';
 $erro = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_exigir();
     $nome      = trim($_POST['nome'] ?? '');
     $descricao = trim($_POST['descricao'] ?? '');
     $preco     = $_POST['preco'] ?? '';
@@ -57,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form method="POST" class="form-card">
+            <?= csrf_campo() ?>
+
         <div class="form-group">
             <label>Nome *</label>
             <input type="text" name="nome" required value="<?= htmlspecialchars($_POST['nome'] ?? '') ?>">

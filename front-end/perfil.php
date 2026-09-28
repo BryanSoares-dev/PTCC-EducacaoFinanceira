@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
@@ -105,6 +106,8 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
         <?php if ($temBanner): ?><img class="perfil-banner-image" src="<?= htmlspecialchars($bannerUrl, ENT_QUOTES, 'UTF-8') ?>" alt="Banner do perfil"><div class="perfil-cover-overlay"></div><?php endif; ?>
 
         <form id="avatarForm" class="perfil-avatar-form" action="../back-end/atualizar_foto.php" method="POST" enctype="multipart/form-data">
+            <?= csrf_campo() ?>
+
             <div class="perfil_avatar" id="avatarTrigger" role="button" tabindex="0" aria-label="Escolher nova foto de perfil"><img id="avatarCurrent" src="<?= htmlspecialchars($fotoUrl, ENT_QUOTES, 'UTF-8') ?>" alt="Foto de perfil"></div>
             <label for="foto" class="btn_secondary">Alterar foto</label>
             <input type="file" id="foto" name="foto" accept="image/jpeg,image/png,image/webp">
@@ -121,6 +124,8 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
         </div>
 
         <form class="perfil-banner-form" action="../back-end/atualizar_banner.php" method="POST" enctype="multipart/form-data">
+            <?= csrf_campo() ?>
+
             <small>Personalize o topo do seu perfil</small>
             <label for="banner" class="btn_secondary">Adicionar banner</label>
             <input type="file" id="banner" name="banner" accept="image/jpeg,image/png,image/webp">
@@ -147,6 +152,8 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
     <section class="perfil_card">
         <h2>Informações pessoais</h2>
         <form action="../back-end/atualizar_perfil.php" method="POST">
+            <?= csrf_campo() ?>
+
             <div class="form_group"><label for="nome">Nome completo</label><input id="nome" type="text" name="nome" value="<?= $nomeEscapado ?>" required></div>
             <div class="form_group"><label for="email">E-mail</label><input id="email" type="email" name="email" value="<?= $emailEscapado ?>" required></div>
             <div class="form_group"><label for="telefone">Telefone</label><input id="telefone" type="tel" name="telefone" value="<?= $telefoneEscapado ?>"></div>
@@ -157,6 +164,8 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
     <section class="perfil_card">
         <h2>Segurança</h2>
         <form action="../back-end/alterar_senha.php" method="POST">
+            <?= csrf_campo() ?>
+
             <div class="form_group"><label for="senha_atual">Senha atual</label><input id="senha_atual" type="password" name="senha_atual" minlength="6" maxlength="72" required></div>
             <div class="form_group"><label for="nova_senha">Nova senha</label><input id="nova_senha" type="password" name="nova_senha" minlength="6" maxlength="72" required></div>
             <div class="form_group"><label for="confirmar_senha">Confirmar nova senha</label><input id="confirmar_senha" type="password" name="confirmar_senha" minlength="6" maxlength="72" required></div>

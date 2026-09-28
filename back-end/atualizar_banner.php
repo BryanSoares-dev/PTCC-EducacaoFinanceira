@@ -1,8 +1,11 @@
 <?php
-session_start();
+require_once __DIR__ . '/seguranca.php';
+iniciar_sessao_segura();
 require_once __DIR__ . '/conexao.php';
 
 if (!isset($_SESSION['id'])) { header('Location: ../front-end/login.php'); exit; }
+// CSRF: impede que outro site force a troca do banner de perfil da vítima.
+csrf_exigir();
 function falharBanner(string $mensagem): never { echo '<script>alert(' . json_encode($mensagem, JSON_UNESCAPED_UNICODE) . '); window.location.href="../front-end/perfil.php";</script>'; exit; }
 
 $diretorio = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'banners';

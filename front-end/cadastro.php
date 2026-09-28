@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
+?>
 <!DOCTYPE html>
 
 <html lang="pt-BR">
@@ -82,6 +86,8 @@
             </div>
 
             <form class="cadastro_form" action="../back-end/salvar_cadastro.php" method="POST">
+
+                <?= csrf_campo() ?>
 
                 <div class="input_group">
                     <label>Nome Completo</label>

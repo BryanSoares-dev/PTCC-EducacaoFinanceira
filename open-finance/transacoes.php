@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 header('Content-Type: application/json; charset=utf-8');
 
 require_once '../back-end/conexao.php';
@@ -42,8 +43,8 @@ try {
         'avisos' => $dados['avisos'] ?? [],
     ]);
 } catch (Throwable $exception) {
+    tratar_erro_bd($exception, 'open-finance/transacoes');
     pluggyJsonResponse([
         'error' => 'Não foi possível consultar as transações.',
-        'details' => $exception->getMessage(),
     ], 500);
 }

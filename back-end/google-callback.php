@@ -1,5 +1,6 @@
 <?php
-    session_start();
+    require_once __DIR__ . '/seguranca.php';
+    iniciar_sessao_segura();
     require_once 'conexao.php'; // aqui a variável disponível é $pdo, não $conn
     require_once 'google-config.php';
 
@@ -13,11 +14,30 @@
 
     // caso ainda não tenha o code, o usuário será direcionado a outra página de autenticação para receber o code único do google
     if (!isset($_GET['code'])) {
+        // Problema: sem um parâmetro "state" imprevisível, um atacante
+        // poderia iniciar o fluxo OAuth com a PRÓPRIA conta Google e
+        // induzir a vítima a completar o "code" dele, fazendo a vítima
+        // logar sem querer na conta do atacante (login CSRF).
+        // Solução: geramos um state ligado à sessão do usuário e
+        // exigimos que ele volte inalterado no callback.
+        $_SESSION['google_oauth_state'] = bin2hex(random_bytes(16));
+        $client->setState($_SESSION['google_oauth_state']);
+
         $auth_url = $client->createAuthUrl();
         header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
         exit;
 
     } else {
+        // Valida o "state" recebido contra o que geramos antes de redirecionar.
+        $stateRecebido = $_GET['state'] ?? '';
+        $stateEsperado = $_SESSION['google_oauth_state'] ?? null;
+        unset($_SESSION['google_oauth_state']); // uso único
+
+        if (!$stateEsperado || !hash_equals($stateEsperado, (string) $stateRecebido)) {
+            http_response_code(403);
+            die('Não foi possível validar esta tentativa de login com o Google. Tente novamente.');
+        }
+
         // Troca o "code" recebido do Google (via URL, após o usuário autorizar o app)
         // por um token de acesso válido
         $client->authenticate($_GET['code']);
@@ -58,6 +78,12 @@
         }
         $idUsuario = $usuarioExistente['id'];
     }
+
+    // Regenera o ID de sessão após autenticar com sucesso pelo Google,
+    // pelo mesmo motivo do login local: evita Session Fixation (um ID de
+    // sessão obtido/definido antes do login não deve continuar válido
+    // depois de o usuário ficar autenticado).
+    session_regenerate_id(true);
 
     // Salva os dados do usuário logado na sessão
     $_SESSION['id'] = $idUsuario;

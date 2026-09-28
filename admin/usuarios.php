@@ -7,6 +7,7 @@ $tipoMensagem = '';
 
 // ===================== EXCLUIR USUÁRIO =====================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_id'])) {
+    csrf_exigir();
     $idExcluir = (int) $_POST['excluir_id'];
 
     if ($idExcluir === $adminLogadoId) {
@@ -108,6 +109,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <span style="color:var(--texto-fraco); font-size:0.8rem;">Sua conta</span>
                         <?php else: ?>
                             <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir o usuário <?= htmlspecialchars(addslashes($u['nome'])) ?>? Esta ação não pode ser desfeita.');" style="display:inline;">
+                                <?= csrf_campo() ?>
                                 <input type="hidden" name="excluir_id" value="<?= $u['id'] ?>">
                                 <button type="submit" class="btn btn-perigo btn-sm">
                                     <i class="fas fa-trash"></i> Excluir

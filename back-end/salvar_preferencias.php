@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/seguranca.php';
+iniciar_sessao_segura();
 require_once("conexao.php");
 
 // ===================== AUTENTICAÇÃO =====================
@@ -13,6 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: ../front-end/configuracoes.php");
     exit;
 }
+
+// CSRF: impede que outro site altere as preferências da vítima usando
+// a sessão autenticada dela.
+csrf_exigir();
 
 // ===================== VALIDAÇÃO (WHITELIST) =====================
 $moedasValidas   = ['BRL', 'USD', 'EUR'];

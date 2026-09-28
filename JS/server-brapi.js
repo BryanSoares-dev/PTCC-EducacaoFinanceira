@@ -4,7 +4,20 @@ import 'dotenv/config';
 import Brapi from 'brapi';
 
 const app = express();
-app.use(cors()); // Permite requisições do frontend
+
+// Problema: cors() sem configuração libera "Access-Control-Allow-Origin: *"
+// para qualquer site da internet, permitindo que outros sites consumam
+// a cota da chave BRAPI_API_KEY configurada neste servidor às custas do
+// projeto (abuso de recursos), mesmo sem envolver dados de usuário.
+// Solução: restringe a origens explicitamente permitidas, configuráveis
+// via variável de ambiente ALLOWED_ORIGIN (lista separada por vírgulas);
+// em desenvolvimento local, o padrão cobre o front-end servido pelo
+// XAMPP/Laragon em localhost/127.0.0.1.
+const origensPermitidas = (process.env.ALLOWED_ORIGIN || 'http://localhost,http://127.0.0.1')
+  .split(',')
+  .map((origem) => origem.trim());
+
+app.use(cors({ origin: origensPermitidas }));
 app.use(express.json());
 
 const client = new Brapi({

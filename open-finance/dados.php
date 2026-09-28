@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once '../back-end/conexao.php';
 require_once 'pluggy-helper.php';
 
@@ -77,8 +78,8 @@ try {
         'avisos' => array_values(array_unique($avisos)),
     ]);
 } catch (Throwable $exception) {
+    tratar_erro_bd($exception, 'open-finance/dados');
     pluggyJsonResponse([
         'error' => 'Não foi possível carregar os dados da conta conectada.',
-        'details' => $exception->getMessage(),
     ], 500);
 }

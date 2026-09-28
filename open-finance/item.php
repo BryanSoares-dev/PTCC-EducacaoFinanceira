@@ -1,11 +1,21 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once '../back-end/conexao.php';
 require_once 'pluggy-helper.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     pluggyJsonResponse(['success' => false, 'error' => 'Método não permitido.'], 405);
 }
+
+if (!isset($_SESSION['id'])) {
+    pluggyJsonResponse(['success' => false, 'error' => 'Usuário não autenticado.'], 401);
+}
+
+// CSRF: sem isso, outro site poderia associar um itemId arbitrário
+// (potencialmente controlado pelo atacante) à conta bancária conectada
+// da vítima, usando a sessão dela.
+csrf_exigir_header();
 
 $body = json_decode(file_get_contents('php://input'), true) ?: [];
 $itemId = $body['itemId'] ?? null;

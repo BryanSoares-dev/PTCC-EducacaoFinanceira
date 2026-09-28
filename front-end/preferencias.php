@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
@@ -119,6 +120,8 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
     <?php endif; ?>
 
     <form method="POST" class="prefs_form">
+            <?= csrf_campo() ?>
+
 
         <!-- ===================== APARÊNCIA ===================== -->
         <section class="prefs_card glass-card">

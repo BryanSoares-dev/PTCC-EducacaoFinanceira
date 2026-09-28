@@ -1,6 +1,7 @@
 <?php
 // Inclui a conexão e sessão
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {

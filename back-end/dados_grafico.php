@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/seguranca.php';
+iniciar_sessao_segura();
 header('Content-Type: application/json; charset=utf-8');
 
 require_once 'conexao.php';
@@ -161,9 +162,9 @@ try {
         'quantidade' => count($movimentacoes),
     ]);
 } catch (Throwable $exception) {
+    tratar_erro_bd($exception, 'dados_grafico');
     calendarioJson([
         'sucesso' => false,
         'mensagem' => 'Não foi possível carregar os dados do calendário.',
-        'detalhes' => $exception->getMessage(),
     ], 500);
 }

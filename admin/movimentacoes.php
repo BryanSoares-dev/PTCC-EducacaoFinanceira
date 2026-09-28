@@ -7,6 +7,7 @@ $tipoMensagem = '';
 
 // ===================== EXCLUIR MOVIMENTAÇÃO =====================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_id'])) {
+    csrf_exigir();
     $idExcluir = (int) $_POST['excluir_id'];
 
     $stmt = $pdo->prepare("DELETE FROM movimentacoes WHERE id = ?");
@@ -145,6 +146,8 @@ $usuariosFiltro = $pdo->query("SELECT id, nome FROM usuarios ORDER BY nome ASC")
                     <td><?= !empty($m['data_criacao']) ? date('d/m/Y H:i', strtotime($m['data_criacao'])) : '—' ?></td>
                     <td>
                         <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta movimentação? Esta ação não pode ser desfeita.');" style="display:inline;">
+            <?= csrf_campo() ?>
+
                             <input type="hidden" name="excluir_id" value="<?= $m['id'] ?>">
                             <button type="submit" class="btn btn-perigo btn-sm">
                                 <i class="fas fa-trash"></i> Excluir

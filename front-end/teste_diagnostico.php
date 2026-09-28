@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
@@ -250,6 +251,10 @@ $diagnostico = "";
 
 // Processa o envio do formulário
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
+    // CSRF: sem isso, outro site poderia forçar o envio do teste
+    // diagnóstico em nome da vítima, alterando a patente dela.
+    csrf_exigir();
+
     $pontuacao = 0;
     $total_questoes = count($questoes);
     
@@ -626,6 +631,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
             
             <!-- Formulário do teste -->
             <form method="POST" action="">
+                <?= csrf_campo() ?>
                 <div class="progresso_teste">
                     <span><i class="fas fa-info-circle"></i> Responda todas as questões. Cada questão vale <strong>1 ponto</strong>.</span>
                 </div>

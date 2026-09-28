@@ -462,11 +462,11 @@ function openFinanceSincronizarUsuario(PDO $pdo, int $usuarioId): array
             'ultima_sincronizacao' => date('c'),
         ];
     } catch (Throwable $exception) {
+        error_log('[open-finance/pluggy-helper] ' . $exception->getMessage());
         return [
             'connected' => true,
             'sincronizado' => 0,
             'avisos' => ['Não foi possível sincronizar as transações agora. Os dados salvos anteriormente continuam disponíveis.'],
-            'erro_tecnico' => $exception->getMessage(),
         ];
     }
 }

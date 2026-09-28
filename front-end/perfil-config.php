@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 if (!isset($_SESSION['id'])) {
     header('Location: login.php');
     exit;

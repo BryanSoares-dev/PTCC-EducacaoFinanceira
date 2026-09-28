@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once '../back-end/conexao.php';
 require_once 'pluggy-helper.php';
 
@@ -12,6 +13,8 @@ if (!isset($_SESSION['id'])) {
     pluggyJsonResponse(['success' => false, 'error' => 'Usuário não autenticado.'], 401);
 }
 
+csrf_exigir_header();
+
 try {
     $resultado = openFinanceSincronizarUsuario($pdo, (int) $_SESSION['id']);
     pluggyJsonResponse([
@@ -21,9 +24,9 @@ try {
         'avisos' => $resultado['avisos'] ?? [],
     ]);
 } catch (Throwable $exception) {
+    tratar_erro_bd($exception, 'open-finance/sincronizar');
     pluggyJsonResponse([
         'success' => false,
         'error' => 'Não foi possível sincronizar a conta.',
-        'details' => $exception->getMessage(),
     ], 500);
 }

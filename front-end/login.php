@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -80,6 +84,8 @@
                 </div>
 
                 <form action="../back-end/processa_login.php" method="POST" class="login_form">
+
+                    <?= csrf_campo() ?>
 
                     <div class="input_group">
 

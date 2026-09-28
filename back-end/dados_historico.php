@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/seguranca.php';
+iniciar_sessao_segura();
 header('Content-Type: application/json; charset=utf-8');
 
 require_once 'conexao.php';
@@ -142,9 +143,9 @@ try {
         'meses' => $meses,
     ]);
 } catch (Throwable $exception) {
+    tratar_erro_bd($exception, 'dados_historico');
     historicoJson([
         'sucesso' => false,
         'mensagem' => 'Não foi possível carregar o histórico mensal.',
-        'detalhes' => $exception->getMessage(),
     ], 500);
 }

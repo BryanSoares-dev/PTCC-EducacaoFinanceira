@@ -1,6 +1,7 @@
 <?php
 
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 
 require_once '../back-end/conexao.php';
 
@@ -58,6 +59,7 @@ $tema = $usuario['tema'] ?? 'sistema';
 >
 
 <head>
+<meta name="csrf-token" content="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
 
     <meta charset="UTF-8">
 
@@ -737,7 +739,10 @@ async function sincronizarSeNecessario() {
         {
             method: 'POST',
             credentials: 'same-origin',
-            cache: 'no-store'
+            cache: 'no-store',
+            headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+            }
         }
     )
         .then(async resposta => {

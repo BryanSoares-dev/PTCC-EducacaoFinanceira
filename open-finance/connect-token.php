@@ -1,5 +1,6 @@
 <?php
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once 'pluggy-helper.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -9,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 if (!isset($_SESSION['id'])) {
     pluggyJsonResponse(['error' => 'Usuário não autenticado.'], 401);
 }
+
+csrf_exigir_header();
 
 $apiKey = pluggyAuth();
 if (!$apiKey) {

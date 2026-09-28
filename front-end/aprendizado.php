@@ -1,6 +1,7 @@
 <?php
 // Inclui a conexão com o caminho correto
-session_start();
+require_once __DIR__ . '/../back-end/seguranca.php';
+iniciar_sessao_segura();
 require_once("../back-end/conexao.php");
 
 if (!isset($_SESSION['id'])) {
@@ -22,6 +23,7 @@ $recursosLiberados = !empty($patenteAtual);
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <meta name="csrf-token" content="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área de Aprendizado</title>
@@ -563,7 +565,12 @@ $recursosLiberados = !empty($patenteAtual);
         if (botao) { botao.disabled = true; botao.classList.add('salvando-patente'); }
         try {
             var resposta = await fetch('../back-end/pular_teste.php', {
-                method: 'POST', headers: { 'Accept': 'application/json' }, credentials: 'same-origin'
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                },
+                credentials: 'same-origin'
             });
             var dados = await resposta.json();
             if (!resposta.ok || !dados.ok) throw new Error(dados.message || 'Falha ao salvar a patente.');
