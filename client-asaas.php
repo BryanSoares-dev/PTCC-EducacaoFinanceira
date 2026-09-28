@@ -1,6 +1,11 @@
 <?php
 
-$apiKey = 'SUA_CHAVE_SANDBOX';
+require_once __DIR__ . '/back-end/seguranca.php';
+
+// A chave da API nunca deve ficar hardcoded no código-fonte; ela agora
+// vem da variável de ambiente ASAAS_API_KEY (definida no .env). O valor
+// abaixo é apenas um placeholder de desenvolvimento, sem validade real.
+$apiKey = afdeConfig('ASAAS_API_KEY', 'SUA_CHAVE_SANDBOX');
 
 $url = 'https://api-sandbox.asaas.com/v3/customers';
 

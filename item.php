@@ -1,5 +1,6 @@
 <?php
-    session_start();
+    require_once __DIR__ . '/back-end/seguranca.php';
+    iniciar_sessao_segura();
     require_once "conexao.php"; // seu arquivo de conexão
 
     $body = json_decode(file_get_contents("php://input"), true);
