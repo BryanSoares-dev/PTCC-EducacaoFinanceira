@@ -1,39 +1,36 @@
 <?php
 
-require_once __DIR__ . '/back-end/seguranca.php';
+/**
+ * POST /client-asaas.php
+ * Corpo (JSON): { "nome": "...", "cpfCnpj": "...", "email": "..." }
+ * Cadastra o usuário logado como cliente no Asaas (uma única vez).
+ */
 
-// A chave da API nunca deve ficar hardcoded no código-fonte; ela agora
-// vem da variável de ambiente ASAAS_API_KEY (definida no .env). O valor
-// abaixo é apenas um placeholder de desenvolvimento, sem validade real.
-$apiKey = afdeConfig('ASAAS_API_KEY', 'SUA_CHAVE_SANDBOX');
+require_once 'asaas.php';
 
-$url = 'https://api-sandbox.asaas.com/v3/customers';
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    responderJson(405, ['erro' => 'Método não permitido.']);
+}
 
-$data = [
-    'name' => 'João da Silva',
-    'cpfCnpj' => '12345678900',
-    'email' => 'joao@email.com'
-];
+$usuarioId = usuarioLogadoId();
+$entrada   = lerEntrada();
 
-$ch = curl_init($url);
+$nome    = trim((string) ($entrada['nome'] ?? ''));
+$email   = trim((string) ($entrada['email'] ?? ''));
+$cpfCnpj = preg_replace('/\D/', '', (string) ($entrada['cpfCnpj'] ?? ''));
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
+if ($nome === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    responderJson(422, ['erro' => 'Informe nome e e-mail válidos.']);
+}
 
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    'User-Agent: AFDE/1.0',
-    'access_token: ' . $apiKey
-]);
+if (!in_array(strlen($cpfCnpj), [11, 14], true)) {
+    responderJson(422, ['erro' => 'CPF ou CNPJ inválido.']);
+}
 
-curl_setopt(
-    $ch,
-    CURLOPT_POSTFIELDS,
-    json_encode($data)
-);
-
-$response = curl_exec($ch);
-
-curl_close($ch);
-
-echo $response;
+try {
+    $customerId = garantirClienteAsaas($usuarioId, $nome, $cpfCnpj, $email);
+    responderJson(200, ['ok' => true, 'customerId' => $customerId]);
+} catch (Throwable $e) {
+    error_log('[client-asaas] ' . $e->getMessage());
+    responderJson(502, ['erro' => 'Não foi possível concluir o cadastro de pagamento. Tente novamente.']);
+}
