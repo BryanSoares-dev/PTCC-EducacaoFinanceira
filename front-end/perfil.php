@@ -58,11 +58,20 @@ $emailEscapado = htmlspecialchars($usuario['email'] ?? '', ENT_QUOTES, 'UTF-8');
 $telefoneEscapado = htmlspecialchars($usuario['telefone'] ?? '', ENT_QUOTES, 'UTF-8');
 $patenteAtual = trim((string) ($usuario['patente'] ?? ''));
 $patentes = [
-    'Ferro 1' => 0, 'Ferro 2' => 100, 'Ferro 3' => 250,
-    'Ouro 1' => 450, 'Ouro 2' => 700, 'Ouro 3' => 1000,
-    'Esmeralda 1' => 1400
+    'FERRO 1' => 0, 'FERRO 2' => 50, 'FERRO 3' => 150,
+    'OURO 1' => 300, 'OURO 2' => 500, 'OURO 3' => 750,
+    'PLATINA 1' => 1050, 'PLATINA 2' => 1450, 'PLATINA 3' => 1950, 'ESMERALDA' => 2550
 ];
-$patenteExibicao = $patenteAtual && isset($patentes[$patenteAtual]) ? $patenteAtual : 'Ferro 1';
+$patenteAtual = strtoupper($patenteAtual);
+$streakAtual = 0; $melhorStreak = 0;
+try {
+    $streakStmt = $pdo->prepare('SELECT streak, best_streak FROM arena_users WHERE user_id = ?');
+    $streakStmt->execute([$_SESSION['id']]);
+    $streakData = $streakStmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    $streakAtual = (int)($streakData['streak'] ?? 0);
+    $melhorStreak = (int)($streakData['best_streak'] ?? 0);
+} catch (Throwable $ignored) {}
+$patenteExibicao = $patenteAtual && isset($patentes[$patenteAtual]) ? $patenteAtual : 'FERRO 1';
 $xpAtual = max(0, (int) ($usuario['xp'] ?? 0));
 $patenteIndex = array_search($patenteExibicao, array_keys($patentes), true);
 $patenteIndex = $patenteIndex === false ? 0 : $patenteIndex;
@@ -91,9 +100,6 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
     <div class="shape shape1"></div><div class="shape shape2"></div><div class="shape shape3"></div>
 </div>
 <?php include_once 'navbar.php'; ?>
-
-<main class="perfil-page">
-
 
 <main class="perfil-page">
     <?php if (isset($_GET['status'])): ?>
@@ -147,6 +153,12 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
             <span style="width: <?= number_format($progressoXp, 2, '.', '') ?>%"></span>
         </div>
         <div class="perfil-xp-foot"><span><?= $xpNaPatente ?> / <?= $faixaXp ?> XP nesta patente</span><span><?= (int) round($progressoXp) ?>%</span></div>
+    </section>
+
+    <section class="perfil-streak-card" aria-label="Ofensiva diária">
+        <div class="perfil-streak-flame" aria-hidden="true">♨</div>
+        <div><span class="perfil-streak-eyebrow">OFENSIVA DIÁRIA</span><strong><?= $streakAtual ?> <?= $streakAtual === 1 ? 'dia' : 'dias' ?> de fogo</strong><small>Melhor sequência: <?= $melhorStreak ?> <?= $melhorStreak === 1 ? 'dia' : 'dias' ?></small></div>
+        <span class="perfil-streak-status"><?= $streakAtual > 0 ? 'FOGUINHO ACESO' : 'ACENDA NA ARENA' ?></span>
     </section>
 
     <section class="perfil_card">

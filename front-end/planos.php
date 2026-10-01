@@ -306,5 +306,6 @@ function preco_partes(float $v): array {
       return v.slice(0, 11).replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
     });
   </script>
+<script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>

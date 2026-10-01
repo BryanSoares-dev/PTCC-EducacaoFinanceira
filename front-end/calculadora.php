@@ -45,12 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <title>Dashboard Financeiro</title>
-  <link rel="stylesheet" href="../css/calculadora.css">
+  <link rel="stylesheet" href="../css/calculadora.css?v=2">
   <link rel="icon" type="image/png" href="../img/favicon.png">
     <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
 
 </head>
-<body>
+<body class="calculadora-page">
 
 <?php
 
@@ -162,4 +162,3 @@ include_once 'navbar.php';
     <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
-

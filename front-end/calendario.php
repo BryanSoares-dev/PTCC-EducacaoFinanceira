@@ -1189,7 +1189,7 @@ function atualizarTela(dados) {
 
                     <span>
 
-                        ${categoria}
+                        ${escaparCategoria(categoria)}
 
                     </span>
 

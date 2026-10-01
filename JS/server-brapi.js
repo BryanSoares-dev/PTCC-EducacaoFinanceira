@@ -53,6 +53,6 @@ app.get('/api/quote/:ticker', async (req, res) => {
 });
 
 const PORT = 3000;
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

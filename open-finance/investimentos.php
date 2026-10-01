@@ -35,7 +35,7 @@
 
     if ($resposta['code'] !== 200) {
         http_response_code($resposta['code']);
-        echo json_encode(['error' => 'Falha ao buscar investimentos', 'details' => $resposta['data']]);
+        echo json_encode(['error' => 'Falha ao buscar investimentos', 'details' => null]);
         exit;
     }
 

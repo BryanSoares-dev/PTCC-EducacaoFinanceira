@@ -19,228 +19,208 @@ try {
     // A coluna já existe ou será criada pela migration_xp.sql.
 }
 
-// Array com as questões e respostas corretas (índice 0-based)
+// Questões atuais: investimentos, gestão financeira e criptoativos.
 $questoes = [
-    // Q1
     [
-        'pergunta' => 'O que significa investir?',
+        'pergunta' => 'Qual é a primeira etapa antes de escolher um investimento?',
         'alternativas' => [
-            'A) Guardar dinheiro sem possibilidade de perda',
-            'B) Colocar dinheiro em algum ativo buscando obter retorno no futuro',
-            'C) Gastar dinheiro para aumentar o patrimônio',
-            'D) Guardar dinheiro exclusivamente em uma conta corrente'
-        ],
-        'correta' => 1
-    ],
-    // Q2
-    [
-        'pergunta' => 'Qual é a principal diferença entre poupar e investir?',
-        'alternativas' => [
-            'A) Poupar envolve guardar dinheiro, enquanto investir busca fazê-lo render',
-            'B) Investir nunca envolve riscos',
-            'C) Poupar sempre gera mais retorno que investir',
-            'D) Não existe diferença entre os dois conceitos'
+            'Definir objetivo, prazo e tolerância a risco',
+            'Seguir a indicação mais comentada',
+            'Escolher sempre o ativo que mais subiu',
+            'Investir sem montar orçamento',
         ],
         'correta' => 0
     ],
-    // Q3
     [
-        'pergunta' => 'Se uma pessoa deixa R$ 1.000 parados durante um ano enquanto os preços aumentam 5%, o que pode acontecer?',
+        'pergunta' => 'Qual atitude ajuda a montar uma reserva de emergência?',
         'alternativas' => [
-            'A) O dinheiro necessariamente passa a valer R$ 1.050',
-            'B) O poder de compra do dinheiro pode diminuir',
-            'C) O dinheiro perde exatamente 5% do seu valor nominal',
-            'D) O dinheiro automaticamente rende 5%'
-        ],
-        'correta' => 1
-    ],
-    // Q4
-    [
-        'pergunta' => 'O que é inflação?',
-        'alternativas' => [
-            'A) Aumento generalizado dos preços ao longo do tempo',
-            'B) Redução dos juros cobrados pelos bancos',
-            'C) Aumento do salário médio da população',
-            'D) Crescimento da quantidade de investimentos disponíveis'
+            'Usar ativos de alta liquidez e baixo risco',
+            'Concentrar tudo em criptomoedas',
+            'Escolher apenas ativos sem resgate',
+            'Investir somente em ações',
         ],
         'correta' => 0
     ],
-    // Q5
     [
-        'pergunta' => 'Uma pessoa investiu R$ 1.000 e, após determinado período, possui R$ 1.100. Qual foi a rentabilidade nominal?',
+        'pergunta' => 'O que é diversificação de carteira?',
         'alternativas' => [
-            'A) 1%',
-            'B) 5%',
-            'C) 10%',
-            'D) 11%'
-        ],
-        'correta' => 2
-    ],
-    // Q6
-    [
-        'pergunta' => 'O que representa o risco de um investimento?',
-        'alternativas' => [
-            'A) A possibilidade de o investimento apresentar um resultado diferente do esperado',
-            'B) A certeza de perder dinheiro',
-            'C) O valor mínimo necessário para investir',
-            'D) A quantidade de dinheiro que o investidor possui'
+            'Distribuir recursos entre ativos e classes diferentes',
+            'Comprar o mesmo ativo em várias corretoras',
+            'Colocar tudo no investimento mais rentável',
+            'Manter todo o dinheiro parado',
         ],
         'correta' => 0
     ],
-    // Q7
     [
-        'pergunta' => 'Qual investimento tende a apresentar maior oscilação de preço no curto prazo?',
+        'pergunta' => 'Se a inflação sobe e o dinheiro fica parado, o que pode ocorrer?',
         'alternativas' => [
-            'A) Ações',
-            'B) Dinheiro parado em conta corrente',
-            'C) Título de renda fixa com remuneração previamente definida',
-            'D) Reserva em espécie'
+            'O poder de compra pode diminuir',
+            'O saldo nominal aumenta sozinho',
+            'O dinheiro passa a render automaticamente',
+            'O risco desaparece',
         ],
         'correta' => 0
     ],
-    // Q8
     [
-        'pergunta' => 'O que significa diversificar uma carteira de investimentos?',
+        'pergunta' => 'O que representa a liquidez de um investimento?',
         'alternativas' => [
-            'A) Colocar todo o dinheiro no investimento mais rentável',
-            'B) Distribuir o dinheiro entre diferentes investimentos e/ou classes de ativos',
-            'C) Investir somente em empresas grandes',
-            'D) Comprar o mesmo ativo em diferentes bancos'
-        ],
-        'correta' => 1
-    ],
-    // Q9
-    [
-        'pergunta' => 'Por que a diversificação pode ser importante?',
-        'alternativas' => [
-            'A) Porque elimina completamente o risco',
-            'B) Porque garante lucro em qualquer situação',
-            'C) Porque pode reduzir a exposição da carteira aos problemas de um único investimento',
-            'D) Porque sempre aumenta a rentabilidade'
-        ],
-        'correta' => 2
-    ],
-    // Q10
-    [
-        'pergunta' => 'Uma pessoa pretende investir um dinheiro que poderá precisar daqui a duas semanas. Qual característica deveria receber bastante atenção?',
-        'alternativas' => [
-            'A) Liquidez',
-            'B) Volatilidade histórica da bolsa',
-            'C) Dividendos',
-            'D) Crescimento da empresa'
+            'A facilidade e a rapidez para transformar o ativo em dinheiro',
+            'A garantia de lucro diário',
+            'O tamanho da empresa emissora',
+            'A quantidade de dividendos',
         ],
         'correta' => 0
     ],
-    // Q11
     [
-        'pergunta' => 'O que significa liquidez em um investimento?',
+        'pergunta' => 'Qual é uma diferença importante entre rentabilidade nominal e real?',
         'alternativas' => [
-            'A) A capacidade de transformar o investimento em dinheiro com facilidade e rapidez',
-            'B) A possibilidade de ganhar dinheiro todos os dias',
-            'C) O percentual de imposto pago sobre o investimento',
-            'D) O tamanho da instituição financeira responsável pelo investimento'
+            'A real considera o efeito da inflação',
+            'A nominal sempre é menor',
+            'A real ignora custos e inflação',
+            'Não existe diferença',
         ],
         'correta' => 0
     ],
-    // Q12
     [
-        'pergunta' => 'Dois investimentos apresentam a mesma rentabilidade nominal de 10% ao ano. Se a inflação do período foi de 6%, o investidor:',
+        'pergunta' => 'O que é volatilidade?',
         'alternativas' => [
-            'A) Necessariamente perdeu dinheiro',
-            'B) Teve ganho real positivo, aproximadamente',
-            'C) Teve ganho real exatamente de 10%',
-            'D) Teve ganho real exatamente de 16%'
-        ],
-        'correta' => 1
-    ],
-    // Q13
-    [
-        'pergunta' => 'Qual alternativa representa melhor a relação entre risco e retorno?',
-        'alternativas' => [
-            'A) Quanto maior o retorno, menor será sempre o risco',
-            'B) Investimentos de maior risco podem oferecer maior potencial de retorno, mas não há garantia',
-            'C) Todo investimento de alto risco obrigatoriamente dará mais lucro',
-            'D) Risco e retorno não possuem nenhuma relação'
-        ],
-        'correta' => 1
-    ],
-    // Q14
-    [
-        'pergunta' => 'Uma pessoa possui uma reserva financeira para emergências. Qual característica é especialmente importante para esse dinheiro?',
-        'alternativas' => [
-            'A) Alta liquidez e baixo risco',
-            'B) Alta volatilidade',
-            'C) Baixa liquidez e alto risco',
-            'D) Investimento exclusivamente em ações'
+            'A intensidade das oscilações de preço de um ativo',
+            'A certeza de receber juros',
+            'O prazo de vencimento de uma conta',
+            'A taxa de câmbio fixa',
         ],
         'correta' => 0
     ],
-    // Q15
     [
-        'pergunta' => 'Um investimento apresentou os seguintes resultados: Ano 1: +20%, Ano 2: -20%. Qual afirmação é correta?',
+        'pergunta' => 'Sobre criptomoedas, qual afirmação é mais responsável?',
         'alternativas' => [
-            'A) O investidor terminou exatamente com o mesmo valor inicial',
-            'B) O investidor terminou com 4% a menos que o valor inicial',
-            'C) O investidor ganhou 40% no período',
-            'D) O investidor perdeu 20% no total'
-        ],
-        'correta' => 1
-    ],
-    // Q16
-    [
-        'pergunta' => 'Uma pessoa recebeu uma recomendação para investir todo o seu dinheiro em uma única ação porque "essa empresa vai subir com certeza". Qual é o principal problema dessa estratégia?',
-        'alternativas' => [
-            'A) Ações não podem gerar retorno',
-            'B) Existe concentração de risco e não há garantia de valorização',
-            'C) Investimentos devem sempre ser feitos em dinheiro físico',
-            'D) Uma ação só pode ser comprada por empresas'
-        ],
-        'correta' => 1
-    ],
-    // Q17
-    [
-        'pergunta' => 'Qual situação demonstra melhor uma decisão de investimento coerente?',
-        'alternativas' => [
-            'A) Escolher um investimento apenas porque um influenciador afirmou que ele vai subir',
-            'B) Escolher um investimento considerando objetivo, prazo, liquidez, risco e potencial de retorno',
-            'C) Escolher sempre o investimento com a maior rentabilidade passada',
-            'D) Escolher o investimento que promete lucro garantido acima de todos os outros'
-        ],
-        'correta' => 1
-    ],
-    // Q18
-    [
-        'pergunta' => 'Uma pessoa investe R$ 5.000 e recebe R$ 500 de rendimento. Durante o mesmo período, a inflação foi de 8%. Considerando apenas essas informações, qual afirmação é mais adequada?',
-        'alternativas' => [
-            'A) A rentabilidade nominal foi de 10%, e a rentabilidade real foi menor que 10%',
-            'B) A rentabilidade real foi exatamente 10%',
-            'C) A inflação não influencia o resultado do investimento',
-            'D) A rentabilidade nominal foi de 8%'
+            'Podem ter alta volatilidade e exigem gestão de risco',
+            'São sempre protegidas pelo FGC',
+            'Não sofrem oscilações',
+            'Garantem retorno positivo',
         ],
         'correta' => 0
     ],
-    // Q19
     [
-        'pergunta' => 'João possui dois investimentos: Investimento A: baixo risco, alta liquidez e retorno esperado menor. Investimento B: maior risco, menor liquidez e retorno esperado maior. João pretende usar o dinheiro daqui a três meses para uma despesa importante. Qual alternativa demonstra melhor compreensão sobre investimentos?',
+        'pergunta' => 'O que é uma stablecoin?',
         'alternativas' => [
-            'A) B é melhor porque sempre devemos buscar o maior retorno',
-            'B) A pode ser mais adequado devido ao curto prazo e à necessidade de acesso ao dinheiro',
-            'C) B é melhor porque investimentos de maior risco sempre compensam',
-            'D) Os dois são necessariamente equivalentes'
+            'Um criptoativo projetado para acompanhar o valor de uma referência',
+            'Uma ação de empresa estatal',
+            'Um título público brasileiro',
+            'Uma moeda sem qualquer risco',
         ],
-        'correta' => 1
+        'correta' => 0
     ],
-    // Q20
     [
-        'pergunta' => 'Maria possui uma carteira diversificada e está pensando em trocar todos os seus investimentos por um único ativo que apresentou grande valorização recentemente. Qual seria a análise mais adequada?',
+        'pergunta' => 'Por que não se deve compartilhar a chave privada de uma carteira cripto?',
         'alternativas' => [
-            'A) Fazer a troca, pois rentabilidade passada garante rentabilidade futura',
-            'B) Fazer a troca, pois diversificação reduz a rentabilidade',
-            'C) Avaliar novamente seus objetivos, prazo, risco, liquidez e diversificação antes de tomar a decisão',
-            'D) Evitar qualquer investimento que tenha apresentado valorização'
+            'Quem a possui pode controlar os ativos',
+            'Ela serve apenas para receber promoções',
+            'Ela reduz a inflação',
+            'Ela garante lucro',
         ],
-        'correta' => 2
-    ]
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'Qual é um risco de deixar toda a carteira em um único ativo?',
+        'alternativas' => [
+            'A concentração aumenta o impacto de um problema nesse ativo',
+            'A liquidez sempre melhora',
+            'O risco é eliminado',
+            'A rentabilidade fica garantida',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'O que é custo de oportunidade?',
+        'alternativas' => [
+            'O benefício que poderia ser obtido com uma alternativa escolhida em vez de outra',
+            'Uma tarifa obrigatória da bolsa',
+            'O imposto pago em toda compra',
+            'A taxa fixa de uma poupança',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'Ao comparar um CDB, qual item deve ser analisado além da taxa?',
+        'alternativas' => [
+            'Liquidez, prazo, emissor e cobertura aplicável',
+            'A cor do aplicativo',
+            'A quantidade de propagandas',
+            'Somente o nome do banco',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'O que caracteriza uma dívida saudável no orçamento?',
+        'alternativas' => [
+            'Parcela compatível com a renda e finalidade planejada',
+            'Qualquer parcela que caiba no primeiro mês',
+            'Empréstimo sem comparar juros',
+            'Usar crédito para pagar todas as despesas',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'Qual prática melhora a gestão financeira mensal?',
+        'alternativas' => [
+            'Registrar receitas, despesas e metas',
+            'Ignorar gastos pequenos',
+            'Misturar dinheiro pessoal e crédito sem controle',
+            'Investir antes de pagar contas essenciais',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'O que significa rebalancear uma carteira?',
+        'alternativas' => [
+            'Ajustar os pesos dos ativos para voltar ao plano definido',
+            'Trocar todo investimento por cripto',
+            'Vender sempre quando houver queda',
+            'Comprar apenas o ativo mais caro',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'Uma ação caiu 20% em um dia. Qual reação é mais prudente?',
+        'alternativas' => [
+            'Reavaliar fundamentos, objetivo e risco antes de decidir',
+            'Vender tudo por impulso',
+            'Comprar com todo o patrimônio',
+            'Assumir que irá subir com certeza',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'O que são juros compostos?',
+        'alternativas' => [
+            'Rendimentos que também passam a render ao longo do tempo',
+            'Juros cobrados apenas uma vez',
+            'Uma taxa sem relação com prazo',
+            'Um desconto de corretagem',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'Qual é uma boa prática de segurança para investimentos digitais?',
+        'alternativas' => [
+            'Usar autenticação forte e desconfiar de promessas de lucro garantido',
+            'Enviar senhas por mensagem',
+            'Usar a mesma senha em todos os serviços',
+            'Clicar em qualquer link de suporte',
+        ],
+        'correta' => 0
+    ],
+    [
+        'pergunta' => 'Por que rentabilidade passada não garante resultado futuro?',
+        'alternativas' => [
+            'Mercados mudam e os resultados dependem de riscos e condições futuras',
+            'Porque todo investimento perde dinheiro',
+            'Porque gráficos são sempre falsos',
+            'Porque apenas a inflação importa',
+        ],
+        'correta' => 0
+    ],
 ];
 
 // Variáveis para controle do teste
@@ -265,28 +245,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
         }
     }
     
-    // Define a patente baseada na pontuação
-    if ($pontuacao <= 2) {
-        $patente = "Ferro 1";
-        $diagnostico = "Conhecimento muito inicial";
-    } elseif ($pontuacao <= 4) {
-        $patente = "Ferro 2";
-        $diagnostico = "Reconhece alguns conceitos básicos";
-    } elseif ($pontuacao <= 6) {
-        $patente = "Ferro 3";
-        $diagnostico = "Possui noções básicas de investimentos";
-    } elseif ($pontuacao <= 8) {
-        $patente = "Ouro 1";
-        $diagnostico = "Compreende conceitos fundamentais";
-    } elseif ($pontuacao <= 10) {
-        $patente = "Ouro 2";
-        $diagnostico = "Demonstra conhecimento básico consistente";
-    } elseif ($pontuacao <= 12) {
-        $patente = "Ouro 3";
-        $diagnostico = "Já compreende risco, retorno e planejamento";
+    // O diagnóstico libera no máximo Ouro 1; o restante da progressão ocorre na Arena.
+    if ($pontuacao <= 4) {
+        $patente = "FERRO 1";
+        $diagnostico = "Você está começando: vamos construir uma base financeira segura.";
+        $xpInicial = 0;
+    } elseif ($pontuacao <= 9) {
+        $patente = "FERRO 2";
+        $diagnostico = "Você já reconhece conceitos importantes e pode evoluir com prática.";
+        $xpInicial = 50;
+    } elseif ($pontuacao <= 14) {
+        $patente = "FERRO 3";
+        $diagnostico = "Você tem uma boa base para estudar carteira, risco e planejamento.";
+        $xpInicial = 150;
     } else {
-        $patente = "Esmeralda 1";
-        $diagnostico = "Conhecimento intermediário";
+        $patente = "OURO 1";
+        $diagnostico = "Você demonstrou domínio dos fundamentos. Continue praticando com responsabilidade.";
+        $xpInicial = 300;
     }
     
     // Salva o resultado no banco (opcional)
@@ -300,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
     }
 
     $stmtPatente = $pdo->prepare("UPDATE usuarios SET patente = ?, xp = GREATEST(COALESCE(xp, 0), ?) WHERE id = ?");
-    $stmtPatente->execute([$patente, $pontuacao * 10, $_SESSION['id']]);
+    $stmtPatente->execute([$patente, $xpInicial, $_SESSION['id']]);
     
     $teste_finalizado = true;
 }
@@ -602,9 +577,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
         }
     </style>
     <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/diagnostico.css?v=1">
 
 </head>
-<body>
+<body class="diagnostico-page">
 
 <?php include_once 'navbar.php'; ?>
 
@@ -661,9 +637,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
             <!-- Resultado -->
             <div class="resultado_box">
                 <div class="resultado_icone">
-                    <?php if ($pontuacao <= 6): ?>
+                    <?php if ($pontuacao <= 4): ?>
                         <i class="fas fa-graduation-cap" style="color: #FF4757;"></i>
-                    <?php elseif ($pontuacao <= 12): ?>
+                    <?php elseif ($pontuacao <= 14): ?>
                         <i class="fas fa-graduation-cap" style="color: #FFA502;"></i>
                     <?php else: ?>
                         <i class="fas fa-graduation-cap" style="color: #16E28A;"></i>

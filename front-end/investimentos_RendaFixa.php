@@ -2,8 +2,6 @@
 require_once __DIR__ . '/../back-end/seguranca.php';
 iniciar_sessao_segura();
 require_once("../back-end/conexao.php");
-include_once'../front-end/navbar.php';
-
 if (!isset($_SESSION['id'])) {
     header("Location: ../front-end/login.php");
     exit();
@@ -15,12 +13,13 @@ if (!isset($_SESSION['id'])) {
     <meta charset="UTF-8">
     <title>Dashboard Financeiro</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/investimentos.css">
+    <link rel="stylesheet" href="../css/investimentos.css?v=2">
     <link rel="icon" type="image/png" href="../img/favicon.png">
     <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
 
 </head>
-<body>
+<body class="renda-fixa-page">
+<?php include_once 'navbar.php'; ?>
 
 <main>
 
@@ -120,7 +119,7 @@ if (!isset($_SESSION['id'])) {
         <div class="tipos_grid_fixa">
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/tesouro-direto.png" alt="Tesouro Direto">
+                    <span class="tipo_icon_glyph" aria-hidden="true">⌂</span>
                 </div>
                 <h3>Tesouro Direto</h3>
                 <p class="tipo_desc_fixa">Títulos públicos federais. O investimento mais seguro do Brasil.</p>
@@ -134,7 +133,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/cdb.png" alt="CDB">
+                    <span class="tipo_icon_glyph" aria-hidden="true">▣</span>
                 </div>
                 <h3>CDB</h3>
                 <p class="tipo_desc_fixa">Certificado de Depósito Bancário. Empreste para bancos.</p>
@@ -148,7 +147,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/lci-lca.png" alt="LCI/LCA">
+                    <span class="tipo_icon_glyph" aria-hidden="true">⌘</span>
                 </div>
                 <h3>LCI / LCA</h3>
                 <p class="tipo_desc_fixa">Letras de Crédito. Isentas de Imposto de Renda.</p>
@@ -162,7 +161,7 @@ if (!isset($_SESSION['id'])) {
 
             <div class="tipo_card_fixa">
                 <div class="tipo_icon_fixa">
-                    <img src="img/debentures.png" alt="Debêntures">
+                    <span class="tipo_icon_glyph" aria-hidden="true">▤</span>
                 </div>
                 <h3>Debêntures</h3>
                 <p class="tipo_desc_fixa">Títulos de dívida de empresas. Maior rentabilidade.</p>
@@ -303,4 +302,3 @@ if (!isset($_SESSION['id'])) {
     <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
-

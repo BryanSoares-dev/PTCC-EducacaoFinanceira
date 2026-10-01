@@ -21,6 +21,8 @@ $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] 
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/exercicios-arena.css?v=1">
     <link rel="icon" type="image/png" href="../img/favicon.png">
 
     <style>
@@ -1521,106 +1523,16 @@ const exerciciosPorModulo = {
 
 /* BANCO DE QUESTÕES ESTILO DUOLINGO PARA O MODAL */
 const questoesDuolingo = [
-    {
-        pergunta: "1. O que acontece com o preço de um título de Renda Fixa pré-fixado quando a taxa de juros do mercado sobe?",
-        opcoes: [
-            "O preço do título diminui (Marcação a Mercado)",
-            "O preço do título aumenta na mesma proporção",
-            "O rendimento é cancelado pelo Banco Central",
-            "Não há nenhum impacto no valor do título"
-        ],
-        correta: 0
-    },
-    {
-        pergunta: "2. Qual desses ativos é considerado de maior risco e volatilidade?",
-        opcoes: [
-            "Tesouro SELIC",
-            "CDB de grande banco com FGC",
-            "Ações de Small Caps",
-            "Título Público Pós-fixado"
-        ],
-        correta: 2
-    },
-    {
-        pergunta: "3. O Fundo Garantidor de Crédito (FGC) garante investimentos em CDB até qual limite por CPF e instituição?",
-        opcoes: [
-            "R$ 100.000",
-            "R$ 250.000",
-            "R$ 500.000",
-            "Garantia ilimitada"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "4. Na Análise Técnica, o que indica um padrão de Candlestick conhecido como 'Martelo' no fundo de uma tendência?",
-        opcoes: [
-            "Forte sinal de continuação da queda",
-            "Possível reversão para tendência de alta",
-            "Estagnação indefinida do mercado",
-            "Necessidade de venda imediata"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "5. O indicador P/L (Preço sobre Lucro) de uma ação indica:",
-        opcoes: [
-            "A porcentagem de dividendos pagos ao ano",
-            "O tempo em anos para reaver o capital investido através dos lucros",
-            "O valor patrimonial da empresa na bolsa",
-            "O faturamento bruto da companhia"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "6. O que representa uma opção do tipo 'CALL' no mercado financeiro?",
-        opcoes: [
-            "O dever de vender uma ação no futuro",
-            "O direito de comprar uma ação por um preço determinado",
-            "O direito de vender uma ação por qualquer valor",
-            "Um empréstimo garantido por ações"
-        ],
-        correta: 1
-    },
-    {
-        pergunta: "7. O que é a diversificação de carteira segundo a teoria moderna das finanças?",
-        opcoes: [
-            "Comprar 10 ações do mesmo setor elétrico",
-            "Investir todo o capital no ativo de maior rendimento recente",
-            "Alocar recursos em diferentes classes de ativos desalinhados entre si",
-            "Manter todo o dinheiro em poupança"
-        ],
-        correta: 2
-    },
-    {
-        pergunta: "8. Qual a principal característica do Tesouro IPCA+?",
-        opcoes: [
-            "Protege contra a inflação garantindo ganho real acima do IPCA",
-            "Paga uma taxa fixa sem correção inflacionária",
-            "Acompanha exatamente a oscilação do Dólar",
-            "É isento de Imposto de Renda"
-        ],
-        correta: 0
-    },
-    {
-        pergunta: "9. Em relação aos Fundos Imobiliários (FIIs), qual é a periodicidade comum do pagamento de rendimentos aos cotistas?",
-        opcoes: [
-            "Anual",
-            "Trimestral",
-            "Mensal",
-            "Apenas no resgate das cotas"
-        ],
-        correta: 2
-    },
-    {
-        pergunta: "10. O que significa o conceito de Liquidez em um investimento?",
-        opcoes: [
-            "A capacidade do ativo gerar dividendos elevados",
-            "A rapidez com que se consegue converter o investimento em dinheiro sem grande perda de valor",
-            "A garantia do FGC no caso de falência",
-            "A isenção total de taxas operacionais"
-        ],
-        correta: 1
-    }
+    { pergunta: 'Qual é a primeira etapa antes de escolher um investimento?', opcoes: ['Definir objetivo, prazo e tolerância a risco', 'Seguir a indicação mais comentada', 'Escolher sempre o ativo que mais subiu', 'Investir sem montar orçamento'], correta: 0 },
+    { pergunta: 'Qual atitude ajuda a montar uma reserva de emergência?', opcoes: ['Usar ativos de alta liquidez e baixo risco', 'Concentrar tudo em criptomoedas', 'Escolher apenas ativos sem resgate', 'Investir somente em ações'], correta: 0 },
+    { pergunta: 'O que é diversificação de carteira?', opcoes: ['Distribuir recursos entre ativos e classes diferentes', 'Comprar o mesmo ativo em várias corretoras', 'Colocar tudo no investimento mais rentável', 'Manter todo o dinheiro parado'], correta: 0 },
+    { pergunta: 'Se a inflação sobe e o dinheiro fica parado, o que pode ocorrer?', opcoes: ['O poder de compra pode diminuir', 'O saldo nominal aumenta sozinho', 'O dinheiro passa a render automaticamente', 'O risco desaparece'], correta: 0 },
+    { pergunta: 'O que representa a liquidez de um investimento?', opcoes: ['A facilidade e a rapidez para transformar o ativo em dinheiro', 'A garantia de lucro diário', 'O tamanho da empresa emissora', 'A quantidade de dividendos'], correta: 0 },
+    { pergunta: 'Qual é uma diferença importante entre rentabilidade nominal e real?', opcoes: ['A real considera o efeito da inflação', 'A nominal sempre é menor', 'A real ignora custos e inflação', 'Não existe diferença'], correta: 0 },
+    { pergunta: 'O que é volatilidade?', opcoes: ['A intensidade das oscilações de preço de um ativo', 'A certeza de receber juros', 'O prazo de vencimento de uma conta', 'A taxa de câmbio fixa'], correta: 0 },
+    { pergunta: 'Sobre criptomoedas, qual afirmação é mais responsável?', opcoes: ['Podem ter alta volatilidade e exigem gestão de risco', 'São sempre protegidas pelo FGC', 'Não sofrem oscilações', 'Garantem retorno positivo'], correta: 0 },
+    { pergunta: 'O que é uma stablecoin?', opcoes: ['Um criptoativo projetado para acompanhar o valor de uma referência', 'Uma ação de empresa estatal', 'Um título público brasileiro', 'Uma moeda sem qualquer risco'], correta: 0 },
+    { pergunta: 'Por que não se deve compartilhar a chave privada de uma carteira cripto?', opcoes: ['Quem a possui pode controlar os ativos', 'Ela serve apenas para receber promoções', 'Ela reduz a inflação', 'Ela garante lucro'], correta: 0 }
 ];
 
 /* ================================================================

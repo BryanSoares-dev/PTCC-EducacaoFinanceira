@@ -274,7 +274,9 @@ if (isset($_SESSION['id'])) {
 
             <?php
 
-            $usuario = array_merge($_SESSION['usuario'] ?? [], $dadosTipo ?? []);
+            $sessaoUsuario = $_SESSION['usuario'] ?? [];
+            $tipoUsuario = $dadosTipo ?? [];
+            $usuario = array_merge(is_array($sessaoUsuario) ? $sessaoUsuario : [], is_array($tipoUsuario) ? $tipoUsuario : []);
 
 
             /* NOME */
