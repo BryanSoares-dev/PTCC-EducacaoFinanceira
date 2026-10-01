@@ -68,10 +68,10 @@ if (!hash_equals($novaSenha, $confirmarSenha)) {
 }
 
 // Exige um tamanho mínimo para a nova senha, mesma regra do cadastro.
-if (strlen($novaSenha) < 8) {
+if (strlen($novaSenha) < 8 || strlen($novaSenha) > 128) {
     echo "
     <script>
-        alert('A nova senha deve ter pelo menos 8 caracteres.');
+        alert('A nova senha deve ter entre 8 e 128 caracteres.');
         window.location='../front-end/perfil.php';
     </script>
     ";

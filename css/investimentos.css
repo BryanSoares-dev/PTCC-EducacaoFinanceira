@@ -2733,3 +2733,216 @@ html.escuro .taxa_info {
     }
 }
 
+
+
+/* ============================================================
+   AFDE / Liquid Glass — Renda Fixa padronizada
+   Override scoped: não altera as outras páginas de investimentos.
+============================================================ */
+body.renda-fixa-page {
+    overflow-x: hidden;
+    background:
+        radial-gradient(ellipse at 12% 8%, rgba(93,139,255,.22), transparent 32%),
+        radial-gradient(ellipse at 88% 18%, rgba(55,229,177,.15), transparent 31%),
+        radial-gradient(ellipse at 52% 112%, rgba(151,94,255,.15), transparent 34%),
+        linear-gradient(135deg, #070b16, #101a32) !important;
+    color: #f6f9ff;
+}
+body.renda-fixa-page main { background: transparent !important; }
+body.renda-fixa-page .hero_fixa {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 72px 20px 80px;
+    background: transparent !important;
+}
+body.renda-fixa-page .hero_fixa::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+        radial-gradient(circle at 78% 34%, rgba(55,229,177,.18), transparent 24%),
+        linear-gradient(135deg, rgba(7,11,22,.82), rgba(16,26,50,.72));
+    pointer-events: none;
+}
+body.renda-fixa-page .hero_fixa_container {
+    max-width: 1160px;
+    min-height: 430px;
+    gap: clamp(30px, 6vw, 90px);
+    padding: 42px clamp(24px, 5vw, 64px);
+    border: 1px solid rgba(225,239,255,.20);
+    border-radius: 28px;
+    background: linear-gradient(145deg, rgba(26,40,72,.78), rgba(20,31,57,.52));
+    box-shadow: 0 24px 80px rgba(0,0,0,.30), inset 0 1px rgba(255,255,255,.12);
+    backdrop-filter: blur(26px) saturate(165%);
+    -webkit-backdrop-filter: blur(26px) saturate(165%);
+}
+body.renda-fixa-page .tag_fixa {
+    display: inline-flex;
+    padding: 9px 16px;
+    border: 1px solid rgba(105,232,187,.38);
+    border-radius: 999px;
+    background: rgba(105,232,187,.11);
+    color: #69e8bb !important;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+body.renda-fixa-page .hero_fixa h1 {
+    color: #f6f9ff !important;
+    font-size: clamp(2.35rem, 5vw, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -.055em;
+}
+body.renda-fixa-page .hero_fixa h1 .destaque,
+body.renda-fixa-page .destaque { color: #69e8bb !important; }
+body.renda-fixa-page .hero_fixa p { color: rgba(227,235,255,.68) !important; line-height: 1.75; }
+body.renda-fixa-page .hero_fixa_buttons button,
+body.renda-fixa-page .btn_cta,
+body.renda-fixa-page .btn_cta_sec {
+    border-radius: 14px;
+    border: 1px solid rgba(225,239,255,.22);
+    box-shadow: 0 12px 28px rgba(0,0,0,.20), inset 0 1px rgba(255,255,255,.18);
+}
+body.renda-fixa-page .btn_fixa_primary,
+body.renda-fixa-page .btn_cta {
+    background: linear-gradient(135deg, #69e8bb, #78a9ff) !important;
+    color: #071522 !important;
+}
+body.renda-fixa-page .btn_fixa_secondary,
+body.renda-fixa-page .btn_cta_sec {
+    background: rgba(255,255,255,.07) !important;
+    color: #f6f9ff !important;
+}
+body.renda-fixa-page .hero_fixa_card {
+    border: 1px solid rgba(225,239,255,.18);
+    border-radius: 24px;
+    background: rgba(2,10,25,.28) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.10), 0 18px 45px rgba(0,0,0,.20);
+    backdrop-filter: blur(18px);
+}
+body.renda-fixa-page .card_fixa_info { gap: 16px; }
+body.renda-fixa-page .taxa_info {
+    border: 1px solid rgba(225,239,255,.16);
+    border-radius: 17px;
+    background: rgba(255,255,255,.07) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.10);
+}
+body.renda-fixa-page .taxa_info span,
+body.renda-fixa-page .taxa_info small { color: rgba(227,235,255,.60) !important; }
+body.renda-fixa-page .taxa_info h3 { color: #69e8bb !important; }
+
+body.renda-fixa-page .o_que_e,
+body.renda-fixa-page .como_funciona_fixa,
+body.renda-fixa-page .tipos_fixa,
+body.renda-fixa-page .prós_contrass,
+body.renda-fixa-page .exemplo_container {
+    background: transparent !important;
+    color: #f6f9ff;
+}
+body.renda-fixa-page .o_que_e,
+body.renda-fixa-page .como_funciona_fixa,
+body.renda-fixa-page .tipos_fixa,
+body.renda-fixa-page .prós_contrass,
+body.renda-fixa-page .dicas_praticas,
+body.renda-fixa-page .exemplo_container { padding-top: 82px; padding-bottom: 82px; }
+body.renda-fixa-page .section_title h2,
+body.renda-fixa-page .section_title h2 .destaque { color: #f6f9ff !important; }
+body.renda-fixa-page .section_title h2 .destaque { color: #69e8bb !important; }
+body.renda-fixa-page .section_title p,
+body.renda-fixa-page .explicacao_texto p,
+body.renda-fixa-page .step_fixa p,
+body.renda-fixa-page .tipo_desc_fixa,
+body.renda-fixa-page .exemplo_nota { color: rgba(227,235,255,.66) !important; }
+body.renda-fixa-page .explicacao_container,
+body.renda-fixa-page .step_fixa,
+body.renda-fixa-page .tipo_card_fixa,
+body.renda-fixa-page .vantagens_box,
+body.renda-fixa-page .desvantagens_box,
+body.renda-fixa-page .exemplo_box {
+    border: 1px solid rgba(225,239,255,.18);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(26,40,72,.68), rgba(20,31,57,.48)) !important;
+    box-shadow: 0 18px 55px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.10);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+}
+body.renda-fixa-page .explicacao_container { padding: 38px; }
+body.renda-fixa-page .explicacao_texto strong,
+body.renda-fixa-page .step_fixa h3,
+body.renda-fixa-page .tipo_card_fixa h3,
+body.renda-fixa-page .dica_content h3 { color: #f6f9ff !important; }
+body.renda-fixa-page .destaque_box {
+    border: 1px solid rgba(105,232,187,.28);
+    border-left: 3px solid #69e8bb;
+    border-radius: 15px;
+    background: rgba(105,232,187,.08) !important;
+}
+body.renda-fixa-page .icon_circle,
+body.renda-fixa-page .tipo_icon_fixa,
+body.renda-fixa-page .step_num,
+body.renda-fixa-page .dica_num {
+    background: linear-gradient(135deg, rgba(105,232,187,.22), rgba(120,169,255,.18)) !important;
+    border-color: rgba(105,232,187,.42) !important;
+    color: #69e8bb !important;
+}
+body.renda-fixa-page .tipo_vantagens_fixa span {
+    border: 1px solid rgba(105,232,187,.22);
+    background: rgba(105,232,187,.08) !important;
+    color: #b8f8df !important;
+}
+body.renda-fixa-page .tipo_rentabilidade_fixa { color: rgba(227,235,255,.78) !important; border-color: rgba(225,239,255,.14); }
+body.renda-fixa-page .dicas_praticas {
+    background: linear-gradient(135deg, rgba(7,11,22,.76), rgba(16,26,50,.72)) !important;
+}
+body.renda-fixa-page .dica_item {
+    border-color: rgba(225,239,255,.16) !important;
+    background: rgba(255,255,255,.055) !important;
+    box-shadow: inset 0 1px rgba(255,255,255,.08);
+}
+body.renda-fixa-page .dica_content p { color: rgba(227,235,255,.66) !important; }
+body.renda-fixa-page .vantagens_box h3 { color: #69e8bb !important; }
+body.renda-fixa-page .desvantagens_box h3 { color: #ff8290 !important; }
+body.renda-fixa-page .vantagens_box li,
+body.renda-fixa-page .desvantagens_box li { color: rgba(227,235,255,.70) !important; border-color: rgba(225,239,255,.12); }
+body.renda-fixa-page .exemplo_calc { color: #f6f9ff; }
+body.renda-fixa-page .exemplo_valor h4 { color: rgba(227,235,255,.58) !important; }
+body.renda-fixa-page .valor_grande,
+body.renda-fixa-page .valor_medio { color: #f6f9ff !important; }
+body.renda-fixa-page .cta_fixa {
+    margin: 0 20px 70px;
+    border: 1px solid rgba(225,239,255,.20);
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(26,40,72,.76), rgba(20,31,57,.52)) !important;
+    box-shadow: 0 24px 70px rgba(0,0,0,.26), inset 0 1px rgba(255,255,255,.12);
+    backdrop-filter: blur(24px);
+}
+body.renda-fixa-page .cta_fixa_content h2 { color: #f6f9ff !important; }
+body.renda-fixa-page .cta_fixa_content p { color: rgba(227,235,255,.68) !important; }
+@media (max-width: 760px) {
+    body.renda-fixa-page .hero_fixa { padding: 38px 14px 55px; }
+    body.renda-fixa-page .hero_fixa_container { padding: 30px 20px; }
+    body.renda-fixa-page .hero_fixa h1 { font-size: clamp(2.35rem, 12vw, 3.4rem); }
+    body.renda-fixa-page .explicacao_container { padding: 24px; }
+    body.renda-fixa-page .o_que_e,
+    body.renda-fixa-page .como_funciona_fixa,
+    body.renda-fixa-page .tipos_fixa,
+    body.renda-fixa-page .prós_contrass,
+    body.renda-fixa-page .dicas_praticas,
+    body.renda-fixa-page .exemplo_container { padding-top: 58px; padding-bottom: 58px; }
+    body.renda-fixa-page .cta_fixa { margin: 0 14px 42px; }
+}
+
+body.renda-fixa-page .tipo_icon_glyph {
+    display: inline-grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    color: #69e8bb;
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1;
+    text-shadow: 0 0 22px rgba(105,232,187,.30);
+}

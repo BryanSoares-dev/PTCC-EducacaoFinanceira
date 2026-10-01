@@ -9,8 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // em nome do visitante sem ele perceber.
     csrf_exigir();
 
+    // Limita criação automatizada de contas por endereço de origem.
+    if (cadastro_rate_limit_excedido($pdo, obter_ip_cliente())) {
+        http_response_code(429);
+        exit('Muitas tentativas de cadastro. Tente novamente mais tarde.');
+    }
+
     $nome = trim((string) ($_POST['nome'] ?? ''));
-    $email = trim((string) ($_POST['email'] ?? ''));
+    $email = strtolower(trim((string) ($_POST['email'] ?? '')));
     $senha = (string) ($_POST['senha'] ?? '');
     $confirmar_senha = (string) ($_POST['confirmar_senha'] ?? '');
     $telefone = trim((string) ($_POST['telefone'] ?? ''));
@@ -38,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Senha mínima: reduz o risco de contas com senhas triviais que
     // seriam quebradas facilmente mesmo com hashing correto.
-    if (strlen($senha) < 8) {
-        echo "<script>alert('A senha deve ter pelo menos 8 caracteres.'); window.history.back();</script>";
+    if (strlen($senha) < 8 || strlen($senha) > 128) {
+        echo "<script>alert('A senha deve ter entre 8 e 128 caracteres.'); window.history.back();</script>";
         exit;
     }
 
@@ -56,29 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($usuario) {
-            // Conta existe. Verifica se veio do Google e ainda não tem senha definida.
-            if ($usuario['provedor'] === 'google' && empty($usuario['senha'])) {
-
-                // Em vez de bloquear, aproveita e define a senha nessa conta já existente
-                $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-
-                $sqlUpdate = "UPDATE usuarios SET senha = ?, provedor = 'ambos' WHERE email = ?";
-                $stmtUpdate = $pdo->prepare($sqlUpdate);
-
-                if ($stmtUpdate->execute([$senhaHash, $email])) {
-                    $_SESSION['mensagem'] = "Senha adicionada à sua conta com sucesso! Agora você pode entrar com e-mail e senha.";
-                    header("Location: ../front-end/login.php");
-                    exit;
-                } else {
-                    echo "<script>alert('Erro ao definir senha!'); window.history.back();</script>";
-                    exit;
-                }
-
-            } else {
-                // Já existe conta local de verdade (com senha própria) → erro real
-                echo "<script>alert('Este e-mail já está cadastrado!'); window.history.back();</script>";
-                exit;
-            }
+            // Nunca defina senha de uma conta existente a partir de um cadastro
+            // anônimo: isso permitia assumir contas criadas pelo Google.
+            // Vinculação deve ocorrer após reautenticação do Google ou fluxo de
+            // recuperação por e-mail com token de uso único.
+            echo "<script>alert('Não foi possível concluir o cadastro. Se você já possui uma conta, use o login correspondente.'); window.history.back();</script>";
+            exit;
         }
 
         // E-mail não existe ainda → cria conta nova normalmente

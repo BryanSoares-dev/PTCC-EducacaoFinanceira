@@ -68,9 +68,14 @@ function afdeConfig(string $chave, string $padrao = ''): string
  */
 function iniciar_sessao_segura(): void
 {
-    if (session_status() === PHP_SESSION_ACTIVE) {
-        aplicar_headers_seguranca();
-        return;
+    // Essas diretivas só podem ser alteradas antes de a sessão existir.
+    // Isso evita warnings quando outro include já chamou session_start().
+    $sessaoAindaNaoIniciada = session_status() === PHP_SESSION_NONE;
+    if ($sessaoAindaNaoIniciada) {
+        ini_set('session.use_strict_mode', '1');
+        ini_set('session.use_only_cookies', '1');
+        ini_set('session.cookie_httponly', '1');
+        ini_set('session.cookie_samesite', 'Strict');
     }
 
     $https = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
@@ -84,12 +89,27 @@ function iniciar_sessao_segura(): void
             'domain'   => '',
             'secure'   => $https,
             'httponly' => true,
-            'samesite' => 'Lax',
+            'samesite' => 'Strict',
         ]);
         session_start();
     }
 
     aplicar_headers_seguranca();
+
+    if (afdeConfig('REQUIRE_HTTPS', '1') === '1' && !$https && !in_array(strtolower((string)($_SERVER['HTTP_HOST'] ?? '')), ['localhost', '127.0.0.1', '::1'], true)) {
+        $host = preg_replace('/[^a-zA-Z0-9.:-]/', '', (string)($_SERVER['HTTP_HOST'] ?? ''));
+        $uri = (string)($_SERVER['REQUEST_URI'] ?? '/');
+        header('Location: https://' . $host . $uri, true, 308);
+        exit;
+    }
+
+    // Timeout por inatividade e renovação periódica do ID.
+    $agora = time();
+    if (!empty($_SESSION['last_activity']) && ($agora - (int)$_SESSION['last_activity']) > 1800) {
+        encerrar_sessao_segura();
+        session_start();
+    }
+    $_SESSION['last_activity'] = $agora;
 }
 
 /**
@@ -151,8 +171,12 @@ function aplicar_headers_seguranca(): void
     header('X-Frame-Options: SAMEORIGIN');
     header('Referrer-Policy: strict-origin-when-cross-origin');
     header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+    header("Content-Security-Policy: frame-ancestors 'self'; object-src 'none'; base-uri 'self'");
+    header('Cache-Control: no-store, max-age=0');
 
-    $https = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
+    $https = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+        || (($_SERVER['SERVER_PORT'] ?? null) == 443)
+        || (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
     if ($https) {
         // HSTS só faz sentido (e só é seguro) quando a conexão já é HTTPS.
         header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
@@ -310,11 +334,13 @@ function bruteforce_registrar_falha(PDO $pdo, string $email, string $ip): void
 {
     rate_limit_preparar_tabela($pdo);
 
-    $stmt = $pdo->prepare('SELECT tentativas FROM tentativas_login WHERE email = ? AND ip = ?');
+    $stmt = $pdo->prepare('SELECT tentativas, ultima_tentativa FROM tentativas_login WHERE email = ? AND ip = ?');
     $stmt->execute([$email, $ip]);
-    $tentativasAtuais = (int) $stmt->fetchColumn();
-
-    $tentativas = $tentativasAtuais + 1;
+    $estado = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    $ultima = !empty($estado['ultima_tentativa']) ? strtotime($estado['ultima_tentativa']) : 0;
+    // O contador expira após 24h; evita bloqueio permanente e overflow.
+    $tentativasAtuais = ($ultima && (time() - $ultima) <= 86400) ? (int)($estado['tentativas'] ?? 0) : 0;
+    $tentativas = min(20, $tentativasAtuais + 1);
 
     $bloqueadoAte = null;
     if ($tentativas >= 5) {
@@ -340,7 +366,9 @@ function bruteforce_registrar_falha(PDO $pdo, string $email, string $ip): void
         ':bloqueado_ate2' => $bloqueadoAte,
     ]);
 
-    error_log("[bruteforce] falha de login para email={$email} ip={$ip} tentativas={$tentativas}");
+    $emailLog = preg_replace('/[^a-zA-Z0-9@._+\-]/', '', $email);
+    $ipLog = preg_replace('/[^0-9a-fA-F:.]/', '', $ip);
+    error_log("[bruteforce] falha de login para email={$emailLog} ip={$ipLog} tentativas={$tentativas}");
 }
 
 /**
@@ -363,6 +391,28 @@ function bruteforce_registrar_sucesso(PDO $pdo, string $email, string $ip): void
 function obter_ip_cliente(): string
 {
     return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+}
+
+/** Limite simples de criação de contas por IP (janela de 1 hora). */
+function cadastro_rate_limit_excedido(PDO $pdo, string $ip, int $limite = 5): bool
+{
+    $pdo->exec("CREATE TABLE IF NOT EXISTS tentativas_cadastro (
+        ip VARCHAR(45) NOT NULL PRIMARY KEY,
+        quantidade INT NOT NULL DEFAULT 0,
+        janela_inicio DATETIME NOT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    $stmt = $pdo->prepare('SELECT quantidade, janela_inicio FROM tentativas_cadastro WHERE ip = ?');
+    $stmt->execute([$ip]);
+    $estado = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$estado || (time() - strtotime($estado['janela_inicio'])) >= 3600) {
+        $stmt = $pdo->prepare('REPLACE INTO tentativas_cadastro (ip, quantidade, janela_inicio) VALUES (?, 1, NOW())');
+        $stmt->execute([$ip]);
+        return false;
+    }
+    $quantidade = (int)$estado['quantidade'] + 1;
+    $stmt = $pdo->prepare('UPDATE tentativas_cadastro SET quantidade = ? WHERE ip = ?');
+    $stmt->execute([$quantidade, $ip]);
+    return $quantidade > $limite;
 }
 
 /* =====================================================================

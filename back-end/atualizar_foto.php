@@ -2,6 +2,7 @@
 require_once __DIR__ . '/seguranca.php';
 iniciar_sessao_segura();
 require_once __DIR__ . '/conexao.php';
+require_once __DIR__ . '/upload_helpers.php';
 
 if (!isset($_SESSION['id'])) {
     header('Location: ../front-end/login.php');
@@ -31,29 +32,10 @@ $caminhoFisico = $diretorio . DIRECTORY_SEPARATOR . $novoNome;
 $caminhoWeb = '../uploads/perfis/' . $novoNome;
 
 try {
-    $imagemSalva = false;
     $recorte = (string) ($_POST['foto_cortada'] ?? '');
-    if (preg_match('#^data:image/jpeg;base64,#i', $recorte)) {
-        $dados = base64_decode(substr($recorte, strpos($recorte, ',') + 1), true);
-        if ($dados === false || strlen($dados) === 0 || strlen($dados) > 5 * 1024 * 1024) {
-            falharFoto('A imagem editada ficou inválida ou muito grande.');
-        }
-        if (@file_put_contents($caminhoFisico, $dados, LOCK_EX) === false) {
-            falharFoto('Não foi possível gravar a foto. Verifique a permissão de uploads/perfis.');
-        }
-        $informacoes = @getimagesize($caminhoFisico);
-        if (!$informacoes || $informacoes[0] !== $informacoes[1] || ($informacoes['mime'] ?? '') !== 'image/jpeg') {
-            @unlink($caminhoFisico);
-            falharFoto('A foto precisa ser um JPEG quadrado.');
-        }
-        $imagemSalva = true;
-    } elseif (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-        $arquivo = $_FILES['foto'];
-        if ($arquivo['size'] > 8 * 1024 * 1024 || !@getimagesize($arquivo['tmp_name'])) {
-            falharFoto('A imagem enviada não é válida ou excede 8 MB.');
-        }
-        $imagemSalva = @move_uploaded_file($arquivo['tmp_name'], $caminhoFisico);
-    }
+    $imagemSalva = $recorte !== ''
+        ? salvar_base64_jpeg($recorte, $caminhoFisico, 5 * 1024 * 1024, [0.99, 1.01])
+        : salvar_upload_como_jpeg($_FILES['foto'] ?? [], $caminhoFisico, 8 * 1024 * 1024, [0.1, 10.0]);
     if (!$imagemSalva || !is_file($caminhoFisico)) falharFoto('Selecione uma imagem e confirme o recorte.');
 
     $stmt = $pdo->prepare('SELECT foto FROM usuarios WHERE id = ?');

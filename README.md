@@ -2,7 +2,7 @@
 
 ## Configuração do MySQL no XAMPP
 
-O projeto está configurado para conectar ao MySQL/MariaDB do XAMPP pela porta **3307**. Verifique no arquivo `xampp/mysql/bin/my.ini` se a diretiva `port` está definida como `3307`, inicie o MySQL e importe `educacaofinanceira.sql` no banco `educacaofinanceira`. Se o usuário `root` possuir senha, atualize a variável `$pass` no arquivo `back-end/conexao.php`.
+O projeto está configurado para conectar ao MySQL/MariaDB do XAMPP pela porta **3306**. Verifique no arquivo `xampp/mysql/bin/my.ini` se a diretiva `port` está definida como `3306`, inicie o MySQL e importe `educacaofinanceira.sql` no banco `educacaofinanceira`. Se o usuário `root` possuir senha, atualize a variável `$pass` no arquivo `back-end/conexao.php`.
 
 ## Acessibilidade
 
@@ -22,7 +22,7 @@ Funcionalidades do widget:
 
 A carteira agora sincroniza as transações da conta conectada pela Pluggy e salva os lançamentos em `open_finance_transacoes`. O calendário combina esses registros com as movimentações manuais, mostra o mês atual do primeiro dia até o dia corrente e oferece navegação pelos meses desde a criação da conta. O gráfico histórico compara receitas e despesas mês a mês.
 
-Antes do primeiro uso, execute `open-finance/migration.sql` no banco `educacaofinanceira` ou use o dump atualizado `educacaofinanceira.sql`. Configure `PLUGGY_CLIENT_ID` e `PLUGGY_CLIENT_SECRET` como variáveis de ambiente do PHP. O botão de conexão mantém `includeSandbox: true` para permitir contas de teste durante o desenvolvimento; em produção, essa opção deve ser desativada quando não houver necessidade de conectores sandbox.
+O dump único `educacaofinanceira.sql` já inclui a tabela `open_finance_transacoes`; não é necessário executar SQL adicional. Configure `PLUGGY_CLIENT_ID` e `PLUGGY_CLIENT_SECRET` como variáveis de ambiente do PHP. O botão de conexão mantém `includeSandbox: true` para permitir contas de teste durante o desenvolvimento; em produção, essa opção deve ser desativada quando não houver necessidade de conectores sandbox.
 
 A categorização automática usa a categoria retornada pela Pluggy e regras simples baseadas na descrição, operação e comerciante. Na carteira, cada transação importada possui um seletor para o usuário corrigir a categoria; essa escolha fica marcada como manual e é preservada nas sincronizações seguintes. As categorias disponíveis incluem **Alimentação**, **Transporte**, **Moradia**, **Contas**, **Saúde**, **Educação**, **Lazer** e **Outros**.
 
@@ -30,7 +30,7 @@ A sincronização é acionada ao abrir ou atualizar os dados da carteira. A inte
 
 ## Perfil, foto e banner
 
-A página `front-end/perfil.php` permite editar os dados pessoais, trocar a foto com um editor em formato **1:1**, aplicar zoom e reposicionar a imagem arrastando-a, além de enviar um banner para o cabeçalho do perfil. Bancos criados com uma versão anterior recebem a coluna `banner` automaticamente ao abrir o perfil; alternativamente, execute `migration_perfil.sql` uma única vez no banco `educacaofinanceira`.
+A página `front-end/perfil.php` permite editar os dados pessoais, trocar a foto com um editor em formato **1:1**, aplicar zoom e reposicionar a imagem arrastando-a, além de enviar um banner para o cabeçalho do perfil. Bancos criados com uma versão anterior recebem a coluna `banner` automaticamente ao abrir o perfil; bancos antigos recebem a atualização automaticamente pela aplicação.
 
 ## Uploads no XAMPP
 
@@ -59,12 +59,12 @@ A revisão v99 uniformiza o material em todas as páginas, reduz a intensidade d
 
 ## Configuração atual do banco
 
-A conexão ativa do projeto usa `127.0.0.1:3307`. Se o XAMPP estiver usando outra porta, altere `$port` em `back-end/conexao.php` e a diretiva correspondente no `my.ini`.
+A conexão ativa do projeto usa `127.0.0.1:3306`. Se o XAMPP estiver usando outra porta, altere `DB_PORT` no ambiente e a diretiva correspondente no `my.ini`.
 
 
 ## Patentes e desbloqueio do aprendizado
 
-A tabela `usuarios` agora possui a coluna `patente`. Execute `migration_patente.sql` uma vez em bancos já existentes; o fluxo também tenta criar a coluna automaticamente quando o usuário abre o aprendizado, o teste ou o perfil. Ao confirmar **Pular Teste**, o endpoint `back-end/pular_teste.php` grava a patente **Ferro 1**, exibe um popup de conquista e libera os cards de **Videoaulas**, **Exercícios** e **Loja** com links para `videoaulas.php`, `exercicios.php` e `loja.php`. A conclusão normal do diagnóstico grava a patente calculada no mesmo campo.
+A tabela `usuarios` agora possui a coluna `patente`. bancos antigos recebem a coluna automaticamente; o fluxo também tenta criar a coluna automaticamente quando o usuário abre o aprendizado, o teste ou o perfil. Ao confirmar **Pular Teste**, o endpoint `back-end/pular_teste.php` grava a patente **Ferro 1**, exibe um popup de conquista e libera os cards de **Videoaulas**, **Exercícios** e **Loja** com links para `videoaulas.php`, `exercicios.php` e `loja.php`. A conclusão normal do diagnóstico grava a patente calculada no mesmo campo.
 
 
 ## Liquid Glass v100 — cards e parallax
@@ -76,7 +76,7 @@ A revisão v100 uniformiza o material Liquid Glass nos cards das páginas de vid
 
 A navbar compartilhada foi adicionada às páginas internas que não a exibiam, incluindo configurações, preferências, privacidade, ajuda, calendário, sobre e perfil. A navbar agora busca a foto atual diretamente no banco e usa um fallback de inicial quando necessário. Os retornos das videoaulas e exercícios apontam diretamente para `aprendizado.php`, e a loja ganhou o mesmo retorno explícito.
 
-O perfil exibe a patente em destaque com material Liquid Glass, medalha visual e uma barra de XP que informa o total atual, o percentual da patente e quanto falta para a próxima. O campo `xp` foi adicionado à tabela `usuarios`; em bancos existentes, execute `migration_xp.sql`. O teste diagnóstico concede XP proporcional à pontuação, enquanto pular o teste mantém o usuário em Ferro 1.
+O perfil exibe a patente em destaque com material Liquid Glass, medalha visual e uma barra de XP que informa o total atual, o percentual da patente e quanto falta para a próxima. O campo `xp` foi adicionado à tabela `usuarios`; bancos antigos recebem a coluna automaticamente. O teste diagnóstico concede XP proporcional à pontuação, enquanto pular o teste mantém o usuário em Ferro 1.
 
 
 ## Ajuste v102 — retornos e cartão de patente

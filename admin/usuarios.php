@@ -108,7 +108,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php if ((int)$u['id'] === $adminLogadoId): ?>
                             <span style="color:var(--texto-fraco); font-size:0.8rem;">Sua conta</span>
                         <?php else: ?>
-                            <form method="POST" onsubmit="return confirm('Tem certeza que deseja excluir o usuário <?= htmlspecialchars(addslashes($u['nome'])) ?>? Esta ação não pode ser desfeita.');" style="display:inline;">
+                            <form method="POST" class="form-excluir-usuario" data-nome="<?= htmlspecialchars($u['nome'], ENT_QUOTES, 'UTF-8') ?>" style="display:inline;">
                                 <?= csrf_campo() ?>
                                 <input type="hidden" name="excluir_id" value="<?= $u['id'] ?>">
                                 <button type="submit" class="btn btn-perigo btn-sm">
@@ -126,6 +126,13 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </main>
 
 
+    <script>
+    document.querySelectorAll('.form-excluir-usuario').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!confirm('Tem certeza que deseja excluir o usuário ' + form.dataset.nome + '? Esta ação não pode ser desfeita.')) event.preventDefault();
+        });
+    });
+    </script>
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
     <script src="../JS/liquid-glass.js?v=99" defer></script>

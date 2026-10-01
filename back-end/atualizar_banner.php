@@ -2,6 +2,7 @@
 require_once __DIR__ . '/seguranca.php';
 iniciar_sessao_segura();
 require_once __DIR__ . '/conexao.php';
+require_once __DIR__ . '/upload_helpers.php';
 
 if (!isset($_SESSION['id'])) { header('Location: ../front-end/login.php'); exit; }
 // CSRF: impede que outro site force a troca do banner de perfil da vítima.
@@ -17,16 +18,10 @@ $caminhoWeb = '../uploads/banners/' . $nome;
 
 try {
     $recorte = (string) ($_POST['banner_cortado'] ?? '');
-    if (preg_match('#^data:image/jpeg;base64,#i', $recorte)) {
-        $dados = base64_decode(substr($recorte, strpos($recorte, ',') + 1), true);
-        if ($dados === false || strlen($dados) === 0 || strlen($dados) > 5 * 1024 * 1024) falharBanner('O banner editado ficou inválido ou muito grande.');
-        if (@file_put_contents($caminhoFisico, $dados, LOCK_EX) === false) falharBanner('Não foi possível gravar o banner.');
-    } else {
-        $arquivo = $_FILES['banner'] ?? null;
-        if (!$arquivo || ($arquivo['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) falharBanner('Selecione um banner antes de enviar.');
-        if ($arquivo['size'] > 8 * 1024 * 1024 || !@getimagesize($arquivo['tmp_name'])) falharBanner('Escolha uma imagem válida de até 8 MB.');
-        if (!@move_uploaded_file($arquivo['tmp_name'], $caminhoFisico)) falharBanner('Não foi possível gravar o banner.');
-    }
+    $imagemSalva = $recorte !== ''
+        ? salvar_base64_jpeg($recorte, $caminhoFisico, 5 * 1024 * 1024, [2.4, 3.6])
+        : salvar_upload_como_jpeg($_FILES['banner'] ?? [], $caminhoFisico, 8 * 1024 * 1024, [2.4, 3.6]);
+    if (!$imagemSalva) falharBanner('O banner enviado é inválido ou não atende ao formato exigido.');
     $info = @getimagesize($caminhoFisico);
     if (!$info || $info[0] / max(1, $info[1]) < 2.4 || $info[0] / max(1, $info[1]) > 3.6) { @unlink($caminhoFisico); falharBanner('O banner precisa estar no formato horizontal 3:1.'); }
 

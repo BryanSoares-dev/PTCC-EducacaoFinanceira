@@ -1,98 +1,79 @@
 <?php
-    require_once __DIR__ . '/seguranca.php';
-    iniciar_sessao_segura();
-    require_once 'conexao.php'; // aqui a variável disponível é $pdo, não $conn
-    require_once 'google-config.php';
+require_once __DIR__ . '/seguranca.php';
+iniciar_sessao_segura();
+require_once __DIR__ . '/conexao.php';
+require_once __DIR__ . '/google-config.php';
 
-    // colocando informações de um novo cliente no objeto da biblioteca do google 
-    $client = new Google_Client();
-    $client->setClientId(GOOGLE_CLIENT_ID);       // era setClienteId (nome errado)
-    $client->setClientSecret(GOOGLE_CLIENT_SECRET); // era setClienteSecrete (nome errado)
-    $client->setRedirectUri(GOOGLE_REDIRECT_URL); //
-    $client->addScope('email');
-    $client->addScope('profile');
+$client = new Google_Client();
+$client->setClientId(GOOGLE_CLIENT_ID);
+$client->setClientSecret(GOOGLE_CLIENT_SECRET);
+$client->setRedirectUri(GOOGLE_REDIRECT_URL);
+$client->addScope('email');
+$client->addScope('profile');
 
-    // caso ainda não tenha o code, o usuário será direcionado a outra página de autenticação para receber o code único do google
-    if (!isset($_GET['code'])) {
-        // Problema: sem um parâmetro "state" imprevisível, um atacante
-        // poderia iniciar o fluxo OAuth com a PRÓPRIA conta Google e
-        // induzir a vítima a completar o "code" dele, fazendo a vítima
-        // logar sem querer na conta do atacante (login CSRF).
-        // Solução: geramos um state ligado à sessão do usuário e
-        // exigimos que ele volte inalterado no callback.
-        $_SESSION['google_oauth_state'] = bin2hex(random_bytes(16));
-        $client->setState($_SESSION['google_oauth_state']);
+if (!isset($_GET['code'])) {
+    $_SESSION['google_oauth_state'] = bin2hex(random_bytes(32));
+    $client->setState($_SESSION['google_oauth_state']);
+    header('Location: ' . $client->createAuthUrl());
+    exit;
+}
 
-        $auth_url = $client->createAuthUrl();
-        header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
-        exit;
+$stateRecebido = (string)($_GET['state'] ?? '');
+$stateEsperado = $_SESSION['google_oauth_state'] ?? null;
+unset($_SESSION['google_oauth_state']);
+if (!$stateEsperado || !hash_equals($stateEsperado, $stateRecebido)) {
+    http_response_code(403);
+    exit('Não foi possível validar esta tentativa de login com o Google.');
+}
 
-    } else {
-        // Valida o "state" recebido contra o que geramos antes de redirecionar.
-        $stateRecebido = $_GET['state'] ?? '';
-        $stateEsperado = $_SESSION['google_oauth_state'] ?? null;
-        unset($_SESSION['google_oauth_state']); // uso único
-
-        if (!$stateEsperado || !hash_equals($stateEsperado, (string) $stateRecebido)) {
-            http_response_code(403);
-            die('Não foi possível validar esta tentativa de login com o Google. Tente novamente.');
-        }
-
-        // Troca o "code" recebido do Google (via URL, após o usuário autorizar o app)
-        // por um token de acesso válido
-        $client->authenticate($_GET['code']);
-
-        // Obtém o token de acesso gerado após a autenticação
-        $token = $client->getAccessToken();
-
-        // Define/reaplica o token de acesso no client,
-        // garantindo que ele esteja autenticado para futuras chamadas à API
-        $client->setAccessToken($token);
-
-        // Cria uma instância do serviço OAuth2 do Google, usando o client autenticado
-        $oauth = new Google_Service_Oauth2($client);
-
-        // Faz a chamada à API para buscar os dados do usuário logado
-        // (nome, e-mail, foto de perfil, ID do Google, etc.)
-        $userInfo = $oauth->userinfo->get();
+try {
+    $client->authenticate((string)$_GET['code']);
+    $oauth = new Google_Service_Oauth2($client);
+    $userInfo = $oauth->userinfo->get();
+    $email = strtolower(trim((string)$userInfo->email));
+    $googleId = trim((string)$userInfo->id);
+    if ($email === '' || $googleId === '' || empty($userInfo->verified_email)) {
+        throw new RuntimeException('Conta Google sem e-mail verificado.');
     }
 
-    // Salvando os dados no banco de dados usando PDO
+    $stmt = $pdo->prepare('SELECT * FROM usuarios WHERE email = ?');
+    $stmt->execute([$email]);
+    $existente = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verifica se o usuário já existe pelo e-mail
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
-    $stmt->execute([$userInfo->email]);
-    $usuarioExistente = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$usuarioExistente) {
-        // Usuário realmente novo: insere no banco
-        $stmt = $pdo->prepare("INSERT INTO usuarios (oauth_uid, nome, email, foto) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$userInfo->id, $userInfo->name, $userInfo->email, $userInfo->picture]);
-        $idUsuario = $pdo->lastInsertId();
-
+    if (!$existente) {
+        $stmt = $pdo->prepare("INSERT INTO usuarios (oauth_uid, nome, email, foto, provedor) VALUES (?, ?, ?, ?, 'google')");
+        $stmt->execute([$googleId, (string)$userInfo->name, $email, (string)$userInfo->picture]);
+        $idUsuario = (int)$pdo->lastInsertId();
     } else {
-        // Usuário já existe (cadastro antigo): associa o oauth_uid a essa conta, se ainda não tiver
-        if (empty($usuarioExistente['oauth_uid'])) {
-            $stmt = $pdo->prepare("UPDATE usuarios SET oauth_uid = ? WHERE id = ?");
-            $stmt->execute([$userInfo->id, $usuarioExistente['id']]);
+        // Só o mesmo Google subject pode reentrar. Nunca vincular Google a
+        // conta local preexistente por e-mail sem confirmação explícita.
+        if (!empty($existente['oauth_uid']) && !hash_equals((string)$existente['oauth_uid'], $googleId)) {
+            throw new RuntimeException('Identidade Google divergente.');
         }
-        $idUsuario = $usuarioExistente['id'];
+        if (empty($existente['oauth_uid'])) {
+            $_SESSION['mensagem'] = 'Esta conta já existe. Entre com e-mail e senha ou use a recuperação de conta.';
+            header('Location: ../front-end/login.php');
+            exit;
+        }
+        $idUsuario = (int)$existente['id'];
     }
 
-    // Regenera o ID de sessão após autenticar com sucesso pelo Google,
-    // pelo mesmo motivo do login local: evita Session Fixation (um ID de
-    // sessão obtido/definido antes do login não deve continuar válido
-    // depois de o usuário ficar autenticado).
     session_regenerate_id(true);
-
-    // Salva os dados do usuário logado na sessão
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     $_SESSION['id'] = $idUsuario;
     $_SESSION['usuario'] = [
-        'nome'  => $userInfo->name,
-        'email' => $userInfo->email,
-        'foto'  => $userInfo->picture
+        'id' => $idUsuario,
+        'nome' => (string)$userInfo->name,
+        'email' => $email,
+        'foto' => (string)$userInfo->picture,
     ];
-
+    $_SESSION['nome'] = (string)$userInfo->name;
+    $_SESSION['email'] = $email;
+    $_SESSION['foto'] = (string)$userInfo->picture;
     header('Location: ../front-end/home.php');
-?>    
-
+    exit;
+} catch (Throwable $e) {
+    tratar_erro_bd($e, 'google-callback');
+    http_response_code(400);
+    exit('Não foi possível concluir o login com o Google.');
+}

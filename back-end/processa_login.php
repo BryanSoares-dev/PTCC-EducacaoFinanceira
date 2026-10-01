@@ -14,7 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // abusar deste endpoint (ex.: para automatizar tentativas de força bruta).
 csrf_exigir();
 
-$email = trim((string) ($_POST['email'] ?? ''));
+$email = strtolower(trim((string) ($_POST['email'] ?? '')));
+if (strlen($email) > 190 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "<script>alert('E-mail ou senha incorretos!'); window.history.back();</script>";
+    exit;
+}
 $senha = (string) ($_POST['senha'] ?? '');
 $ip = obter_ip_cliente();
 
@@ -49,6 +53,7 @@ try {
         // Solução: gera um novo ID de sessão (mantendo os dados) logo após
         // a autenticação, invalidando qualquer ID anterior ao login.
         session_regenerate_id(true);
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
         $_SESSION['id'] = $usuario['id'];
 
