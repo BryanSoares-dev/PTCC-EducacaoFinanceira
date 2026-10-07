@@ -356,6 +356,146 @@ body {
   flex-shrink: 0;
 }
 
+
+/* --------------------MODAL----------------------- */
+/* ---------- Termos de uso: checkbox + link ---------- */
+.termos_check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 4px 0 8px;
+}
+
+.termos_check input[type="checkbox"] {
+  margin-top: -1px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.termos_link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.termos_link:hover,
+.termos_link:focus-visible {
+  opacity: 0.8;
+}
+
+/* ---------- Modal ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  background: #fff;
+  color: #1a1a1a;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.938);
+}
+
+.close-modal {
+  background-color: #16E28A;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+}
+
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.modal-body h3 {
+  margin: 18px 0 6px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.938);
+}
+
+.modal-body h3:first-child {
+  margin-top: 0;
+}
+
+.modal-body p{
+  color: rgba(255, 255, 255, 0.938);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  font: inherit;
+  cursor: pointer;
+}
+
+.modal-footer .btn-aceitar {
+  background: #29f0a0a4;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.modal-footer .btn-recusar {
+  background: rgba(177, 0, 0, 0.568);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+
 /* RESPONSIVO */
 @media (max-width: 1100px) {
   .cadastro_container {

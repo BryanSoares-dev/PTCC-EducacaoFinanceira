@@ -11,6 +11,7 @@ iniciar_sessao_segura();
     <title>Criar Conta | AFDE</title>
 
 <link rel="stylesheet" href="../css/cadastro.css">
+<link rel="stylesheet" href="../css/termos-modal.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 <link rel="icon" type="image/png" href="../img/favicon.png">
@@ -71,7 +72,7 @@ iniciar_sessao_segura();
 
     </section>
 
-<section class="cadastro_right">
+    <section class="cadastro_right">
 
         <div class="cadastro_card">
 
@@ -147,6 +148,22 @@ iniciar_sessao_segura();
                     >
                 </div>
 
+                <!-- Aceite obrigatório dos Termos de Uso -->
+                <div class="termos_check">
+                    <input
+                        type="checkbox"
+                        id="aceitarTermos"
+                        name="aceitar_termos"
+                        value="1"
+                        required
+                    >
+                    <p>
+                        Li e aceito os
+                        <button type="button" class="termos_link" id="abrirTermos">Termos de uso</button>
+                        da plataforma.
+                    </p>
+                </div>
+
                 <button type="submit" class="cadastro_btn">
                     Criar Conta
                 </button>
@@ -192,9 +209,172 @@ iniciar_sessao_segura();
 </main>
 
 
+<!-- ---------------- MODAL: TERMOS DE USO -------------------------- -->
+
+<div class="modal" id="modalTermos" role="dialog" aria-modal="true" aria-labelledby="tituloTermos">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2 id="tituloTermos">Termos de Uso</h2>
+
+            <button
+                type="button"
+                class="close-modal"
+                id="fecharTermos"
+                aria-label="Fechar"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <h3>1. Aceitação dos termos</h3>
+            <p>
+                Ao criar uma conta na plataforma AFDE, você declara que leu,
+                compreendeu e concorda integralmente com estes Termos de Uso.
+                O aceite é condição obrigatória para utilizar a plataforma.
+            </p>
+
+            <h3>2. Finalidade da plataforma</h3>
+            <p>
+                A AFDE é uma plataforma de educação financeira. Os conteúdos,
+                simulações e ferramentas, incluindo a calculadora financeira,
+                têm caráter exclusivamente educativo e informativo. Nada na
+                plataforma constitui recomendação de investimento, consultoria
+                financeira, jurídica ou tributária, nem promessa ou garantia de
+                resultado.
+            </p>
+
+            <h3>3. Riscos financeiros</h3>
+            <p>
+                Toda decisão financeira envolve riscos. Algumas sugestões e
+                exemplos apresentados, como investimentos em renda variável
+                (ações, fundos imobiliários, criptoativos, entre outros), podem
+                resultar em ganhos, mas também em perdas parciais ou totais do
+                capital investido. Rentabilidade passada não garante resultados
+                futuros. Os resultados das simulações são estimativas baseadas
+                nos dados informados por você e podem diferir da realidade.
+            </p>
+
+            <h3>4. Responsabilidade do usuário</h3>
+            <p>
+                Você é o único responsável pelas decisões financeiras que tomar
+                com base nas informações da plataforma e por avaliar se elas são
+                adequadas ao seu perfil, objetivos e situação financeira. Antes
+                de investir ou assumir qualquer compromisso financeiro, recomenda-se
+                consultar um profissional qualificado. A AFDE não se responsabiliza
+                por perdas, danos ou prejuízos decorrentes do uso das informações
+                por conta própria pelo usuário, nos limites permitidos pela
+                legislação aplicável.
+            </p>
+
+            <h3>5. Cadastro e segurança da conta</h3>
+            <p>
+                Você é responsável pela veracidade dos dados informados e pela
+                guarda de sua senha. Não compartilhe suas credenciais com terceiros
+                e avise-nos imediatamente em caso de uso não autorizado da sua conta.
+            </p>
+
+            <h3>6. Dados financeiros e dados bancários</h3>
+            <p>
+                A plataforma pode tratar informações financeiras e bancárias
+                fornecidas por você. Informe apenas os dados necessários ao uso
+                das ferramentas e nunca insira senhas bancárias, códigos de
+                segurança, tokens ou outras credenciais de acesso a instituições
+                financeiras. A AFDE não solicita esse tipo de informação por
+                nenhum canal.
+            </p>
+
+            <h3>7. Privacidade e proteção de dados</h3>
+            <p>
+                Os dados pessoais e financeiros são tratados conforme a Lei Geral
+                de Proteção de Dados (LGPD), com medidas de segurança técnicas e
+                administrativas, e utilizados apenas para o funcionamento da
+                plataforma. Você pode solicitar acesso, correção ou exclusão dos
+                seus dados a qualquer momento. Nenhum sistema é totalmente imune
+                a riscos, e a AFDE adota esforços razoáveis para protegê-los.
+            </p>
+
+            <h3>8. Uso adequado</h3>
+            <p>
+                É proibido utilizar a plataforma para fins ilícitos, tentar
+                acessar áreas restritas, comprometer a segurança do sistema ou
+                inserir dados de terceiros sem autorização.
+            </p>
+
+            <h3>9. Alterações</h3>
+            <p>
+                Estes termos podem ser atualizados a qualquer momento. O uso
+                continuado da plataforma indica concordância com a versão vigente.
+            </p>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button"  class="btn-recusar" id="recusarTermos">Fechar</button>
+            <button type="button" class="btn-aceitar" id="aceitarTermosBtn">Li e aceito</button>
+        </div>
+
+    </div>
+
+</div>
+
+
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
     <script src="../JS/liquid-glass.js?v=100" defer></script>
+
+
+<script>
+// ---------------- MODAL TERMOS DE USO -----------------
+
+(function () {
+
+    const modal       = document.getElementById('modalTermos');
+    const btnAbrir    = document.getElementById('abrirTermos');
+    const btnFechar   = document.getElementById('fecharTermos');
+    const btnRecusar  = document.getElementById('recusarTermos');
+    const btnAceitar  = document.getElementById('aceitarTermosBtn');
+    const checkbox    = document.getElementById('aceitarTermos');
+
+    function abrirModal() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        btnFechar.focus();
+    }
+
+    function fecharModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        btnAbrir.focus();
+    }
+
+    btnAbrir.addEventListener('click', abrirModal);
+    btnFechar.addEventListener('click', fecharModal);
+    btnRecusar.addEventListener('click', fecharModal);
+
+    btnAceitar.addEventListener('click', function () {
+        checkbox.checked = true;
+        fecharModal();
+    });
+
+    // Fecha ao clicar fora da caixa
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) fecharModal();
+    });
+
+    // Fecha com ESC
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            fecharModal();
+        }
+    });
+
+})();
+</script>
 </body>
 </html>
-
