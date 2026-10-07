@@ -13,11 +13,15 @@ function afdeCarregarEnv(): void
     }
     $carregado = true;
 
-    // O .env fica na raiz do projeto (uma pasta acima de back-end/).
-    $arquivo = dirname(__DIR__) . '/.env';
+    // Procura o .env na mesma pasta deste arquivo e, se não achar, uma pasta acima.
+    $candidatos = [__DIR__ . '/.env', dirname(__DIR__) . '/.env'];
+    $arquivo = null;
+    foreach ($candidatos as $c) {
+        if (is_file($c)) { $arquivo = $c; break; }
+    }
 
-    if (!is_file($arquivo)) {
-        error_log('[seguranca] Arquivo .env não encontrado em ' . $arquivo);
+    if ($arquivo === null) {
+        error_log('[seguranca] Arquivo .env não encontrado em: ' . implode(' | ', $candidatos));
         return;
     }
 
