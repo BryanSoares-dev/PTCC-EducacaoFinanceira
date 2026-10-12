@@ -811,6 +811,129 @@ body.calculadora-page .resultado-card.destaque {
 body.calculadora-page .resultado-card.destaque h4 { color: #b8f8df; }
 body.calculadora-page .resultado-card.destaque p { color: #fff; }
 
+/* Cotações brapi antes da calculadora */
+body.calculadora-page .cotacoes-section {
+  width: min(100%, 1160px);
+  margin: 0 auto 28px;
+}
+body.calculadora-page .cotacoes-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+body.calculadora-page .cotacoes-eyebrow {
+  color: #69e8bb;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+body.calculadora-page .cotacoes-heading h2 {
+  margin: 7px 0;
+  color: #f6f9ff;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  letter-spacing: -.03em;
+}
+body.calculadora-page .cotacoes-heading p,
+body.calculadora-page .cotacao-horario {
+  color: rgba(227, 235, 255, .65);
+  font-size: .88rem;
+  line-height: 1.6;
+}
+body.calculadora-page .cotacoes-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  color: rgba(227, 235, 255, .68);
+  font-size: .75rem;
+}
+body.calculadora-page .cotacoes-live span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #69e8bb;
+  box-shadow: 0 0 12px rgba(105, 232, 187, .75);
+}
+body.calculadora-page .cotacoes-card {
+  display: grid;
+  grid-template-columns: minmax(220px, .8fr) minmax(0, 1.5fr);
+  gap: 24px;
+  align-items: center;
+  padding: 22px;
+  border: 1px solid rgba(225, 239, 255, .18);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(26, 40, 72, .74), rgba(20, 31, 57, .56));
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .1);
+  backdrop-filter: blur(24px) saturate(155%);
+  -webkit-backdrop-filter: blur(24px) saturate(155%);
+}
+body.calculadora-page .cotacoes-controles { display: grid; gap: 9px; }
+body.calculadora-page .cotacoes-controles label {
+  color: rgba(227, 235, 255, .78);
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+body.calculadora-page .cotacoes-controles select {
+  min-width: 0;
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: 1px solid rgba(225, 239, 255, .2);
+  border-radius: 12px;
+  background: rgba(2, 10, 25, .42);
+  color: #f6f9ff;
+}
+body.calculadora-page .cotacoes-controles select option { color: #102039; }
+body.calculadora-page .cotacoes-controles button {
+  min-height: 44px;
+  border: 1px solid rgba(105, 232, 187, .5);
+  border-radius: 12px;
+  background: rgba(105, 232, 187, .13);
+  color: #a9f5d7;
+  font-weight: 800;
+  cursor: pointer;
+}
+body.calculadora-page .cotacoes-controles button:hover { background: rgba(105, 232, 187, .22); }
+body.calculadora-page .cotacoes-controles button:disabled { opacity: .55; cursor: wait; }
+body.calculadora-page .cotacoes-result {
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 18px 22px;
+  border: 1px solid rgba(225, 239, 255, .12);
+  border-radius: 16px;
+  background: rgba(2, 10, 25, .25);
+}
+body.calculadora-page .cotacoes-message { color: rgba(227, 235, 255, .68); font-size: .9rem; }
+body.calculadora-page .cotacoes-message.is-error { color: #ff9c9c; }
+body.calculadora-page .cotacao-dados {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 18px;
+}
+body.calculadora-page .cotacao-dados > div { display: grid; gap: 4px; }
+body.calculadora-page .cotacao-ticker { color: #f6f9ff; font-size: 1.15rem; font-weight: 900; }
+body.calculadora-page .cotacao-nome { color: rgba(227, 235, 255, .56); font-size: .78rem; }
+body.calculadora-page .cotacao-preco { color: #f6f9ff; font-size: clamp(1.2rem, 3vw, 1.8rem); white-space: nowrap; }
+body.calculadora-page .cotacao-variacao { font-size: .85rem; font-weight: 800; white-space: nowrap; }
+body.calculadora-page .cotacao-variacao.positive { color: #69e8bb; }
+body.calculadora-page .cotacao-variacao.negative { color: #ff8b94; }
+body.calculadora-page .cotacao-horario { margin-top: 12px; font-size: .74rem; }
+
+@media (max-width: 700px) {
+  body.calculadora-page .cotacoes-heading { align-items: flex-start; flex-direction: column; gap: 10px; }
+  body.calculadora-page .cotacoes-card { grid-template-columns: 1fr; gap: 16px; padding: 17px; }
+  body.calculadora-page .cotacao-dados { grid-template-columns: 1fr auto; gap: 8px 14px; }
+  body.calculadora-page .cotacao-dados > div { grid-column: 1 / -1; }
+}
+
 @media (max-width: 768px) {
   body.calculadora-page .main { padding: 108px 15px 36px; }
   body.calculadora-page .hero-calculadora { min-height: 0; padding: 34px 25px; }

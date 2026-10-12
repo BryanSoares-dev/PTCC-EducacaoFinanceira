@@ -74,6 +74,30 @@ include_once 'navbar.php';
     </div>
 </section>
 
+<!-- COTAÇÕES BRAPI -->
+<section class="cotacoes-section" aria-labelledby="titulo-cotacoes">
+    <div class="cotacoes-heading">
+        <div>
+            <span class="cotacoes-eyebrow">Mercado financeiro</span>
+            <h2 id="titulo-cotacoes">Acompanhe como anda o preço das ações</h2>
+            <p>Consulte as cotações mais recentes disponíveis para as ações listadas na brapi.</p>
+        </div>
+        <span class="cotacoes-live"><span></span> Cotações atualizadas sob demanda</span>
+    </div>
+    <div class="cotacoes-card">
+        <div class="cotacoes-controles">
+            <label for="brapiStock">Escolha uma ação</label>
+            <select id="brapiStock" disabled>
+                <option value="">Carregando ações...</option>
+            </select>
+            <button type="button" id="brapiRefresh" disabled>Buscar cotação</button>
+        </div>
+        <div id="brapiResult" class="cotacoes-result" role="status" aria-live="polite">
+            <p>Carregando a lista de ações...</p>
+        </div>
+    </div>
+</section>
+
 <!-- FORM -->
 <section class="content" id="content">
 
@@ -160,5 +184,6 @@ include_once 'navbar.php';
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
     <script src="../JS/liquid-glass.js?v=100" defer></script>
+    <script src="../JS/calculadora-brapi.js?v=1" defer></script>
 </body>
 </html>

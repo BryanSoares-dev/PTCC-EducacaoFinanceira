@@ -14,6 +14,7 @@ function pluggyCredentials(): array
             : [];
     }
 
+
     return [
         'clientId' => getenv('PLUGGY_CLIENT_ID') ?: ($environment['PLUGGY_CLIENT_ID'] ?? ''),
         'clientSecret' => getenv('PLUGGY_CLIENT_SECRET') ?: ($environment['PLUGGY_CLIENT_SECRET'] ?? ''),

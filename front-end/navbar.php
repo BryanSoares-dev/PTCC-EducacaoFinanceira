@@ -132,6 +132,18 @@ if (isset($_SESSION['id'])) {
 
             </li>
 
+            
+            <!-- PLANOS -->
+
+            <li>
+
+                <a href="planos.php">
+                    Planos
+                </a>
+
+            </li>
+
+
 
             <!-- CALCULADORA -->
 
@@ -240,18 +252,6 @@ if (isset($_SESSION['id'])) {
                 </a>
 
             </li>
-
-
-            <!-- PLANOS -->
-
-            <li>
-
-                <a href="planos.php">
-                    Planos
-                </a>
-
-            </li>
-
 
             <!-- ADMIN -->
 
