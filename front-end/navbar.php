@@ -84,7 +84,7 @@ if (isset($_SESSION['id'])) {
 
                 <a href="aprendizado.php" class="education-trigger">
                     Educação
-                    <i class="fas fa-chevron-down education-arrow"></i>
+                    <span class="education-arrow" aria-hidden="true"></span>
                 </a>
 
                 <div class="education-dropdown-menu">
@@ -162,7 +162,7 @@ if (isset($_SESSION['id'])) {
                     <a href="investimentos_Diversificacao.php" class="investment-trigger">
                     Investimentos
 
-                    <i class="fas fa-chevron-down investment-arrow"></i>
+                    <span class="investment-arrow" aria-hidden="true"></span>
                 </a>
 
 
@@ -237,6 +237,17 @@ if (isset($_SESSION['id'])) {
 
                 <a href="analisador.php">
                     Analisador
+                </a>
+
+            </li>
+
+
+            <!-- PLANOS -->
+
+            <li>
+
+                <a href="planos.php">
+                    Planos
                 </a>
 
             </li>

@@ -818,15 +818,21 @@ nav a:hover::after {
 /* SETINHA */
 
 .education-arrow {
-    font-size: 10px;
-    transition: transform 0.3s ease;
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    flex: 0 0 7px;
+    border-right: 1.7px solid currentColor;
+    border-bottom: 1.7px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
 }
 
 
 /* GIRA A SETA */
 
 .education-dropdown:hover .education-arrow {
-    transform: rotate(180deg);
+    transform: rotate(225deg) translateY(-2px);
 }
 
 
@@ -1032,15 +1038,21 @@ nav a:hover::after {
 /* SETA */
 
 .investment-arrow {
-    font-size: 10px;
-    transition: transform 0.3s ease;
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    flex: 0 0 7px;
+    border-right: 1.7px solid currentColor;
+    border-bottom: 1.7px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 0.25s ease;
 }
 
 
 /* GIRA A SETA */
 
 .investment-dropdown:hover .investment-arrow {
-    transform: rotate(180deg);
+    transform: rotate(225deg) translateY(-2px);
 }
 
 
