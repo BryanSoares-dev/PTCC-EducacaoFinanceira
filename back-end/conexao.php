@@ -20,7 +20,7 @@ require_once __DIR__ . '/seguranca.php';
  */
 
 $host = afdeConfig('DB_HOST', '127.0.0.1');
-$port = (int) afdeConfig('DB_PORT', '3306'); // porta padrão do MySQL/MariaDB
+$port = (int) afdeConfig('DB_PORT', '3307'); // porta configurada no XAMPP deste projeto
 $db   = afdeConfig('DB_NAME', 'educacaofinanceira');
 $user = afdeConfig('DB_USER', 'root');
 $pass = afdeConfig('DB_PASS', '');
