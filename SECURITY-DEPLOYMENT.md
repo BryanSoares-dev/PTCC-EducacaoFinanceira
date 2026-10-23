@@ -12,4 +12,4 @@
 
 10. O dump único já cria as tabelas Arena prefixadas e vincula cada progresso ao `usuarios.id`, sem usuário global compartilhado.
 
-11. A conexão MySQL/MariaDB do projeto deve escutar na porta `3306`; configure `DB_PORT=3306` no ambiente de execução.
+11. A conexão MySQL/MariaDB do projeto deve escutar na porta `3307`; configure `DB_PORT=3307` no ambiente de execução.

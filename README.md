@@ -2,7 +2,7 @@
 
 ## Configuração do MySQL no XAMPP
 
-O projeto está configurado para conectar ao MySQL/MariaDB do XAMPP pela porta **3306**. Verifique no arquivo `xampp/mysql/bin/my.ini` se a diretiva `port` está definida como `3306`, inicie o MySQL e importe `educacaofinanceira.sql` no banco `educacaofinanceira`. Se o usuário `root` possuir senha, atualize a variável `$pass` no arquivo `back-end/conexao.php`.
+O projeto está configurado para conectar ao MySQL/MariaDB do XAMPP pela porta **3307**. Verifique no arquivo `xampp/mysql/bin/my.ini` se a diretiva `port` está definida como `3307`, inicie o MySQL e importe `educacaofinanceira.sql` no banco `educacaofinanceira`. Se o usuário `root` possuir senha, atualize a variável `$pass` no arquivo `back-end/conexao.php`.
 
 ## Acessibilidade
 
@@ -59,7 +59,7 @@ A revisão v99 uniformiza o material em todas as páginas, reduz a intensidade d
 
 ## Configuração atual do banco
 
-A conexão ativa do projeto usa `127.0.0.1:3306`. Se o XAMPP estiver usando outra porta, altere `DB_PORT` no ambiente e a diretiva correspondente no `my.ini`.
+A conexão ativa do projeto usa `127.0.0.1:3307`. Se o XAMPP estiver usando outra porta, altere `DB_PORT` no ambiente e a diretiva correspondente no `my.ini`.
 
 
 ## Patentes e desbloqueio do aprendizado

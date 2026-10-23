@@ -16,4 +16,4 @@ A API exige sessão autenticada e CSRF em todas as operações mutáveis. O nave
 
 ## Compatibilidade
 
-A integração usa a conexão MySQL existente do PTCC (`DB_HOST`, `DB_PORT=3306`, `DB_NAME`, `DB_USER`, `DB_PASS`) e o mecanismo de sessão/CSRF já endurecido. O `navbar.php` continua presente, portanto os demais fluxos da plataforma não são substituídos.
+A integração usa a conexão MySQL existente do PTCC (`DB_HOST`, `DB_PORT=3307`, `DB_NAME`, `DB_USER`, `DB_PASS`) e o mecanismo de sessão/CSRF já endurecido. O `navbar.php` continua presente, portanto os demais fluxos da plataforma não são substituídos.
