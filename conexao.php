@@ -9,9 +9,10 @@ function afdeDb(): PDO
 
     if ($pdo === null) {
         $dsn = sprintf(
-            'mysql:host=%s;dbname=%s;charset=utf8mb4',
-            afdeConfig('DB_HOST', 'localhost'),
-            afdeConfig('DB_NAME', '')
+            'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+            afdeConfig('DB_HOST', '127.0.0.1'),
+            afdeConfig('DB_PORT', '3307'),
+            afdeConfig('DB_NAME', 'educacaofinanceira')
         );
 
         $pdo = new PDO($dsn, afdeConfig('DB_USER', ''), afdeConfig('DB_PASS', ''), [

@@ -65,7 +65,8 @@ if (isset($_SESSION['id'])) {
          NAVBAR
     ========================================== -->
 
-    <nav>
+    <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="portalMainNav" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+    <nav id="portalMainNav">
 
         <ul>
 
@@ -84,7 +85,7 @@ if (isset($_SESSION['id'])) {
 
                 <a href="aprendizado.php" class="education-trigger">
                     Educação
-                    <span class="education-arrow" aria-hidden="true"></span>
+                    <i class="fas fa-chevron-down education-arrow"></i>
                 </a>
 
                 <div class="education-dropdown-menu">
@@ -132,18 +133,6 @@ if (isset($_SESSION['id'])) {
 
             </li>
 
-            
-            <!-- PLANOS -->
-
-            <li>
-
-                <a href="planos.php">
-                    Planos
-                </a>
-
-            </li>
-
-
 
             <!-- CALCULADORA -->
 
@@ -174,7 +163,7 @@ if (isset($_SESSION['id'])) {
                     <a href="investimentos_Diversificacao.php" class="investment-trigger">
                     Investimentos
 
-                    <span class="investment-arrow" aria-hidden="true"></span>
+                    <i class="fas fa-chevron-down investment-arrow"></i>
                 </a>
 
 
@@ -253,6 +242,15 @@ if (isset($_SESSION['id'])) {
 
             </li>
 
+
+            <!-- COMUNIDADE -->
+            <li class="community-nav-item">
+                <a href="<?= isset($_SESSION['id']) ? 'comunidade.php?terms=1' : 'login.php?next=community' ?>" aria-label="Abrir comunidade">
+                    Comunidade
+                </a>
+            </li>
+
+
             <!-- ADMIN -->
 
             <?php if ($isAdmin): ?>
@@ -271,9 +269,7 @@ if (isset($_SESSION['id'])) {
         </ul>
 
     </nav>
-
-
-    <!-- ==========================================
+<!-- ==========================================
          ÁREA DO USUÁRIO
     ========================================== -->
 
@@ -552,6 +548,15 @@ if (isset($_SESSION['id'])) {
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const mobileToggle = document.getElementById('mobileNavToggle');
+    const portalNav = document.getElementById('portalMainNav');
+    if (mobileToggle && portalNav) {
+        const closeMobile = () => { portalNav.classList.remove('mobile-open'); mobileToggle.setAttribute('aria-expanded', 'false'); mobileToggle.setAttribute('aria-label', 'Abrir menu'); };
+        mobileToggle.addEventListener('click', () => { const open = mobileToggle.getAttribute('aria-expanded') !== 'true'; mobileToggle.setAttribute('aria-expanded', String(open)); mobileToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu'); portalNav.classList.toggle('mobile-open', open); });
+        portalNav.addEventListener('click', e => { if (e.target.closest('a')) closeMobile(); });
+        document.addEventListener('click', e => { if (!portalNav.contains(e.target) && !mobileToggle.contains(e.target)) closeMobile(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMobile(); mobileToggle.focus(); } });
+    }
     const avatarBtn = document.getElementById('avatarBtn');
     const dropdownMenu = document.getElementById('dropdownMenu');
 
@@ -582,4 +587,3 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-
