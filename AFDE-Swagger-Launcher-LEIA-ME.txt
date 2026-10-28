@@ -1,0 +1,9 @@
+AFDE — Launcher do Swagger
+
+1. Instale o XAMPP em C:\xampp.
+2. Extraia esta pasta para C:\xampp\htdocs\PTCC-EducacaoFinanceira.
+3. Execute AFDE-Swagger-Launcher.exe.
+4. O launcher inicia o XAMPP, aguarda o Apache e abre:
+   http://localhost/PTCC-EducacaoFinanceira/docs/api/swagger-ui.html
+
+O launcher não inclui nem cria credenciais, não importa banco automaticamente e não deve ser executado em produção. Para testar endpoints, configure o banco de teste e o .env separadamente.
