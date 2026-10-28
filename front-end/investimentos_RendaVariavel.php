@@ -16,7 +16,7 @@ if (!isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/investimentos.css">
     <link rel="icon" type="image/png" href="../img/favicon.png">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
 <body>
@@ -304,4 +304,5 @@ if (!isset($_SESSION['id'])) {
     <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
+
 

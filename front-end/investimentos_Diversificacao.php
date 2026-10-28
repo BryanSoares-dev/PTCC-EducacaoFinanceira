@@ -111,7 +111,7 @@ $usuarioId = (int) $usuario['id'];
         href="../img/favicon.png"
     >
 
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
 
@@ -1162,4 +1162,5 @@ function scrollToConteudo() {
 </body>
 
 </html>
+
 

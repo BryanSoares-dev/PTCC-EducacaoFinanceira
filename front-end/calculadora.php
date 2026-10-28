@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Dashboard Financeiro</title>
   <link rel="stylesheet" href="../css/calculadora.css?v=2">
   <link rel="icon" type="image/png" href="../img/favicon.png">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
 <body class="calculadora-page">
@@ -187,3 +187,4 @@ include_once 'navbar.php';
     <script src="../JS/calculadora-brapi.js?v=1" defer></script>
 </body>
 </html>
+

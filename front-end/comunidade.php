@@ -37,9 +37,9 @@ try {
 <meta name="description" content="Comunidade do portal de educação financeira: conversas, grupos e conteúdo compartilhado.">
 <title>Comunidade | AFDE</title>
 <!-- A base visual do projeto do grupo tem precedência; a comunidade fornece apenas seus componentes específicos. -->
-<link rel="stylesheet" href="../community/front-end/assets/css/style.css?v=9"><link rel="stylesheet" href="../community/front-end/assets/css/community-overrides.css?v=13">
+<link rel="stylesheet" href="../community/front-end/assets/css/style.css?v=9"><link rel="stylesheet" href="../community/front-end/assets/css/community-overrides.css?v=14">
 <link rel="stylesheet" href="../css/style.css?v=102"><link rel="stylesheet" href="../css/navbar.css?v=102">
-<link rel="stylesheet" href="../css/liquid-glass.css?v=101"><link rel="icon" href="../img/favicon.png">
+<link rel="stylesheet" href="../css/liquid-glass.css?v=103"><link rel="icon" href="../img/favicon.png">
 </head><body class="community-native-page">
 <?php include_once __DIR__ . '/navbar.php'; ?>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -168,3 +168,4 @@ Ao selecionar “Aceitar e acessar a Comunidade”, você declara que teve oport
 <script>window.SUNSET_USER=<?= json_encode($user, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;window.COMMUNITY_API='../community/back-end/api.php';window.COMMUNITY_ASSET_BASE='../community/';window.COMMUNITY_MEDIA_ENDPOINT='../community/back-end/media.php';(()=>{const box=document.getElementById('community-terms-scroll'),accept=document.getElementById('community-terms-accept'),prev=document.getElementById('community-terms-prev'),next=document.getElementById('community-terms-next'),indicator=document.getElementById('community-terms-page-indicator');if(!box||!accept||!prev||!next||!indicator)return;const pages=Array.from(box.querySelectorAll('[data-terms-page]'));let current=0;const render=()=>{pages.forEach((page,i)=>{const active=i===current;page.classList.toggle('active',active);page.setAttribute('aria-hidden',String(!active));});prev.disabled=current===0;next.hidden=current===pages.length-1;indicator.textContent=`Página ${current+1} de ${pages.length}`;accept.disabled=current!==pages.length-1;box.scrollTop=0;};prev.addEventListener('click',()=>{if(current>0){current--;render();}});next.addEventListener('click',()=>{if(current<pages.length-1){current++;render();}});render();})();</script>
 <script src="../community/front-end/assets/js/app.js?v=23" defer></script><script src="../JS/acessibilidade.js" defer></script><script src="../JS/liquid-glass.js?v=101" defer></script>
 </body></html>
+

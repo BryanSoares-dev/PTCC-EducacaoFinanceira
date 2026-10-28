@@ -34,7 +34,7 @@ if (!isset($_SESSION['id'])) {
     >
 
     <link rel="icon" type="image/png" href="../img/favicon.png">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
 
@@ -615,4 +615,5 @@ if (!isset($_SESSION['id'])) {
 </body>
 
 </html>
+
 

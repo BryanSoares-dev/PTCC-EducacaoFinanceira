@@ -21,7 +21,7 @@ $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] 
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
     <link rel="stylesheet" href="../css/exercicios-arena.css?v=1">
     <link rel="icon" type="image/png" href="../img/favicon.png">
 
@@ -1073,7 +1073,7 @@ $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] 
             }
         }
     </style>
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
 
@@ -1819,3 +1819,4 @@ window.addEventListener("load", () => {
     <script src="../JS/liquid-glass.js?v=100" defer></script>
 </body>
 </html>
+

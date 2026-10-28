@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: PTCC Educação Financeira - API própria
+  version: 1.0.0
+  description: |
+    Documentação dos endpoints HTTP/JSON implementados pelo projeto.
+    Os endpoints dependem de sessão PHP autenticada, banco MySQL e, no módulo
+    Open Finance, credenciais da Pluggy. Não inclui diretamente as APIs da
+    Pluggy, Asaas, Google, Gemini ou Brapi.
+servers:
+  - url: http://localhost/PTCC-EducacaoFinanceira
+    description: XAMPP/Apache (ajuste o caminho conforme a pasta htdocs)
+  - url: http://127.0.0.1/PTCC-EducacaoFinanceira
+    description: XAMPP/Apache via loopback
+tags:
+  - name: Open Finance
+  - name: Carteira e calendário
+  - name: Arena
+  - name: Comunidade
+paths:
+  /open-finance/dados.php:
+    get:
+      tags: [Open Finance]
+      summary: Retorna dados Open Finance persistidos e, por padrão, sincroniza
+      parameters:
+        - in: query
+          name: sync
+          schema: { type: integer, enum: [0, 1], default: 1 }
+          description: Use 0 para não disparar sincronização externa.
+      responses:
+        '200':
+          description: Dados da conta, transações, empréstimos e investimentos
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/OpenFinanceData' } }
+        '401': { description: Sessão não autenticada }
+        '500': { description: Erro interno }
+  /open-finance/transacoes.php:
+    get:
+      tags: [Open Finance]
+      summary: Consulta e persiste as transações da conta conectada
+      responses:
+        '200':
+          description: Lista de transações
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/TransactionsResponse' } }
+        '401': { description: Sessão não autenticada }
+        '503': { description: Pluggy não configurada ou indisponível }
+  /open-finance/connect-token.php:
+    post:
+      tags: [Open Finance]
+      summary: Cria um token de conexão para o widget de Open Finance
+      responses:
+        '200': { description: Token criado }
+        '401': { description: Sessão não autenticada }
+        '503': { description: Pluggy não configurada }
+  /open-finance/classificar.php:
+    post:
+      tags: [Open Finance]
+      summary: Altera manualmente a categoria de uma transação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transacaoId, categoria]
+              properties:
+                transacaoId: { type: string, example: 'transaction-id' }
+                categoria: { type: string, example: Alimentação }
+      responses:
+        '200': { description: Categoria salva }
+        '400': { description: Dados inválidos }
+        '401': { description: Sessão não autenticada }
+        '403': { description: CSRF inválido }
+        '404': { description: Transação não encontrada }
+  /open-finance/sincronizar.php:
+    post:
+      tags: [Open Finance]
+      summary: Solicita sincronização dos dados Open Finance
+      responses:
+        '200': { description: Sincronização concluída }
+        '401': { description: Sessão não autenticada }
+  /open-finance/item.php:
+    post:
+      tags: [Open Finance]
+      summary: Salva ou remove a associação da conta conectada do usuário
+      responses:
+        '200': { description: Operação concluída }
+        '400': { description: Item inválido }
+        '401': { description: Sessão não autenticada }
+  /back-end/dados_grafico.php:
+    get:
+      tags: [Carteira e calendário]
+      summary: Retorna movimentações de um mês para o gráfico/calendário
+      parameters:
+        - in: query
+          name: mes
+          required: true
+          schema: { type: integer, minimum: 1, maximum: 12, example: 10 }
+        - in: query
+          name: ano
+          required: true
+          schema: { type: integer, example: 2026 }
+      responses:
+        '200': { description: Dados mensais em JSON }
+        '400': { description: Mês ou ano inválido }
+        '401': { description: Sessão não autenticada }
+  /back-end/dados_historico.php:
+    get:
+      tags: [Carteira e calendário]
+      summary: Retorna o histórico financeiro do usuário
+      responses:
+        '200': { description: Histórico em JSON }
+        '401': { description: Sessão não autenticada }
+  /back-end/aprendizado_api.php:
+    post:
+      tags: [Arena]
+      summary: Executa ações da Arena de aprendizado
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+              description: Os campos variam conforme a ação da Arena.
+      responses:
+        '200': { description: Resultado da ação em JSON }
+        '401': { description: Sessão não autenticada }
+        '403': { description: CSRF inválido }
+  /back-end/pular_teste.php:
+    post:
+      tags: [Arena]
+      summary: Pula o teste diagnóstico e define a patente inicial
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties: { csrf_token: { type: string } }
+      responses:
+        '200': { description: Operação concluída }
+        '401': { description: Sessão não autenticada }
+        '403': { description: CSRF inválido }
+  /community/back-end/api.php:
+    post:
+      tags: [Comunidade]
+      summary: API de ações da comunidade
+      description: Endpoint multiplexado; a ação é enviada no corpo da requisição.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action: { type: string, example: feed }
+              additionalProperties: true
+      responses:
+        '200': { description: Resultado da ação em JSON }
+        '401': { description: Sessão não autenticada }
+        '403': { description: CSRF inválido }
+  /back-end/processa_movimentacao.php:
+    post:
+      tags: [Carteira e calendário]
+      summary: Cria ou processa uma movimentação manual
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Operação concluída }
+        '401': { description: Sessão não autenticada }
+        '403': { description: CSRF inválido }
+components:
+  schemas:
+    OpenFinanceData:
+      type: object
+      properties:
+        connected: { type: boolean }
+        transacoes: { type: array, items: { type: object } }
+        emprestimos: { type: array, items: { type: object } }
+        investimentos: { type: array, items: { type: object } }
+        sincronizado: { type: integer }
+        avisos: { type: array, items: { type: string } }
+    TransactionsResponse:
+      type: object
+      properties:
+        connected: { type: boolean }
+        transacoes: { type: array, items: { type: object } }
+        sincronizado: { type: integer }
+        avisos: { type: array, items: { type: string } }
+
+
+
+

@@ -91,7 +91,7 @@ if (!in_array($tema, $temas_permitidos, true)) {
         href="../img/favicon.png"
     >
 
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
 
@@ -529,4 +529,5 @@ if (!in_array($tema, $temas_permitidos, true)) {
 </body>
 
 </html>
+
 
