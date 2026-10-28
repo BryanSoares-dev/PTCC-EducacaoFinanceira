@@ -1,7 +1,7 @@
 /*
  * AFDE Liquid Glass System
  * Inspirado no material de apoio Liquid Glass: tint, frost, rim light,
- * specular highlight, layered surfaces e conteúdo sempre nítido.
+ * specular highlight, layered surfaces e conteï¿½do sempre nï¿½tido.
  */
 :root {
   --lg-bg: #070b16;
@@ -158,23 +158,23 @@ input:focus, select:focus, textarea:focus { outline: none !important; border-col
 
 
 /* ============================================================
-   Liquid Glass evolution log: v69 → v83
+   Liquid Glass evolution log: v69 ? v83
    ============================================================ */
-/* v69 — shared material tokens */
-/* v70 — layered atmospheric background */
-/* v71 — translucent surfaces with frost and saturation */
-/* v72 — specular rim and inner highlight */
-/* v73 — unified buttons, controls and focus rings */
-/* v74 — pointer light follows the cursor */
-/* v75 — watery sheen animation on hover */
-/* v76 — click ripple propagates through the surface */
-/* v77 — gentle surface tilt follows pointer position */
-/* v78 — interactive form fields use the same material */
-/* v79 — navigation and dropdowns share the glass depth */
-/* v80 — responsive blur and reduced-motion fallback */
-/* v81 — tables and utility cards become connected surfaces */
-/* v82 — mobile touch devices avoid expensive pointer tracking */
-/* v83 — accessible focus, clean cleanup and final QA baseline */
+/* v69 ï¿½ shared material tokens */
+/* v70 ï¿½ layered atmospheric background */
+/* v71 ï¿½ translucent surfaces with frost and saturation */
+/* v72 ï¿½ specular rim and inner highlight */
+/* v73 ï¿½ unified buttons, controls and focus rings */
+/* v74 ï¿½ pointer light follows the cursor */
+/* v75 ï¿½ watery sheen animation on hover */
+/* v76 ï¿½ click ripple propagates through the surface */
+/* v77 ï¿½ gentle surface tilt follows pointer position */
+/* v78 ï¿½ interactive form fields use the same material */
+/* v79 ï¿½ navigation and dropdowns share the glass depth */
+/* v80 ï¿½ responsive blur and reduced-motion fallback */
+/* v81 ï¿½ tables and utility cards become connected surfaces */
+/* v82 ï¿½ mobile touch devices avoid expensive pointer tracking */
+/* v83 ï¿½ accessible focus, clean cleanup and final QA baseline */
 
 .liquid-glass-ready .liquid-glass-surface,
 .liquid-glass-ready .glass,
@@ -281,23 +281,23 @@ input:focus, select:focus, textarea:focus { outline: none !important; border-col
 
 
 /* ============================================================
-   Liquid Glass evolution log: v84 → v98
+   Liquid Glass evolution log: v84 ? v98
    ============================================================ */
-/* v84 — page entrance and exit transitions */
-/* v85 — intersection-based reveal for long pages */
-/* v86 — magnetic buttons and navigation controls */
-/* v87 — active navigation marker */
-/* v88 — animated atmospheric water blobs */
-/* v89 — slow background current / moving light */
-/* v90 — deeper hover elevation with optical easing */
-/* v91 — fluid table-row response */
-/* v92 — focus state receives a soft halo */
-/* v93 — current-page navigation gets a glass underline */
-/* v94 — touch and reduced-motion performance gates */
-/* v95 — anchor transitions preserve modifier-key behavior */
-/* v96 — surfaces enter only when visible */
-/* v97 — mobile safe spacing and smaller optical tilt */
-/* v98 — final visual coherence and cache-busted QA */
+/* v84 ï¿½ page entrance and exit transitions */
+/* v85 ï¿½ intersection-based reveal for long pages */
+/* v86 ï¿½ magnetic buttons and navigation controls */
+/* v87 ï¿½ active navigation marker */
+/* v88 ï¿½ animated atmospheric water blobs */
+/* v89 ï¿½ slow background current / moving light */
+/* v90 ï¿½ deeper hover elevation with optical easing */
+/* v91 ï¿½ fluid table-row response */
+/* v92 ï¿½ focus state receives a soft halo */
+/* v93 ï¿½ current-page navigation gets a glass underline */
+/* v94 ï¿½ touch and reduced-motion performance gates */
+/* v95 ï¿½ anchor transitions preserve modifier-key behavior */
+/* v96 ï¿½ surfaces enter only when visible */
+/* v97 ï¿½ mobile safe spacing and smaller optical tilt */
+/* v98 ï¿½ final visual coherence and cache-busted QA */
 
 html.liquid-glass-ready { background: var(--lg-bg); }
 html.liquid-glass-ready body { animation: lg-atmosphere-in .7s ease both; }
@@ -482,7 +482,7 @@ html.claro { --lg-white-sheen: rgba(255,255,255,.26); --lg-white-rim: rgba(31,65
 
 
 /* ============================================================
-   v100 — material uniforme para cards específicos de cada página
+   v100 ï¿½ material uniforme para cards especï¿½ficos de cada pï¿½gina
    ============================================================ */
 .liquid-glass-ready .lg-card-surface {
   position: relative;
@@ -524,7 +524,7 @@ html.claro { --lg-white-sheen: rgba(255,255,255,.26); --lg-white-rim: rgba(31,65
 }
 .liquid-glass-ready .lg-card-surface.lg-water-active::before { opacity: .96; }
 
-/* Cards que anteriormente tinham superfícies opacas próprias. */
+/* Cards que anteriormente tinham superfï¿½cies opacas prï¿½prias. */
 .liquid-glass-ready .modulo-card,
 .liquid-glass-ready .aula-item,
 .liquid-glass-ready .quiz-card,
@@ -553,7 +553,7 @@ html.claro { --lg-white-sheen: rgba(255,255,255,.26); --lg-white-rim: rgba(31,65
   backdrop-filter: blur(24px) saturate(150%) !important;
 }
 
-/* Parallax óptico: o conteúdo respira em ritmos diferentes sem exagero. */
+/* Parallax ï¿½ptico: o conteï¿½do respira em ritmos diferentes sem exagero. */
 .liquid-glass-ready .lg-card-surface > :where(.modulo-icon, .item-icone, .card_icon, .pagina_card_icon, .sobre_card_icon, .missao_card_icon, .feature_icon) {
   transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .45s ease;
   will-change: transform;
@@ -567,7 +567,7 @@ html.claro { --lg-white-sheen: rgba(255,255,255,.26); --lg-white-rim: rgba(31,65
 }
 .liquid-glass-ready .lg-card-surface:hover > :where(h1, h2, h3, h4, .modulo-desc, .aula-titulo, .item-desc) { transform: translate3d(0, -1px, 0); }
 
-/* Navegação permanece translúcida, sem fundos estranhos nos itens internos. */
+/* Navegaï¿½ï¿½o permanece translï¿½cida, sem fundos estranhos nos itens internos. */
 .liquid-glass-ready header nav a,
 .liquid-glass-ready .navbar a,
 .liquid-glass-ready nav a,
@@ -623,9 +623,9 @@ button, input, select, textarea { font: inherit; }
 
 
 /* ============================================================
-   Liquid Glass global coherence layer — PTCC v100
+   Liquid Glass global coherence layer ï¿½ PTCC v100
    Componentes legados recebem o mesmo material sem depender de
-   uma classe específica em cada página.
+   uma classe especï¿½fica em cada pï¿½gina.
    ============================================================ */
 :where(.recurso_card, .pagina_card, .info_card, .step_card, .form-card,
 .resultado-card, .card-stat, .summary_card, .prefs_card, .vantagens_box,
@@ -717,3 +717,25 @@ html.claro :where(.recurso_card, .pagina_card, .info_card, .step_card, .form-car
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
+
+/* AFDE unified tokens: base educacional */
+:root{--afde-navy:#0A2540;--afde-green:#16E28A;--lg-bg:#0A2540;--lg-bg-2:#123a59;--lg-accent:#16E28A;--lg-accent-2:#7fb3d5;--lg-border:rgba(22,226,138,.22)}
+html.claro{--lg-bg:#eef7f5;--lg-bg-2:#d9eee7;--lg-accent:#0b9f62;--lg-accent-2:#0A2540}
+@media(prefers-reduced-transparency:reduce){.liquid-glass-surface,.glass,.glass-card,.hero_card,.card,.card_dashboard,.perfil_card,.perfil_header-cover,.settings_card,.dashboard_card,.stat-card,.login_box,.cadastro_box,.form_container,.modal-content,.dropdown_menu,.crop-dialog,.support_card,.feature_card,.info_card,.content-card{background:var(--lg-bg-2);-webkit-backdrop-filter:none;backdrop-filter:none}}
+
+/* AFDE functional glass surfaces: navigation, hero e contÃªineres de foco */
+.community-native-page .hero-card,.community-native-page .post-card,.community-native-page .video-card,.community-native-page .community-card,.community-native-page .create-card,.community-native-page .rank-card,
+.pagina-diversificacao .hero_fixa_card,.pagina-diversificacao .explicacao_container,.renda-fixa-page .hero_fixa_card,.renda-fixa-page .explicacao_container,.renda-fixa-page .taxa_info,
+body:not(.arena-page) .hero_variavel_card,body:not(.arena-page) .explicacao_container_variavel,
+body.diagnostico-page .teste_card,body.diagnostico-page .progresso_teste,body.diagnostico-page .resultado_box{
+  background:linear-gradient(145deg,rgba(18,58,89,.78),rgba(10,37,64,.86));
+  border:1px solid rgba(22,226,138,.22);
+  box-shadow:0 18px 50px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.12);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+  backdrop-filter:blur(18px) saturate(150%);
+}
+html.claro .community-native-page .hero-card,html.claro .community-native-page .post-card,html.claro .community-native-page .video-card,html.claro .community-native-page .community-card,
+html.claro body.diagnostico-page .teste_card,html.claro body.diagnostico-page .progresso_teste,html.claro body.diagnostico-page .resultado_box{
+  background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(225,243,237,.76));color:#0A2540;
+}
+@media(prefers-reduced-transparency:reduce){.community-native-page .hero-card,.community-native-page .post-card,.community-native-page .video-card,.community-native-page .community-card,.community-native-page .create-card,.community-native-page .rank-card,.pagina-diversificacao .hero_fixa_card,.renda-fixa-page .hero_fixa_card,body.diagnostico-page .teste_card,body.diagnostico-page .progresso_teste,body.diagnostico-page .resultado_box{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--lg-bg-2)}}

@@ -1,0 +1,16 @@
+﻿AFDE initial static audit
+Date: 2026-10-27T20:45:31
+Git unavailable on device; no commit created
+--- Counts ---
+PHP files: 79
+JS files: 10
+CSS files: 24
+!important: 217
+backdrop-filter: 174
+innerHTML/insertAdjacentHTML: 57
+--- Sensitive/artifact candidates ---
+\files.zip
+\inject.py
+\analise-de-extrato\extratores\__pycache__\extrator_csv.cpython-312.pyc
+\analise-de-extrato\extratores\__pycache__\extrator_pdf.cpython-312.pyc
+\analise-de-extrato\__pycache__\app.cpython-312.pyc

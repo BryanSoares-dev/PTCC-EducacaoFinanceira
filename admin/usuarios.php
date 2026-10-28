@@ -50,7 +50,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" type="image/png" href="../img/favicon.png">
-    <link rel="stylesheet" href="../css/liquid-glass.css?v=101">
+    <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
 <body>
@@ -138,4 +138,5 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="../JS/liquid-glass.js?v=99" defer></script>
 </body>
 </html>
+
 
