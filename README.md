@@ -78,6 +78,8 @@ A navbar compartilhada foi adicionada às páginas internas que não a exibiam, 
 
 O perfil exibe a patente em destaque com material Liquid Glass, medalha visual e uma barra de XP que informa o total atual, o percentual da patente e quanto falta para a próxima. O campo `xp` foi adicionado à tabela `usuarios`; bancos antigos recebem a coluna automaticamente. O teste diagnóstico concede XP proporcional à pontuação, enquanto pular o teste mantém o usuário em Ferro 1.
 
+Quero fazer a funcionalidade de tema claro e tema escuro do meu site funcionar corretamente, tem algumas partes que quando eu mudo para o tema claro ficam invisiveis e o css quebra, quero que você deixe todas uniformes ao mudar para o tema claro e escuro, me mande uma prévia de como vai ficar antes de alterar o código todo
+
 
 ## Ajuste v102 — retornos e cartão de patente
 
