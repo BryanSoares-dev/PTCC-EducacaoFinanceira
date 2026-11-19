@@ -135,7 +135,7 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
             <small>Personalize o topo do seu perfil</small>
             <label for="banner" class="btn_secondary">Adicionar banner</label>
             <input type="file" id="banner" name="banner" accept="image/jpeg,image/png,image/webp">
-            <input type="hidden" name="banner_cortado" id="bannerCortado">
+            <input type="hidden" name="banner_cortada" id="bannerCortado">
         </form>
     </section>
 
@@ -216,6 +216,7 @@ $progressoXp = $proximaPatente ? min(100, max(0, ($xpNaPatente / $faixaXp) * 100
 <script src="../JS/banner-editor.js?v=68" defer></script>
 <script src="../JS/acessibilidade.js" defer></script>
     <script src="../JS/liquid-glass.js?v=100" defer></script>
+<?php include '../suporte-ia/chatbot-widget.php'; ?>
 </body>
 </html>
 

@@ -920,6 +920,8 @@ if (isset($_SESSION['id'])) {
 
     <script src="../JS/liquid-glass.js?v=100" defer></script>
 
+    <?php include '../suporte-ia/chatbot-widget.php'; ?>
+
 </body>
 
 </html>

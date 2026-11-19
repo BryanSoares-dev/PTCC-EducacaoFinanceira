@@ -164,6 +164,7 @@ iniciar_sessao_segura();
     <!-- Widget de Acessibilidade — integrado em todas as páginas -->
     <script src="../JS/acessibilidade.js" defer></script>
     <script src="../JS/liquid-glass.js?v=100" defer></script>
+    <?php include '../suporte-ia/chatbot-widget.php'; ?>
 </body>
 </html>
 

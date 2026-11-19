@@ -185,6 +185,7 @@ include_once 'navbar.php';
     <script src="../JS/acessibilidade.js" defer></script>
     <script src="../JS/liquid-glass.js?v=100" defer></script>
     <script src="../JS/calculadora-brapi.js?v=1" defer></script>
+<?php include '../suporte-ia/chatbot-widget.php'; ?>
 </body>
 </html>
 

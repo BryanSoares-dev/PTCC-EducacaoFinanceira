@@ -313,5 +313,6 @@ function preco_partes(float $v): array {
     });
   </script>
 <script src="../JS/liquid-glass.js?v=100" defer></script>
+<?php include '../suporte-ia/chatbot-widget.php'; ?>
 </body>
 </html>

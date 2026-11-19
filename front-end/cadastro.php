@@ -376,5 +376,7 @@ iniciar_sessao_segura();
 
 })();
 </script>
+
+<?php include '../suporte-ia/chatbot-widget.php'; ?>
 </body>
 </html>
