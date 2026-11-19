@@ -1,3 +1,3 @@
 <?php
-header('Location: front-end/login.php', true, 302);
+header('Location: front-end/home.php', true, 302);
 exit;
