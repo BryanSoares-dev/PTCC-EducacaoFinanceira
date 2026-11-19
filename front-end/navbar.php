@@ -83,9 +83,9 @@ if (isset($_SESSION['id'])) {
 
             <li class="education-dropdown">
 
-                <a href="aprendizado.php" class="education-trigger">
+                <a href="aprendizado.php" class="education-trigger" data-dropdown-trigger="education" data-lg-transition="off">
                     Educação
-                    <i class="fas fa-chevron-down education-arrow"></i>
+                    <span class="education-arrow"></span>
                 </a>
 
                 <div class="education-dropdown-menu">
@@ -160,7 +160,7 @@ if (isset($_SESSION['id'])) {
 
             <li class="investment-dropdown">
 
-                    <a href="investimentos_Diversificacao.php" class="investment-trigger">
+                    <a href="investimentos_Diversificacao.php" class="investment-trigger" data-dropdown-trigger="investment" data-lg-transition="off">
                     Investimentos
 
                     <i class="fas fa-chevron-down investment-arrow"></i>
@@ -557,6 +557,31 @@ document.addEventListener('DOMContentLoaded', function () {
         document.addEventListener('click', e => { if (!portalNav.contains(e.target) && !mobileToggle.contains(e.target)) closeMobile(); });
         document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMobile(); mobileToggle.focus(); } });
     }
+    const menuTriggers = document.querySelectorAll('.education-dropdown, .investment-dropdown');
+    menuTriggers.forEach((dropdown) => {
+        const trigger = dropdown.querySelector(':scope > a');
+        if (!trigger) return;
+
+        trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            const willOpen = !dropdown.classList.contains('open');
+            menuTriggers.forEach((other) => other.classList.remove('open'));
+            dropdown.classList.toggle('open', willOpen);
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.education-dropdown, .investment-dropdown')) {
+            menuTriggers.forEach((dropdown) => dropdown.classList.remove('open'));
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            menuTriggers.forEach((dropdown) => dropdown.classList.remove('open'));
+        }
+    });
+
     const avatarBtn = document.getElementById('avatarBtn');
     const dropdownMenu = document.getElementById('dropdownMenu');
 

@@ -96,67 +96,67 @@
 html.claro {
 
     --nav-bg:
-        rgba(255, 255, 255, 0.94);
+        rgba(7, 24, 43, 0.94);
 
     --nav-border:
-        rgba(15, 23, 42, 0.10);
+        rgba(255, 255, 255, 0.10);
 
     --nav-shadow:
-        rgba(15, 23, 42, 0.12);
+        rgba(5, 15, 28, 0.28);
 
     --nav-text:
-        #334155;
+        rgba(255, 255, 255, 0.92);
 
     --nav-text-hover:
-        #0369A1;
+        #16E28A;
 
     --nav-green:
-        #0E9F6E;
+        #16E28A;
 
     --nav-green-dark:
-        #087F5B;
+        #0FCF79;
 
     --nav-button-text:
-        #052E1B;
+        #06150F;
 
     --nav-secondary-bg:
-        #F1F5F9;
+        rgba(255, 255, 255, 0.08);
 
     --nav-secondary-border:
-        #CBD5E1;
+        rgba(255, 255, 255, 0.12);
 
     --nav-secondary-hover:
-        #E2E8F0;
+        rgba(255, 255, 255, 0.15);
 
 
     /* Dropdown claro */
 
     --dropdown-bg:
-        rgba(255, 255, 255, 0.98);
+        rgba(7, 24, 43, 0.98);
 
     --dropdown-border:
-        rgba(15, 23, 42, 0.12);
+        rgba(255, 255, 255, 0.10);
 
     --dropdown-text:
-        #0F172A;
+        rgba(255, 255, 255, 0.92);
 
     --dropdown-muted:
-        #64748B;
+        rgba(255, 255, 255, 0.60);
 
     --dropdown-hover:
-        rgba(14, 159, 110, 0.08);
+        rgba(22, 226, 138, 0.12);
 
     --dropdown-hover-text:
-        #087F5B;
+        #16E28A;
 
     --dropdown-divider:
-        rgba(15, 23, 42, 0.10);
+        rgba(255, 255, 255, 0.10);
 
     --dropdown-logout:
-        #DC2626;
+        #FF7A7A;
 
     --dropdown-logout-hover:
-        rgba(220, 38, 38, 0.08);
+        rgba(255, 107, 107, 0.12);
 
 
     /* Avatar */
@@ -818,14 +818,25 @@ nav a:hover::after {
 /* SETINHA */
 
 .education-arrow {
-    width: 7px;
-    height: 7px;
-    display: inline-block;
-    flex: 0 0 7px;
-    border-right: 1.7px solid currentColor;
-    border-bottom: 1.7px solid currentColor;
-    transform: rotate(45deg) translateY(-2px);
-    transition: transform 0.25s ease;
+    width: 7px !important;
+    height: 7px !important;
+    min-width: 7px !important;
+    max-width: 7px !important;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 2px solid currentColor !important;
+    border-bottom: 2px solid currentColor !important;
+    background: transparent !important;
+    background-image: none !important;
+    display: inline-block !important;
+    flex: 0 0 7px !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 3px 5px !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    transform: rotate(45deg) !important;
+    transform-origin: center;
 }
 
 
@@ -869,7 +880,8 @@ nav a:hover::after {
     border:
         1px solid rgba(255, 255, 255, 0.15);
 
-    border-radius: 18px;
+    border-radius:
+        18px;
 
     box-shadow:
         0 20px 45px rgba(0, 0, 0, 0.30);
@@ -1035,7 +1047,74 @@ nav a:hover::after {
 }
 
 
-/* SETA */
+/* AFDE dropdown repair */
+.education-dropdown,
+.investment-dropdown {
+    position: relative !important;
+}
+
+.education-dropdown-menu,
+.investment-dropdown-menu {
+    position: absolute !important;
+    top: calc(100% + 14px) !important;
+    left: 50% !important;
+    width: 290px !important;
+    min-width: 290px !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 4px !important;
+    padding: 10px !important;
+    transform: translateX(-50%) translateY(8px) !important;
+    background: rgba(7, 24, 43, 0.98) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.30) !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 999999;
+}
+
+.education-dropdown:hover .education-dropdown-menu,
+.investment-dropdown:hover .investment-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.education-dropdown-menu a,
+.investment-dropdown-menu a {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: auto !important;
+    gap: 13px !important;
+    padding: 13px !important;
+    border-radius: 13px !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    text-decoration: none !important;
+}
+
+.education-dropdown-menu a div,
+.investment-dropdown-menu a div {
+    display: grid !important;
+    gap: 3px !important;
+}
+
+.education-dropdown-menu a strong,
+.investment-dropdown-menu a strong {
+    color: #ffffff !important;
+}
+
+.education-dropdown-menu a span,
+.investment-dropdown-menu a span {
+    color: rgba(255, 255, 255, 0.60) !important;
+}
+
+.education-dropdown-menu a:hover,
+.investment-dropdown-menu a:hover {
+    background: rgba(22, 226, 138, 0.10) !important;
+}
 
 .investment-arrow {
     width: 7px;
@@ -1045,197 +1124,190 @@ nav a:hover::after {
     border-right: 1.7px solid currentColor;
     border-bottom: 1.7px solid currentColor;
     transform: rotate(45deg) translateY(-2px);
-    transition: transform 0.25s ease;
 }
 
+/* AFDE navbar desktop visibility repair */
+@media (min-width: 769px) {
+    header nav,
+    #portalMainNav,
+    nav#portalMainNav {
+        display: flex !important;
+        align-items: center;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: auto;
+    }
 
-/* GIRA A SETA */
-
-.investment-dropdown:hover .investment-arrow {
-    transform: rotate(225deg) translateY(-2px);
+    #portalMainNav ul {
+        display: flex !important;
+        align-items: center;
+        flex-direction: row;
+        width: auto;
+    }
 }
 
+/* AFDE responsive navbar repair */
+@media (min-width: 601px) {
+    #portalMainNav,
+    header nav,
+    nav#portalMainNav {
+        display: flex !important;
+        align-items: center;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: static;
+        width: auto;
+    }
 
-/* =========================================
-   GAVETA
-========================================= */
+    #mobileNavToggle {
+        display: none !important;
+    }
 
-.investment-dropdown-menu {
-
-    position: absolute !important;
-
-    top: 100% !important;
-
-    left: 50% !important;
-
-    transform:
-        translateX(-50%)
-        translateY(12px);
-
-    width: 300px;
-
-    padding: 10px;
-
-    /* LIQUID GLASS */
-
-    background:
-        rgba(20, 40, 65, 0.88);
-
-    backdrop-filter:
-        blur(25px);
-
-    -webkit-backdrop-filter:
-        blur(25px);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.15);
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 20px 45px rgba(0, 0, 0, 0.30);
-
-    /* ESCONDIDO */
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    pointer-events: none;
-
-    /* ANIMAÇÃO */
-
-    transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0.25s ease;
-
-    z-index: 999999;
+    #portalMainNav ul {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center;
+        gap: 24px;
+    }
 }
 
+@media (min-width: 601px) and (max-width: 980px) {
+    header {
+        width: calc(100% - 30px);
+        padding: 0 18px;
+    }
 
-/* =========================================
-   ABRIR NO HOVER
-========================================= */
+    #portalMainNav ul {
+        gap: 12px !important;
+    }
 
-.investment-dropdown:hover
-.investment-dropdown-menu {
-
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-
-    transform:
-        translateX(-50%)
-        translateY(8px);
-
+    #portalMainNav nav a,
+    #portalMainNav a {
+        font-size: 13px;
+    }
 }
 
+@media (max-width: 600px) {
+    #mobileNavToggle {
+        display: flex !important;
+    }
 
-/* =========================================
-   ITENS
-========================================= */
+    #portalMainNav {
+        display: none !important;
+    }
 
+    #portalMainNav.mobile-open {
+        display: flex !important;
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        width: 100%;
+        padding: 14px;
+        flex-direction: column;
+        background: rgba(7,24,43,.98);
+        border: 1px solid rgba(255,255,255,.10);
+        border-radius: 16px;
+    }
+
+    #portalMainNav.mobile-open ul {
+        display: grid !important;
+        width: 100%;
+        gap: 6px;
+    }
+}
+
+/* AFDE dropdown usability override */
+.education-trigger::after,
+.investment-trigger::after,
+.education-dropdown-menu a::after,
+.investment-dropdown-menu a::after {
+    content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+.education-trigger,
+.investment-trigger,
+.education-dropdown-menu a,
 .investment-dropdown-menu a {
-
-    display: flex !important;
-
-    align-items: center;
-
-    gap: 13px;
-
-    width: 100%;
-
-    padding: 13px;
-
-    border-radius: 13px;
-
-    text-decoration: none;
-
-    color: white;
-
-    box-sizing: border-box;
-
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-
+    text-decoration: none !important;
 }
 
-
-/* HOVER */
-
-.investment-dropdown-menu a:hover {
-
-    background:
-        rgba(255, 255, 255, 0.10);
-
-    transform:
-        translateX(4px);
-
-}
-
-
-/* =========================================
-   ÍCONES
-========================================= */
-
-.investment-dropdown-menu a > i {
-
-    display: flex;
-
+.education-arrow,
+.investment-arrow {
+    width: auto !important;
+    height: auto !important;
+    min-width: 10px;
+    border: none !important;
+    background: none !important;
+    display: inline-flex !important;
     align-items: center;
-
     justify-content: center;
-
-    width: 40px;
-
-    height: 40px;
-
-    flex-shrink: 0;
-
-    border-radius: 12px;
-
-    color: #54e39a;
-
-    background:
-        rgba(84, 227, 154, 0.12);
-
+    flex: 0 0 auto !important;
+    padding: 0;
+    margin-left: 2px;
+    color: currentColor;
+    font-family: sans-serif !important;
+    font-size: 13px !important;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: none;
+    transform: none !important;
 }
 
-
-/* =========================================
-   TEXTOS
-========================================= */
-
-.investment-dropdown-menu a div {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 3px;
-
+.education-dropdown.open .education-arrow,
+.investment-dropdown.open .investment-arrow,
+.education-dropdown:hover .education-arrow,
+.investment-dropdown:hover .investment-arrow {
+    transform: rotate(180deg) !important;
 }
 
-
-.investment-dropdown-menu a strong {
-
-    font-size: 14px;
-
-    color: white;
-
+.education-dropdown-menu,
+.investment-dropdown-menu {
+    top: calc(100% + 18px) !important;
+    margin-top: 8px;
 }
 
+.education-dropdown.open .education-dropdown-menu,
+.investment-dropdown.open .investment-dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
 
-.investment-dropdown-menu a span {
+/* =========================================================
+   SETAS FINAIS DOS DROPDOWNs - prioridade absoluta
+========================================================= */
+.education-arrow,
+.investment-arrow {
+    width: 7px !important;
+    height: 7px !important;
+    min-width: 7px !important;
+    max-width: 7px !important;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 2px solid currentColor !important;
+    border-bottom: 2px solid currentColor !important;
+    background: transparent !important;
+    background-image: none !important;
+    display: inline-block !important;
+    flex: 0 0 7px !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 0 3px 5px !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    transform: rotate(45deg) !important;
+    transform-origin: center;
+}
 
-    font-size: 12px;
-
-    color:
-        rgba(255, 255, 255, 0.60);
-
+.education-dropdown.open .education-arrow,
+.investment-dropdown.open .investment-arrow,
+.education-dropdown:hover .education-arrow,
+.investment-dropdown:hover .investment-arrow {
+    transform: rotate(225deg) !important;
 }
 

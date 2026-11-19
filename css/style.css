@@ -3116,3 +3116,28 @@ body > main:has(> .hero) .hero_card::before,
 body > main:has(> .hero) .hero_card::after {
     content: none !important;
 }
+
+/* AFDE home theme override */
+html.claro body:has(main > .hero) {
+    --home-background: #eef7f5;
+    --home-flow: linear-gradient(165deg, #eef7f5 0%, #dcecf2 46%, #eef7f5 100%);
+    --title-color: #10213e;
+    --paragraph-color: #40566d;
+    --text-secondary: #40566d;
+    --bg-card: rgba(255, 255, 255, 0.88);
+    --bg-card-hover: #ffffff;
+    --border-color: rgba(31, 65, 105, 0.14);
+    background: var(--home-background) !important;
+}
+
+html.claro body > main:has(> .hero) {
+    background: var(--home-flow) !important;
+}
+
+html.claro body > main:has(> .hero) :where(h1, h2, h3, h4, strong) {
+    color: #10213e !important;
+}
+
+html.claro body > main:has(> .hero) :where(p, small, span, li) {
+    color: #40566d !important;
+}

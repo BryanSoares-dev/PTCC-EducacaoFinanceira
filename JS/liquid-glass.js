@@ -1,6 +1,41 @@
 (() => {
   'use strict';
 
+  const root = document.documentElement;
+  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function resolveTheme() {
+    const configured = ['claro', 'escuro', 'sistema'].includes(root.dataset.theme)
+      ? root.dataset.theme
+      : (root.classList.contains('claro') ? 'claro'
+        : root.classList.contains('escuro') ? 'escuro'
+        : 'sistema');
+
+    const resolved = configured === 'sistema'
+      ? (systemTheme.matches ? 'escuro' : 'claro')
+      : configured;
+
+    root.classList.remove('claro', 'escuro', 'sistema');
+    root.classList.add(resolved);
+    root.dataset.theme = configured;
+    root.dataset.resolvedTheme = resolved;
+    root.style.colorScheme = resolved;
+  }
+
+  resolveTheme();
+
+  systemTheme.addEventListener?.('change', () => {
+    if (root.dataset.theme === 'sistema') resolveTheme();
+  });
+
+  document.addEventListener('change', (event) => {
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement) || input.name !== 'tema') return;
+    if (!['claro', 'escuro', 'sistema'].includes(input.value)) return;
+    root.dataset.theme = input.value;
+    resolveTheme();
+  });
+
   const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   const coarse = window.matchMedia?.('(pointer: coarse)').matches;
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -133,6 +168,10 @@
     document.querySelectorAll('a[href]').forEach((link) => {
       const href = link.getAttribute('href');
       if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || link.target === '_blank' || link.dataset.lgTransition === 'off') return;
+      if (link.closest('.education-dropdown, .investment-dropdown')) {
+        link.dataset.lgTransition = 'off';
+        return;
+      }
       if (link.origin !== window.location.origin) return;
       try { if (new URL(link.href).pathname === window.location.pathname) link.classList.add('lg-current-page'); } catch (_) { return; }
       if (reduceMotion) return;

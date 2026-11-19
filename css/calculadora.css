@@ -940,3 +940,38 @@ body.calculadora-page .cotacao-horario { margin-top: 12px; font-size: .74rem; }
   body.calculadora-page .calculadora-box { padding: 25px 20px; }
   body.calculadora-page .titulo-calculadora h2 { font-size: 1.65rem; }
 }
+
+/* AFDE calculator light theme */
+html.claro body.calculadora-page {
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(69, 139, 205, .16), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(34, 194, 139, .12), transparent 31%),
+    linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e;
+}
+
+html.claro body.calculadora-page :where(.hero-calculadora,.calculadora-box,.cotacoes-card,.cotacoes-result,.resultado-card) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body.calculadora-page :where(h1,h2,h3,h4,strong,.cotacao-ticker,.cotacao-preco) { color: #10213e !important; }
+html.claro body.calculadora-page :where(p,label,.titulo-calculadora p,.info-aporte p,.cotacoes-heading p,.cotacao-nome,.cotacao-horario,.resultado-card h4) { color: #40566d !important; }
+
+html.claro body.calculadora-page :where(.input-group input,.cotacoes-controles select) {
+  background: rgba(255,255,255,.94) !important;
+  color: #10213e !important;
+  border: 1px solid rgba(31,65,105,.20) !important;
+}
+
+html.claro body.calculadora-page .badge,
+html.claro body.calculadora-page .info-aporte,
+html.claro body.calculadora-page .resultado-card.destaque {
+  background: rgba(11,159,98,.08) !important;
+  border-color: rgba(11,159,98,.24) !important;
+}
+
+html.claro body.calculadora-page :where(.cotacoes-controles button,.btn-calcular) {
+  color: #071522 !important;
+}

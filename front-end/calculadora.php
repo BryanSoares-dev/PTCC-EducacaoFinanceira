@@ -38,10 +38,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $lucro = $valor_final - $total_investido;
 }
+
+$temaCalculadora = 'sistema';
+if (isset($_SESSION['id'])) {
+    try {
+        $stmtTema = $pdo->prepare('SELECT tema FROM usuarios WHERE id = ?');
+        $stmtTema->execute([$_SESSION['id']]);
+        $temaUsuario = $stmtTema->fetchColumn();
+        if (in_array($temaUsuario, ['claro', 'escuro', 'sistema'], true)) {
+            $temaCalculadora = $temaUsuario;
+        }
+    } catch (PDOException $ignored) {
+        $temaCalculadora = 'sistema';
+    }
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="<?= htmlspecialchars($temaCalculadora, ENT_QUOTES, 'UTF-8') ?>">
 <head>
   <meta charset="UTF-8">
   <title>Dashboard Financeiro</title>

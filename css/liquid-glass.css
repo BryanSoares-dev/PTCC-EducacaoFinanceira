@@ -20,17 +20,19 @@
   --lg-blur: 26px;
 }
 html.claro {
-  --lg-bg: #e9f0f8;
-  --lg-bg-2: #d4e3f5;
+  --lg-bg: #eef7f5;
+  --lg-bg-2: #dcecf2;
   --lg-text: #10213e;
-  --lg-muted: rgba(16, 33, 62, .70);
-  --lg-faint: rgba(16, 33, 62, .52);
-  --lg-surface: rgba(255, 255, 255, .56);
-  --lg-surface-strong: rgba(255, 255, 255, .76);
-  --lg-surface-soft: rgba(255, 255, 255, .46);
+  --lg-muted: #40566d;
+  --lg-faint: #60758a;
+  --lg-accent: #0b9f62;
+  --lg-accent-2: #0a2540;
+  --lg-surface: rgba(255, 255, 255, .76);
+  --lg-surface-strong: rgba(255, 255, 255, .92);
+  --lg-surface-soft: rgba(255, 255, 255, .62);
   --lg-border: rgba(31, 65, 105, .16);
   --lg-border-strong: rgba(31, 65, 105, .28);
-  --lg-shadow: 0 24px 70px rgba(30, 64, 105, .16), inset 0 1px rgba(255,255,255,.72);
+  --lg-shadow: 0 18px 50px rgba(42, 72, 100, .12), inset 0 1px rgba(255, 255, 255, .82);
 }
 
 html, body { background: var(--lg-bg); color: var(--lg-text); }
@@ -39,10 +41,10 @@ body {
   isolation: isolate;
   min-height: 100vh;
   background:
-    radial-gradient(ellipse at 12% 8%, rgba(93, 139, 255, .22), transparent 32%),
-    radial-gradient(ellipse at 88% 18%, rgba(55, 229, 177, .15), transparent 31%),
-    radial-gradient(ellipse at 52% 112%, rgba(151, 94, 255, .15), transparent 34%),
-    linear-gradient(135deg, var(--lg-bg), var(--lg-bg-2));
+    radial-gradient(ellipse at 12% 8%, rgba(69, 139, 205, .16), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(34, 194, 139, .12), transparent 31%),
+    linear-gradient(135deg, var(--lg-bg), var(--lg-bg-2)) !important;
+  color: var(--lg-text) !important;
 }
 body::before, body::after {
   content: "";
@@ -107,7 +109,6 @@ header, .navbar, nav {
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
 }
-html.claro header, html.claro .navbar, html.claro nav { background: rgba(236,244,255,.62) !important; }
 header a, nav a { color: var(--lg-muted); }
 header a:hover, nav a:hover { color: var(--lg-accent); }
 
@@ -723,7 +724,7 @@ html.claro :where(.recurso_card, .pagina_card, .info_card, .step_card, .form-car
 html.claro{--lg-bg:#eef7f5;--lg-bg-2:#d9eee7;--lg-accent:#0b9f62;--lg-accent-2:#0A2540}
 @media(prefers-reduced-transparency:reduce){.liquid-glass-surface,.glass,.glass-card,.hero_card,.card,.card_dashboard,.perfil_card,.perfil_header-cover,.settings_card,.dashboard_card,.stat-card,.login_box,.cadastro_box,.form_container,.modal-content,.dropdown_menu,.crop-dialog,.support_card,.feature_card,.info_card,.content-card{background:var(--lg-bg-2);-webkit-backdrop-filter:none;backdrop-filter:none}}
 
-/* AFDE functional glass surfaces: navigation, hero e contÃªineres de foco */
+/* AFDE functional glass surfaces: navigation, hero e contÃªneres de foco */
 .community-native-page .hero-card,.community-native-page .post-card,.community-native-page .video-card,.community-native-page .community-card,.community-native-page .create-card,.community-native-page .rank-card,
 .pagina-diversificacao .hero_fixa_card,.pagina-diversificacao .explicacao_container,.renda-fixa-page .hero_fixa_card,.renda-fixa-page .explicacao_container,.renda-fixa-page .taxa_info,
 body:not(.arena-page) .hero_variavel_card,body:not(.arena-page) .explicacao_container_variavel,
@@ -739,3 +740,126 @@ html.claro body.diagnostico-page .teste_card,html.claro body.diagnostico-page .p
   background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(225,243,237,.76));color:#0A2540;
 }
 @media(prefers-reduced-transparency:reduce){.community-native-page .hero-card,.community-native-page .post-card,.community-native-page .video-card,.community-native-page .community-card,.community-native-page .create-card,.community-native-page .rank-card,.pagina-diversificacao .hero_fixa_card,.renda-fixa-page .hero_fixa_card,body.diagnostico-page .teste_card,body.diagnostico-page .progresso_teste,body.diagnostico-page .resultado_box{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--lg-bg-2)}}
+
+/* AFDE final theme override: navbar always dark in clear mode */
+html.claro header,
+html.claro .navbar,
+html.claro nav {
+  background: rgba(7, 24, 43, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 14px 44px rgba(5, 15, 28, 0.24) !important;
+}
+
+html.claro header a,
+html.claro nav a,
+html.claro .navbar a {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+html.claro header a:hover,
+html.claro nav a:hover,
+html.claro .navbar a:hover {
+  color: #16E28A !important;
+}
+
+/* AFDE global light/dark uniformity */
+html.claro body {
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(69,139,205,.16), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(34,194,139,.12), transparent 31%),
+    linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro :where(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: #10213e !important;
+}
+
+html.claro :where(p,small,li,dt,dd,label) {
+  color: #40566d !important;
+}
+
+html.claro :where(.glass,.glass-card,.liquid-glass-surface,.hero_card,.card,.card_dashboard,
+.perfil_card,.settings_card,.dashboard_card,.stat-card,.login_box,.cadastro_box,
+.cadastro_card,.login_card,.form_container,.support_card,.feature_card,.info_card,
+.content-card,.pagina_card,.sobre_card,.missao_card,.recurso_card,.beneficio_card,
+.step_card,.resultado-card,.chart_card,.summary_card,.legend_card,.history_card,
+.prefs_card,.form-card,.card-stat,.modulo-card,.item-card,.saldo-card,
+.vantagens_box,.beneficio_card,.destaque_box,.exemplo_box,.desvantagens_box,
+.resultado_box,.modal_box,.modal_content,.tipo_card_fixa,.tipo_card_variavel,
+.dica_content,.dica_content_variavel,.pagina_section,.timeline-container) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro :where(input,select,textarea) {
+  background: rgba(255,255,255,.94) !important;
+  color: #10213e !important;
+  border-color: rgba(31,65,105,.20) !important;
+}
+
+html.claro :where(input::placeholder,textarea::placeholder) {
+  color: #66788a !important;
+}
+
+html.claro :where(table,.table-container,.tabela-container,.admin-table,.data-table) {
+  background: rgba(255,255,255,.86) !important;
+  color: #10213e !important;
+  border-color: rgba(31,65,105,.12) !important;
+}
+
+html.claro :where(th,td) {
+  color: #40566d !important;
+  border-color: rgba(31,65,105,.10) !important;
+}
+
+html.escuro body {
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(93,139,255,.22), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(55,229,177,.15), transparent 31%),
+    radial-gradient(ellipse at 52% 112%, rgba(151,94,255,.15), transparent 34%),
+    linear-gradient(135deg, #070b16, #101a32) !important;
+  color: #f6f9ff !important;
+}
+
+/* AFDE page theme final repair */
+html.claro body:has(main > .hero) {
+  --home-background: #eef7f5;
+  --home-flow: linear-gradient(165deg, #eef7f5 0%, #dcecf2 46%, #eef7f5 100%);
+  background: #eef7f5 !important;
+}
+
+html.claro body > main:has(> .hero) {
+  background: linear-gradient(165deg, #eef7f5 0%, #dcecf2 46%, #eef7f5 100%) !important;
+}
+
+html.claro body.calculadora-page {
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(69,139,205,.16), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(34,194,139,.12), transparent 31%),
+    linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro body.calculadora-page :where(.hero-calculadora,.calculadora-box,.cotacoes-card,.cotacoes-result,.resultado-card) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+}
+
+/* AFDE dropdown and contrast final override */
+html.claro :is(.education-dropdown-menu, .investment-dropdown-menu, .dropdown_menu) {
+  background: rgba(7, 24, 43, 0.98) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.30) !important;
+}
+
+html.claro :is(.education-dropdown-menu,.investment-dropdown-menu) :is(a,strong) {
+  color: #ffffff !important;
+}
+
+html.claro :is(.education-dropdown-menu,.investment-dropdown-menu) a span {
+  color: rgba(255, 255, 255, 0.60) !important;
+}

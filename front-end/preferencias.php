@@ -67,7 +67,7 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="<?= htmlspecialchars($temaAtual, ENT_QUOTES, 'UTF-8') ?>">
 
 <head>
     <meta charset="UTF-8">
