@@ -444,7 +444,7 @@ html.claro .hero,
 html.escuro .hero,
 html.sistema .hero {
 
-    background: var(--hero-bg);
+    background: transparent !important;
 
     color: var(--hero-text);
 
@@ -481,18 +481,12 @@ html.sistema .hero p {
 
 html.claro .section_dark,
 html.escuro .section_dark,
-html.sistema .section_dark {
-
-    background: var(--bg-section);
-
-}
-
-
+html.sistema .section_dark,
 html.claro .section_light,
 html.escuro .section_light,
 html.sistema .section_light {
 
-    background: var(--bg-section-alt);
+    background: transparent !important;
 
 }
 
@@ -561,7 +555,7 @@ html.sistema label {
 
     margin: 48px auto 0;
 
-    background: var(--card);
+    background: transparent !important;
 
     backdrop-filter: blur(var(--glass-blur));
 
@@ -585,7 +579,7 @@ html.sistema label {
 
 .analisador_box:hover {
 
-    background: var(--card-hover);
+    background: transparent !important;
 
     border-color: var(--border-hover);
 
@@ -612,7 +606,7 @@ html.sistema label {
 
     padding: 44px 20px;
 
-    background: var(--upload-bg);
+    background: transparent !important;
 
     border: 2px dashed var(--upload-border);
 
@@ -635,7 +629,7 @@ html.sistema label {
 
     border-color: var(--accent-dark);
 
-    background: var(--upload-bg-hover);
+    background: transparent !important;
 
 }
 
@@ -687,7 +681,7 @@ html.sistema label {
 
     padding: 10px 14px;
 
-    background: var(--chip-bg);
+    background: transparent !important;
 
     border: 1px solid var(--chip-border);
 
@@ -851,7 +845,7 @@ html.sistema label {
 
     padding: 24px 26px;
 
-    background: var(--resultado-bg);
+    background: transparent !important;
 
     border: 1px solid var(--resultado-border);
 
@@ -1175,20 +1169,14 @@ html.claro section {
 /* HERO */
 
 html.claro #analisador-hero {
-    background:
-        linear-gradient(
-            135deg,
-            #F8FAFC 0%,
-            #FFFFFF 55%,
-            #E0F2FE 100%
-        ) !important;
+    background: transparent !important;
 }
 
 
 /* SEÇÃO DE UPLOAD */
 
 html.claro #upload {
-    background: #FFFFFF !important;
+    background: transparent !important;
     color: #0F172A !important;
 }
 
@@ -1196,7 +1184,7 @@ html.claro #upload {
 /* SEÇÃO COMO FUNCIONA */
 
 html.claro .section_light {
-    background: #F8FAFC !important;
+    background: transparent !important;
     color: #0F172A !important;
 }
 
@@ -1264,24 +1252,18 @@ html.escuro main {
 
 
 html.escuro #analisador-hero {
-    background:
-        linear-gradient(
-            135deg,
-            #0B1120 0%,
-            #111827 55%,
-            #0A2540 100%
-        ) !important;
+    background: transparent !important;
 }
 
 
 html.escuro #upload {
-    background: #0B1120 !important;
+    background: transparent !important;
     color: #FFFFFF !important;
 }
 
 
 html.escuro .section_light {
-    background: #111827 !important;
+    background: transparent !important;
     color: #FFFFFF !important;
 }
 
@@ -1327,21 +1309,15 @@ html.escuro .analisador_box {
     }
 
     html.sistema #analisador-hero {
-        background:
-            linear-gradient(
-                135deg,
-                #F8FAFC 0%,
-                #FFFFFF 55%,
-                #E0F2FE 100%
-            ) !important;
+        background: transparent !important;
     }
 
     html.sistema #upload {
-        background: #FFFFFF !important;
+        background: transparent !important;
     }
 
     html.sistema .section_light {
-        background: #F8FAFC !important;
+        background: transparent !important;
     }
 
     html.sistema .hero_content h1,
@@ -1373,21 +1349,15 @@ html.escuro .analisador_box {
     }
 
     html.sistema #analisador-hero {
-        background:
-            linear-gradient(
-                135deg,
-                #0B1120 0%,
-                #111827 55%,
-                #0A2540 100%
-            ) !important;
+        background: transparent !important;
     }
 
     html.sistema #upload {
-        background: #0B1120 !important;
+        background: transparent !important;
     }
 
     html.sistema .section_light {
-        background: #111827 !important;
+        background: transparent !important;
     }
 
     html.sistema .hero_content h1,

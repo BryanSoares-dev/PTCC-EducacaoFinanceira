@@ -145,6 +145,7 @@ $resultadoMes =
 
     <title>Analisador de Gastos · AFDE</title>
     <link rel="stylesheet" href="../css/analisador.css">
+    <link rel="stylesheet" href="../css/style.css">
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"

@@ -261,7 +261,7 @@ html.escuro {
 
 html,
 body {
-    background: var(--inv-bg);
+    background: transparent !important;
     color: var(--inv-text);
 }
 
@@ -272,7 +272,7 @@ body {
 }
 
 main {
-    background: var(--inv-bg);
+    background: transparent !important;
 }
 
 section {
@@ -469,7 +469,7 @@ section {
 
 .btn_fixa_secondary {
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     color: var(--inv-text);
 
@@ -480,7 +480,7 @@ section {
 
     transform: translateY(-3px);
 
-    background: var(--inv-card-soft);
+    background: transparent !important;
 }
 
 
@@ -527,7 +527,7 @@ section {
 
     padding: 15px;
 
-    background: var(--inv-card-soft);
+    background: transparent !important;
 
     border-radius: 20px;
 
@@ -610,7 +610,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg);
+    background: transparent !important;
 }
 
 .explicacao_container {
@@ -625,7 +625,7 @@ section {
 
     gap: 60px;
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     border-radius: 28px;
 
@@ -735,7 +735,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg-alt);
+    background: transparent !important;
 }
 
 .steps_fixa {
@@ -761,7 +761,7 @@ section {
 
     padding: 35px 25px;
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     border-radius: 24px;
 
@@ -830,7 +830,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg);
+    background: transparent !important;
 }
 
 .tipos_grid_fixa {
@@ -852,7 +852,7 @@ section {
 
 .tipo_card_fixa {
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     border-radius: 24px;
 
@@ -975,7 +975,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg-alt);
+    background: transparent !important;
 }
 
 .comparativo_grid {
@@ -1169,7 +1169,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg);
+    background: transparent !important;
 }
 
 .exemplo_box {
@@ -1178,7 +1178,7 @@ section {
 
     margin: auto;
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     border-radius: 32px;
 
@@ -1241,7 +1241,7 @@ section {
 
     padding: 20px;
 
-    background: var(--inv-card-soft);
+    background: transparent !important;
 
     border-radius: 20px;
 
@@ -1713,7 +1713,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg);
+    background: transparent !important;
 }
 
 .explicacao_container_variavel {
@@ -1728,7 +1728,7 @@ section {
 
     gap: 60px;
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     border-radius: 28px;
 
@@ -1836,7 +1836,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg-alt);
+    background: transparent !important;
 }
 
 .steps_variavel {
@@ -1862,7 +1862,7 @@ section {
 
     padding: 35px 25px;
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     border-radius: 24px;
 
@@ -1929,7 +1929,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg);
+    background: transparent !important;
 }
 
 .tipos_grid_variavel {
@@ -1951,7 +1951,7 @@ section {
 
 .tipo_card_variavel {
 
-    background: var(--inv-card);
+    background: transparent !important;
 
     border-radius: 24px;
 
@@ -2066,7 +2066,7 @@ section {
 
     padding: 80px 20px;
 
-    background: var(--inv-bg-alt);
+    background: transparent !important;
 }
 
 .comparativo_grid_variavel {
@@ -2254,7 +2254,7 @@ html.escuro .exemplo_container,
 html.escuro .tipos_variavel,
 html.escuro .exemplo_container_variavel {
 
-    background: var(--inv-bg);
+    background: transparent !important;
 }
 
 html.escuro .como_funciona_fixa,
@@ -2262,7 +2262,7 @@ html.escuro .prós_contrass,
 html.escuro .como_funciona_variavel,
 html.escuro .prós_contrass_variavel {
 
-    background: var(--inv-bg-alt);
+    background: transparent !important;
 }
 
 html.escuro .explicacao_container,
@@ -2273,14 +2273,14 @@ html.escuro .step_variavel,
 html.escuro .exemplo_box,
 html.escuro .exemplo_box_variavel {
 
-    background: var(--inv-card);
+    background: transparent !important;
 }
 
 html.escuro .exemplo_valor,
 html.escuro .exemplo_valor_variavel,
 html.escuro .taxa_info {
 
-    background: var(--inv-card-soft);
+    background: transparent !important;
 }
 
 
@@ -2296,7 +2296,7 @@ html.escuro .taxa_info {
     html.sistema .tipos_variavel,
     html.sistema .exemplo_container_variavel {
 
-        background: var(--inv-bg);
+        background: transparent !important;
     }
 
     html.sistema .como_funciona_fixa,
@@ -2304,7 +2304,7 @@ html.escuro .taxa_info {
     html.sistema .como_funciona_variavel,
     html.sistema .prós_contrass_variavel {
 
-        background: var(--inv-bg-alt);
+        background: transparent !important;
     }
 
     html.sistema .explicacao_container,
@@ -2315,14 +2315,14 @@ html.escuro .taxa_info {
     html.sistema .exemplo_box,
     html.sistema .exemplo_box_variavel {
 
-        background: var(--inv-card);
+        background: transparent !important;
     }
 
     html.sistema .exemplo_valor,
     html.sistema .exemplo_valor_variavel,
     html.sistema .taxa_info {
 
-        background: var(--inv-card-soft);
+        background: transparent !important;
     }
 }
 
@@ -3042,3 +3042,77 @@ body.renda-variavel-page .btn_cta_sec_variavel {
         min-width: 0;
     }
 }
+
+/* ============================================================
+
+   RENDA VARIÁVEL — MODO ESCURO — CARDS UNIFORMES
+
+   ============================================================ */
+
+html.escuro body.renda-variavel-page .card_dashboard,
+html.escuro body.renda-variavel-page .card_variavel_info,
+html.escuro body.renda-variavel-page .indice_info,
+html.escuro body.renda-variavel-page .hero_variavel_card,
+html.escuro body.renda-variavel-page .explicacao_container_variavel,
+html.escuro body.renda-variavel-page .exemplo_box_variavel,
+html.escuro body.renda-variavel-page .dica_item_variavel,
+html.escuro body.renda-variavel-page .vantagens_box_variavel,
+html.escuro body.renda-variavel-page .desvantagens_box_variavel,
+html.escuro body.renda-variavel-page .step_variavel,
+html.escuro body.renda-variavel-page .tipo_card_variavel {
+
+    background: transparent !important;
+
+    box-shadow: none !important;
+
+}
+
+html.escuro body.renda-variavel-page .card_dashboard::before,
+html.escuro body.renda-variavel-page .card_variavel_info::before,
+html.escuro body.renda-variavel-page .hero_variavel_card::before,
+html.escuro body.renda-variavel-page .card_dashboard::after,
+html.escuro body.renda-variavel-page .card_variavel_info::after,
+html.escuro body.renda-variavel-page .hero_variavel_card::after {
+
+    display: none !important;
+
+}
+
+/* ============================================================
+
+   RENDA VARIÁVEL — MODO SISTEMA ESCURO — CARDS UNIFORMES
+
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+
+    html.sistema body.renda-variavel-page .card_dashboard,
+    html.sistema body.renda-variavel-page .card_variavel_info,
+    html.sistema body.renda-variavel-page .indice_info,
+    html.sistema body.renda-variavel-page .hero_variavel_card,
+    html.sistema body.renda-variavel-page .explicacao_container_variavel,
+    html.sistema body.renda-variavel-page .exemplo_box_variavel,
+    html.sistema body.renda-variavel-page .dica_item_variavel,
+    html.sistema body.renda-variavel-page .vantagens_box_variavel,
+    html.sistema body.renda-variavel-page .desvantagens_box_variavel,
+    html.sistema body.renda-variavel-page .step_variavel,
+    html.sistema body.renda-variavel-page .tipo_card_variavel {
+
+        background: transparent !important;
+
+        box-shadow: none !important;
+
+    }
+
+    html.sistema body.renda-variavel-page .card_dashboard::before,
+    html.sistema body.renda-variavel-page .card_variavel_info::before,
+    html.sistema body.renda-variavel-page .hero_variavel_card::before,
+    html.sistema body.renda-variavel-page .card_dashboard::after,
+    html.sistema body.renda-variavel-page .card_variavel_info::after,
+    html.sistema body.renda-variavel-page .hero_variavel_card::after {
+
+        display: none !important;
+
+    }
+
+

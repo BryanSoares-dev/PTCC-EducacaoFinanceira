@@ -2090,9 +2090,7 @@ section {
 
 .section_light {
 
-    background:
-
-        var(--bg-section);
+    background: transparent !important;
 
 }
 
@@ -2104,9 +2102,7 @@ section {
 
 .section_dark {
 
-    background:
-
-        var(--dark-section-bg);
+    background: transparent !important;
 
 }
 
@@ -2134,9 +2130,7 @@ section {
 
 .como_funciona {
 
-    background:
-
-        var(--dark-section-bg);
+    background: transparent !important;
 
 }
 
@@ -2164,9 +2158,7 @@ section {
 
 .beneficios {
 
-    background:
-
-        var(--bg-section-alt);
+    background: transparent !important;
 
 }
 
@@ -2788,9 +2780,7 @@ footer {
 
         35px 20px;
 
-    background:
-
-        var(--primary-dark);
+    background: transparent !important;
 
     border-top:
 
