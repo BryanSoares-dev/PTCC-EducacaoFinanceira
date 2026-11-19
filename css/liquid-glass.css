@@ -18,6 +18,10 @@
   --lg-border-strong: rgba(225, 239, 255, .34);
   --lg-shadow: 0 24px 80px rgba(0, 0, 0, .28), inset 0 1px rgba(255,255,255,.12);
   --lg-blur: 26px;
+  --afde-radius-sm: 12px;
+  --afde-radius-md: 18px;
+  --afde-radius-lg: 24px;
+  --afde-transition: .25s ease;
 }
 html.claro {
   --lg-bg: #eef7f5;
@@ -102,13 +106,22 @@ body::after { width: 300px; height: 300px; bottom: -100px; left: 12%; background
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.045), inset 0 14px 28px rgba(255,255,255,.025);
 }
 
-header, .navbar, nav {
-  background: rgba(9, 18, 36, .60) !important;
-  border-bottom: 1px solid var(--lg-border) !important;
-  box-shadow: 0 12px 40px rgba(0,0,0,.18), inset 0 -1px rgba(255,255,255,.07) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
+header, .navbar {
+  background: linear-gradient(135deg, rgba(126,147,180,.96), rgba(91,112,150,.96)) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 14px 44px rgba(45,61,86,.20), inset 0 1px rgba(255,255,255,.12) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  backdrop-filter: blur(18px) saturate(145%);
 }
+
+header nav,
+#portalMainNav,
+#portalMainNav ul {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
 header a, nav a { color: var(--lg-muted); }
 header a:hover, nav a:hover { color: var(--lg-accent); }
 
@@ -358,7 +371,9 @@ body::after { animation-delay: -7s; animation-duration: 19s; }
 }
 
 
-/* Final refinement: softer white light, one material across pages, elegant orb and parallax. */
+/* ============================================================
+   Final refinement: softer white light, one material across pages, elegant orb and parallax.
+   ============================================================ */
 :root {
   --lg-white-sheen: rgba(255,255,255,.075);
   --lg-white-rim: rgba(225,239,255,.14);
@@ -690,80 +705,13 @@ html.claro :where(.recurso_card, .pagina_card, .info_card, .step_card, .form-car
 .content-card, .settings_card, .pagina_section, .timeline-container) {
   background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(255,255,255,.48)) !important;
 }
-/* Tables and dashboard statistics now read as one connected surface. */
-:where(.table-container, .tabela-container, .admin-table, table, .data-table) {
-  border: 1px solid var(--lg-border) !important;
-  border-radius: 18px;
-  box-shadow: var(--lg-shadow);
-  overflow: hidden;
-}
-:where(.table-container, .tabela-container, .admin-table, table, .data-table) tbody tr:hover {
-  background: rgba(105,232,187,.08) !important;
-}
-@media (prefers-reduced-motion: reduce) {
-  :where(.recurso_card, .pagina_card, .info_card, .step_card, .form-card,
-  .resultado-card, .card-stat, .summary_card, .prefs_card, .vantagens_box,
-  .beneficio_card, .item-card, .modulo-card, .hero_fixa_card, .hero_card_fixa,
-  .destaque_box, .exemplo_box, .desvantagens_box, .resultado_box, .modal_box,
-  .modal_content, .video-box, .video-placeholder, .tipo_card_fixa,
-  .tipo_card_variavel, .dica_content, .dica_content_variavel, .feature_card,
-  .content-card, .settings_card, .pagina_section, .timeline-container) { transition: none; }
-}
 
-/* O painel de vidro pertence ao header; nav permanece sem moldura interna. */
-.liquid-glass-ready header nav {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* AFDE unified tokens: base educacional */
-:root{--afde-navy:#0A2540;--afde-green:#16E28A;--lg-bg:#0A2540;--lg-bg-2:#123a59;--lg-accent:#16E28A;--lg-accent-2:#7fb3d5;--lg-border:rgba(22,226,138,.22)}
-html.claro{--lg-bg:#eef7f5;--lg-bg-2:#d9eee7;--lg-accent:#0b9f62;--lg-accent-2:#0A2540}
-@media(prefers-reduced-transparency:reduce){.liquid-glass-surface,.glass,.glass-card,.hero_card,.card,.card_dashboard,.perfil_card,.perfil_header-cover,.settings_card,.dashboard_card,.stat-card,.login_box,.cadastro_box,.form_container,.modal-content,.dropdown_menu,.crop-dialog,.support_card,.feature_card,.info_card,.content-card{background:var(--lg-bg-2);-webkit-backdrop-filter:none;backdrop-filter:none}}
-
-/* AFDE functional glass surfaces: navigation, hero e contÃªneres de foco */
-.community-native-page .hero-card,.community-native-page .post-card,.community-native-page .video-card,.community-native-page .community-card,.community-native-page .create-card,.community-native-page .rank-card,
-.pagina-diversificacao .hero_fixa_card,.pagina-diversificacao .explicacao_container,.renda-fixa-page .hero_fixa_card,.renda-fixa-page .explicacao_container,.renda-fixa-page .taxa_info,
-body:not(.arena-page) .hero_variavel_card,body:not(.arena-page) .explicacao_container_variavel,
-body.diagnostico-page .teste_card,body.diagnostico-page .progresso_teste,body.diagnostico-page .resultado_box{
-  background:linear-gradient(145deg,rgba(18,58,89,.78),rgba(10,37,64,.86));
-  border:1px solid rgba(22,226,138,.22);
-  box-shadow:0 18px 50px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.12);
-  -webkit-backdrop-filter:blur(18px) saturate(150%);
-  backdrop-filter:blur(18px) saturate(150%);
-}
-html.claro .community-native-page .hero-card,html.claro .community-native-page .post-card,html.claro .community-native-page .video-card,html.claro .community-native-page .community-card,
-html.claro body.diagnostico-page .teste_card,html.claro body.diagnostico-page .progresso_teste,html.claro body.diagnostico-page .resultado_box{
-  background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(225,243,237,.76));color:#0A2540;
-}
-@media(prefers-reduced-transparency:reduce){.community-native-page .hero-card,.community-native-page .post-card,.community-native-page .video-card,.community-native-page .community-card,.community-native-page .create-card,.community-native-page .rank-card,.pagina-diversificacao .hero_fixa_card,.renda-fixa-page .hero_fixa_card,body.diagnostico-page .teste_card,body.diagnostico-page .progresso_teste,body.diagnostico-page .resultado_box{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--lg-bg-2)}}
-
-/* AFDE final theme override: navbar always dark in clear mode */
-html.claro header,
-html.claro .navbar,
-html.claro nav {
-  background: rgba(7, 24, 43, 0.96) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  box-shadow: 0 14px 44px rgba(5, 15, 28, 0.24) !important;
-}
-
-html.claro header a,
-html.claro nav a,
-html.claro .navbar a {
-  color: rgba(255, 255, 255, 0.92) !important;
-}
-
-html.claro header a:hover,
-html.claro nav a:hover,
-html.claro .navbar a:hover {
-  color: #16E28A !important;
-}
-
-/* AFDE global light/dark uniformity */
-html.claro body {
+/* ===================== EDUCAÇÃO · TEMA UNIFORME ===================== */
+html.claro body.arena-page {
+  --text: #10213e;
+  --muted: #40566d;
+  --cyan: #0b9f62;
+  --green: #0b9f62;
   background:
     radial-gradient(ellipse at 12% 8%, rgba(69,139,205,.16), transparent 32%),
     radial-gradient(ellipse at 88% 18%, rgba(34,194,139,.12), transparent 31%),
@@ -771,95 +719,550 @@ html.claro body {
   color: #10213e !important;
 }
 
-html.claro :where(h1,h2,h3,h4,h5,h6,strong,b) {
+html.claro body.arena-page :where(.topbar,.hero,.profile,.streak-panel,.learning-card,.activity,.tip,.rank-chip,.modal,.gate-card,.lesson-player,.comments-panel,.exercise-box) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31, 65, 105, .16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body.arena-page :where(.hero h1,.topbar .brand strong,.section-head h2,.learning-card h3,.activity h3) {
   color: #10213e !important;
 }
 
-html.claro :where(p,small,li,dt,dd,label) {
+html.claro body.arena-page :where(.hero p,.section-head>div>p,.profile-note,.total,.eyebrow,.brand small,.learning-card p,.activity-item,.tip p,.modal p) {
   color: #40566d !important;
 }
 
-html.claro :where(.glass,.glass-card,.liquid-glass-surface,.hero_card,.card,.card_dashboard,
-.perfil_card,.settings_card,.dashboard_card,.stat-card,.login_box,.cadastro_box,
-.cadastro_card,.login_card,.form_container,.support_card,.feature_card,.info_card,
-.content-card,.pagina_card,.sobre_card,.missao_card,.recurso_card,.beneficio_card,
-.step_card,.resultado-card,.chart_card,.summary_card,.legend_card,.history_card,
-.prefs_card,.form-card,.card-stat,.modulo-card,.item-card,.saldo-card,
-.vantagens_box,.beneficio_card,.destaque_box,.exemplo_box,.desvantagens_box,
-.resultado_box,.modal_box,.modal_content,.tipo_card_fixa,.tipo_card_variavel,
-.dica_content,.dica_content_variavel,.pagina_section,.timeline-container) {
+html.claro body.arena-page :where(.progress,.total div) {
+  background: rgba(31,65,105,.10) !important;
+}
+
+html.claro body.arena-page :where(.comments-panel input,.exercise-option,.comment,.quiz-question) {
+  background: rgba(255,255,255,.68) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+}
+
+html.claro :where(body:not(.arena-page) .hero, body:not(.arena-page) .hero_teste, body:not(.arena-page) .teste_card,
+body:not(.arena-page) .progresso_teste, body:not(.arena-page) .resultado_box,
+body:not(.arena-page) .aula-card, body:not(.arena-page) .modulo-card,
+body:not(.arena-page) .quiz-card, body:not(.arena-page) .streak-modal-card) {
   background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
   border-color: rgba(31,65,105,.16) !important;
   color: #10213e !important;
   box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
 }
 
-html.claro :where(input,select,textarea) {
+html.claro body:not(.arena-page) {
+  --bg-body-gradient: linear-gradient(135deg, #eef7f5, #dcecf2);
+  --hero-bg: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82));
+  --azul-principal: #dcecf2;
+  --azul-escuro: #eef7f5;
+  --azul-card: rgba(255,255,255,.82);
+  --azul-card-hover: rgba(232,246,240,.92);
+  --texto: #10213e;
+  --texto-secundario: #40566d;
+  --texto-terciario: #60758a;
+  --glass-bg: rgba(255,255,255,.82);
+  --glass-bg-hover: rgba(232,246,240,.92);
+  --glass-border: rgba(31,65,105,.16);
+  --glass-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82);
+  --modal-bg: rgba(255,255,255,.96);
+  --modal-overlay: rgba(31,65,105,.38);
+  --option-bg: rgba(255,255,255,.88);
+  --option-border: rgba(31,65,105,.16);
+}
+
+html.claro body:not(.arena-page) :where(.btn-theme-toggle,.card,article,.lesson-card,.module-card,.quiz-question,.exercise-option) {
+  color: #10213e;
+  border-color: rgba(31,65,105,.16);
+}
+
+/* Texto da tela inicial da Arena no tema claro */
+html.claro body.arena-page .gate-card,
+html.claro body.arena-page .gate-card :where(p, span, b, strong, small) {
+  color: #000000 !important;
+}
+
+html.claro body.arena-page .gate-warning {
+  background: rgba(255, 216, 120, .32) !important;
+  border-color: rgba(31, 65, 105, .18) !important;
+}
+
+/* NAVBAR CLARA — PADRONIZAÇÃO FINAL */
+html.claro header,
+html.claro .navbar {
+  background: linear-gradient(135deg, rgba(126, 147, 180, 0.96), rgba(91, 112, 150, 0.96)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 14px 44px rgba(45, 61, 86, 0.20), inset 0 1px rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(18px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+}
+
+html.claro header nav,
+html.claro header nav ul,
+html.claro header nav li,
+html.claro #portalMainNav {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+html.claro header nav a,
+html.claro #portalMainNav a,
+html.claro .user_name {
+  color: rgba(255, 255, 255, 0.96) !important;
+}
+
+/* Itens individuais da navbar transparentes no tema claro */
+html.claro #portalMainNav li,
+html.claro #portalMainNav li > a,
+html.claro #portalMainNav a,
+html.claro header nav li,
+html.claro header nav li > a,
+html.claro header nav a {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+html.claro :is(.education-dropdown-menu, .investment-dropdown-menu, .dropdown_menu) {
+  background: linear-gradient(145deg, rgba(126, 147, 180, 0.98), rgba(91, 112, 150, 0.98)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 20px 45px rgba(45, 61, 86, 0.28) !important;
+}
+
+/* Navbar clara: sem brilho ou contorno azul nos links */
+html.claro .liquid-glass-ready .lg-current-page,
+html.claro .liquid-glass-ready .lg-current-page::after,
+html.claro .liquid-glass-ready nav a:hover,
+html.claro .liquid-glass-ready nav li:hover > a,
+html.claro .liquid-glass-ready :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  outline: none !important;
+}
+
+html.claro .liquid-glass-ready .lg-current-page::after {
+  display: none !important;
+}
+
+/* Home: todos os cards com texto claro */
+html.claro body:has(main > .hero) :where(.beneficio_card, .step_card, .info_card, .calc_box, .hero_card, .card_dashboard) :where(h1, h2, h3, h4, strong) {
+  color: #FFFFFF !important;
+}
+
+html.claro body:has(main > .hero) :where(.beneficio_card, .step_card, .info_card, .calc_box, .hero_card, .card_dashboard) :where(p, span, small) {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* ===================== INVESTIMENTOS · TEMA CLARO UNIFORME ===================== */
+html.claro body.renda-fixa-page,
+html.claro body.renda-variavel-page {
+  background: linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro body.renda-fixa-page :where(.hero_fixa, .hero_variavel, .o_que_e, .o_que_e_variavel, .como_funciona_fixa, .como_funciona_variavel, .tipos_fixa, .tipos_variavel, .prós_contrass, .prós_contrass_variavel, .dicas_praticas, .dicas_praticas_variavel, .exemplo_container, .exemplo_container_variavel, .cta_fixa, .cta_variavel) {
+  background: transparent !important;
+  color: #10213e !important;
+}
+
+html.claro body.renda-fixa-page :where(.hero_fixa_container, .hero_variavel_container),
+html.claro body.renda-variavel-page :where(.hero_variavel_container, .explicacao_container_variavel, .step_variavel, .tipo_card_variavel, .vantagens_box_variavel, .desvantagens_box_variavel, .dica_item_variavel, .exemplo_box_variavel, .cta_variavel) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body.renda-fixa-page :where(.explicacao_container, .step_fixa, .tipo_card_fixa, .vantagens_box, .desvantagens_box, .dica_item, .exemplo_box, .hero_fixa_card, .taxa_info),
+html.claro body.renda-variavel-page :where(.hero_variavel_card, .card_variavel_info, .indice_info, .explicacao_container_variavel, .step_variavel, .tipo_card_variavel, .vantagens_box_variavel, .desvantagens_box_variavel, .dica_item_variavel, .exemplo_box_variavel) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro :is(body.renda-fixa-page, body.renda-variavel-page) :where(h1, h2, h3, h4, strong) {
+  color: #10213e !important;
+}
+
+html.claro :is(body.renda-fixa-page, body.renda-variavel-page) :where(p, small, li, span, .section_title p, .tipo_desc_fixa, .tipo_desc_variavel, .tipo_rentabilidade_fixa, .tipo_rentabilidade_variavel) {
+  color: #40566d !important;
+}
+
+html.claro :is(body.renda-fixa-page, body.renda-variavel-page) :where(.hero_fixa h1 .destaque, .hero_variavel_content h1 .destaque, .destaque) {
+  color: #0b9f62 !important;
+  -webkit-text-fill-color: #0b9f62 !important;
+}
+
+html.claro body.renda-fixa-page :where(.btn_fixa_secondary, .btn_cta_sec),
+html.claro body.renda-variavel-page :where(.btn_variavel_secondary, .btn_cta_sec_variavel) {
+  background: rgba(255,255,255,.82) !important;
+  color: #10213e !important;
+  border-color: rgba(31,65,105,.16) !important;
+}
+
+/* ============================================================
+   GARANTIA FINAL — FRONTEND INTEIRO NO MODO CLARO
+============================================================ */
+html.claro body {
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(69,139,205,.12), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(34,194,139,.10), transparent 31%),
+    linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro body :where(main, article, section) {
+  background-color: transparent !important;
+}
+
+html.claro body :where(
+  .section_dark, .section_light, .como_funciona, .como_funciona_fixa, .como_funciona_variavel,
+  .prós_contrass, .pros_contras, .prós_contrass_variavel,
+  .dicas_praticas, .dicas_praticas_variavel,
+  .o_que_e, .o_que_e_variavel, .tipos_fixa, .tipos_variavel,
+  .exemplo_container, .exemplo_container_variavel,
+  .cta, .cta_fixa, .cta_variavel,
+  .hero_teste, .hero_fixa, .hero_variavel, .hero-calculadora,
+  .hero-loja, .hero-videoaulas, .hero-exercicios,
+  .estatisticas, .calculadora-section,
+  .login_container, .login_left, .login_right,
+  .cadastro_container, .cadastro_left, .cadastro_right,
+  .pagina_container, .sobre_container, .perfil_container,
+  .carteira_container, .main, .calendario_container
+) {
+  background: transparent !important;
+  color: #10213e !important;
+}
+
+html.claro body :where(
+  .glass, .glass-card, .liquid-glass-surface,
+  .hero_card, .card_dashboard, .card, .info_card, .beneficio_card, .step_card,
+  .perfil_header, .perfil_header-cover, .perfil-rank-card, .perfil-streak-card,
+  .perfil_card, .settings_card,
+  .analisador_box, .teste_card, .progresso_teste, .resultado_box,
+  .calculadora-box, .cotacoes-card, .resultado-card,
+  .explicacao_container, .explicacao_container_variavel,
+  .step_fixa, .step_variavel, .tipo_card_fixa, .tipo_card_variavel,
+  .vantagens_box, .desvantagens_box, .vantagens_box_variavel, .desvantagens_box_variavel,
+  .destaque_box, .destaque_box_variavel, .dica_item, .dica_item_variavel,
+  .exemplo_box, .exemplo_box_variavel,
+  .sobre_card, .missao_card, .recurso_card, .pagina_card, .versao_card,
+  .login_box, .login_card, .cadastro_box, .cadastro_card, .form_container,
+  .prefs_card, .form-card, .saldo-card, .como-ganhar-box, .item-card,
+  .calendar_header, .month_navigation, .calendar_grid, .history_card,
+  .community-native-page .topbar, .community-native-page .community-tabs,
+  .community-native-page .post-card, .community-native-page .video-card,
+  .community-native-page .community-card, .community-native-page .create-card,
+  .community-native-page .friends-panel, .community-native-page .chat-panel,
+  .community-native-page .visual-card, .community-native-page .group-room
+) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body :where(h1,h2,h3,h4,h5,strong,b) {
+  color: #10213e !important;
+  text-shadow: none !important;
+}
+
+html.claro body :where(p,small,li,span,label,dt,dd) {
+  color: #40566d !important;
+}
+
+html.claro body :where(input,select,textarea) {
   background: rgba(255,255,255,.94) !important;
   color: #10213e !important;
   border-color: rgba(31,65,105,.20) !important;
 }
 
-html.claro :where(input::placeholder,textarea::placeholder) {
+html.claro body :where(input::placeholder,textarea::placeholder) {
   color: #66788a !important;
 }
 
-html.claro :where(table,.table-container,.tabela-container,.admin-table,.data-table) {
-  background: rgba(255,255,255,.86) !important;
-  color: #10213e !important;
-  border-color: rgba(31,65,105,.12) !important;
+/* ============================================================
+   FOOTER GLOBAL AFDE — PADRÃO FINAL
+============================================================ */
+footer.afde-footer,
+footer.sobre_footer,
+footer:not(.sobre_footer):not(.afde-footer) {
+  min-height: 84px;
+  display: grid;
+  align-items: center;
+  padding: 18px 26px !important;
+  border-radius: 22px 22px 22px 22px;
 }
 
-html.claro :where(th,td) {
-  color: #40566d !important;
-  border-color: rgba(31,65,105,.10) !important;
+html.claro footer.afde-footer,
+html.claro footer.sobre_footer,
+html.claro footer:not(.sobre_footer):not(.afde-footer) {
+  background: #dce7ea !important;
+  background-image: none !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  box-shadow: 0 14px 44px rgba(45,61,86,.14), inset 0 1px rgba(255,255,255,.82) !important;
 }
 
-html.escuro body {
-  background:
-    radial-gradient(ellipse at 12% 8%, rgba(93,139,255,.22), transparent 32%),
-    radial-gradient(ellipse at 88% 18%, rgba(55,229,177,.15), transparent 31%),
-    radial-gradient(ellipse at 52% 112%, rgba(151,94,255,.15), transparent 34%),
-    linear-gradient(135deg, #070b16, #101a32) !important;
-  color: #f6f9ff !important;
-}
-
-/* AFDE page theme final repair */
-html.claro body:has(main > .hero) {
-  --home-background: #eef7f5;
-  --home-flow: linear-gradient(165deg, #eef7f5 0%, #dcecf2 46%, #eef7f5 100%);
-  background: #eef7f5 !important;
-}
-
-html.claro body > main:has(> .hero) {
-  background: linear-gradient(165deg, #eef7f5 0%, #dcecf2 46%, #eef7f5 100%) !important;
-}
-
-html.claro body.calculadora-page {
-  background:
-    radial-gradient(ellipse at 12% 8%, rgba(69,139,205,.16), transparent 32%),
-    radial-gradient(ellipse at 88% 18%, rgba(34,194,139,.12), transparent 31%),
-    linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+html.claro .afde-footer-brand strong,
+html.claro .afde-footer-brand small,
+html.claro .afde-footer-links a,
+html.claro .afde-footer-copy {
   color: #10213e !important;
 }
 
-html.claro body.calculadora-page :where(.hero-calculadora,.calculadora-box,.cotacoes-card,.cotacoes-result,.resultado-card) {
+html.escuro footer.afde-footer,
+html.escuro footer.sobre_footer,
+html.escuro footer:not(.sobre_footer):not(.afde-footer) {
+  background: linear-gradient(145deg, rgba(26,40,72,.78), rgba(20,31,57,.58)) !important;
+  background-image: none !important;
+  border: 1px solid rgba(225,239,255,.16) !important;
+}
+
+.afde-footer-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.afde-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.afde-footer-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(105,232,187,.40);
+  border-radius: 12px;
+  background: rgba(105,232,187,.10);
+  color: #69e8bb;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.afde-footer-brand strong,
+.afde-footer-brand small,
+.afde-footer-copy {
+  display: block;
+}
+
+.afde-footer-brand strong { color: #f6f9ff; }
+.afde-footer-brand small { margin-top: 2px; color: rgba(227,235,255,.68); }
+.afde-footer-links { display: flex; justify-content: center; gap: 18px; }
+.afde-footer-links a { color: rgba(227,235,255,.78); text-decoration: none; font-size: 13px; font-weight: 700; }
+.afde-footer-links a:hover { color: #69e8bb; }
+.afde-footer-copy { margin: 0; justify-self: end; color: rgba(227,235,255,.58); font-size: 11px; text-align: right; }
+
+@media (max-width: 800px) {
+  footer.afde-footer,
+  footer.sobre_footer,
+  footer:not(.sobre_footer):not(.afde-footer) {
+    width: calc(100% - 28px);
+    margin-top: 36px;
+  }
+
+  .afde-footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .afde-footer-brand,
+  .afde-footer-links {
+    justify-content: center;
+  }
+
+  .afde-footer-brand { margin: 0 auto; }
+  .afde-footer-links { flex-wrap: wrap; }
+  .afde-footer-copy { justify-self: center; text-align: center; }
+}
+
+/* Carteira — fundo claro e texto escuro no modo claro */
+html.claro body:has(.carteira-hero) .card,
+html.claro body:has(.carteira-hero) .hero-saldo,
+html.claro body:has(.carteira-hero) .carteira-hero,
+html.claro body:has(.carteira-hero) :is(.open-card,.open-item) {
   background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
   border-color: rgba(31,65,105,.16) !important;
   color: #10213e !important;
 }
 
-/* AFDE dropdown and contrast final override */
-html.claro :is(.education-dropdown-menu, .investment-dropdown-menu, .dropdown_menu) {
-  background: rgba(7, 24, 43, 0.98) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.30) !important;
+html.claro body:has(.carteira-hero) :is(.card h4,.card p,.hero-saldo span,.hero-saldo strong,.open-card *, .open-item *) {
+  color: #10213e !important;
 }
 
-html.claro :is(.education-dropdown-menu,.investment-dropdown-menu) :is(a,strong) {
-  color: #ffffff !important;
+/* ============================================================
+   FOOTER ULTRA COMPACTO — SEM FUNDO NOS LINKS
+============================================================ */
+footer.afde-footer,
+footer.sobre_footer,
+footer:not(.sobre_footer):not(.afde-footer) {
+  width: calc(100% - 28px) !important;
+  max-width: 1320px;
+  min-height: 62px !important;
+  display: grid;
+  align-items: center;
+  margin: 24px auto 12px !important;
+  padding: 10px 18px !important;
+  border-radius: 18px;
 }
 
-html.claro :is(.education-dropdown-menu,.investment-dropdown-menu) a span {
-  color: rgba(255, 255, 255, 0.60) !important;
+.afde-footer-container {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  min-height: 42px;
+}
+
+.afde-footer-brand {
+  gap: 8px;
+  justify-self: start;
+}
+
+.afde-footer-logo {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+}
+
+.afde-footer-brand small {
+  display: none;
+}
+
+.afde-footer-links {
+  justify-self: center;
+  gap: 10px;
+}
+
+.afde-footer-links a {
+  min-height: 28px;
+  padding: 4px 6px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.afde-footer-copy {
+  justify-self: end;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+  footer.afde-footer,
+  footer.sobre_footer,
+  footer:not(.sobre_footer):not(.afde-footer) {
+    width: calc(100% - 20px) !important;
+    min-height: 0 !important;
+    margin: 18px auto 10px !important;
+    padding: 12px 14px !important;
+  }
+
+  .afde-footer-container {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .afde-footer-brand,
+  .afde-footer-links,
+  .afde-footer-copy {
+    justify-self: center;
+  }
+
+  .afde-footer-links {
+    gap: 8px;
+  }
+}
+
+/* ============================================================
+   FOOTER — LINKS ABSOLUTAMENTE SEM FUNDO
+============================================================ */
+footer.afde-footer .afde-footer-links,
+footer.afde-footer .afde-footer-links a,
+footer.sobre_footer .afde-footer-links,
+footer.sobre_footer .afde-footer-links a,
+footer:not(.sobre_footer):not(.afde-footer) .afde-footer-links,
+footer:not(.sobre_footer):not(.afde-footer) .afde-footer-links a {
+  background: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+}
+
+footer.afde-footer .afde-footer-links a:hover,
+footer.sobre_footer .afde-footer-links a:hover,
+footer:not(.sobre_footer):not(.afde-footer) .afde-footer-links a:hover {
+  background: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+/* Tipografia do footer alinhada à navbar */
+.afde-footer-brand strong {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.afde-footer-links a {
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.afde-footer-copy {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* Perfil — superfícies claras no modo claro */
+html.claro .perfil-page :where(.perfil_header-cover,.perfil-rank-card,.perfil-streak-card,.perfil_card) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro .perfil-page :where(.perfil_header-cover,.perfil-rank-card,.perfil-streak-card,.perfil_card)::before,
+html.claro .perfil-page :where(.perfil_header-cover,.perfil-rank-card,.perfil-streak-card,.perfil_card)::after {
+  content: none !important;
+  display: none !important;
+}
+
+html.claro .perfil-page :is(h1,h2,h3,h4,strong,b) {
+  color: #10213e !important;
+  text-shadow: none !important;
+}
+
+html.claro .perfil-page :is(p,small,span,li,label) {
+  color: #40566d !important;
+}
+
+html.claro body:has(main > .hero) .calc_box :is(h1,h2,h3,h4,strong) {
+  color: #10213e !important;
+}
+
+html.claro body:has(main > .hero) .calc_box :is(p,span,small) {
+  color: #40566d !important;
 }

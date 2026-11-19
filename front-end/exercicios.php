@@ -8,11 +8,23 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+$tema = 'escuro';
+try {
+    $stmtTema = $pdo->prepare('SELECT tema FROM usuarios WHERE id = ? LIMIT 1');
+    $stmtTema->execute([$_SESSION['id']]);
+    $temaUsuario = $stmtTema->fetchColumn();
+    if (in_array($temaUsuario, ['claro', 'escuro'], true)) {
+        $tema = $temaUsuario;
+    }
+} catch (PDOException $ignored) {
+    $tema = 'escuro';
+}
+
 // Configuração simulada da ofensiva do usuário
 $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] : 3;
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -1077,7 +1089,7 @@ $ofensiva_dias = isset($_SESSION['ofensiva_dias']) ? $_SESSION['ofensiva_dias'] 
 
 </head>
 
-<body>
+<body class="<?php echo $tema; ?>">
 
 <?php include_once 'navbar.php'; ?>
 
@@ -1360,15 +1372,15 @@ function applyTheme(isDark) {
     }
 }
 
-// Verifica tema salvo ou preferência do sistema
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) {
-    applyTheme(savedTheme === "dark");
-}
+// O tema é definido pela preferência da conta em `html.class`.
+const serverTheme = document.documentElement.classList.contains('escuro') ? 'escuro' : 'claro';
+applyTheme(serverTheme === 'escuro');
 
 btnThemeToggle.addEventListener("click", () => {
     const isDark = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
+    document.documentElement.classList.toggle('claro', !isDark);
+    document.documentElement.classList.toggle('escuro', isDark);
+    document.documentElement.dataset.theme = isDark ? 'escuro' : 'claro';
     applyTheme(isDark);
 });
 

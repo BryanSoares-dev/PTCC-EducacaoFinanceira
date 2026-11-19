@@ -34,9 +34,9 @@ if (!$usuario) {
     exit;
 }
 
-$tema = in_array(($usuario['tema'] ?? 'sistema'), ['claro', 'escuro', 'sistema'], true)
-    ? ($usuario['tema'] ?? 'sistema')
-    : 'sistema';
+$tema = in_array(($usuario['tema'] ?? 'escuro'), ['claro', 'escuro'], true)
+    ? ($usuario['tema'] ?? 'escuro')
+    : 'escuro';
 
 function perfilAsset(?string $path, string $fallback): string
 {

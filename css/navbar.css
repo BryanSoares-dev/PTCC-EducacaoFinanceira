@@ -179,39 +179,32 @@ html.claro {
 
 header {
 
-    position: fixed;
+    position: fixed !important;
 
-    top: 20px;
-    left: 50%;
+    top: 20px !important;
+    left: 50% !important;
 
-    transform: translateX(-50%);
+    transform: translateX(-50%) !important;
 
-    width: calc(100% - 60px);
-    max-width: 1400px;
+    width: calc(100% - 60px) !important;
+    max-width: 1400px !important;
 
-    height: 85px;
+    height: 85px !important;
+    min-height: 85px !important;
 
-    display: flex;
+    display: flex !important;
 
-    align-items: center;
-    justify-content: space-between;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-direction: row !important;
 
-    padding: 0 35px;
+    padding: 0 35px !important;
 
-    background: var(--nav-bg);
+    margin: 0 !important;
 
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    border-radius: 24px !important;
 
-    border: 1px solid var(--nav-border);
-
-    border-radius: 24px;
-
-    box-shadow:
-        0 10px 40px var(--nav-shadow),
-        0 0 0 1px var(--nav-border);
-
-    z-index: 9999;
+    z-index: 9999 !important;
 
     transition:
         background 0.3s ease,
@@ -230,7 +223,9 @@ header {
 
 .logo {
 
-    width: 65px;
+    width: 65px !important;
+
+    height: auto !important;
 
     display: block;
 
@@ -249,11 +244,15 @@ header {
 
 nav ul {
 
-    display: flex;
+    display: flex !important;
 
-    align-items: center;
+    flex-direction: row !important;
 
-    gap: 40px;
+    align-items: center !important;
+
+    justify-content: center !important;
+
+    gap: 40px !important;
 
     list-style: none;
 
@@ -1172,18 +1171,20 @@ nav a:hover::after {
 }
 
 @media (min-width: 601px) and (max-width: 980px) {
+    body > header,
     header {
-        width: calc(100% - 30px);
-        padding: 0 18px;
+        width: calc(100% - 30px) !important;
+        padding: 0 18px !important;
     }
 
-    #portalMainNav ul {
+    #portalMainNav ul,
+    header nav ul {
         gap: 12px !important;
     }
 
-    #portalMainNav nav a,
-    #portalMainNav a {
-        font-size: 13px;
+    #portalMainNav a,
+    header nav a {
+        font-size: 13px !important;
     }
 }
 
@@ -1310,4 +1311,122 @@ nav a:hover::after {
 .investment-dropdown:hover .investment-arrow {
     transform: rotate(225deg) !important;
 }
+
+/* =========================================================
+   PADRONIZAÇÃO DA NAVBAR NO MODO CLARO
+   Visual alinhado à navbar da Arena
+   ========================================================= */
+html.claro header {
+    background: linear-gradient(135deg, rgba(126, 147, 180, 0.96), rgba(91, 112, 150, 0.96)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow:
+        0 14px 44px rgba(45, 61, 86, 0.20),
+        inset 0 1px rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(18px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+}
+
+html.claro header nav,
+html.claro #portalMainNav,
+html.claro #portalMainNav ul {
+    background: transparent !important;
+}
+
+html.claro header nav a,
+html.claro #portalMainNav a,
+html.claro .user_name {
+    color: rgba(255, 255, 255, 0.96) !important;
+}
+
+html.claro header nav a:hover,
+html.claro #portalMainNav a:hover {
+    color: #16E28A !important;
+}
+
+html.claro .education-dropdown-menu,
+html.claro .investment-dropdown-menu,
+html.claro .user-dropdown-menu,
+html.claro .dropdown_menu {
+    background: linear-gradient(145deg, rgba(126, 147, 180, 0.98), rgba(91, 112, 150, 0.98)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 20px 45px rgba(45, 61, 86, 0.28) !important;
+}
+
+html.claro #portalMainNav li,
+html.claro #portalMainNav li > a,
+html.claro #portalMainNav a,
+html.claro header nav li,
+html.claro header nav li > a,
+html.claro header nav a {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border: 0 !important;
+}
+
+html.claro #portalMainNav li:hover,
+html.claro #portalMainNav li:hover > a,
+html.claro #portalMainNav a:hover,
+html.claro header nav li:hover,
+html.claro header nav li:hover > a,
+html.claro header nav a:hover {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+/* Nome do usuário — contraste no modo claro */
+html.claro .user_name,
+html.claro #avatarBtn .user_name,
+html.claro header .user_name {
+  color: #10213e !important;
+}
+
+html.escuro .user_name,
+html.escuro #avatarBtn .user_name,
+html.escuro header .user_name {
+  color: rgba(255,255,255,.96) !important;
+}
+
+/* =========================================================
+   DROPDOWN DO PERFIL — CONTRASTE FINAL
+========================================================= */
+html.claro .dropdown_menu {
+    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(238,247,245,.96)) !important;
+    border: 1px solid rgba(31,65,105,.18) !important;
+    box-shadow: 0 18px 50px rgba(42,72,100,.20), inset 0 1px rgba(255,255,255,.88) !important;
+}
+
+html.claro .dropdown_header,
+html.claro .dropdown_header strong,
+html.claro .dropdown_header small,
+html.claro .dropdown_item {
+    color: #10213e !important;
+}
+
+html.claro .dropdown_header small { color: #40566d !important; }
+html.claro .dropdown_item { background: transparent; }
+html.claro .dropdown_item i { color: #0b9f62 !important; }
+html.claro .dropdown_item:hover {
+    background: rgba(105,232,187,.16) !important;
+    color: #10213e !important;
+}
+html.claro .dropdown_item.logout,
+html.claro .dropdown_item.logout i {
+    color: #b42318 !important;
+}
+
+html.escuro .dropdown_menu {
+    background: linear-gradient(145deg, rgba(26,40,72,.98), rgba(20,31,57,.98)) !important;
+    border: 1px solid rgba(225,239,255,.18) !important;
+    box-shadow: 0 18px 50px rgba(0,0,0,.38), inset 0 1px rgba(255,255,255,.10) !important;
+}
+
+html.escuro .dropdown_header,
+html.escuro .dropdown_header strong,
+html.escuro .dropdown_item {
+    color: #f6f9ff !important;
+}
+html.escuro .dropdown_header small { color: rgba(227,235,255,.68) !important; }
+html.escuro .dropdown_item i { color: #69e8bb !important; }
 

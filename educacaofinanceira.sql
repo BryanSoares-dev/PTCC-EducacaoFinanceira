@@ -434,7 +434,7 @@ CREATE TABLE `usuarios` (
   `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
   `provedor` varchar(20) DEFAULT 'local',
   `tipo` enum('usuario','admin') NOT NULL DEFAULT 'usuario',
-  `tema` varchar(22) DEFAULT 'sistema',
+  `tema` varchar(22) DEFAULT 'escuro',
   `idioma` varchar(22) DEFAULT 'pt-br',
   `moeda` varchar(22) DEFAULT 'BRL',
   `banner` varchar(255) DEFAULT NULL,
@@ -447,7 +447,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `itemid`, `nome`, `email`, `oauth_uid`, `foto`, `senha`, `telefone`, `data_criacao`, `provedor`, `tipo`, `tema`, `idioma`, `moeda`, `banner`, `patente`, `xp`) VALUES
-(12, '', 'bryan soares', 'soares@gmail.com', NULL, NULL, '$2y$10$52.JlR4cNi1YO5fCsH6a4ufGc4H/TGDyY65wA94hOqedJjRvMlT9W', '', '2026-10-07 18:53:20', 'local', 'usuario', 'sistema', 'pt-br', 'BRL', NULL, NULL, 0);
+(12, '', 'bryan soares', 'soares@gmail.com', NULL, NULL, '$2y$10$52.JlR4cNi1YO5fCsH6a4ufGc4H/TGDyY65wA94hOqedJjRvMlT9W', '', '2026-10-07 18:53:20', 'local', 'usuario', 'escuro', 'pt-br', 'BRL', NULL, NULL, 0);
 
 --
 -- Índices para tabelas despejadas

@@ -7,9 +7,21 @@ if (!isset($_SESSION['id'])) {
     header("Location: ../front-end/login.php");
     exit();
 }
+
+$tema = 'escuro';
+try {
+    $stmtTema = $pdo->prepare('SELECT tema FROM usuarios WHERE id = ? LIMIT 1');
+    $stmtTema->execute([$_SESSION['id']]);
+    $temaUsuario = $stmtTema->fetchColumn();
+    if (in_array($temaUsuario, ['claro', 'escuro'], true)) {
+        $tema = $temaUsuario;
+    }
+} catch (PDOException $ignored) {
+    $tema = 'escuro';
+}
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Financeiro</title>
@@ -19,7 +31,7 @@ if (!isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/liquid-glass.css?v=103">
 
 </head>
-<body>
+<body class="renda-variavel-page">
 
 <?php include_once 'navbar.php'; ?>
 <main>

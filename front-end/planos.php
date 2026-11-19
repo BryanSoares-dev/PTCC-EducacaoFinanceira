@@ -2,13 +2,13 @@
 require_once __DIR__ . '/../asaas-pagamento/seguranca.php';
 include_once 'navbar.php';
 $csrfToken = csrf_token();
-$tema = 'sistema';
+$tema = 'escuro';
 if (!empty($_SESSION['id'])) {
   try {
     $stmtTema = afdeDb()->prepare('SELECT tema FROM usuarios WHERE id = ? LIMIT 1');
     $stmtTema->execute([(int) $_SESSION['id']]);
     $temaUsuario = $stmtTema->fetchColumn();
-    if (in_array($temaUsuario, ['claro', 'escuro', 'sistema'], true)) {
+    if (in_array($temaUsuario, ['claro', 'escuro'], true)) {
       $tema = $temaUsuario;
     }
   } catch (Throwable $e) {

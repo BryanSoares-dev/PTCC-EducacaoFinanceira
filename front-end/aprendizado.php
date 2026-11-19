@@ -3,10 +3,23 @@ require_once __DIR__ . '/../back-end/seguranca.php';
 iniciar_sessao_segura();
 require_once __DIR__ . '/../back-end/conexao.php';
 if (empty($_SESSION['id'])) { header('Location: login.php'); exit; }
+
+$tema = 'escuro';
+try {
+    $stmtTema = $pdo->prepare('SELECT tema FROM usuarios WHERE id = ? LIMIT 1');
+    $stmtTema->execute([$_SESSION['id']]);
+    $temaUsuario = $stmtTema->fetchColumn();
+    if (in_array($temaUsuario, ['claro', 'escuro'], true)) {
+        $tema = $temaUsuario;
+    }
+} catch (PDOException $ignored) {
+    $tema = 'escuro';
+}
+
 require_once __DIR__ . '/../back-end/aprendizado_api.php';
 if (!arenaSchemaReady($pdo)) {
     http_response_code(503);
-    ?><!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aprendizado indisponível</title><link rel="stylesheet" href="../css/liquid-glass.css?v=100"></head><body><main style="max-width:720px;margin:12vh auto;padding:32px"><section class="liquid-glass-surface" style="padding:32px;border-radius:24px"><p style="color:var(--lg-accent);font-weight:800">CONFIGURAÇÃO NECESSÁRIA</p><h1>Área de aprendizado ainda não instalada</h1><p>Importe o arquivo <strong>educacaofinanceira.sql</strong> no banco <strong>educacaofinanceira</strong> e recarregue esta página.</p><p>Depois da importação, o Arena será vinculado automaticamente ao usuário que está conectado no PTCC.</p></section></main></body></html><?php
+    ?><!doctype html><html lang="pt-BR" class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aprendizado indisponível</title><link rel="stylesheet" href="../css/liquid-glass.css?v=100"></head><body><main style="max-width:720px;margin:12vh auto;padding:32px"><section class="liquid-glass-surface" style="padding:32px;border-radius:24px"><p style="color:var(--lg-accent);font-weight:800">CONFIGURAÇÃO NECESSÁRIA</p><h1>Área de aprendizado ainda não instalada</h1><p>Importe o arquivo <strong>educacaofinanceira.sql</strong> no banco <strong>educacaofinanceira</strong> e recarregue esta página.</p><p>Depois da importação, o Arena será vinculado automaticamente ao usuário que está conectado no PTCC.</p></section></main></body></html><?php
     exit;
 }
 $arenaUser = arenaUser($pdo, (int)$_SESSION['id']);
@@ -14,13 +27,14 @@ $arenaPatente = trim((string)($arenaUser['ptcc_patente'] ?? ''));
 if ($arenaPatente === '') {
     $csrf = htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8');
     $nome = htmlspecialchars((string)($arenaUser['ptcc_name'] ?? 'Jogador'), ENT_QUOTES, 'UTF-8');
-    ?><!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Comece sua jornada · AFDIS</title><link rel="stylesheet" href="../css/liquid-glass.css?v=101"><link rel="stylesheet" href="../css/arena.css?v=3"><link rel="stylesheet" href="../css/navbar.css"></head><body class="arena-page"><div class="orb orb-a"></div><div class="orb orb-b"></div><?php include_once 'navbar.php'; ?><main class="shell"><section class="gate-card glass"><small class="eyebrow">ACESSO À ARENA</small><h1>Olá, <?= $nome ?>. Antes de começar, descubra seu nível.</h1><p>Faça o teste diagnóstico com perguntas sobre investimentos, gestão financeira e criptoativos. Seu resultado pode levar você até <strong>OURO 1</strong>.</p><div class="gate-warning"><b>Prefere pular?</b><span>Você poderá entrar agora, mas começará em <strong>FERRO 1</strong> e perderá a chance de receber uma patente inicial baseada no seu conhecimento.</span></div><div class="gate-actions"><a class="primary" href="teste_diagnostico.php">FAZER TESTE DIAGNÓSTICO</a><button class="checkin" id="skipTest" type="button">PULAR TESTE E COMEÇAR EM FERRO 1</button></div><p class="gate-feedback" id="gateFeedback" role="status"></p></section></main><script>const token='<?= $csrf ?>';document.getElementById('skipTest').addEventListener('click',async()=>{if(!confirm('Ao pular, você começará em FERRO 1. Deseja continuar?'))return;const r=await fetch('../back-end/pular_teste.php',{method:'POST',headers:{'X-CSRF-Token':token,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({csrf_token:token})});const d=await r.json().catch(()=>({ok:false,message:'Resposta inválida do servidor.'}));if(d.ok)location.reload();else document.getElementById('gateFeedback').textContent=d.message||'Não foi possível continuar.';});</script></body></html><?php
+    ?><!doctype html><html lang="pt-BR" class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Comece sua jornada · AFDIS</title>
+<link rel="stylesheet" href="../css/liquid-glass.css?v=101"><link rel="stylesheet" href="../css/arena.css?v=3"><link rel="stylesheet" href="../css/navbar.css"></head><body class="arena-page"><div class="orb orb-a"></div><div class="orb orb-b"></div><?php include_once 'navbar.php'; ?><main class="shell"><section class="gate-card glass"><small class="eyebrow">ACESSO À ARENA</small><h1>Olá, <?= $nome ?>. Antes de começar, descubra seu nível.</h1><p>Faça o teste diagnóstico com perguntas sobre investimentos, gestão financeira e criptoativos. Seu resultado pode levar você até <strong>OURO 1</strong>.</p><div class="gate-warning"><b>Prefere pular?</b><span>Você poderá entrar agora, mas começará em <strong>FERRO 1</strong> e perderá a chance de receber uma patente inicial baseada no seu conhecimento.</span></div><div class="gate-actions"><a class="primary" href="teste_diagnostico.php">FAZER TESTE DIAGNÓSTICO</a><button class="checkin" id="skipTest" type="button">PULAR TESTE E COMEÇAR EM FERRO 1</button></div><p class="gate-feedback" id="gateFeedback" role="status"></p></section></main><script>const token='<?= $csrf ?>';document.getElementById('skipTest').addEventListener('click',async()=>{if(!confirm('Ao pular, você começará em FERRO 1. Deseja continuar?'))return;const r=await fetch('../back-end/pular_teste.php',{method:'POST',headers:{'X-CSRF-Token':token,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({csrf_token:token})});const d=await r.json().catch(()=>({ok:false,message:'Resposta inválida do servidor.'}));if(d.ok)location.reload();else document.getElementById('gateFeedback').textContent=d.message||'Não foi possível continuar.';});</script></body></html><?php
     exit;
 }
 $arenaRanks = $ranks;
 $arenaItems = $items;
 ?>
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AFDIS Arena · Liquid Glass</title><link rel="stylesheet" href="../css/liquid-glass.css?v=100">
+<!doctype html><html lang="pt-BR" class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AFDIS Arena · Liquid Glass</title><link rel="stylesheet" href="../css/liquid-glass.css?v=100">
 <link rel="stylesheet" href="../css/arena.css?v=6">
 <link rel="stylesheet" href="../css/navbar.css">
 <meta name="csrf-token" content="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>"></head><body class="arena-page">

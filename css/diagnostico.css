@@ -1,3 +1,62 @@
+/* ============================================================
+   TESTE DIAGNÓSTICO — PADRÃO CLARO DEFINITIVO
+============================================================ */
+html.claro body.diagnostico-page {
+  --dx-text: #10213e;
+  --dx-muted: #40566d;
+  --dx-line: rgba(31,65,105,.16);
+  --dx-green: #0b9f62;
+  --dx-blue: #0a2540;
+  background: linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro body.diagnostico-page main,
+html.claro body.diagnostico-page .hero_teste,
+html.claro body.diagnostico-page .teste_container,
+html.claro body.diagnostico-page .teste_card,
+html.claro body.diagnostico-page .resultado_box {
+  background: transparent !important;
+}
+
+html.claro body.diagnostico-page .hero_teste_container,
+html.claro body.diagnostico-page .teste_card {
+  background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(238,247,245,.88)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body.diagnostico-page .hero_teste_content h1,
+html.claro body.diagnostico-page .questao p,
+html.claro body.diagnostico-page .resultado_box h2 {
+  color: #10213e !important;
+}
+
+html.claro body.diagnostico-page .hero_teste_content p,
+html.claro body.diagnostico-page .alternativa label,
+html.claro body.diagnostico-page .progresso_teste span,
+html.claro body.diagnostico-page .resultado_box p {
+  color: #40566d !important;
+}
+
+html.claro body.diagnostico-page .alternativa {
+  background: rgba(255,255,255,.82) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+}
+
+html.claro body.diagnostico-page .resultado_box {
+  background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(238,247,245,.88)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body.diagnostico-page .btn_voltar_recursos {
+  background: rgba(105,232,187,.12) !important;
+  border-color: rgba(11,159,98,.28) !important;
+  color: #10213e !important;
+}
+
 /* AFDIS Diagnóstico — experiência Liquid Glass dedicada */
 body.diagnostico-page{
   --dx-text:#f6f9ff;--dx-muted:rgba(227,235,255,.68);--dx-line:rgba(225,239,255,.18);--dx-green:#69e8bb;--dx-blue:#78a9ff;
@@ -36,4 +95,3 @@ body.diagnostico-page .resultado_box p{color:var(--dx-muted);line-height:1.7}.re
 body.diagnostico-page .btn_voltar_recursos{border:1px solid rgba(105,232,187,.42);border-radius:14px;background:rgba(105,232,187,.12);color:#b8f8df;box-shadow:0 12px 30px rgba(0,0,0,.18)}
 body.diagnostico-page .btn_voltar_recursos:hover{background:rgba(105,232,187,.22);transform:translateY(-3px)}
 @media(max-width:700px){body.diagnostico-page .hero_teste{min-height:0;padding:70px 14px 70px}body.diagnostico-page .hero_teste_container{padding:32px 22px}body.diagnostico-page .hero_teste_content h1{font-size:clamp(2.2rem,12vw,3.3rem)}body.diagnostico-page .teste_container{margin-top:-30px;padding:0 14px}body.diagnostico-page .teste_card{padding:22px 17px}body.diagnostico-page .progresso_teste{top:68px}.questao p{font-size:.98rem!important}.alternativa{padding:12px!important}}
-CSS

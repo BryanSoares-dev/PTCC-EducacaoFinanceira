@@ -58,17 +58,16 @@ if ($fotoConfiguracao && !preg_match('/^https?:\\/\\//i', $fotoConfiguracao)) {
    TEMA
 ============================================================ */
 
-$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'sistema');
+$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'escuro');
 
 $temas_permitidos = [
     'claro',
-    'escuro',
-    'sistema'
+    'escuro'
 ];
 
 if (!in_array($tema, $temas_permitidos, true)) {
 
-    $tema = 'sistema';
+    $tema = 'escuro';
 
 }
 
@@ -747,10 +746,6 @@ if (count($partesNome) > 1) {
 
                     <option value="escuro">
                         Escuro
-                    </option>
-
-                    <option value="sistema">
-                        Automático (sistema)
                     </option>
 
                 </select>

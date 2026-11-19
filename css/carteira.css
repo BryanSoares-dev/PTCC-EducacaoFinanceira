@@ -2199,3 +2199,70 @@ body.claro .hero-saldo span {
         box-sizing: border-box;
     }
 }
+
+/* ============================================================
+   CARTEIRA — CORREÇÃO FINAL DO MODO CLARO
+============================================================ */
+html.claro body,
+body.claro {
+    background: linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+    color: #10213e !important;
+}
+
+html.claro .carteira-hero,
+body.claro .carteira-hero {
+    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+    border: 1px solid rgba(31,65,105,.16) !important;
+    box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro .carteira-hero h1,
+html.claro .hero-saldo strong,
+body.claro .carteira-hero h1,
+body.claro .hero-saldo strong {
+    color: #10213e !important;
+}
+
+html.claro .carteira-hero p,
+html.claro .hero-saldo span,
+body.claro .carteira-hero p,
+body.claro .hero-saldo span {
+    color: #40566d !important;
+}
+
+html.claro .cards .card,
+body.claro .cards .card,
+html.claro .card,
+body.claro .card {
+    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+    border: 1px solid rgba(31,65,105,.16) !important;
+    box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro .cards .card h4,
+body.claro .cards .card h4,
+html.claro .card h4,
+body.claro .card h4 {
+    color: #40566d !important;
+}
+
+html.claro .cards .card p,
+body.claro .cards .card p,
+html.claro .card p,
+body.claro .card p {
+    color: #10213e !important;
+}
+
+html.claro .cards .card p.green,
+body.claro .cards .card p.green,
+html.claro .card p.green,
+body.claro .card p.green {
+    color: #0b9f62 !important;
+}
+
+html.claro .cards .card p.red,
+body.claro .cards .card p.red,
+html.claro .card p.red,
+body.claro .card p.red {
+    color: #c43d4d !important;
+}

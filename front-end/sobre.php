@@ -38,16 +38,12 @@ if (!$usuario) {
    TEMA
 ============================================================ */
 
-$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'sistema');
+$tema = $usuario['tema'] ?? ($_SESSION['tema'] ?? 'escuro');
 
-$temas_permitidos = [
-    'claro',
-    'escuro',
-    'sistema'
-];
+$temas_permitidos = ['claro', 'escuro'];
 
 if (!in_array($tema, $temas_permitidos, true)) {
-    $tema = 'sistema';
+    $tema = 'escuro';
 }
 
 ?>

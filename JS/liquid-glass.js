@@ -2,36 +2,25 @@
   'use strict';
 
   const root = document.documentElement;
-  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 
   function resolveTheme() {
-    const configured = ['claro', 'escuro', 'sistema'].includes(root.dataset.theme)
+    const configured = ['claro', 'escuro'].includes(root.dataset.theme)
       ? root.dataset.theme
-      : (root.classList.contains('claro') ? 'claro'
-        : root.classList.contains('escuro') ? 'escuro'
-        : 'sistema');
-
-    const resolved = configured === 'sistema'
-      ? (systemTheme.matches ? 'escuro' : 'claro')
-      : configured;
+      : (root.classList.contains('claro') ? 'claro' : 'escuro');
 
     root.classList.remove('claro', 'escuro', 'sistema');
-    root.classList.add(resolved);
+    root.classList.add(configured);
     root.dataset.theme = configured;
-    root.dataset.resolvedTheme = resolved;
-    root.style.colorScheme = resolved;
+    root.dataset.resolvedTheme = configured;
+    root.style.colorScheme = configured;
   }
 
   resolveTheme();
 
-  systemTheme.addEventListener?.('change', () => {
-    if (root.dataset.theme === 'sistema') resolveTheme();
-  });
-
   document.addEventListener('change', (event) => {
     const input = event.target;
     if (!(input instanceof HTMLInputElement) || input.name !== 'tema') return;
-    if (!['claro', 'escuro', 'sistema'].includes(input.value)) return;
+    if (!['claro', 'escuro'].includes(input.value)) return;
     root.dataset.theme = input.value;
     resolveTheme();
   });
@@ -186,6 +175,45 @@
     });
   };
 
+  const getGlobalFooterMarkup = () => `
+      <div class="afde-footer-container">
+        <div class="afde-footer-brand">
+          <img class="afde-footer-logo" src="../img/logo.png" alt="Logo AFDE">
+          <div><strong>AFDE</strong><small>Educação financeira simples e acessível</small></div>
+        </div>
+        <nav class="afde-footer-links" aria-label="Links institucionais">
+          <a href="sobre.php">Sobre</a>
+          <a href="privacidade.php">Privacidade</a>
+          <a href="ajuda.php">Ajuda</a>
+        </nav>
+        <p class="afde-footer-copy">© ${new Date().getFullYear()} AFDE. Todos os direitos reservados.</p>
+      </div>`;
+
+  const ensureGlobalFooter = () => {
+    const existing = document.querySelector('footer:not(.afde-footer)');
+
+    if (existing) {
+      existing.className = 'afde-footer';
+      existing.setAttribute('role', 'contentinfo');
+      existing.innerHTML = getGlobalFooterMarkup();
+      return;
+    }
+
+    if (document.querySelector('footer.afde-footer')) {
+      const globalFooter = document.querySelector('footer.afde-footer');
+      if (!globalFooter.querySelector('.afde-footer-container')) {
+        globalFooter.innerHTML = getGlobalFooterMarkup();
+      }
+      return;
+    }
+
+    const footer = document.createElement('footer');
+    footer.className = 'afde-footer';
+    footer.setAttribute('role', 'contentinfo');
+    footer.innerHTML = getGlobalFooterMarkup();
+    document.body.appendChild(footer);
+  };
+
   const init = () => {
     document.documentElement.classList.add('liquid-glass-ready');
     document.querySelectorAll(surfaceSelector).forEach(bindSurface);
@@ -193,14 +221,25 @@
     bindPageLinks();
     bindScrollParallax();
     initCursor();
+    ensureGlobalFooter();
     if (!reduceMotion && 'IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-        if (entry.isIntersecting) { entry.target.classList.add('lg-revealed'); observer.unobserve(entry.target); }
+        if (entry.isIntersecting) {
+          entry.target.classList.add('lg-revealed');
+          observer.unobserve(entry.target);
+        }
       }), { threshold: .08 });
       document.querySelectorAll('.lg-card-surface').forEach((element) => observer.observe(element));
-    } else document.querySelectorAll('.lg-card-surface').forEach((element) => element.classList.add('lg-revealed'));
+    } else {
+      document.querySelectorAll('.lg-card-surface').forEach((element) => element.classList.add('lg-revealed'));
+    }
+
     window.setTimeout(() => document.documentElement.classList.add('lg-page-ready'), 20);
   };
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true }); else init();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init, { once: true });
+  } else {
+    init();
+  }
 })();

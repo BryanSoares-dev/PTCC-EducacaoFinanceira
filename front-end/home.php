@@ -6,7 +6,7 @@ iniciar_sessao_segura();
 
 require_once("../back-end/conexao.php");
 
-$tema = 'sistema';
+$tema = 'escuro';
 
 if (isset($_SESSION['id'])) {
 
@@ -34,7 +34,7 @@ if (isset($_SESSION['id'])) {
 
                 $usuario['tema'],
 
-                ['claro', 'escuro', 'sistema'],
+                ['claro', 'escuro'],
 
                 true
 
@@ -48,7 +48,7 @@ if (isset($_SESSION['id'])) {
 
     } catch (PDOException $e) {
 
-        $tema = 'sistema';
+        $tema = 'escuro';
 
     }
 

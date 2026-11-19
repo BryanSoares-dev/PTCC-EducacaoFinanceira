@@ -39,17 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lucro = $valor_final - $total_investido;
 }
 
-$temaCalculadora = 'sistema';
+$temaCalculadora = 'escuro';
 if (isset($_SESSION['id'])) {
     try {
         $stmtTema = $pdo->prepare('SELECT tema FROM usuarios WHERE id = ?');
         $stmtTema->execute([$_SESSION['id']]);
         $temaUsuario = $stmtTema->fetchColumn();
-        if (in_array($temaUsuario, ['claro', 'escuro', 'sistema'], true)) {
+        if (in_array($temaUsuario, ['claro', 'escuro'], true)) {
             $temaCalculadora = $temaUsuario;
         }
     } catch (PDOException $ignored) {
-        $temaCalculadora = 'sistema';
+        $temaCalculadora = 'escuro';
     }
 }
 ?>

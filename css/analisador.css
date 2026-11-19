@@ -1406,3 +1406,91 @@ html.escuro .analisador_box {
 
 }
 
+
+/* ============================================================
+   ANÁLISE CLARA — TODOS OS CARDS
+============================================================ */
+html.claro :is(.card_dashboard, .analisador_box, .resultado_box, .step_card) {
+    color: #10213e !important;
+}
+
+html.claro :is(.card_dashboard, .analisador_box, .resultado_box, .step_card) :is(h1,h2,h3,h4,h5,strong,b) {
+    color: #10213e !important;
+}
+
+html.claro :is(.card_dashboard, .analisador_box, .resultado_box, .step_card) :is(p,span,small,label,li) {
+    color: #40566d !important;
+}
+
+html.claro .card_dashboard,
+html.claro .analisador_box,
+html.claro .resultado_box,
+html.claro .step_card {
+    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+    border: 1px solid rgba(31,65,105,.16) !important;
+    box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro .upload_slot {
+    background: rgba(255,255,255,.82) !important;
+    color: #40566d !important;
+    border-color: rgba(31,65,105,.22) !important;
+}
+
+html.claro .upload_slot_label,
+html.claro .upload_slot_hint,
+html.claro .upload_status,
+html.claro .arquivo_chip,
+html.claro .arquivo_nome,
+html.claro .resultado_subtitle,
+html.claro .resultado_conteudo,
+html.claro .resultado_conteudo :is(p,li,em,code) {
+    color: #40566d !important;
+}
+
+html.claro .resultado_conteudo :is(h1,h2,h3,h4,h5,strong,b) {
+    color: #10213e !important;
+}
+
+/* ============================================================
+   CORREÇÃO FINAL — TEXTOS ESCUROS NO MODO CLARO
+============================================================ */
+html.claro body :is(.card_dashboard, .analisador_box, .resultado_box, .step_card) {
+    background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(238,247,245,.88)) !important;
+    color: #10213e !important;
+}
+
+html.claro body :is(.card_dashboard, .analisador_box, .resultado_box, .step_card) :where(*) {
+    --texto-forcado-claro: #10213e;
+}
+
+html.claro body .card_dashboard :is(h1,h2,h3,h4,h5,p,span,strong,b,small),
+html.claro body .analisador_box :is(h1,h2,h3,h4,h5,p,span,strong,b,small,label),
+html.claro body .resultado_box :is(h1,h2,h3,h4,h5,p,span,strong,b,small,li,em),
+html.claro body .resultado_conteudo :is(h1,h2,h3,h4,h5,p,span,strong,b,small,li,em,a,code),
+html.claro body .step_card :is(h1,h2,h3,h4,h5,p,span,strong,b,small) {
+    color: #10213e !important;
+    -webkit-text-fill-color: #10213e !important;
+}
+
+html.claro body .card_dashboard,
+html.claro body .analisador_box,
+html.claro body .resultado_box,
+html.claro body .step_card {
+    border-color: rgba(31,65,105,.16) !important;
+}
+
+html.claro body .resultado_box,
+html.claro body .resultado_conteudo {
+    background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(238,247,245,.88)) !important;
+}
+
+html.claro body .resultado_subtitle,
+html.claro body .upload_slot_label,
+html.claro body .upload_slot_hint,
+html.claro body .upload_status,
+html.claro body .arquivo_nome {
+    color: #40566d !important;
+    -webkit-text-fill-color: #40566d !important;
+}
+

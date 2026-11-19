@@ -47,8 +47,10 @@ if (!$usuario) {
 }
 
 
-$tema = $usuario['tema'] ?? 'sistema';
-
+$tema = $usuario['tema'] ?? 'escuro';
+if (!in_array($tema, ['claro', 'escuro'], true)) {
+    $tema = 'escuro';
+}
 ?>
 
 <!DOCTYPE html>

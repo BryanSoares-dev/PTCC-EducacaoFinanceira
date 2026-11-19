@@ -8,6 +8,18 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
+$tema = 'escuro';
+try {
+    $stmtTema = $pdo->prepare('SELECT tema FROM usuarios WHERE id = ? LIMIT 1');
+    $stmtTema->execute([$_SESSION['id']]);
+    $temaUsuario = $stmtTema->fetchColumn();
+    if (in_array($temaUsuario, ['claro', 'escuro'], true)) {
+        $tema = $temaUsuario;
+    }
+} catch (PDOException $ignored) {
+    $tema = 'escuro';
+}
+
 try {
     $pdo->exec("ALTER TABLE usuarios ADD COLUMN patente VARCHAR(30) NULL AFTER banner");
 } catch (PDOException $ignored) {
@@ -281,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['finalizar'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="<?= htmlspecialchars($tema, ENT_QUOTES, 'UTF-8') ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

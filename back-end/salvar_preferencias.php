@@ -21,11 +21,11 @@ csrf_exigir();
 
 // ===================== VALIDAÇÃO (WHITELIST) =====================
 $moedasValidas   = ['BRL', 'USD', 'EUR'];
-$temasValidos    = ['claro', 'escuro', 'sistema'];
+$temasValidos    = ['claro', 'escuro'];
 $idiomasValidos  = ['pt-BR', 'en-US', 'es-ES'];
 
 $moeda  = in_array($_POST['moeda'] ?? '', $moedasValidas, true) ? $_POST['moeda'] : 'BRL';
-$tema   = in_array($_POST['tema'] ?? '', $temasValidos, true) ? $_POST['tema'] : 'sistema';
+$tema   = in_array($_POST['tema'] ?? '', $temasValidos, true) ? $_POST['tema'] : 'escuro';
 $idioma = in_array($_POST['idioma'] ?? '', $idiomasValidos, true) ? $_POST['idioma'] : 'pt-BR';
 
 // ===================== SALVAR NO BANCO =====================

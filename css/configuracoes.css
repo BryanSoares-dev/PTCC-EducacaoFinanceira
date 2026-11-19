@@ -1266,6 +1266,33 @@ html.claro body {
 }
 
 
+/* =========================
+   CONTRASTE NO MODO CLARO
+========================= */
+html.claro .perfil_dados h1,
+html.claro .settings_card_text h3,
+html.claro .settings_section_title {
+  color: #10213e !important;
+}
+
+html.claro .perfil_dados p,
+html.claro .settings_card_text p,
+html.claro .settings_card_arrow,
+html.claro .perfil_dados .material-icons {
+  color: #40566d !important;
+}
+
+html.claro .settings_card {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+}
+
+html.claro .settings_card_danger .settings_card_text h3,
+html.claro .settings_card_danger .settings_card_arrow {
+  color: #b42318 !important;
+}
+
 /* ============================================================
    TEMA ESCURO
 ============================================================ */
@@ -1550,5 +1577,28 @@ html.escuro .btn_modal_secundario {
 
   }
 
+}
+
+/* =========================
+   CABEÇALHO NO MODO CLARO
+========================= */
+html.claro .perfil_header {
+  background: linear-gradient(135deg, rgba(126, 147, 180, 0.96), rgba(91, 112, 150, 0.96)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 14px 44px rgba(45, 61, 86, 0.20), inset 0 1px rgba(255, 255, 255, 0.12) !important;
+  color: #10213e !important;
+}
+
+html.claro .perfil_dados h1 {
+  color: #10213e !important;
+}
+
+html.claro .perfil_dados p,
+html.claro .perfil_dados .material-icons {
+  color: #40566d !important;
+}
+
+html.claro .perfil_header .perfil_avatar_placeholder {
+  border-color: rgba(255, 255, 255, 0.85) !important;
 }
 

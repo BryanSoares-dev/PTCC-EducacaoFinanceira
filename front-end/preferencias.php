@@ -36,11 +36,11 @@ $erro = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $moedasValidas = ['BRL', 'USD', 'EUR'];
-    $temasValidos  = ['claro', 'escuro', 'sistema'];
+    $temasValidos  = ['claro', 'escuro'];
     $idiomasValidos = ['pt-BR', 'en-US', 'es-ES'];
 
     $moeda  = in_array($_POST['moeda'] ?? '', $moedasValidas, true) ? $_POST['moeda'] : 'BRL';
-    $tema   = in_array($_POST['tema'] ?? '', $temasValidos, true) ? $_POST['tema'] : 'sistema';
+    $tema   = in_array($_POST['tema'] ?? '', $temasValidos, true) ? $_POST['tema'] : 'escuro';
     $idioma = in_array($_POST['idioma'] ?? '', $idiomasValidos, true) ? $_POST['idioma'] : 'pt-BR';
 
     try {
@@ -62,7 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $moedaAtual  = $usuario['moeda']  ?? 'BRL';
-$temaAtual   = $usuario['tema']   ?? 'sistema';
+$temaAtual   = $usuario['tema']   ?? 'escuro';
+if (!in_array($temaAtual, ['claro', 'escuro'], true)) {
+    $temaAtual = 'escuro';
+}
 $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
 ?>
 
@@ -139,18 +142,6 @@ $idiomaAtual = $usuario['idioma'] ?? 'pt-BR';
                 <label for="tema_claro">
                     <span class="material-icons">light_mode</span>
                     Claro
-                </label>
-
-                <input type="radio" id="tema_escuro" name="tema" value="escuro" <?= $temaAtual === 'escuro' ? 'checked' : '' ?>>
-                <label for="tema_escuro">
-                    <span class="material-icons">dark_mode</span>
-                    Escuro
-                </label>
-
-                <input type="radio" id="tema_sistema" name="tema" value="sistema" <?= $temaAtual === 'sistema' ? 'checked' : '' ?>>
-                <label for="tema_sistema">
-                    <span class="material-icons">settings_suggest</span>
-                    Sistema
                 </label>
 
             </div>
