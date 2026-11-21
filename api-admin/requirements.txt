@@ -1,0 +1,7 @@
+Flask>=3.0,<4
+Flask-Cors>=4.0,<7
+PyMySQL>=1.1,<2
+bcrypt>=4.1,<5
+python-dotenv>=1.0,<2
+waitress>=3.0,<4
+gunicorn>=22.0,<24; platform_system != "Windows"
