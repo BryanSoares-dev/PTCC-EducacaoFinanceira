@@ -1,0 +1,15 @@
+vendor/
+google-config.php
+.env
+venv/
+__pycache__/
+temp/
+*.pyc
+node_modules/
+uploads/
+community/uploads/
+analise-de-extrato/temp/
+*.mp4
+*.mov
+*.wav
+*.webm

@@ -15,7 +15,7 @@ function afdeDb(): PDO
             afdeConfig('DB_NAME', 'educacaofinanceira')
         );
 
-        $pdo = new PDO($dsn, afdeConfig('DB_USER', ''), afdeConfig('DB_PASS', ''), [
+        $pdo = new PDO($dsn, afdeConfig('DB_USER', 'root'), afdeConfig('DB_PASS', ''), [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
