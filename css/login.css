@@ -322,6 +322,17 @@ body {
   color: var(--accent-light);
 }
 
+.login_feedback {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1px solid rgba(253, 230, 138, .45);
+  border-radius: 10px;
+  background: rgba(120, 53, 15, .25);
+  color: #fef3c7;
+  font-size: .9rem;
+  line-height: 1.4;
+}
+
 .google_btn {
   display: flex;
   align-items: center;
@@ -388,4 +399,3 @@ body {
     width: 75px;
   }
 }
-
