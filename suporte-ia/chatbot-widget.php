@@ -1,6 +1,6 @@
 <?php
-// URL da API Flask. Se mudar a porta ou o endereço, altere só aqui.
-$cbiaApiUrl = "http://127.0.0.1:5000/api/perguntar";
+// A ponte PHP mantém a chamada no mesmo domínio e encaminha para a API interna.
+$cbiaApiUrl = '../back-end/chatbot.php';
 ?>
 <!-- ===== Widget de chat com IA (inclua este arquivo em todas as páginas) ===== -->
 <style>
@@ -93,7 +93,7 @@ $cbiaApiUrl = "http://127.0.0.1:5000/api/perguntar";
     padding: 9px 12px;
     border-radius: 12px;
     line-height: 1.45;
-    word-wrap: break-word;
+    overflow-wrap: anywhere;
   }
   .cbia-usuario {
     align-self: flex-end;
@@ -220,7 +220,12 @@ $cbiaApiUrl = "http://127.0.0.1:5000/api/perguntar";
   function carregarHistorico() {
     try {
       const salvo = sessionStorage.getItem(CHAVE_HISTORICO);
-      if (salvo) historico = JSON.parse(salvo);
+        if (salvo) {
+          const parsed = JSON.parse(salvo);
+          historico = Array.isArray(parsed)
+            ? parsed.filter(m => m && typeof m.texto === "string" && ["usuario", "ia"].includes(m.tipo)).slice(-40)
+            : [];
+        }
     } catch (e) { historico = []; }
   }
 
@@ -228,7 +233,7 @@ $cbiaApiUrl = "http://127.0.0.1:5000/api/perguntar";
     const div = document.createElement("div");
     div.className = "cbia-msg cbia-" + tipo.split(" ").join(" cbia-");
     if (comoMarkdown) {
-      div.innerHTML = DOMPurify.sanitize(marked.parse(texto));
+        div.innerHTML = DOMPurify.sanitize(marked.parse(texto));
     } else {
       div.textContent = texto; // textContent evita injeção de HTML
     }
@@ -281,20 +286,23 @@ $cbiaApiUrl = "http://127.0.0.1:5000/api/perguntar";
     try {
       const resp = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        credentials: "same-origin",
         body: JSON.stringify({ pergunta })
       });
-      const dados = await resp.json();
+      const dados = await resp.json().catch(() => ({}));
       carregando.remove();
 
       if (!resp.ok) {
-        renderizar(dados.erro || "Erro inesperado.", "ia erro", false);
+        renderizar(dados.erro || "Não foi possível responder agora.", "ia erro", false);
+      } else if (typeof dados.resposta !== "string" || !dados.resposta.trim()) {
+        renderizar("O assistente não retornou uma resposta válida.", "ia erro", false);
       } else {
         adicionar(dados.resposta, "ia", true);
       }
     } catch (err) {
       carregando.remove();
-      renderizar("Não foi possível conectar à API. Verifique se o servidor está rodando.", "ia erro", false);
+      renderizar("Não foi possível conectar ao assistente. Tente novamente em instantes.", "ia erro", false);
     } finally {
       enviar.disabled = false;
       campo.focus();
