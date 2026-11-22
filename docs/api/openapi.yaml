@@ -12,11 +12,14 @@ servers:
     description: XAMPP/Apache (ajuste o caminho conforme a pasta htdocs)
   - url: http://127.0.0.1/PTCC-EducacaoFinanceira
     description: XAMPP/Apache via loopback
+  - url: http://127.0.0.1:5001
+    description: API Flask administrativa local
 tags:
   - name: Open Finance
   - name: Carteira e calendário
   - name: Arena
   - name: Comunidade
+  - name: Contas administrativas
 paths:
   /open-finance/dados.php:
     get:
@@ -177,7 +180,70 @@ paths:
         '200': { description: Operação concluída }
         '401': { description: Sessão não autenticada }
         '403': { description: CSRF inválido }
+  /api/admin/users:
+    get:
+      tags: [Contas administrativas]
+      operationId: listarContas
+      summary: Lista contas administrativas e usuários comuns
+      security: [{ AdminBearer: [] }]
+      parameters:
+        - in: query
+          name: tipo
+          schema: { type: string, enum: [admin, usuario] }
+        - in: query
+          name: busca
+          schema: { type: string }
+      responses:
+        '200': { description: Lista de contas, content: { application/json: { schema: { $ref: '#/components/schemas/AccountsResponse' } } } }
+        '401': { description: Token ausente, inválido ou expirado }
+        '403': { description: Permissão administrativa revogada }
+    post:
+      tags: [Contas administrativas]
+      operationId: criarConta
+      summary: Cria uma conta admin ou usuário comum
+      security: [{ AdminBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json: { schema: { $ref: '#/components/schemas/AccountInput' } }
+      responses:
+        '201': { description: Conta criada }
+        '400': { description: Dados inválidos }
+        '409': { description: E-mail já cadastrado }
+  /api/admin/users/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        schema: { type: integer, minimum: 1 }
+    put:
+      tags: [Contas administrativas]
+      operationId: atualizarConta
+      summary: Atualiza dados de uma conta
+      security: [{ AdminBearer: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json: { schema: { $ref: '#/components/schemas/AccountUpdate' } }
+      responses:
+        '200': { description: Conta atualizada }
+        '404': { description: Conta não encontrada }
+        '409': { description: E-mail já cadastrado }
+    delete:
+      tags: [Contas administrativas]
+      operationId: excluirConta
+      summary: Exclui uma conta (exceto a própria conta admin)
+      security: [{ AdminBearer: [] }]
+      responses:
+        '200': { description: Conta excluída }
+        '400': { description: Tentativa de excluir a própria conta }
+        '404': { description: Conta não encontrada }
 components:
+  securitySchemes:
+    AdminBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: HMAC
   schemas:
     OpenFinanceData:
       type: object
@@ -195,6 +261,38 @@ components:
         transacoes: { type: array, items: { type: object } }
         sincronizado: { type: integer }
         avisos: { type: array, items: { type: string } }
+    Account:
+      type: object
+      properties:
+        id: { type: integer, example: 12 }
+        nome: { type: string, example: Maria Silva }
+        email: { type: string, format: email, example: maria@example.com }
+        telefone: { type: string, example: '(11) 99999-9999' }
+        provedor: { type: string, example: local }
+        tipo: { type: string, enum: [admin, usuario] }
+        data_criacao: { type: string, format: date-time }
+    AccountInput:
+      type: object
+      required: [nome, email, tipo, senha]
+      properties:
+        nome: { type: string, minLength: 2, maxLength: 255 }
+        email: { type: string, format: email, maxLength: 190 }
+        telefone: { type: string, maxLength: 25 }
+        tipo: { type: string, enum: [admin, usuario] }
+        senha: { type: string, format: password, minLength: 8 }
+    AccountUpdate:
+      type: object
+      properties:
+        nome: { type: string, minLength: 2, maxLength: 255 }
+        email: { type: string, format: email, maxLength: 190 }
+        telefone: { type: string, maxLength: 25 }
+        tipo: { type: string, enum: [admin, usuario] }
+        senha: { type: string, format: password, minLength: 8 }
+    AccountsResponse:
+      type: object
+      properties:
+        ok: { type: boolean }
+        data: { type: array, items: { $ref: '#/components/schemas/Account' } }
 
 
 

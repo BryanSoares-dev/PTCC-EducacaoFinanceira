@@ -83,6 +83,11 @@ iniciar_sessao_segura();
 
                 </div>
 
+                <?php if (!empty($_SESSION['mensagem'])): ?>
+                    <p class="login_feedback" role="alert"><?= htmlspecialchars((string)$_SESSION['mensagem'], ENT_QUOTES, 'UTF-8') ?></p>
+                    <?php unset($_SESSION['mensagem']); ?>
+                <?php endif; ?>
+
                 <form action="../back-end/processa_login.php" method="POST" class="login_form">
 
                     <?= csrf_campo() ?>
@@ -110,7 +115,7 @@ iniciar_sessao_segura();
                             placeholder="Digite sua senha"
                             required
                             minlength="6"
-                            maxlength="12"
+                            maxlength="128"
                         >
 
                     </div>
@@ -167,5 +172,4 @@ iniciar_sessao_segura();
     <?php include '../suporte-ia/chatbot-widget.php'; ?>
 </body>
 </html>
-
 
