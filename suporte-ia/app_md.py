@@ -23,14 +23,13 @@ def rate_limited(ip, limit=10, window=60):
     return False
 
 # CORS restrito às origens do front-end (configurável via .env).
-origens_permitidas = [origem.strip() for origem in os.environ.get(
+origens_permitidas = os.environ.get(
     "ALLOWED_ORIGIN",
     "http://localhost,http://127.0.0.1,http://localhost:80,http://127.0.0.1:80"
-).split(",") if origem.strip()]
+).split(",")
 CORS(app, resources={r"/api/*": {"origins": origens_permitidas}})
 
-api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-client = genai.Client(api_key=api_key) if api_key else None
+client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
 
 # Base de conhecimento do TCC: arquivo .md que fica no servidor,
 # na mesma pasta deste arquivo.
@@ -48,10 +47,7 @@ def ler_base():
 
 @app.route('/api/perguntar', methods=['POST'])
 def perguntar():
-    # Este endpoint só deve ser acessível em loopback; o header é escrito
-    # pela ponte PHP para manter o limite separado por visitante.
-    ip_cliente = request.headers.get('X-AFDE-Client-IP', request.remote_addr or 'unknown')
-    if rate_limited(ip_cliente):
+    if rate_limited(request.remote_addr or 'unknown'):
         return jsonify({'erro': 'Muitas solicitações. Tente novamente em instantes.'}), 429
 
     # Aceita tanto JSON ({"pergunta": "..."}) quanto FormData.
@@ -62,8 +58,6 @@ def perguntar():
         return jsonify({"erro": "Envie uma pergunta."}), 400
     if len(pergunta) > LIMITE_PERGUNTA:
         return jsonify({"erro": f"Pergunta muito longa (máx. {LIMITE_PERGUNTA} caracteres)."}), 400
-    if client is None:
-        return jsonify({"erro": "O assistente ainda não está configurado. Defina GEMINI_API_KEY no ambiente."}), 503
 
     try:
         texto = ler_base()
@@ -81,19 +75,16 @@ def perguntar():
 
     try:
         resposta = client.models.generate_content(
-            model=os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite"),
+            model="gemini-3.1-flash-lite",
             contents=prompt
         )
     except Exception:
         return jsonify({"erro": "Não foi possível gerar a resposta agora. Tente novamente em instantes."}), 502
 
-    texto_resposta = getattr(resposta, "text", None)
-    if not isinstance(texto_resposta, str) or not texto_resposta.strip():
-        return jsonify({"erro": "O assistente não retornou uma resposta válida."}), 502
-    return jsonify({"resposta": texto_resposta.strip()})
+    return jsonify({"resposta": resposta.text})
 
 
 if __name__ == '__main__':
     # debug só liga se DEBUG=1 estiver definido (uso local).
     debug_ativo = os.environ.get("DEBUG", "0") == "1"
-    app.run(host=os.environ.get('HOST', '127.0.0.1'), port=int(os.environ.get('PORT', '5000')), debug=debug_ativo)
+    app.run(host=os.environ.get('HOST', '127.0.0.1'), port=5000, debug=debug_ativo)
