@@ -75,16 +75,13 @@ function iniciar_sessao_segura(): void
         ini_set('session.use_strict_mode', '1');
         ini_set('session.use_only_cookies', '1');
         ini_set('session.cookie_httponly', '1');
-        // Lax permite o retorno GET do OAuth; no HTTPS embutido/publicado,
-        // None é necessário para o Preview cross-site e exige Secure.
-        ini_set('session.cookie_samesite', 'Lax');
+        ini_set('session.cookie_samesite', 'Strict');
     }
 
     $https = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
         || (($_SERVER['SERVER_PORT'] ?? null) == 443)
         || (strtolower($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
 
-    $sameSite = $https ? 'None' : 'Lax';
     if (session_status() === PHP_SESSION_NONE) {
         session_set_cookie_params([
             'lifetime' => 0,
@@ -92,7 +89,7 @@ function iniciar_sessao_segura(): void
             'domain'   => '',
             'secure'   => $https,
             'httponly' => true,
-            'samesite' => $sameSite,
+            'samesite' => 'Strict',
         ]);
         session_start();
     }
