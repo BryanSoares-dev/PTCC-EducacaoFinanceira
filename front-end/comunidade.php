@@ -37,7 +37,7 @@ try {
 <meta name="description" content="Comunidade do portal de educação financeira: conversas, grupos e conteúdo compartilhado.">
 <title>Comunidade | AFDE</title>
 <!-- A base visual do projeto do grupo tem precedência; a comunidade fornece apenas seus componentes específicos. -->
-<link rel="stylesheet" href="../community/front-end/assets/css/style.css?v=9"><link rel="stylesheet" href="../community/front-end/assets/css/community-overrides.css?v=15">
+<link rel="stylesheet" href="../community/front-end/assets/css/style.css?v=9"><link rel="stylesheet" href="../community/front-end/assets/css/community-overrides.css?v=14">
 <link rel="stylesheet" href="../css/style.css?v=102"><link rel="stylesheet" href="../css/navbar.css?v=102">
 <link rel="stylesheet" href="../css/liquid-glass.css?v=103"><link rel="icon" href="../img/favicon.png">
 </head><body class="community-native-page">
