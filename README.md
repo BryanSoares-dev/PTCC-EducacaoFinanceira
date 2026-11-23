@@ -1,101 +1,85 @@
-# PTCC-EducacaoFinanceira
+# Sunset Hub integrado ao PTCC
 
-## Configuração do MySQL no XAMPP
+O Sunset Hub é uma área autenticada do portal de Educação Financeira. O portal continua sendo a única fonte de identidade, sessão e banco de dados; não há contas comunitárias separadas.
 
-O projeto está configurado para conectar ao MySQL/MariaDB do XAMPP pela porta **3307**. Verifique no arquivo `xampp/mysql/bin/my.ini` se a diretiva `port` está definida como `3307`, inicie o MySQL e importe `educacaofinanceira.sql` no banco `educacaofinanceira`. Se o usuário `root` possuir senha, atualize a variável `$pass` no arquivo `back-end/conexao.php`.
+## Organização
 
-## Acessibilidade
+- `front-end/`: tela e assets do Sunset Hub.
+- `back-end/`: API, integração de sessão/CSRF e criação idempotente das tabelas sociais.
+- `uploads/`: arquivos de vídeo, miniaturas, grupos, stories, publicações visuais e imagens de chat; as subpastas são criadas no primeiro upload.
+- `database/`: documentação do esquema, incluído no dump principal `educacaofinanceira.sql`.
 
-O widget de acessibilidade (`JS/acessibilidade.js`) está integrado em todas as páginas do site
-(`front-end/*.php` e `admin/*.php`), sendo carregado antes do fechamento de `</body>`.
+## Instalação no XAMPP (banco único)
 
-Funcionalidades do widget:
-- Ajuste de tamanho de fonte (diminuir, padrão, aumentar)
-- Filtros de simulação de daltonismo (protanopia, deuteranopia, tritanopia, acromatopsia)
-- Modo de alto contraste
-- Preferências salvas no `localStorage` do navegador
-- Painel acessível via teclado (Esc fecha, foco automático) e leitor de tela (ARIA)
+1. Inicie Apache e MySQL/MariaDB no XAMPP. Este projeto está configurado para o MySQL em `127.0.0.1:3307`.
+2. Confirme em `.env` (ou crie a partir de `.env.example`) `DB_HOST=127.0.0.1`, `DB_PORT=3307`, `DB_NAME=educacaofinanceira` e as credenciais que funcionam no seu XAMPP.
+3. Em uma instalação nova, crie o banco vazio `educacaofinanceira`. Na primeira conexão, o portal importa automaticamente o dump principal, que contém tanto o TCC como o Sunset Hub.
+4. Em um banco do TCC que já tenha a tabela `usuarios`, abra a comunidade autenticado: o esquema comunitário faltante é criado no próprio banco. **Não é necessário importar uma migração Sunset separada.**
+5. O usuário MySQL precisa de permissão `CREATE` para a inicialização. Bancos com tabelas não são apagados nem substituídos; se a tabela `usuarios` estiver ausente em um banco não vazio, a aplicação interrompe a inicialização em vez de sobrescrever dados.
+6. Faça login pelo portal e escolha **Comunidade** na navbar. Visitantes e sessões vencidas são encaminhados ao login central e retornam à comunidade depois de entrar.
 
+O dump principal `educacaofinanceira.sql` contém as 16 tabelas sociais e o bootstrap também cria tabelas/colunas faltantes de modo idempotente para bancos existentes. A conexão padrão usa a porta **3307**.
 
+## Recursos
 
-## Calendário financeiro integrado ao Open Finance
+### Amigos e mensagens
 
-A carteira agora sincroniza as transações da conta conectada pela Pluggy e salva os lançamentos em `open_finance_transacoes`. O calendário combina esses registros com as movimentações manuais, mostra o mês atual do primeiro dia até o dia corrente e oferece navegação pelos meses desde a criação da conta. O gráfico histórico compara receitas e despesas mês a mês.
+- Busca de usuários pelo nome, envio/cancelamento de solicitações e aceite/recusa.
+- Mensagens privadas no estilo chat, somente entre amizades aceitas; atualização automática e envio de imagens JPG/PNG/WebP até 8 MB.
+- Lista de solicitações recebidas, amigos online e últimas mensagens.
 
-O dump único `educacaofinanceira.sql` já inclui a tabela `open_finance_transacoes`; não é necessário executar SQL adicional. Configure `PLUGGY_CLIENT_ID` e `PLUGGY_CLIENT_SECRET` como variáveis de ambiente do PHP. O botão de conexão mantém `includeSandbox: true` para permitir contas de teste durante o desenvolvimento; em produção, essa opção deve ser desativada quando não houver necessidade de conectores sandbox.
+### Vídeos, posts visuais e stories
 
-A categorização automática usa a categoria retornada pela Pluggy e regras simples baseadas na descrição, operação e comerciante. Na carteira, cada transação importada possui um seletor para o usuário corrigir a categoria; essa escolha fica marcada como manual e é preservada nas sincronizações seguintes. As categorias disponíveis incluem **Alimentação**, **Transporte**, **Moradia**, **Contas**, **Saúde**, **Educação**, **Lazer** e **Outros**.
+- Vídeos MP4 enviados ao próprio servidor, com título, descrição e miniatura obrigatória.
+- Contagem de visualizações no primeiro play por carregamento da página, likes, dislikes e comentários.
+- Ao abrir um card de vídeo, um pop-up reúne o player, o autor, as visualizações, as reações e os comentários.
+- O autor do vídeo ou do comentário pode apagar comentários; o backend valida a permissão.
+- Publicações visuais em carrossel de 1–10 imagens e vídeos curtos MP4.
+- Stories de imagem ou vídeo, visíveis por 24 horas e removidos da listagem após a expiração.
 
-A sincronização é acionada ao abrir ou atualizar os dados da carteira. A integração usa o endpoint cursor-based `/v2/transactions` com páginas de até 500 registros e mantém fallback para o endpoint legado. A Pluggy disponibiliza normalmente até 12 meses de histórico por produto de transações; o gráfico mostra todos os meses existentes no cadastro e, para meses sem lançamentos, exibe zero.
+### Grupos
 
-## Perfil, foto e banner
+- Separação entre **Meus grupos** e **Grupos disponíveis**.
+- Criação com nome, descrição e imagem obrigatória; o criador torna-se administrador e primeiro membro.
+- Cada grupo abre em pop-up; o bate-papo aceita imagens JPG/PNG/WebP até 8 MB, além de texto.
+- Bate-papo, avisos e espaço de videochamada reservado (a chamada em si ainda não está habilitada).
+- Lista de membros online/offline; presença considera atividade recente, com verificação de cinco minutos.
+- Administrador identificado por coroa, pode criar e excluir abas de chat, avisos ou chamadas e moderar mensagens do grupo.
 
-A página `front-end/perfil.php` permite editar os dados pessoais, trocar a foto com um editor em formato **1:1**, aplicar zoom e reposicionar a imagem arrastando-a, além de enviar um banner para o cabeçalho do perfil. Bancos criados com uma versão anterior recebem a coluna `banner` automaticamente ao abrir o perfil; bancos antigos recebem a atualização automaticamente pela aplicação.
+### Notificações
 
-## Uploads no XAMPP
+- O sino consulta novas solicitações de amizade, aceitações, entradas em grupos criados pelo usuário e publicações de amigos (posts, vídeos, carrosséis/vídeos curtos e stories).
+- Notificações novas são atualizadas periodicamente enquanto a página estiver aberta; abrir o sino mostra a lista e permite marcar itens como lidos.
 
-Os uploads são gravados em `uploads/perfis` e `uploads/banners`. Essas pastas precisam existir e ter permissão de escrita para o usuário do Apache. O banner é enviado automaticamente assim que um arquivo é escolhido; a foto de perfil é salva como JPEG quadrado após o recorte no pop-up e não depende da extensão GD.
+### Navegação
 
-## Editor de mídia — versão 67
+- Tour introdutório em quatro passos, exibido uma vez por conta/navegador.
+- Busca local na comunidade, navegação com histórico do navegador e layout responsivo.
+- Fluxos de publicação mostram erros de upload de forma clara, incluindo limites do PHP.
+- O endpoint de mídia usa `community/back-end/upload.php`, validando MIME, tamanho, permissões e gravação dos arquivos antes de salvar os metadados no banco.
 
-O editor de foto é aberto pelo avatar, pelo botão **Alterar foto** ou por teclado. Ele produz um JPEG quadrado com zoom e arraste. O editor de banner produz um JPEG horizontal 3:1 com os mesmos controles. O arquivo `VERSOES-PERFIL.md` cataloga as 67 evoluções do fluxo.
+## Configuração de uploads grandes
 
-### Evolução 68 do editor
+O projeto inclui um arquivo `.user.ini` na raiz com `upload_max_filesize=100M`, `post_max_size=128M`, `max_input_time=300` e `max_execution_time=300`, permitindo vídeos e Reels de até **100 MB**. O Apache/PHP pode levar alguns minutos para recarregar essa configuração; reinicie o Apache após atualizar o projeto. Se o seu XAMPP ignorar `.user.ini`, aplique manualmente no `php.ini`:
 
-O zoom mínimo do avatar e do banner é 50%, com preenchimento derivado da própria imagem para não revelar áreas vazias. O arraste é limitado às bordas do conteúdo, e as saídas foram ampliadas para 1024×1024 no avatar e 1800×600 no banner, com maior qualidade de interpolação e compressão JPEG.
+1. Abra `C:\xampp\php\php.ini`.
+2. Ajuste, por exemplo:
+   ```ini
+   upload_max_filesize=100M
+   post_max_size=128M
+   max_input_time=300
+   max_execution_time=300
+   ```
+3. Salve e reinicie o Apache no painel do XAMPP.
+4. Confira se a pasta `community/uploads` (e as subpastas criadas automaticamente) pode ser gravada pelo Apache.
 
-## Liquid Glass v83 — rodada de 15 evoluções
+O PHP precisa das extensões `pdo_mysql` e `fileinfo`. A pasta de uploads desativa listagem de diretório e bloqueia execução de scripts. Arquivos não são gravados como blobs no MySQL: o banco guarda apenas metadados e caminhos relativos.
 
-Todas as 28 páginas visuais do site carregam `css/liquid-glass.css?v=83` e `JS/liquid-glass.js?v=83`. A camada inclui superfícies translúcidas, blur, saturação, borda especular, brilho que acompanha o ponteiro, tilt suave, ripple aquático no clique, estados de foco, tratamento responsivo e fallback para redução de movimento. O catálogo completo está em `VERSOES-LIQUID-GLASS.md`.
+## Limites e diagnóstico
 
-## Liquid Glass v98 — segunda rodada de 15 evoluções
-
-A rodada v84-v98 adiciona transições suaves entre páginas, reveal por visibilidade, controles magnéticos, indicação da rota atual, blobs e corrente atmosférica animados, halo de foco, resposta fluida de tabelas e gates para touch e redução de movimento. As 30 mudanças acumuladas estão catalogadas em `VERSOES-LIQUID-GLASS.md`.
-
-## Liquid Glass v99 — acabamento suave e parallax
-
-A revisão v99 uniformiza o material em todas as páginas, reduz a intensidade das luzes brancas, neutraliza fundos conflitantes dos itens da navbar, reduz o tilt, adiciona um parallax atmosférico amortecido e uma pequena bolinha de luz que acompanha o mouse. O orbe é não-interativo e é desativado em touch e `prefers-reduced-motion`.
-
-
-## Configuração atual do banco
-
-A conexão ativa do projeto usa `127.0.0.1:3307`. Se o XAMPP estiver usando outra porta, altere `DB_PORT` no ambiente e a diretiva correspondente no `my.ini`.
-
-## CRUD de contas administrativas via Flask
-
-A área `admin/usuarios.php` agora permite criar, listar, pesquisar, editar e excluir administradores e usuários comuns. As operações são realizadas pela API Flask em `api-admin/app.py`, que usa a mesma tabela `usuarios` do MySQL e mantém as senhas em bcrypt compatível com o login PHP.
-
-Para executar a API, instale `api-admin/requirements.txt` em um ambiente virtual e rode `python api-admin/run.py`; esse comando usa Waitress em vez do servidor de desenvolvimento do Flask. Por padrão, ela fica em `http://127.0.0.1:5001`. Configure `AFDE_ADMIN_API_SECRET` no `.env` com um segredo aleatório compartilhado entre PHP e Flask. A documentação interativa está em `http://127.0.0.1:5001/docs`; a especificação também está em `docs/api/openapi.yaml`.
-
-No Swagger da API Flask aparecem as quatro operações do CRUD: `GET /api/admin/users`, `POST /api/admin/users`, `PUT /api/admin/users/{userId}` e `DELETE /api/admin/users/{userId}`. Todas as rotas administrativas exigem o Bearer token emitido para um administrador autenticado.
-
-
-## Patentes e desbloqueio do aprendizado
-
-A tabela `usuarios` agora possui a coluna `patente`. bancos antigos recebem a coluna automaticamente; o fluxo também tenta criar a coluna automaticamente quando o usuário abre o aprendizado, o teste ou o perfil. Ao confirmar **Pular Teste**, o endpoint `back-end/pular_teste.php` grava a patente **Ferro 1**, exibe um popup de conquista e libera os cards de **Videoaulas**, **Exercícios** e **Loja** com links para `videoaulas.php`, `exercicios.php` e `loja.php`. A conclusão normal do diagnóstico grava a patente calculada no mesmo campo.
-
-
-## Liquid Glass v100 — cards e parallax
-
-A revisão v100 uniformiza o material Liquid Glass nos cards das páginas de videoaulas, exercícios e loja, incluindo módulos, aulas, quiz, itens de loja, saldo e caixas auxiliares. O motor global também reconhece novos cards semanticamente e aplica parallax de rolagem, tilt suave ao mover o cursor, brilho especular contextual, ripple de clique e microparallax em ícones e títulos. A navbar mantém seus itens transparentes para evitar fundos conflitantes. O movimento respeita `prefers-reduced-motion` e é desativado em ponteiros de toque para preservar desempenho.
-
-
-## Navegação e progressão — revisão v101
-
-A navbar compartilhada foi adicionada às páginas internas que não a exibiam, incluindo configurações, preferências, privacidade, ajuda, calendário, sobre e perfil. A navbar agora busca a foto atual diretamente no banco e usa um fallback de inicial quando necessário. Os retornos das videoaulas e exercícios apontam diretamente para `aprendizado.php`, e a loja ganhou o mesmo retorno explícito.
-
-O perfil exibe a patente em destaque com material Liquid Glass, medalha visual e uma barra de XP que informa o total atual, o percentual da patente e quanto falta para a próxima. O campo `xp` foi adicionado à tabela `usuarios`; bancos antigos recebem a coluna automaticamente. O teste diagnóstico concede XP proporcional à pontuação, enquanto pular o teste mantém o usuário em Ferro 1.
-
-## Ajuste v102 — retornos e cartão de patente
-
-O botão superior das videoaulas foi corrigido para apontar para `aprendizado.php`, em vez de `loja.php`. Os botões educacionais agora exibem apenas “Voltar”. O cartão de patente do perfil foi refinado com a hierarquia do exemplo fornecido: patente atual em destaque, ícone/medalha, linha de XP de treino no formato atual/meta, barra de progresso e indicação de XP restante para subir.
-
-## Chatbot e Login com Google — configuração
-
-O widget do chatbot agora chama `back-end/chatbot.php` no mesmo domínio. Esse endpoint encaminha a pergunta para a API interna em `CHATBOT_API_URL`, evitando chamadas do navegador para `127.0.0.1`, erro de mixed content e dependência de CORS no front-end. Copie `.env.example` para `.env`, preencha `GEMINI_API_KEY` e mantenha a chave somente no servidor. O modelo padrão é `gemini-2.5-flash-lite`; ele pode ser alterado por `GEMINI_MODEL`.
-
-Para iniciar o assistente localmente, crie um ambiente Python dentro de `suporte-ia`, instale `requirements.txt` e execute `python run.py`. O serviço escuta apenas em `127.0.0.1:5000` por padrão. O PHP deve ter a extensão cURL habilitada. Em produção, coloque o serviço atrás do servidor web ou mantenha-o inacessível externamente.
-
-O Login com Google não depende mais de `google-config.php` nem do SDK Google instalado. Ele usa Authorization Code OAuth no servidor, valida `state`, troca o código por token via HTTPS e obtém o perfil pelo endpoint oficial de UserInfo. Defina `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` e `GOOGLE_REDIRECT_URL` no `.env`. A URI deve coincidir exatamente com a URI autorizada no Google Cloud Console, incluindo protocolo, host, caminho e porta. Em instalação local, um exemplo é `http://localhost/PTCC-EducacaoFinanceira/back-end/google-callback.php`; em produção use a URL HTTPS real.
-
-Não coloque chaves Gemini, segredo Google, senha do banco ou tokens em JavaScript, HTML, `README` ou no repositório. O login também não vincula automaticamente uma identidade Google a uma conta local existente com o mesmo e-mail; isso evita assumir contas por correspondência de e-mail.
+- Se a comunidade não abrir, confirme que o MySQL está **iniciado** na porta 3307, o `DB_NAME` aponta para `educacaofinanceira` e a conta tem permissão `CREATE`.
+- Se um banco recém-criado estiver vazio, o dump principal é inicializado automaticamente. Não use outro banco isolado ou outro nome de usuário: a FK social referencia `usuarios.id` do TCC.
+- Se o login retornar à página inicial em vez da comunidade, use o formulário central e confirme que a URL de entrada tem `?next=community`.
+- Se os arquivos grandes forem recusados antes de chegar à API, confira `post_max_size` e `upload_max_filesize`; o Sunset Hub informa esse caso sem expor detalhes internos.
+- Chamadas de vídeo são apenas uma área reservada; nenhum dispositivo de câmera/microfone ou serviço externo é conectado.
+- O módulo não sincroniza diretamente com Discord, Instagram ou YouTube: OAuth e permissões desses serviços não estão configurados.
