@@ -17,7 +17,168 @@ tags:
   - name: Carteira e calendário
   - name: Arena
   - name: Comunidade
+  - name: Administradores
+  - name: Usuários comuns
 paths:
+  /api/users:
+    servers:
+      - url: http://127.0.0.1:5001
+        description: API Flask local
+      - url: http://localhost:5001
+        description: API Flask local via localhost
+    get:
+      tags: [Usuários comuns]
+      summary: Lista os usuários comuns
+      description: Retorna somente contas com tipo `usuario`; administradores nunca são retornados.
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Lista de usuários comuns
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/UserListResponse' } }
+        '401': { description: Token ausente, inválido ou expirado }
+        '503': { description: Banco de dados indisponível }
+    post:
+      tags: [Usuários comuns]
+      summary: Cria um usuário comum
+      description: Cria a conta forçando `tipo=usuario`, sem acesso administrativo.
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AdminInput' }
+      responses:
+        '201':
+          description: Usuário criado
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/UserResponse' } }
+        '400': { description: Dados inválidos }
+        '409': { description: E-mail já cadastrado }
+        '401': { description: Token ausente, inválido ou expirado }
+  /api/users/{id}:
+    servers:
+      - url: http://127.0.0.1:5001
+        description: API Flask local
+      - url: http://localhost:5001
+        description: API Flask local via localhost
+    put:
+      tags: [Usuários comuns]
+      summary: Edita um usuário comum
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, minimum: 1, example: 12 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AdminUpdateInput' }
+      responses:
+        '200':
+          description: Usuário atualizado
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/UserResponse' } }
+        '400': { description: Dados inválidos }
+        '404': { description: Usuário comum não encontrado }
+        '409': { description: E-mail já cadastrado }
+        '401': { description: Token ausente, inválido ou expirado }
+    delete:
+      tags: [Usuários comuns]
+      summary: Exclui um usuário comum
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, minimum: 1, example: 12 }
+      responses:
+        '200': { description: Usuário excluído }
+        '404': { description: Usuário comum não encontrado }
+        '401': { description: Token ausente, inválido ou expirado }
+        '503': { description: Banco de dados indisponível }
+  /api/admins:
+    servers:
+      - url: http://127.0.0.1:5001
+        description: API Flask local
+      - url: http://localhost:5001
+        description: API Flask local via localhost
+    get:
+      tags: [Administradores]
+      summary: Lista os perfis de administrador
+      description: Retorna somente contas com tipo `admin`. Requer token Bearer emitido pelo painel administrativo.
+      security: [{ bearerAuth: [] }]
+      responses:
+        '200':
+          description: Lista de administradores
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/AdminListResponse' } }
+        '401': { description: Token ausente, inválido ou expirado }
+        '503': { description: Banco de dados indisponível }
+    post:
+      tags: [Administradores]
+      summary: Cria um perfil de administrador
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AdminInput' }
+      responses:
+        '201':
+          description: Administrador criado
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/AdminResponse' } }
+        '400': { description: Dados inválidos }
+        '409': { description: E-mail já cadastrado }
+        '401': { description: Token ausente, inválido ou expirado }
+  /api/admins/{id}:
+    servers:
+      - url: http://127.0.0.1:5001
+        description: API Flask local
+      - url: http://localhost:5001
+        description: API Flask local via localhost
+    put:
+      tags: [Administradores]
+      summary: Edita um perfil de administrador
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, minimum: 1, example: 3 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AdminUpdateInput' }
+      responses:
+        '200':
+          description: Administrador atualizado
+          content:
+            application/json: { schema: { $ref: '#/components/schemas/AdminResponse' } }
+        '400': { description: Dados inválidos }
+        '404': { description: Administrador não encontrado }
+        '409': { description: E-mail já cadastrado }
+        '401': { description: Token ausente, inválido ou expirado }
+    delete:
+      tags: [Administradores]
+      summary: Exclui um perfil de administrador
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, minimum: 1, example: 3 }
+      responses:
+        '200': { description: Administrador excluído }
+        '400': { description: Não é permitido excluir a própria conta }
+        '404': { description: Administrador não encontrado }
+        '409': { description: É necessário manter pelo menos um administrador }
+        '401': { description: Token ausente, inválido ou expirado }
+        '503': { description: Banco de dados indisponível }
   /open-finance/dados.php:
     get:
       tags: [Open Finance]
@@ -178,7 +339,70 @@ paths:
         '401': { description: Sessão não autenticada }
         '403': { description: CSRF inválido }
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: HMAC
   schemas:
+    AdminInput:
+      type: object
+      required: [nome, email, senha]
+      properties:
+        nome: { type: string, minLength: 2, maxLength: 120, example: 'Ana Administradora' }
+        email: { type: string, format: email, example: 'ana@exemplo.com' }
+        telefone: { type: string, maxLength: 30, example: '(11) 99999-9999' }
+        senha: { type: string, format: password, minLength: 8, maxLength: 72, example: 'SenhaSegura123' }
+    AdminUpdateInput:
+      type: object
+      required: [nome, email]
+      properties:
+        nome: { type: string, minLength: 2, maxLength: 120, example: 'Ana Administradora' }
+        email: { type: string, format: email, example: 'ana@exemplo.com' }
+        telefone: { type: string, maxLength: 30, example: '(11) 99999-9999' }
+        senha: { type: string, format: password, minLength: 8, maxLength: 72, description: Opcional na edição }
+    AdminProfile:
+      type: object
+      properties:
+        id: { type: integer, example: 3 }
+        nome: { type: string, example: 'Ana Administradora' }
+        email: { type: string, format: email, example: 'ana@exemplo.com' }
+        telefone: { type: string, example: '(11) 99999-9999' }
+        provedor: { type: string, example: local }
+        tipo: { type: string, enum: [admin], example: admin }
+        data_criacao: { type: string, format: date-time }
+    AdminResponse:
+      type: object
+      properties:
+        mensagem: { type: string }
+        dado: { $ref: '#/components/schemas/AdminProfile' }
+    AdminListResponse:
+      type: object
+      properties:
+        dados:
+          type: array
+          items: { $ref: '#/components/schemas/AdminProfile' }
+    UserResponse:
+      type: object
+      properties:
+        mensagem: { type: string }
+        dado: { $ref: '#/components/schemas/UserProfile' }
+    UserListResponse:
+      type: object
+      properties:
+        dados:
+          type: array
+          items: { $ref: '#/components/schemas/UserProfile' }
+    UserProfile:
+      type: object
+      properties:
+        id: { type: integer, example: 12 }
+        nome: { type: string, example: 'Bryan Soares' }
+        email: { type: string, format: email, example: 'soares@gmail.com' }
+        telefone: { type: string, example: '(11) 99999-9999' }
+        provedor: { type: string, example: local }
+        tipo: { type: string, enum: [usuario], example: usuario }
+        data_criacao: { type: string, format: date-time }
     OpenFinanceData:
       type: object
       properties:
