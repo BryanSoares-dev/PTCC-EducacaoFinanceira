@@ -5,5 +5,5 @@ AFDE — Launcher do Swagger
 3. Execute AFDE-Swagger-Launcher.exe.
 4. O launcher inicia o XAMPP, aguarda o Apache e abre:
    http://localhost/PTCC-EducacaoFinanceira/docs/api/swagger-ui.html
-
-O launcher não inclui nem cria credenciais, não importa banco automaticamente e não deve ser executado em produção. Para testar endpoints, configure o banco de teste e o .env separadamente.
+5. Para testar as rotas Flask de administradores, configure o .env, instale api/requirements.txt e execute api/iniciar-admin-api.bat antes do launcher.
+6. O launcher não inclui nem cria credenciais, não importa banco automaticamente e não deve ser executado em produção. Para testar endpoints, configure o banco de teste e o .env separadamente.
