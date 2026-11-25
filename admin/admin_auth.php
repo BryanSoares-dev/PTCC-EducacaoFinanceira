@@ -34,3 +34,21 @@ if (!$dadosAdmin || $dadosAdmin['tipo'] !== 'admin') {
 $adminLogadoId   = (int) $dadosAdmin['id'];
 $adminLogadoNome = $dadosAdmin['nome'];
 
+/**
+ * Token curto para chamadas do painel à API Flask.
+ * O segredo deve ser definido em ADMIN_API_SECRET no .env da raiz.
+ */
+function token_api_admin(int $adminId): string
+{
+    $segredo = afdeConfig('ADMIN_API_SECRET');
+    if ($segredo === '') {
+        return '';
+    }
+
+    $payload = rtrim(strtr(base64_encode(json_encode([
+        'sub' => $adminId,
+        'exp' => time() + 600,
+    ], JSON_UNESCAPED_SLASHES)), '+/', '-_'), '=');
+    $assinatura = hash_hmac('sha256', $payload, $segredo, true);
+    return $payload . '.' . rtrim(strtr(base64_encode($assinatura), '+/', '-_'), '=');
+}

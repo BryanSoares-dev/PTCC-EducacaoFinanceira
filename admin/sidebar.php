@@ -1,6 +1,6 @@
 <?php
 // Espera que a página que incluir este arquivo defina $paginaAtual
-// Valores possíveis: dashboard | usuarios | produtos | movimentacoes
+// Valores possíveis: dashboard | usuarios | usuarios-comuns | administradores | produtos | movimentacoes
 $paginaAtual = $paginaAtual ?? '';
 ?>
 <aside class="admin-sidebar">
@@ -16,6 +16,12 @@ $paginaAtual = $paginaAtual ?? '';
         <a href="usuarios.php" class="<?= $paginaAtual === 'usuarios' ? 'ativo' : '' ?>">
             <i class="fas fa-users"></i> Usuários
         </a>
+        <a href="usuarios-comuns.php" class="<?= $paginaAtual === 'usuarios-comuns' ? 'ativo' : '' ?>">
+            <i class="fas fa-user"></i> Usuários comuns
+        </a>
+        <a href="administradores.php" class="<?= $paginaAtual === 'administradores' ? 'ativo' : '' ?>">
+            <i class="fas fa-user-shield"></i> Administradores
+        </a>
         <a href="produtos.php" class="<?= $paginaAtual === 'produtos' ? 'ativo' : '' ?>">
             <i class="fas fa-store"></i> Produtos / Loja
         </a>
@@ -27,4 +33,3 @@ $paginaAtual = $paginaAtual ?? '';
         </a>
     </nav>
 </aside>
-
