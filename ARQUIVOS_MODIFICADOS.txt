@@ -1,0 +1,11 @@
+LIQUID-GLASS-REFERENCES.md
+community/back-end/schema.php
+community/front-end/assets/css/community-brand.css
+community/front-end/assets/css/community-overrides.css
+css/arena.css
+css/diagnostico.css
+css/liquid-glass.css
+front-end/aprendizado.php
+front-end/comunidade.php
+front-end/navbar.php
+front-end/teste_diagnostico.php

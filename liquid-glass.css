@@ -1,0 +1,1250 @@
+/*
+ * AFDE Liquid Glass System
+ * Inspirado no material de apoio Liquid Glass: tint, frost, rim light,
+ * specular highlight, layered surfaces e conteï¿½do sempre nï¿½tido.
+ */
+:root {
+  --lg-bg: #1F2937;
+  --lg-bg-2: #111827;
+  --lg-text: #F9FAFB;
+  --lg-muted: rgba(249, 250, 251, .72);
+  --lg-faint: rgba(249, 250, 251, .50);
+  --lg-accent: #16E28A;
+  --lg-accent-2: #0DBB70;
+  --lg-surface: rgba(31, 41, 55, .62);
+  --lg-surface-strong: rgba(31, 41, 55, .82);
+  --lg-surface-soft: rgba(22, 226, 138, .09);
+  --lg-border: rgba(249, 250, 251, .18);
+  --lg-border-strong: rgba(22, 226, 138, .46);
+  --lg-shadow: 0 24px 80px rgba(0, 0, 0, .28), inset 0 1px rgba(255,255,255,.12);
+  --lg-blur: 26px;
+  --afde-radius-sm: 12px;
+  --afde-radius-md: 18px;
+  --afde-radius-lg: 24px;
+  --afde-transition: .25s ease;
+}
+html.claro {
+  --lg-bg: #F3F4F6;
+  --lg-bg-2: #E5E7EB;
+  --lg-text: #1F2937;
+  --lg-muted: #4B5563;
+  --lg-faint: #6B7280;
+  --lg-accent: #0B9F62;
+  --lg-accent-2: #1F2937;
+  --lg-surface: rgba(255, 255, 255, .72);
+  --lg-surface-strong: rgba(255, 255, 255, .90);
+  --lg-surface-soft: rgba(22, 226, 138, .10);
+  --lg-border: rgba(31, 41, 55, .16);
+  --lg-border-strong: rgba(11, 159, 98, .42);
+  --lg-shadow: 0 18px 50px rgba(31, 41, 55, .14), inset 0 1px rgba(255, 255, 255, .82);
+}
+
+html, body { background: var(--lg-bg); color: var(--lg-text); }
+body {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--lg-bg), var(--lg-bg-2)) !important;
+  color: var(--lg-text) !important;
+}
+
+/* Material: translucent tint + frost + a double specular rim. */
+.liquid-glass-surface, .glass, .glass-card, .hero_card, .card, .card_dashboard,
+.perfil_card, .perfil_header-cover, .settings_card, .dashboard_card, .stat-card,
+.login_box, .cadastro_box, .form_container, .modal-content, .dropdown_menu,
+.crop-dialog, .support_card, .feature_card, .info_card, .content-card {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(145deg, var(--lg-surface-strong), var(--lg-surface));
+  border: 1px solid var(--lg-border);
+  box-shadow: var(--lg-shadow);
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(165%);
+  backdrop-filter: blur(var(--lg-blur)) saturate(165%);
+}
+.liquid-glass-surface::before, .glass::before, .glass-card::before,
+.hero_card::before, .card::before, .card_dashboard::before, .perfil_card::before,
+.perfil_header-cover::before, .settings_card::before, .dashboard_card::before,
+.stat-card::before, .login_box::before, .cadastro_box::before, .form_container::before,
+.modal-content::before, .dropdown_menu::before, .crop-dialog::before,
+.support_card::before, .feature_card::before, .info_card::before, .content-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--lg-x, 50%) var(--lg-y, 0%), rgba(255,255,255,.16), transparent 28%), linear-gradient(125deg, rgba(255,255,255,.22), transparent 24%, transparent 72%, rgba(117,175,255,.10));
+  opacity: .72;
+}
+.liquid-glass-surface::after, .glass::after, .glass-card::after, .hero_card::after,
+.card::after, .card_dashboard::after, .perfil_card::after, .perfil_header-cover::after,
+.settings_card::after, .dashboard_card::after, .stat-card::after, .login_box::after,
+.cadastro_box::after, .form_container::after, .modal-content::after, .dropdown_menu::after,
+.crop-dialog::after, .support_card::after, .feature_card::after, .info_card::after,
+.content-card::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.045), inset 0 14px 28px rgba(255,255,255,.025);
+}
+
+header, .navbar {
+  background: linear-gradient(135deg, rgba(126,147,180,.96), rgba(91,112,150,.96)) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 14px 44px rgba(45,61,86,.20), inset 0 1px rgba(255,255,255,.12) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  backdrop-filter: blur(18px) saturate(145%);
+}
+
+header nav,
+#portalMainNav,
+#portalMainNav ul {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+header a, nav a { color: var(--lg-muted); }
+header a:hover, nav a:hover { color: var(--lg-accent); }
+
+button, .btn_primary, .btn_secondary, .btn_editar_perfil, .button_log, input[type="submit"] {
+  border: 1px solid rgba(225,239,255,.22);
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18), inset 0 1px rgba(255,255,255,.18);
+  transition: transform .22s ease, filter .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+button:hover, .btn_primary:hover, .btn_secondary:hover, .btn_editar_perfil:hover, .button_log:hover, input[type="submit"]:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  border-color: rgba(22,226,138,.58);
+  box-shadow: 0 14px 34px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.28);
+}
+input, select, textarea {
+  color: var(--lg-text) !important;
+  background: rgba(2, 10, 25, .34) !important;
+  border-color: var(--lg-border) !important;
+  border-radius: 14px !important;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+html.claro input, html.claro select, html.claro textarea { background: rgba(255,255,255,.50) !important; }
+input:focus, select:focus, textarea:focus { outline: none !important; border-color: var(--lg-accent) !important; box-shadow: 0 0 0 3px rgba(22,226,138,.15), 0 8px 26px rgba(0,0,0,.12) !important; }
+
+/* Glass cards feel connected instead of isolated: pointer light follows the cursor. */
+.liquid-glass-surface, .glass-card, .hero_card, .card, .perfil_card, .settings_card,
+.dashboard_card, .stat-card, .support_card, .feature_card, .info_card, .content-card { overflow: hidden; }
+.liquid-glass-surface:hover, .glass-card:hover, .hero_card:hover, .card:hover, .perfil_card:hover,
+.settings_card:hover, .dashboard_card:hover, .stat-card:hover, .support_card:hover,
+.feature_card:hover, .info_card:hover, .content-card:hover { border-color: var(--lg-border-strong); }
+[data-liquid-glass] { --lg-x: 50%; --lg-y: 0%; }
+[data-liquid-glass]::marker { color: var(--lg-accent); }
+
+/* Keep the dedicated profile editor compatible with the global material. */
+.perfil-page .crop-modal { background: rgba(4,10,22,.66); }
+.perfil-page .crop-dialog { border-color: var(--lg-border-strong); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+@media (max-width: 720px) {
+  :root { --lg-blur: 18px; }
+  body::before { width: 240px; height: 240px; }
+  body::after { width: 220px; height: 220px; }
+}
+
+
+/* ============================================================
+   Liquid Glass evolution log: v69 ? v83
+   ============================================================ */
+/* v69 ï¿½ shared material tokens */
+/* v70 ï¿½ layered atmospheric background */
+/* v71 ï¿½ translucent surfaces with frost and saturation */
+/* v72 ï¿½ specular rim and inner highlight */
+/* v73 ï¿½ unified buttons, controls and focus rings */
+/* v74 ï¿½ pointer light follows the cursor */
+/* v75 ï¿½ watery sheen animation on hover */
+/* v76 ï¿½ click ripple propagates through the surface */
+/* v77 ï¿½ gentle surface tilt follows pointer position */
+/* v78 ï¿½ interactive form fields use the same material */
+/* v79 ï¿½ navigation and dropdowns share the glass depth */
+/* v80 ï¿½ responsive blur and reduced-motion fallback */
+/* v81 ï¿½ tables and utility cards become connected surfaces */
+/* v82 ï¿½ mobile touch devices avoid expensive pointer tracking */
+/* v83 ï¿½ accessible focus, clean cleanup and final QA baseline */
+
+.liquid-glass-ready .liquid-glass-surface,
+.liquid-glass-ready .glass,
+.liquid-glass-ready .glass-card,
+.liquid-glass-ready .hero_card,
+.liquid-glass-ready .card,
+.liquid-glass-ready .card_dashboard,
+.liquid-glass-ready .perfil_card,
+.liquid-glass-ready .settings_card,
+.liquid-glass-ready .dashboard_card,
+.liquid-glass-ready .stat-card,
+.liquid-glass-ready .login_box,
+.liquid-glass-ready .cadastro_box,
+.liquid-glass-ready .form_container,
+.liquid-glass-ready .support_card,
+.liquid-glass-ready .feature_card,
+.liquid-glass-ready .info_card,
+.liquid-glass-ready .content-card,
+.liquid-glass-ready article,
+.liquid-glass-ready table {
+  --lg-tilt-x: 0deg;
+  --lg-tilt-y: 0deg;
+  transform: perspective(1100px) rotateX(var(--lg-tilt-x)) rotateY(var(--lg-tilt-y));
+  transform-origin: center;
+  transition: transform .36s cubic-bezier(.2,.8,.2,1), border-color .3s ease, box-shadow .3s ease, filter .3s ease;
+  will-change: transform;
+}
+.liquid-glass-ready .lg-water-active {
+  box-shadow: 0 28px 90px rgba(0,0,0,.32), 0 0 0 1px rgba(139,221,255,.12), inset 0 1px rgba(255,255,255,.18);
+  filter: saturate(1.08);
+}
+.liquid-glass-ready .liquid-glass-surface::before,
+.liquid-glass-ready .glass::before,
+.liquid-glass-ready .glass-card::before,
+.liquid-glass-ready .hero_card::before,
+.liquid-glass-ready .card::before,
+.liquid-glass-ready .card_dashboard::before,
+.liquid-glass-ready .perfil_card::before,
+.liquid-glass-ready .perfil_header-cover::before,
+.liquid-glass-ready .settings_card::before,
+.liquid-glass-ready .dashboard_card::before,
+.liquid-glass-ready .stat-card::before,
+.liquid-glass-ready .login_box::before,
+.liquid-glass-ready .cadastro_box::before,
+.liquid-glass-ready .form_container::before,
+.liquid-glass-ready .modal-content::before,
+.liquid-glass-ready .dropdown_menu::before,
+.liquid-glass-ready .crop-dialog::before,
+.liquid-glass-ready .support_card::before,
+.liquid-glass-ready .feature_card::before,
+.liquid-glass-ready .info_card::before,
+.liquid-glass-ready .content-card::before {
+  background: radial-gradient(circle at var(--lg-x, 50%) var(--lg-y, 0%), rgba(255,255,255,.25), transparent 25%), linear-gradient(125deg, rgba(255,255,255,.22), transparent 24%, transparent 72%, rgba(117,175,255,.10));
+  transition: background-position .5s ease, opacity .35s ease;
+}
+.liquid-glass-ready .lg-water-active::before { opacity: .92; }
+.liquid-glass-ready .lg-water-ripple {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(.08);
+  border: 1px solid rgba(214,248,255,.65);
+  background: radial-gradient(circle, rgba(150,237,255,.22), rgba(96,194,255,.08) 42%, transparent 70%);
+  box-shadow: 0 0 28px rgba(111,213,255,.25), inset 0 0 18px rgba(255,255,255,.24);
+  animation: lg-water-ripple 1.15s cubic-bezier(.14,.66,.24,1) forwards;
+}
+@keyframes lg-water-ripple {
+  0% { opacity: .85; transform: translate(-50%, -50%) scale(.08); }
+  68% { opacity: .28; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+@keyframes lg-liquid-sheen {
+  0% { background-position: 0% 0%, 0% 0%; }
+  50% { background-position: 45% 12%, 100% 0%; }
+  100% { background-position: 100% 0%, 0% 0%; }
+}
+.liquid-glass-ready .lg-water-active::after { animation: lg-liquid-sheen 3.6s ease-in-out infinite; }
+.liquid-glass-ready :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--lg-accent) !important;
+  outline-offset: 3px;
+}
+.liquid-glass-ready table { border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 18px; }
+.liquid-glass-ready table tr { transition: background .25s ease, transform .25s ease; }
+.liquid-glass-ready table tbody tr:hover { background: rgba(125,219,255,.08); }
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .liquid-glass-ready .liquid-glass-surface,
+  .liquid-glass-ready .glass,
+  .liquid-glass-ready .glass-card,
+  .liquid-glass-ready .hero_card,
+  .liquid-glass-ready .card,
+  .liquid-glass-ready .card_dashboard,
+  .liquid-glass-ready .perfil_card,
+  .liquid-glass-ready .settings_card,
+  .liquid-glass-ready .dashboard_card,
+  .liquid-glass-ready .stat-card,
+  .liquid-glass-ready .login_box,
+  .liquid-glass-ready .cadastro_box,
+  .liquid-glass-ready .form_container,
+  .liquid-glass-ready article,
+  .liquid-glass-ready table { transform: none; will-change: auto; }
+  .liquid-glass-ready .lg-water-active::after { animation: none; }
+}
+
+
+/* ============================================================
+   Liquid Glass evolution log: v84 ? v98
+   ============================================================ */
+/* v84 ï¿½ page entrance and exit transitions */
+/* v85 ï¿½ intersection-based reveal for long pages */
+/* v86 ï¿½ magnetic buttons and navigation controls */
+/* v87 ï¿½ active navigation marker */
+/* v88 ï¿½ animated atmospheric water blobs */
+/* v89 ï¿½ slow background current / moving light */
+/* v90 ï¿½ deeper hover elevation with optical easing */
+/* v91 ï¿½ fluid table-row response */
+/* v92 ï¿½ focus state receives a soft halo */
+/* v93 ï¿½ current-page navigation gets a glass underline */
+/* v94 ï¿½ touch and reduced-motion performance gates */
+/* v95 ï¿½ anchor transitions preserve modifier-key behavior */
+/* v96 ï¿½ surfaces enter only when visible */
+/* v97 ï¿½ mobile safe spacing and smaller optical tilt */
+/* v98 ï¿½ final visual coherence and cache-busted QA */
+
+html.liquid-glass-ready { background: var(--lg-bg); }
+html.liquid-glass-ready body { animation: lg-atmosphere-in .7s ease both; }
+html.lg-page-exit body { animation: lg-page-out .22s ease both; pointer-events: none; }
+@keyframes lg-atmosphere-in { from { opacity: .01; } to { opacity: 1; } }
+@keyframes lg-page-out { from { opacity: 1; filter: blur(0); } to { opacity: .01; filter: blur(4px); } }
+
+.liquid-glass-ready .lg-revealed {
+  animation: lg-surface-reveal .65s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes lg-surface-reveal {
+  from { opacity: 0; transform: translateY(14px) perspective(1100px) rotateX(0deg) rotateY(0deg); }
+  to { opacity: 1; transform: translateY(0) perspective(1100px) rotateX(var(--lg-tilt-x, 0deg)) rotateY(var(--lg-tilt-y, 0deg)); }
+}
+
+.liquid-glass-ready .lg-magnetic-active {
+  transform: translate3d(var(--lg-mx, 0px), var(--lg-my, 0px), 0) scale(1.018);
+}
+.liquid-glass-ready :where(.btn_primary, .btn_secondary, button, input[type="submit"], .nav-link, .navbar a) {
+  --lg-mx: 0px; --lg-my: 0px;
+  transition: transform .24s cubic-bezier(.2,.8,.2,1), box-shadow .24s ease, filter .24s ease;
+}
+.liquid-glass-ready .lg-current-page {
+  color: var(--lg-accent) !important;
+  text-shadow: 0 0 18px rgba(105,232,187,.28);
+  position: relative;
+}
+.liquid-glass-ready .lg-current-page::after {
+  content: ""; position: absolute; left: 12%; right: 12%; bottom: -6px; height: 2px; border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--lg-accent), transparent);
+  box-shadow: 0 0 12px rgba(105,232,187,.72);
+}
+
+body::before, body::after { animation: lg-blob-drift 16s ease-in-out infinite alternate; }
+body::after { animation-delay: -7s; animation-duration: 19s; }
+@keyframes lg-blob-drift {
+  0% { transform: translate3d(-2%, -2%, 0) scale(1); }
+  50% { transform: translate3d(3%, 4%, 0) scale(1.08); }
+  100% { transform: translate3d(-4%, 2%, 0) scale(.94); }
+}
+.liquid-glass-ready body { background-size: 140% 140%; animation: lg-atmosphere-in .7s ease both, lg-background-current 24s ease-in-out infinite alternate; }
+@keyframes lg-background-current { from { background-position: 0% 0%; } to { background-position: 100% 70%; } }
+
+.liquid-glass-ready :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  box-shadow: 0 0 0 3px rgba(105,232,187,.18), 0 0 28px rgba(105,232,187,.20) !important;
+}
+.liquid-glass-ready table tbody tr:hover { transform: translateX(3px); }
+@media (max-width: 720px) {
+  .liquid-glass-ready body { background-size: 180% 180%; animation-duration: 34s; }
+  .liquid-glass-ready .lg-magnetic-active { transform: none; }
+  .liquid-glass-ready .lg-current-page::after { bottom: -3px; }
+}
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  html.liquid-glass-ready body, body::before, body::after { animation: none; }
+  .liquid-glass-ready .lg-revealed { animation: none; opacity: 1; }
+  .liquid-glass-ready .lg-current-page::after { box-shadow: none; }
+}
+
+
+/* ============================================================
+   Final refinement: softer white light, one material across pages, elegant orb and parallax.
+   ============================================================ */
+:root {
+  --lg-white-sheen: rgba(255,255,255,.075);
+  --lg-white-rim: rgba(225,239,255,.14);
+  --lg-nav-surface: rgba(18, 29, 54, .66);
+}
+html.claro { --lg-white-sheen: rgba(255,255,255,.26); --lg-white-rim: rgba(31,65,105,.14); --lg-nav-surface: rgba(244,249,255,.66); }
+.liquid-glass-ready .liquid-glass-surface,
+.liquid-glass-ready .glass,
+.liquid-glass-ready .glass-card,
+.liquid-glass-ready .hero_card,
+.liquid-glass-ready .card,
+.liquid-glass-ready .card_dashboard,
+.liquid-glass-ready .perfil_card,
+.liquid-glass-ready .perfil_header-cover,
+.liquid-glass-ready .settings_card,
+.liquid-glass-ready .dashboard_card,
+.liquid-glass-ready .stat-card,
+.liquid-glass-ready .login_box,
+.liquid-glass-ready .cadastro_box,
+.liquid-glass-ready .form_container,
+.liquid-glass-ready .modal-content,
+.liquid-glass-ready .dropdown_menu,
+.liquid-glass-ready .crop-dialog,
+.liquid-glass-ready .support_card,
+.liquid-glass-ready .feature_card,
+.liquid-glass-ready .info_card,
+.liquid-glass-ready .content-card,
+.liquid-glass-ready article,
+.liquid-glass-ready table {
+  background: linear-gradient(145deg, var(--lg-surface-strong), var(--lg-surface)) !important;
+  border-color: var(--lg-white-rim) !important;
+  box-shadow: 0 22px 72px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.065);
+}
+.liquid-glass-ready .liquid-glass-surface::before,
+.liquid-glass-ready .glass::before,
+.liquid-glass-ready .glass-card::before,
+.liquid-glass-ready .hero_card::before,
+.liquid-glass-ready .card::before,
+.liquid-glass-ready .card_dashboard::before,
+.liquid-glass-ready .perfil_card::before,
+.liquid-glass-ready .perfil_header-cover::before,
+.liquid-glass-ready .settings_card::before,
+.liquid-glass-ready .dashboard_card::before,
+.liquid-glass-ready .stat-card::before,
+.liquid-glass-ready .login_box::before,
+.liquid-glass-ready .cadastro_box::before,
+.liquid-glass-ready .form_container::before,
+.liquid-glass-ready .modal-content::before,
+.liquid-glass-ready .dropdown_menu::before,
+.liquid-glass-ready .crop-dialog::before,
+.liquid-glass-ready .support_card::before,
+.liquid-glass-ready .feature_card::before,
+.liquid-glass-ready .info_card::before,
+.liquid-glass-ready .content-card::before {
+  background: radial-gradient(circle at var(--lg-x, 50%) var(--lg-y, 0%), var(--lg-white-sheen), transparent 24%), linear-gradient(125deg, rgba(255,255,255,.095), transparent 28%, transparent 72%, rgba(117,175,255,.065));
+  opacity: .82;
+}
+.liquid-glass-ready header,
+.liquid-glass-ready .navbar,
+.liquid-glass-ready nav {
+  background: var(--lg-nav-surface) !important;
+  border: 1px solid var(--lg-white-rim) !important;
+  box-shadow: 0 18px 54px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.08) !important;
+}
+/* Navbar links are transparent glass items, never opaque colored tiles. */
+.liquid-glass-ready nav ul,
+.liquid-glass-ready nav li,
+.liquid-glass-ready nav li > a,
+.liquid-glass-ready nav .nav-link,
+.liquid-glass-ready .education-trigger,
+.liquid-glass-ready .investment-trigger,
+.liquid-glass-ready .education-dropdown-menu a,
+.liquid-glass-ready .investment-dropdown-menu a,
+.liquid-glass-ready .dropdown_item {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+.liquid-glass-ready .education-dropdown-menu,
+.liquid-glass-ready .investment-dropdown-menu,
+.liquid-glass-ready .dropdown_menu {
+  background: var(--lg-nav-surface) !important;
+  border-color: var(--lg-white-rim) !important;
+  -webkit-backdrop-filter: blur(30px) saturate(145%);
+  backdrop-filter: blur(30px) saturate(145%);
+}
+.liquid-glass-ready nav a:hover,
+.liquid-glass-ready nav li:hover > a,
+.liquid-glass-ready .education-dropdown-menu a:hover,
+.liquid-glass-ready .investment-dropdown-menu a:hover,
+.liquid-glass-ready .dropdown_item:hover { background: rgba(105,232,187,.075) !important; color: var(--lg-accent) !important; }
+
+/* The cursor orb is deliberately tiny, dim and non-interactive. */
+.lg-cursor-orb {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 2147483000;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: .52;
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.62), rgba(126,231,208,.26) 36%, rgba(126,231,208,0) 74%);
+  box-shadow: 0 0 16px rgba(126,231,208,.20), 0 0 3px rgba(255,255,255,.28);
+  mix-blend-mode: screen;
+  transition: opacity .5s ease;
+}
+.lg-cursor-orb::after { content: ""; position: absolute; inset: -8px; border: 1px solid rgba(126,231,208,.10); border-radius: 50%; animation: lg-orb-breathe 3.4s ease-in-out infinite; }
+.lg-parallax-haze {
+  position: fixed;
+  z-index: -1;
+  left: 20%; top: 18%; width: 62vw; height: 48vh;
+  pointer-events: none;
+  opacity: .18;
+  filter: blur(44px);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(111,158,255,.20), rgba(104,230,194,.06) 38%, transparent 72%);
+  transition: opacity .7s ease;
+}
+.lg-cursor-away { opacity: 0 !important; }
+@keyframes lg-orb-breathe { 0%,100% { transform: scale(.88); opacity: .55; } 50% { transform: scale(1.12); opacity: .20; } }
+@media (pointer: coarse), (prefers-reduced-motion: reduce) { .lg-cursor-orb, .lg-parallax-haze { display: none; } }
+
+
+/* ============================================================
+   v100 ï¿½ material uniforme para cards especï¿½ficos de cada pï¿½gina
+   ============================================================ */
+.liquid-glass-ready .lg-card-surface {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(30, 49, 82, .72), rgba(14, 25, 48, .56)) !important;
+  border: 1px solid rgba(196, 224, 255, .20) !important;
+  box-shadow: 0 20px 58px rgba(0, 0, 0, .24), inset 0 1px rgba(255, 255, 255, .10) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  backdrop-filter: blur(24px) saturate(150%);
+  transform: translate3d(0, var(--lg-scroll-shift, 0px), 0) perspective(1100px) rotateX(var(--lg-tilt-x, 0deg)) rotateY(var(--lg-tilt-y, 0deg));
+  transition: transform .48s cubic-bezier(.2, .8, .2, 1), border-color .35s ease, box-shadow .35s ease, background .35s ease;
+  will-change: transform;
+}
+.liquid-glass-ready .lg-card-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--lg-x, 50%) var(--lg-y, 0%), rgba(218, 246, 255, .13), transparent 28%), linear-gradient(125deg, rgba(255,255,255,.12), transparent 30%, transparent 70%, rgba(105, 232, 187, .08));
+  opacity: .82;
+  transition: opacity .4s ease, background-position .55s ease;
+}
+.liquid-glass-ready .lg-card-surface::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.035), inset 0 16px 30px rgba(255,255,255,.025);
+}
+.liquid-glass-ready .lg-card-surface:hover,
+.liquid-glass-ready .lg-card-surface.lg-water-active {
+  border-color: rgba(125, 232, 201, .42) !important;
+  box-shadow: 0 28px 78px rgba(0, 0, 0, .30), 0 0 0 1px rgba(139, 221, 255, .10), inset 0 1px rgba(255,255,255,.15) !important;
+}
+.liquid-glass-ready .lg-card-surface.lg-water-active::before { opacity: .96; }
+
+/* Cards que anteriormente tinham superfï¿½cies opacas prï¿½prias. */
+.liquid-glass-ready .modulo-card,
+.liquid-glass-ready .aula-item,
+.liquid-glass-ready .quiz-card,
+.liquid-glass-ready .streak-modal-card,
+.liquid-glass-ready .item-card,
+.liquid-glass-ready .saldo-card,
+.liquid-glass-ready .como-ganhar-box,
+.liquid-glass-ready .resultado-card,
+.liquid-glass-ready .chart_card,
+.liquid-glass-ready .summary_card,
+.liquid-glass-ready .legend_card,
+.liquid-glass-ready .history_card,
+.liquid-glass-ready .pagina_card,
+.liquid-glass-ready .sobre_card,
+.liquid-glass-ready .missao_card,
+.liquid-glass-ready .recurso_card,
+.liquid-glass-ready .beneficio_card,
+.liquid-glass-ready .step_card,
+.liquid-glass-ready .prefs_card,
+.liquid-glass-ready .cadastro_card,
+.liquid-glass-ready .login_card,
+.liquid-glass-ready .form-card,
+.liquid-glass-ready .card-stat {
+  background: linear-gradient(145deg, rgba(30, 49, 82, .72), rgba(14, 25, 48, .56)) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+}
+
+/* Parallax ï¿½ptico: o conteï¿½do respira em ritmos diferentes sem exagero. */
+.liquid-glass-ready .lg-card-surface > :where(.modulo-icon, .item-icone, .card_icon, .pagina_card_icon, .sobre_card_icon, .missao_card_icon, .feature_icon) {
+  transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .45s ease;
+  will-change: transform;
+}
+.liquid-glass-ready .lg-card-surface:hover > :where(.modulo-icon, .item-icone, .card_icon, .pagina_card_icon, .sobre_card_icon, .missao_card_icon, .feature_icon) {
+  transform: translate3d(0, -4px, 0) scale(1.035);
+  filter: drop-shadow(0 8px 18px rgba(87, 230, 190, .16));
+}
+.liquid-glass-ready .lg-card-surface > :where(h1, h2, h3, h4, .modulo-desc, .aula-titulo, .item-desc) {
+  transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.liquid-glass-ready .lg-card-surface:hover > :where(h1, h2, h3, h4, .modulo-desc, .aula-titulo, .item-desc) { transform: translate3d(0, -1px, 0); }
+
+/* Navegaï¿½ï¿½o permanece translï¿½cida, sem fundos estranhos nos itens internos. */
+.liquid-glass-ready header nav a,
+.liquid-glass-ready .navbar a,
+.liquid-glass-ready nav a,
+.liquid-glass-ready .navbar li,
+.liquid-glass-ready nav li,
+.liquid-glass-ready .dropdown_menu,
+.liquid-glass-ready .dropdown_menu a {
+  background: transparent !important;
+  box-shadow: none;
+}
+.liquid-glass-ready .dropdown_menu { background: rgba(14, 27, 49, .88) !important; }
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .liquid-glass-ready .lg-card-surface { transform: none; will-change: auto; }
+  .liquid-glass-ready .lg-card-surface > :where(.modulo-icon, .item-icone, .card_icon, .pagina_card_icon, .sobre_card_icon, .missao_card_icon, .feature_icon) { transition: none; }
+}
+
+
+.btn-voltar-aprendizado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 10px 16px;
+  border: 1px solid rgba(196,224,255,.22);
+  border-radius: 999px;
+  background: rgba(255,255,255,.07);
+  color: var(--lg-text, #f6f9ff);
+  text-decoration: none;
+  font-weight: 750;
+  box-shadow: 0 10px 28px rgba(0,0,0,.16), inset 0 1px rgba(255,255,255,.12);
+  transition: transform .28s ease, border-color .28s ease, background .28s ease;
+}
+.btn-voltar-aprendizado:hover { transform: translateY(-2px); border-color: rgba(105,232,187,.52); background: rgba(105,232,187,.12); }
+
+/* Camada de consist?ncia v101: tokens e acessibilidade compartilhados. */
+:root {
+  --af-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --af-radius-control: 14px;
+  --af-radius-card: 20px;
+  --af-focus-ring: 0 0 0 3px rgba(105, 232, 187, .28);
+  --af-transition: 180ms ease;
+}
+html { color-scheme: dark; }
+html.claro { color-scheme: light; }
+body, button, input, select, textarea { font-family: var(--font-family, var(--af-font)); }
+button, input, select, textarea { font: inherit; }
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--lg-accent, #69e8bb);
+  outline-offset: 3px;
+  box-shadow: var(--af-focus-ring);
+}
+
+
+/* ============================================================
+   Liquid Glass global coherence layer ï¿½ PTCC v100
+   Componentes legados recebem o mesmo material sem depender de
+   uma classe especï¿½fica em cada pï¿½gina.
+   ============================================================ */
+:where(.recurso_card, .pagina_card, .info_card, .step_card, .form-card,
+.resultado-card, .card-stat, .summary_card, .prefs_card, .vantagens_box,
+.beneficio_card, .item-card, .modulo-card, .hero_fixa_card, .hero_card_fixa,
+.destaque_box, .exemplo_box, .desvantagens_box, .resultado_box, .modal_box,
+.modal_content, .video-box, .video-placeholder, .tipo_card_fixa,
+.tipo_card_variavel, .dica_content, .dica_content_variavel, .feature_card,
+.content-card, .settings_card, .pagina_section, .timeline-container) {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(145deg, var(--lg-surface-strong), var(--lg-surface)) !important;
+  border: 1px solid var(--lg-border) !important;
+  box-shadow: var(--lg-shadow) !important;
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(165%);
+  backdrop-filter: blur(var(--lg-blur)) saturate(165%);
+}
+:where(.recurso_card, .pagina_card, .info_card, .step_card, .form-card,
+.resultado-card, .card-stat, .summary_card, .prefs_card, .vantagens_box,
+.beneficio_card, .item-card, .modulo-card, .hero_fixa_card, .hero_card_fixa,
+.destaque_box, .exemplo_box, .desvantagens_box, .resultado_box, .modal_box,
+.modal_content, .video-box, .video-placeholder, .tipo_card_fixa,
+.tipo_card_variavel, .dica_content, .dica_content_variavel, .feature_card,
+.content-card, .settings_card, .pagina_section, .timeline-container)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,.16), transparent 30%), linear-gradient(125deg, rgba(255,255,255,.16), transparent 28%, transparent 70%, rgba(117,175,255,.10));
+  opacity: .72;
+}
+:where(.recurso_card, .pagina_card, .info_card, .step_card, .form-card,
+.resultado-card, .card-stat, .summary_card, .prefs_card, .vantagens_box,
+.beneficio_card, .item-card, .modulo-card, .hero_fixa_card, .hero_card_fixa,
+.destaque_box, .exemplo_box, .desvantagens_box, .resultado_box, .modal_box,
+.modal_content, .video-box, .video-placeholder, .tipo_card_fixa,
+.tipo_card_variavel, .dica_content, .dica_content_variavel, .feature_card,
+.content-card, .settings_card, .pagina_section, .timeline-container) {
+  overflow: hidden;
+  border-radius: clamp(16px, 2vw, 28px);
+  transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease, filter .28s ease;
+}
+:where(.recurso_card, .pagina_card, .info_card, .step_card, .form-card,
+.resultado-card, .card-stat, .summary_card, .prefs_card, .vantagens_box,
+.beneficio_card, .item-card, .modulo-card, .hero_fixa_card, .hero_card_fixa,
+.destaque_box, .exemplo_box, .desvantagens_box, .resultado_box, .modal_box,
+.modal_content, .video-box, .video-placeholder, .tipo_card_fixa,
+.tipo_card_variavel, .dica_content, .dica_content_variavel, .feature_card,
+.content-card, .settings_card, .pagina_section, .timeline-container):hover {
+  border-color: var(--lg-border-strong) !important;
+  box-shadow: 0 28px 80px rgba(0,0,0,.25), inset 0 1px rgba(255,255,255,.18) !important;
+  filter: saturate(1.06);
+}
+html.claro :where(.recurso_card, .pagina_card, .info_card, .step_card, .form-card,
+.resultado-card, .card-stat, .summary_card, .prefs_card, .vantagens_box,
+.beneficio_card, .item-card, .modulo-card, .hero_fixa_card, .hero_card_fixa,
+.destaque_box, .exemplo_box, .desvantagens_box, .resultado_box, .modal_box,
+.modal_content, .video-box, .video-placeholder, .tipo_card_fixa,
+.tipo_card_variavel, .dica_content, .dica_content_variavel, .feature_card,
+.content-card, .settings_card, .pagina_section, .timeline-container) {
+  background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(255,255,255,.48)) !important;
+}
+
+/* ===================== EDUCAÇÃO · TEMA UNIFORME ===================== */
+html.claro body.arena-page {
+  --text: #10213e;
+  --muted: #40566d;
+  --cyan: #0b9f62;
+  --green: #0b9f62;
+  background:
+    radial-gradient(ellipse at 12% 8%, rgba(69,139,205,.16), transparent 32%),
+    radial-gradient(ellipse at 88% 18%, rgba(34,194,139,.12), transparent 31%),
+    linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro body.arena-page :where(.topbar,.hero,.profile,.streak-panel,.learning-card,.activity,.tip,.rank-chip,.modal,.gate-card,.lesson-player,.comments-panel,.exercise-box) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31, 65, 105, .16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body.arena-page :where(.hero h1,.topbar .brand strong,.section-head h2,.learning-card h3,.activity h3) {
+  color: #10213e !important;
+}
+
+html.claro body.arena-page :where(.hero p,.section-head>div>p,.profile-note,.total,.eyebrow,.brand small,.learning-card p,.activity-item,.tip p,.modal p) {
+  color: #40566d !important;
+}
+
+html.claro body.arena-page :where(.progress,.total div) {
+  background: rgba(31,65,105,.10) !important;
+}
+
+html.claro body.arena-page :where(.comments-panel input,.exercise-option,.comment,.quiz-question) {
+  background: rgba(255,255,255,.68) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+}
+
+html.claro :where(body:not(.arena-page) .hero, body:not(.arena-page) .hero_teste, body:not(.arena-page) .teste_card,
+body:not(.arena-page) .progresso_teste, body:not(.arena-page) .resultado_box,
+body:not(.arena-page) .aula-card, body:not(.arena-page) .modulo-card,
+body:not(.arena-page) .quiz-card, body:not(.arena-page) .streak-modal-card) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body:not(.arena-page) {
+  --bg-body-gradient: linear-gradient(135deg, #eef7f5, #dcecf2);
+  --hero-bg: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82));
+  --azul-principal: #dcecf2;
+  --azul-escuro: #eef7f5;
+  --azul-card: rgba(255,255,255,.82);
+  --azul-card-hover: rgba(232,246,240,.92);
+  --texto: #10213e;
+  --texto-secundario: #40566d;
+  --texto-terciario: #60758a;
+  --glass-bg: rgba(255,255,255,.82);
+  --glass-bg-hover: rgba(232,246,240,.92);
+  --glass-border: rgba(31,65,105,.16);
+  --glass-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82);
+  --modal-bg: rgba(255,255,255,.96);
+  --modal-overlay: rgba(31,65,105,.38);
+  --option-bg: rgba(255,255,255,.88);
+  --option-border: rgba(31,65,105,.16);
+}
+
+html.claro body:not(.arena-page) :where(.btn-theme-toggle,.card,article,.lesson-card,.module-card,.quiz-question,.exercise-option) {
+  color: #10213e;
+  border-color: rgba(31,65,105,.16);
+}
+
+/* Texto da tela inicial da Arena no tema claro */
+html.claro body.arena-page .gate-card,
+html.claro body.arena-page .gate-card :where(p, span, b, strong, small) {
+  color: #000000 !important;
+}
+
+html.claro body.arena-page .gate-warning {
+  background: rgba(255, 216, 120, .32) !important;
+  border-color: rgba(31, 65, 105, .18) !important;
+}
+
+/* NAVBAR CLARA — PADRONIZAÇÃO FINAL */
+html.claro header,
+html.claro .navbar {
+  background: linear-gradient(135deg, rgba(126, 147, 180, 0.96), rgba(91, 112, 150, 0.96)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 14px 44px rgba(45, 61, 86, 0.20), inset 0 1px rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(18px) saturate(145%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+}
+
+html.claro header nav,
+html.claro header nav ul,
+html.claro header nav li,
+html.claro #portalMainNav {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+html.claro header nav a,
+html.claro #portalMainNav a,
+html.claro .user_name {
+  color: rgba(255, 255, 255, 0.96) !important;
+}
+
+/* Itens individuais da navbar transparentes no tema claro */
+html.claro #portalMainNav li,
+html.claro #portalMainNav li > a,
+html.claro #portalMainNav a,
+html.claro header nav li,
+html.claro header nav li > a,
+html.claro header nav a {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+html.claro :is(.education-dropdown-menu, .investment-dropdown-menu, .dropdown_menu) {
+  background: linear-gradient(145deg, rgba(126, 147, 180, 0.98), rgba(91, 112, 150, 0.98)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 20px 45px rgba(45, 61, 86, 0.28) !important;
+}
+
+/* Navbar clara: sem brilho ou contorno azul nos links */
+html.claro .liquid-glass-ready .lg-current-page,
+html.claro .liquid-glass-ready .lg-current-page::after,
+html.claro .liquid-glass-ready nav a:hover,
+html.claro .liquid-glass-ready nav li:hover > a,
+html.claro .liquid-glass-ready :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  outline: none !important;
+}
+
+html.claro .liquid-glass-ready .lg-current-page::after {
+  display: none !important;
+}
+
+/* Home: todos os cards com texto claro */
+html.claro body:has(main > .hero) :where(.beneficio_card, .step_card, .info_card, .calc_box, .hero_card, .card_dashboard) :where(h1, h2, h3, h4, strong) {
+  color: #FFFFFF !important;
+}
+
+html.claro body:has(main > .hero) :where(.beneficio_card, .step_card, .info_card, .calc_box, .hero_card, .card_dashboard) :where(p, span, small) {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+/* ===================== INVESTIMENTOS · TEMA CLARO UNIFORME ===================== */
+html.claro body.renda-fixa-page,
+html.claro body.renda-variavel-page {
+  background: linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro body.renda-fixa-page :where(.hero_fixa, .hero_variavel, .o_que_e, .o_que_e_variavel, .como_funciona_fixa, .como_funciona_variavel, .tipos_fixa, .tipos_variavel, .prós_contrass, .prós_contrass_variavel, .dicas_praticas, .dicas_praticas_variavel, .exemplo_container, .exemplo_container_variavel, .cta_fixa, .cta_variavel) {
+  background: transparent !important;
+  color: #10213e !important;
+}
+
+html.claro body.renda-fixa-page :where(.hero_fixa_container, .hero_variavel_container),
+html.claro body.renda-variavel-page :where(.hero_variavel_container, .explicacao_container_variavel, .step_variavel, .tipo_card_variavel, .vantagens_box_variavel, .desvantagens_box_variavel, .dica_item_variavel, .exemplo_box_variavel, .cta_variavel) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body.renda-fixa-page :where(.explicacao_container, .step_fixa, .tipo_card_fixa, .vantagens_box, .desvantagens_box, .dica_item, .exemplo_box, .hero_fixa_card, .taxa_info),
+html.claro body.renda-variavel-page :where(.hero_variavel_card, .card_variavel_info, .indice_info, .explicacao_container_variavel, .step_variavel, .tipo_card_variavel, .vantagens_box_variavel, .desvantagens_box_variavel, .dica_item_variavel, .exemplo_box_variavel) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro :is(body.renda-fixa-page, body.renda-variavel-page) :where(h1, h2, h3, h4, strong) {
+  color: #10213e !important;
+}
+
+html.claro :is(body.renda-fixa-page, body.renda-variavel-page) :where(p, small, li, span, .section_title p, .tipo_desc_fixa, .tipo_desc_variavel, .tipo_rentabilidade_fixa, .tipo_rentabilidade_variavel) {
+  color: #40566d !important;
+}
+
+html.claro :is(body.renda-fixa-page, body.renda-variavel-page) :where(.hero_fixa h1 .destaque, .hero_variavel_content h1 .destaque, .destaque) {
+  color: #0b9f62 !important;
+  -webkit-text-fill-color: #0b9f62 !important;
+}
+
+html.claro body.renda-fixa-page :where(.btn_fixa_secondary, .btn_cta_sec),
+html.claro body.renda-variavel-page :where(.btn_variavel_secondary, .btn_cta_sec_variavel) {
+  background: rgba(255,255,255,.82) !important;
+  color: #10213e !important;
+  border-color: rgba(31,65,105,.16) !important;
+}
+
+/* ============================================================
+   GARANTIA FINAL — FRONTEND INTEIRO NO MODO CLARO
+============================================================ */
+html.claro body {
+  background: linear-gradient(135deg, #eef7f5, #dcecf2) !important;
+  color: #10213e !important;
+}
+
+html.claro body :where(main, article, section) {
+  background-color: transparent !important;
+}
+
+html.claro body :where(
+  .section_dark, .section_light, .como_funciona, .como_funciona_fixa, .como_funciona_variavel,
+  .prós_contrass, .pros_contras, .prós_contrass_variavel,
+  .dicas_praticas, .dicas_praticas_variavel,
+  .o_que_e, .o_que_e_variavel, .tipos_fixa, .tipos_variavel,
+  .exemplo_container, .exemplo_container_variavel,
+  .cta, .cta_fixa, .cta_variavel,
+  .hero_teste, .hero_fixa, .hero_variavel, .hero-calculadora,
+  .hero-loja, .hero-videoaulas, .hero-exercicios,
+  .estatisticas, .calculadora-section,
+  .login_container, .login_left, .login_right,
+  .cadastro_container, .cadastro_left, .cadastro_right,
+  .pagina_container, .sobre_container, .perfil_container,
+  .carteira_container, .main, .calendario_container
+) {
+  background: transparent !important;
+  color: #10213e !important;
+}
+
+html.claro body :where(
+  .glass, .glass-card, .liquid-glass-surface,
+  .hero_card, .card_dashboard, .card, .info_card, .beneficio_card, .step_card,
+  .perfil_header, .perfil_header-cover, .perfil-rank-card, .perfil-streak-card,
+  .perfil_card, .settings_card,
+  .analisador_box, .teste_card, .progresso_teste, .resultado_box,
+  .calculadora-box, .cotacoes-card, .resultado-card,
+  .explicacao_container, .explicacao_container_variavel,
+  .step_fixa, .step_variavel, .tipo_card_fixa, .tipo_card_variavel,
+  .vantagens_box, .desvantagens_box, .vantagens_box_variavel, .desvantagens_box_variavel,
+  .destaque_box, .destaque_box_variavel, .dica_item, .dica_item_variavel,
+  .exemplo_box, .exemplo_box_variavel,
+  .sobre_card, .missao_card, .recurso_card, .pagina_card, .versao_card,
+  .login_box, .login_card, .cadastro_box, .cadastro_card, .form_container,
+  .prefs_card, .form-card, .saldo-card, .como-ganhar-box, .item-card,
+  .calendar_header, .month_navigation, .calendar_grid, .history_card,
+  .community-native-page .topbar, .community-native-page .community-tabs,
+  .community-native-page .post-card, .community-native-page .video-card,
+  .community-native-page .community-card, .community-native-page .create-card,
+  .community-native-page .friends-panel, .community-native-page .chat-panel,
+  .community-native-page .visual-card, .community-native-page .group-room
+) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro body :where(h1,h2,h3,h4,h5,strong,b) {
+  color: #10213e !important;
+  text-shadow: none !important;
+}
+
+html.claro body :where(p,small,li,span,label,dt,dd) {
+  color: #40566d !important;
+}
+
+html.claro body :where(input,select,textarea) {
+  background: rgba(255,255,255,.94) !important;
+  color: #10213e !important;
+  border-color: rgba(31,65,105,.20) !important;
+}
+
+html.claro body :where(input::placeholder,textarea::placeholder) {
+  color: #66788a !important;
+}
+
+/* ============================================================
+   FOOTER GLOBAL AFDE — PADRÃO FINAL
+============================================================ */
+footer.afde-footer,
+footer.sobre_footer,
+footer:not(.sobre_footer):not(.afde-footer) {
+  min-height: 84px;
+  display: grid;
+  align-items: center;
+  padding: 18px 26px !important;
+  border-radius: 22px 22px 22px 22px;
+}
+
+html.claro footer.afde-footer,
+html.claro footer.sobre_footer,
+html.claro footer:not(.sobre_footer):not(.afde-footer) {
+  background: #dce7ea !important;
+  background-image: none !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  box-shadow: 0 14px 44px rgba(45,61,86,.14), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro .afde-footer-brand strong,
+html.claro .afde-footer-brand small,
+html.claro .afde-footer-links a,
+html.claro .afde-footer-copy {
+  color: #10213e !important;
+}
+
+html.escuro footer.afde-footer,
+html.escuro footer.sobre_footer,
+html.escuro footer:not(.sobre_footer):not(.afde-footer) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid rgba(225,239,255,.16) !important;
+}
+
+.afde-footer-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.afde-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.afde-footer-mark {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(105,232,187,.40);
+  border-radius: 12px;
+  background: rgba(105,232,187,.10);
+  color: #69e8bb;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.afde-footer-brand strong,
+.afde-footer-brand small,
+.afde-footer-copy {
+  display: block;
+}
+
+.afde-footer-brand strong { color: #f6f9ff; }
+.afde-footer-brand small { margin-top: 2px; color: rgba(227,235,255,.68); }
+.afde-footer-links { display: flex; justify-content: center; gap: 18px; }
+.afde-footer-links a { color: rgba(227,235,255,.78); text-decoration: none; font-size: 13px; font-weight: 700; }
+.afde-footer-links a:hover { color: #69e8bb; }
+.afde-footer-copy { margin: 0; justify-self: end; color: rgba(227,235,255,.58); font-size: 11px; text-align: right; }
+
+@media (max-width: 800px) {
+  footer.afde-footer,
+  footer.sobre_footer,
+  footer:not(.sobre_footer):not(.afde-footer) {
+    width: calc(100% - 28px);
+    margin-top: 36px;
+  }
+
+  .afde-footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .afde-footer-brand,
+  .afde-footer-links {
+    justify-content: center;
+  }
+
+  .afde-footer-brand { margin: 0 auto; }
+  .afde-footer-links { flex-wrap: wrap; }
+  .afde-footer-copy { justify-self: center; text-align: center; }
+}
+
+/* Carteira — fundo claro e texto escuro no modo claro */
+html.claro body:has(.carteira-hero) .card,
+html.claro body:has(.carteira-hero) .hero-saldo,
+html.claro body:has(.carteira-hero) .carteira-hero,
+html.claro body:has(.carteira-hero) :is(.open-card,.open-item) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border-color: rgba(31,65,105,.16) !important;
+  color: #10213e !important;
+}
+
+html.claro body:has(.carteira-hero) :is(.card h4,.card p,.hero-saldo span,.hero-saldo strong,.open-card *, .open-item *) {
+  color: #10213e !important;
+}
+
+/* ============================================================
+   FOOTER ULTRA COMPACTO — SEM FUNDO NOS LINKS
+============================================================ */
+footer.afde-footer,
+footer.sobre_footer,
+footer:not(.sobre_footer):not(.afde-footer) {
+  width: calc(100% - 28px) !important;
+  max-width: 1320px;
+  min-height: 62px !important;
+  display: grid;
+  align-items: center;
+  margin: 24px auto 12px !important;
+  padding: 10px 18px !important;
+  border-radius: 18px;
+}
+
+.afde-footer-container {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  min-height: 42px;
+}
+
+.afde-footer-brand {
+  gap: 8px;
+  justify-self: start;
+}
+
+.afde-footer-logo {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+}
+
+.afde-footer-brand small {
+  display: none;
+}
+
+.afde-footer-links {
+  justify-self: center;
+  gap: 10px;
+}
+
+.afde-footer-links a {
+  min-height: 28px;
+  padding: 4px 6px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.afde-footer-copy {
+  justify-self: end;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+  footer.afde-footer,
+  footer.sobre_footer,
+  footer:not(.sobre_footer):not(.afde-footer) {
+    width: calc(100% - 20px) !important;
+    min-height: 0 !important;
+    margin: 18px auto 10px !important;
+    padding: 12px 14px !important;
+  }
+
+  .afde-footer-container {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .afde-footer-brand,
+  .afde-footer-links,
+  .afde-footer-copy {
+    justify-self: center;
+  }
+
+  .afde-footer-links {
+    gap: 8px;
+  }
+}
+
+/* ============================================================
+   FOOTER — LINKS ABSOLUTAMENTE SEM FUNDO
+============================================================ */
+footer.afde-footer .afde-footer-links,
+footer.afde-footer .afde-footer-links a,
+footer.sobre_footer .afde-footer-links,
+footer.sobre_footer .afde-footer-links a,
+footer:not(.sobre_footer):not(.afde-footer) .afde-footer-links,
+footer:not(.sobre_footer):not(.afde-footer) .afde-footer-links a {
+  background: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+}
+
+footer.afde-footer .afde-footer-links a:hover,
+footer.sobre_footer .afde-footer-links a:hover,
+footer:not(.sobre_footer):not(.afde-footer) .afde-footer-links a:hover {
+  background: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+/* Tipografia do footer alinhada à navbar */
+.afde-footer-brand strong {
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.afde-footer-links a {
+  font-size: 15px;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.afde-footer-copy {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+/* Perfil — superfícies claras no modo claro */
+html.claro .perfil-page :where(.perfil_header-cover,.perfil-rank-card,.perfil-streak-card,.perfil_card) {
+  background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,245,.82)) !important;
+  border: 1px solid rgba(31,65,105,.16) !important;
+  box-shadow: 0 18px 50px rgba(42,72,100,.12), inset 0 1px rgba(255,255,255,.82) !important;
+}
+
+html.claro .perfil-page :where(.perfil_header-cover,.perfil-rank-card,.perfil-streak-card,.perfil_card)::before,
+html.claro .perfil-page :where(.perfil_header-cover,.perfil-rank-card,.perfil-streak-card,.perfil_card)::after {
+  content: none !important;
+  display: none !important;
+}
+
+html.claro .perfil-page :is(h1,h2,h3,h4,strong,b) {
+  color: #10213e !important;
+  text-shadow: none !important;
+}
+
+html.claro .perfil-page :is(p,small,span,li,label) {
+  color: #40566d !important;
+}
+
+html.claro body:has(main > .hero) .calc_box :is(h1,h2,h3,h4,strong) {
+  color: #10213e !important;
+}
+
+html.claro body:has(main > .hero) .calc_box :is(p,span,small) {
+  color: #40566d !important;
+}

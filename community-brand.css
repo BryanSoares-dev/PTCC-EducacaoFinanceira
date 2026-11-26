@@ -1,0 +1,139 @@
+/* Unified AFDE brand layer: removes the legacy sunset/cyan/violet treatment. */
+body.community-native-page {
+  --sunset-ink: #1F2937;
+  --sunset-panel: #1F2937;
+  --sunset-panel-2: #111827;
+  --sunset-cyan: #16E28A;
+  --sunset-violet: #16E28A;
+  --sunset-blue: #16E28A;
+  --sunset-green: #16E28A;
+  --sunset-accent: #16E28A;
+  --sunset-line: rgba(249,250,251,.18);
+  --orange: #16E28A;
+  --coral: #16E28A;
+  --pink: #16E28A;
+  --green: #16E28A;
+  --bg: #1F2937;
+  --text: #F9FAFB;
+  --muted: rgba(249,250,251,.72);
+  background: radial-gradient(circle at 82% -10%, rgba(22,226,138,.15), transparent 32rem), linear-gradient(135deg,#1F2937,#111827) !important;
+  color: #F9FAFB !important;
+}
+body.community-native-page .topbar,
+body.community-native-page .hero-card,
+body.community-native-page .post-card,
+body.community-native-page .video-card,
+body.community-native-page .community-card,
+body.community-native-page .create-card,
+body.community-native-page .empty-card,
+body.community-native-page .friends-panel,
+body.community-native-page .chat-panel,
+body.community-native-page .visual-card,
+body.community-native-page .story-bubble,
+body.community-native-page .group-room,
+body.community-native-page .members-panel,
+body.community-native-page .auth-modal,
+body.community-native-page .onboarding-card,
+body.community-native-page .video-viewer-dialog,
+body.community-native-page .story-view-card,
+body.community-native-page .posts-toolbar,
+body.community-native-page .post-composer {
+  background: linear-gradient(145deg, rgba(31,41,55,.86), rgba(17,24,39,.72)) !important;
+  border-color: rgba(249,250,251,.18) !important;
+  box-shadow: 0 24px 80px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.12) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  backdrop-filter: blur(26px) saturate(150%);
+}
+body.community-native-page h1, body.community-native-page h2, body.community-native-page h3,
+body.community-native-page .topbar h1, body.community-native-page .topbar .eyebrow,
+body.community-native-page .feed-subheading h2 { color: #F9FAFB !important; }
+body.community-native-page .primary-btn,
+body.community-native-page .nav-create,
+body.community-native-page .community-terms-pagination .primary-btn,
+body.community-native-page .community-terms-actions .primary-btn {
+  background: linear-gradient(110deg,#16E28A,#0DBB70) !important;
+  color: #10251D !important;
+  border-color: rgba(22,226,138,.62) !important;
+  box-shadow: 0 12px 28px rgba(22,226,138,.18), inset 0 1px rgba(255,255,255,.42) !important;
+}
+body.community-native-page input, body.community-native-page textarea, body.community-native-page select {
+  background: rgba(17,24,39,.70) !important;
+  color: #F9FAFB !important;
+  border-color: rgba(249,250,251,.18) !important;
+}
+body.community-native-page .outline-btn, body.community-native-page .icon-btn,
+body.community-native-page .subnav-btn, body.community-native-page .creator-option,
+body.community-native-page .search-panel, body.community-native-page .notification-panel {
+  background: rgba(31,41,55,.74) !important;
+  border-color: rgba(249,250,251,.18) !important;
+  color: #F9FAFB !important;
+}
+body.community-native-page .story-ring,
+body.community-native-page .avatar-button,
+body.community-native-page .reel-action.active { background: linear-gradient(135deg,#16E28A,#0DBB70) !important; }
+body.community-native-page .community-back-button { background: rgba(31,41,55,.82) !important; color: #F9FAFB !important; border-color: rgba(249,250,251,.18) !important; }
+body.community-native-page .community-terms-card { background: linear-gradient(145deg,#1F2937,#111827) !important; color: #F9FAFB !important; }
+@media (prefers-reduced-transparency: reduce) {
+  body.community-native-page .topbar, body.community-native-page .hero-card, body.community-native-page .post-card,
+  body.community-native-page .video-card, body.community-native-page .community-card, body.community-native-page .create-card,
+  body.community-native-page .empty-card, body.community-native-page .auth-modal { -webkit-backdrop-filter: none; backdrop-filter: none; background: #1F2937 !important; }
+}
+
+/* Surfaces that are rendered by the social module with legacy literal colors. */
+body.community-native-page > header,
+html.claro body.community-native-page > header,
+html.escuro body.community-native-page > header {
+  background: linear-gradient(145deg, rgba(31,41,55,.94), rgba(17,24,39,.88)) !important;
+  border-color: rgba(249,250,251,.18) !important;
+  box-shadow: 0 18px 50px rgba(0,0,0,.28), inset 0 1px rgba(255,255,255,.12) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(150%) !important;
+  backdrop-filter: blur(22px) saturate(150%) !important;
+}
+body.community-native-page > header nav a,
+body.community-native-page > header .user_name { color: #F9FAFB !important; }
+body.community-native-page .messages-layout,
+body.community-native-page .group-room-grid,
+body.community-native-page .reel-card,
+body.community-native-page .visual-stack .visual-card,
+body.community-native-page .notification-panel,
+body.community-native-page .search-panel,
+body.community-native-page .community-terms-card,
+body.community-native-page .reel-comments-panel,
+body.community-native-page .post-composer,
+body.community-native-page .upload-progress {
+  background: linear-gradient(145deg, rgba(31,41,55,.86), rgba(17,24,39,.76)) !important;
+  border-color: rgba(249,250,251,.18) !important;
+  color: #F9FAFB !important;
+}
+body.community-native-page .message-bubble,
+body.community-native-page .comment-row,
+body.community-native-page .friend-item,
+body.community-native-page .community-card .join-community,
+body.community-native-page .reel-action {
+  background: rgba(31,41,55,.72) !important;
+  border-color: rgba(249,250,251,.16) !important;
+  color: #F9FAFB !important;
+}
+body.community-native-page .video-thumb,
+body.community-native-page .group-card-media,
+body.community-native-page .visual-media { background: linear-gradient(135deg,#273444,#1F2937) !important; }
+body.community-native-page .story-ring .story-placeholder { background: #1F2937 !important; color: #16E28A !important; border-color: #1F2937 !important; }
+body.community-native-page .content-location,
+body.community-native-page .story-author,
+body.community-native-page .video-viewer-owner,
+body.community-native-page .content-block,
+body.community-native-page .content-report { color: #16E28A !important; }
+
+/* Neutralização adicional de literais herdados do tema sunset. */
+body.community-native-page .primary-btn,body.community-native-page .nav-create,body.community-native-page .story-ring,body.community-native-page .avatar,body.community-native-page .friend-avatar,body.community-native-page .profile-avatar,body.community-native-page .sun-core,body.community-native-page .store-item.coral,body.community-native-page .store-item.orange,body.community-native-page .store-item.purple{background:linear-gradient(135deg,#16E28A,#0DBB70)!important;color:#10251D!important}
+body.community-native-page .video-thumb,body.community-native-page .video-thumb.purple,body.community-native-page .group-card-media,body.community-native-page .message-bubble.mine,body.community-native-page .profile-cover{background:linear-gradient(145deg,rgba(31,41,55,.94),rgba(17,24,39,.88))!important;border-color:rgba(249,250,251,.18)!important}
+body.community-native-page .hero-card h2 em,body.community-native-page .text-btn,body.community-native-page .filter-btn,body.community-native-page .outline-btn,body.community-native-page .rank-number,body.community-native-page .community-icon,body.community-native-page .create-icon,body.community-native-page .auth-symbol,body.community-native-page .empty-card span,body.community-native-page .video-viewer-owner,body.community-native-page .content-location,body.community-native-page .content-report{color:#16E28A!important}
+body.community-native-page .nav-item.active,body.community-native-page .subnav-btn.active,body.community-native-page .video-actions button.active,body.community-native-page .video-viewer-actions button.active{background:rgba(22,226,138,.12)!important;color:#16E28A!important;border-color:rgba(22,226,138,.38)!important;box-shadow:none!important}
+body.community-native-page .progress span,body.community-native-page .upload-progress-fill{background:#16E28A!important}
+body.community-native-page .community-terms-backdrop{background:rgba(17,24,39,.86)!important}
+
+/* Últimos elementos sociais que usavam laranja literal no tema legado. */
+body.community-native-page .notification-badge,body.community-native-page .notification-avatar,body.community-native-page .group-message .admin-crown,body.community-native-page .call-placeholder>span,body.community-native-page .tab-delete,body.community-native-page .delete-message,body.community-native-page .comment-delete,body.community-native-page .more{color:#16E28A!important}
+body.community-native-page .notification-badge,body.community-native-page .notification-item.unread,body.community-native-page .call-placeholder,body.community-native-page .friend-item:hover,body.community-native-page .friend-item.selected,body.community-native-page .attachment-button:hover{background:rgba(22,226,138,.10)!important;border-color:rgba(22,226,138,.34)!important}
+body.community-native-page .notification-avatar,body.community-native-page .friend-avatar{background:linear-gradient(135deg,#16E28A,#0DBB70)!important;color:#10251D!important}
+body.community-native-page .orbit,body.community-native-page .orbit-a,body.community-native-page .orbit-b{border-color:rgba(22,226,138,.34)!important}
