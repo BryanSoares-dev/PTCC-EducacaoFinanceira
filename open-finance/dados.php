@@ -28,6 +28,7 @@ try {
                 $avisos[] = 'A integração Pluggy não está configurada. Defina PLUGGY_CLIENT_ID e PLUGGY_CLIENT_SECRET.';
             } else {
                 $dadosApi = pluggyDadosDoItem($itemId, $apiKey);
+                openFinancePersistirContas($pdo, $usuarioId, $dadosApi['contas'] ?? []);
                 $sincronizado = openFinancePersistirTransacoes($pdo, $usuarioId, $dadosApi['transacoes'] ?? []);
                 $emprestimos = $dadosApi['emprestimos'] ?? [];
                 $investimentos = $dadosApi['investimentos'] ?? [];
@@ -68,11 +69,14 @@ try {
     }
     unset($transacao);
 
+    $resumoMes = openFinanceResumoMes($pdo, $usuarioId);
+
     pluggyJsonResponse([
         'connected' => $connected,
         'transacoes' => $transacoes,
         'emprestimos' => $emprestimos,
         'investimentos' => $investimentos,
+        'resumo_mes' => $resumoMes,
         'sincronizado' => $sincronizado,
         'ultima_sincronizacao' => $sincronizar && $itemId ? date('c') : null,
         'avisos' => array_values(array_unique($avisos)),

@@ -113,7 +113,8 @@ function pluggyResults(array $response): array
  */
 function pluggyListTransactions(string $accountId, string $apiKey): array
 {
-    $firstPath = '/v2/transactions?accountId=' . rawurlencode($accountId) . '&pageSize=500';
+    // O endpoint cursor-based já define páginas de até 500 itens; não usa pageSize.
+    $firstPath = '/v2/transactions?accountId=' . rawurlencode($accountId);
     $response = pluggyGet($firstPath, $apiKey);
 
     if ($response['code'] >= 200 && $response['code'] < 300) {
@@ -203,13 +204,30 @@ function pluggyDadosDoItem(string $itemId, string $apiKey): array
     $encodedItemId = rawurlencode($itemId);
     $accountsResponse = pluggyGet('/accounts?itemId=' . $encodedItemId . '&pageSize=500', $apiKey);
     $transactions = [];
+    $contas = [];
+    $avisos = [];
+    if ($accountsResponse['code'] < 200 || $accountsResponse['code'] >= 300) {
+        $avisos[] = 'Falha ao consultar contas da instituição (HTTP ' . ($accountsResponse['code'] ?: 'sem resposta') . ').';
+    }
 
     foreach (pluggyResults($accountsResponse) as $account) {
         if (empty($account['id'])) {
             continue;
         }
 
+        $contas[] = [
+            'id' => (string) $account['id'],
+            'nome' => (string) ($account['name'] ?? $account['marketingName'] ?? $account['number'] ?? 'Conta conectada'),
+            'tipo' => strtoupper((string) ($account['type'] ?? '')),
+            'saldo' => is_numeric($account['balance'] ?? null) ? (float) $account['balance'] : null,
+            'moeda' => strtoupper((string) ($account['currencyCode'] ?? 'BRL')),
+        ];
+
         $transactionsResponse = pluggyListTransactions((string) $account['id'], $apiKey);
+        if ($transactionsResponse['code'] < 200 || $transactionsResponse['code'] >= 300) {
+            $avisos[] = 'Falha ao consultar transações de uma conta (HTTP ' . ($transactionsResponse['code'] ?: 'sem resposta') . ').';
+            continue;
+        }
         foreach ($transactionsResponse['results'] as $transaction) {
             $transaction['contaNome'] = $account['name']
                 ?? $account['marketingName']
@@ -226,12 +244,12 @@ function pluggyDadosDoItem(string $itemId, string $apiKey): array
 
     $loansResponse = pluggyGet('/loans?itemId=' . $encodedItemId . '&pageSize=500', $apiKey);
     $investmentsResponse = pluggyGet('/investments?itemId=' . $encodedItemId . '&pageSize=500', $apiKey);
-
     return [
+        'contas' => $contas,
         'transacoes' => $transactions,
         'emprestimos' => pluggyResults($loansResponse),
         'investimentos' => pluggyResults($investmentsResponse),
-        'avisos' => array_values(array_filter([
+        'avisos' => array_values(array_unique(array_merge($avisos, array_filter([
             $accountsResponse['code'] < 200 || $accountsResponse['code'] >= 300
                 ? 'Não foi possível consultar as contas da instituição.'
                 : null,
@@ -239,14 +257,30 @@ function pluggyDadosDoItem(string $itemId, string $apiKey): array
                 ? 'Empréstimos não estão disponíveis para esta instituição.'
                 : null,
             $investmentsResponse['code'] < 200 || $investmentsResponse['code'] >= 300
-                ? 'Investimentos não estão disponíveis para esta instituição.'
+                ? 'Investimentos não estão disponíveis para esta instituição (HTTP ' . ($investmentsResponse['code'] ?: 'sem resposta') . ').'
                 : null,
-        ])),
+        ])))),
     ];
 }
 
 function openFinanceEnsureSchema(PDO $pdo): void
 {
+    $pdo->exec(<<<'SQL'
+        CREATE TABLE IF NOT EXISTS open_finance_contas (
+            id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            usuario_id INT NOT NULL,
+            conta_id VARCHAR(255) NOT NULL,
+            nome VARCHAR(255) DEFAULT NULL,
+            tipo VARCHAR(30) NOT NULL DEFAULT '',
+            saldo DECIMAL(15,2) DEFAULT NULL,
+            moeda VARCHAR(12) DEFAULT 'BRL',
+            sincronizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            UNIQUE KEY uq_open_finance_usuario_conta (usuario_id, conta_id),
+            CONSTRAINT fk_open_finance_conta_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    SQL);
+
     $pdo->exec(<<<'SQL'
         CREATE TABLE IF NOT EXISTS open_finance_transacoes (
             id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -272,6 +306,84 @@ function openFinanceEnsureSchema(PDO $pdo): void
             CONSTRAINT fk_open_finance_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     SQL);
+}
+
+function openFinancePersistirContas(PDO $pdo, int $usuarioId, array $contas): void
+{
+    openFinanceEnsureSchema($pdo);
+    $stmt = $pdo->prepare(<<<'SQL'
+        INSERT INTO open_finance_contas (usuario_id, conta_id, nome, tipo, saldo, moeda)
+        VALUES (:usuario_id, :conta_id, :nome, :tipo, :saldo, :moeda)
+        ON DUPLICATE KEY UPDATE
+            nome = VALUES(nome), tipo = VALUES(tipo), saldo = VALUES(saldo), moeda = VALUES(moeda)
+    SQL);
+
+    foreach ($contas as $conta) {
+        if (!is_array($conta) || empty($conta['id'])) {
+            continue;
+        }
+        $stmt->execute([
+            ':usuario_id' => $usuarioId,
+            ':conta_id' => $conta['id'],
+            ':nome' => $conta['nome'] ?? null,
+            ':tipo' => strtoupper((string) ($conta['tipo'] ?? '')),
+            ':saldo' => is_numeric($conta['saldo'] ?? null) ? $conta['saldo'] : null,
+            ':moeda' => strtoupper((string) ($conta['moeda'] ?? 'BRL')),
+        ]);
+    }
+}
+
+function openFinanceResumoMes(PDO $pdo, int $usuarioId): array
+{
+    $stmt = $pdo->prepare(<<<'SQL'
+        SELECT
+            COALESCE(SUM(CASE WHEN tipo = 'entrada' THEN valor ELSE 0 END), 0) AS receitas_mes,
+            COALESCE(SUM(CASE WHEN tipo = 'saida' THEN valor ELSE 0 END), 0) AS despesas_mes
+        FROM (
+            SELECT tipo, valor, data_criacao AS data_movimento
+            FROM movimentacoes
+            WHERE usuario_id = :usuario_manual
+
+            UNION ALL
+
+            SELECT tipo, valor, data_transacao AS data_movimento
+            FROM open_finance_transacoes
+            WHERE usuario_id = :usuario_open
+              AND UPPER(status) IN ('POSTED', 'BOOKED', 'COMPLETED')
+        ) AS movimentos_mes
+        WHERE MONTH(data_movimento) = MONTH(CURDATE())
+          AND YEAR(data_movimento) = YEAR(CURDATE())
+    SQL);
+    $stmt->execute([
+        ':usuario_manual' => $usuarioId,
+        ':usuario_open' => $usuarioId,
+    ]);
+
+    $resumo = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+    $saldoStmt = $pdo->prepare(<<<'SQL'
+        SELECT COUNT(*) AS total, COALESCE(SUM(saldo), 0) AS saldo
+        FROM open_finance_contas
+        WHERE usuario_id = :usuario_id AND tipo = 'BANK' AND moeda = 'BRL' AND saldo IS NOT NULL
+    SQL);
+    $saldoStmt->execute([':usuario_id' => $usuarioId]);
+    $saldoPluggy = $saldoStmt->fetch(PDO::FETCH_ASSOC) ?: ['total' => 0, 'saldo' => 0];
+
+    if ((int) $saldoPluggy['total'] > 0) {
+        $saldoAtual = (float) $saldoPluggy['saldo'];
+    } else {
+        $saldoManual = $pdo->prepare(<<<'SQL'
+            SELECT COALESCE(SUM(CASE WHEN tipo = 'entrada' THEN valor ELSE -valor END), 0)
+            FROM movimentacoes WHERE usuario_id = :usuario_id
+        SQL);
+        $saldoManual->execute([':usuario_id' => $usuarioId]);
+        $saldoAtual = (float) $saldoManual->fetchColumn();
+    }
+
+    return [
+        'saldo' => $saldoAtual,
+        'receitas_mes' => (float) ($resumo['receitas_mes'] ?? 0),
+        'despesas_mes' => (float) ($resumo['despesas_mes'] ?? 0),
+    ];
 }
 
 function openFinanceCategoriasPermitidas(): array
@@ -455,6 +567,7 @@ function openFinanceSincronizarUsuario(PDO $pdo, int $usuarioId): array
 
     try {
         $dados = pluggyDadosDoItem($itemId, $apiKey);
+        openFinancePersistirContas($pdo, $usuarioId, $dados['contas'] ?? []);
         $count = openFinancePersistirTransacoes($pdo, $usuarioId, $dados['transacoes'] ?? []);
         return [
             'connected' => true,

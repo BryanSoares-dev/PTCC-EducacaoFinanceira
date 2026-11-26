@@ -4,6 +4,7 @@ require_once __DIR__ . '/../back-end/seguranca.php';
 iniciar_sessao_segura();
 
 require_once '../back-end/conexao.php';
+require_once __DIR__ . '/../open-finance/pluggy-helper.php';
 
 if (!isset($_SESSION['id'])) {
     header('Location: login.php');
@@ -40,71 +41,11 @@ $usuarioId = (int) $usuario['id'];
 /* ============================================================
    RESUMO FINANCEIRO
 ============================================================ */
-
-$resumo = $pdo->prepare("
-    SELECT
-
-        COALESCE(
-            SUM(
-                CASE
-                    WHEN tipo = 'entrada'
-                    THEN valor
-                    ELSE -valor
-                END
-            ),
-            0
-        ) AS saldo,
-
-        COALESCE(
-            SUM(
-                CASE
-                    WHEN tipo = 'entrada'
-                    AND MONTH(data_criacao) = MONTH(CURDATE())
-                    AND YEAR(data_criacao) = YEAR(CURDATE())
-                    THEN valor
-                    ELSE 0
-                END
-            ),
-            0
-        ) AS receitas_mes,
-
-        COALESCE(
-            SUM(
-                CASE
-                    WHEN tipo = 'saida'
-                    AND MONTH(data_criacao) = MONTH(CURDATE())
-                    AND YEAR(data_criacao) = YEAR(CURDATE())
-                    THEN valor
-                    ELSE 0
-                END
-            ),
-            0
-        ) AS despesas_mes
-
-    FROM movimentacoes
-
-    WHERE usuario_id = ?
-");
-
-$resumo->execute([$usuarioId]);
-
-$dadosResumo =
-    $resumo->fetch(PDO::FETCH_ASSOC) ?: [];
-
-$saldo =
-    (float) (
-        $dadosResumo['saldo'] ?? 0
-    );
-
-$receitasMes =
-    (float) (
-        $dadosResumo['receitas_mes'] ?? 0
-    );
-
-$despesasMes =
-    (float) (
-        $dadosResumo['despesas_mes'] ?? 0
-    );
+openFinanceEnsureSchema($pdo);
+$dadosResumo = openFinanceResumoMes($pdo, $usuarioId);
+$saldo = $dadosResumo['saldo'];
+$receitasMes = $dadosResumo['receitas_mes'];
+$despesasMes = $dadosResumo['despesas_mes'];
 
 $resultadoMes =
     $receitasMes - $despesasMes;
@@ -214,7 +155,7 @@ $resultadoMes =
                 Saldo disponível
             </span>
 
-            <strong>
+            <strong id="heroSaldo">
                 R$
                 <?= number_format(
                     $saldo,
@@ -245,7 +186,7 @@ $resultadoMes =
                 Saldo atual
             </h4>
 
-            <p class="green">
+            <p class="green" id="saldoAtual">
                 R$
                 <?= number_format(
                     $saldo,
@@ -264,7 +205,7 @@ $resultadoMes =
                 Receitas do mês
             </h4>
 
-            <p class="green">
+            <p class="green" id="receitasMes">
                 + R$
                 <?= number_format(
                     $receitasMes,
@@ -283,7 +224,7 @@ $resultadoMes =
                 Despesas do mês
             </h4>
 
-            <p class="red">
+            <p class="red" id="despesasMes">
                 - R$
                 <?= number_format(
                     $despesasMes,
@@ -302,7 +243,7 @@ $resultadoMes =
                 Resultado do mês
             </h4>
 
-            <p class="<?= $resultadoMes >= 0 ? 'green' : 'red' ?>">
+            <p id="resultadoMes" class="<?= $resultadoMes >= 0 ? 'green' : 'red' ?>">
 
                 R$
                 <?= number_format(
@@ -510,7 +451,6 @@ $resultadoMes =
         </div>
 
         <a class="btn-calendario" href="calendario.php">
-            <span class="material-icons">calendar_month</span>
             Abrir calendário financeiro
         </a>
 
@@ -949,17 +889,20 @@ function dataDoItem(item) {
 
 function formatarData(data) {
 
-    return data
-        ? new Intl.DateTimeFormat(
-            'pt-BR'
-        ).format(
-            new Date(
-                data.includes('T')
-                    ? data
-                    : data + 'T12:00:00'
-            )
-        )
-        : 'Atualizado agora';
+    if (data === null || data === undefined || data === '') {
+        return 'Data não informada';
+    }
+
+    const valorData = String(data);
+    const dataParaExibir = /^\d{4}-\d{2}-\d{2}$/.test(valorData)
+        ? new Date(valorData + 'T12:00:00')
+        : new Date(valorData);
+
+    if (Number.isNaN(dataParaExibir.getTime())) {
+        return 'Data não informada';
+    }
+
+    return new Intl.DateTimeFormat('pt-BR').format(dataParaExibir);
 
 }
 
@@ -1159,6 +1102,28 @@ function renderizarVazio(mensagem) {
 
 }
 
+function atualizarResumoMes(resumo) {
+
+    if (!resumo) return;
+
+    const saldoMes = Number(resumo.saldo) || 0;
+    const receitas = Number(resumo.receitas_mes) || 0;
+    const despesas = Number(resumo.despesas_mes) || 0;
+    const resultado = receitas - despesas;
+    const formatar = valor => moeda.format(Math.abs(valor));
+
+    document.getElementById('heroSaldo').textContent = formatar(saldoMes);
+    document.getElementById('saldoAtual').textContent = formatar(saldoMes);
+    document.getElementById('receitasMes').textContent = '+ ' + formatar(receitas);
+    document.getElementById('despesasMes').textContent = '- ' + formatar(despesas);
+
+    const resultadoElemento = document.getElementById('resultadoMes');
+    resultadoElemento.textContent = (resultado < 0 ? '- ' : '') + formatar(resultado);
+    resultadoElemento.classList.toggle('green', resultado >= 0);
+    resultadoElemento.classList.toggle('red', resultado < 0);
+
+}
+
 
 /* ============================================================
    CARREGAR OPEN FINANCE
@@ -1204,6 +1169,8 @@ async function carregarDadosOpenFinance() {
             );
 
         }
+
+        atualizarResumoMes(dados.resumo_mes);
 
 
         if (!dados.connected) {
